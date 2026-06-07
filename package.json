@@ -1,0 +1,41 @@
+{
+	"name": "trigger-animations",
+	"type": "module",
+	"private": true,
+	"license": "MIT",
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite",
+		"extract": "node scripts/extractPacks.mjs",
+		"symlink": "node scripts/symlink.mjs"
+	},
+	"devDependencies": {
+		"@7h3laughingman/foundry-types": "^13.351.2",
+		"@clack/prompts": "^1.0.0-alpha.9",
+		"@foundryvtt/foundryvtt-cli": "^3.0.2",
+		"dotenv": "^17.2.3",
+		"foundryvtt-sync": "^3",
+		"gsap": "^3.15.0",
+		"kolorist": "^1.8.0",
+		"postcss-preset-env": "^10.6.0",
+		"terser": "^5.46.0",
+		"vite": "^7.3.0"
+	},
+	"browserslist": [
+		"last 2 Chrome versions",
+		"last 2 Firefox versions",
+		"last 2 Edge versions"
+	],
+	"exports": {
+		"./types": {
+			"types": "./src/types.d.ts"
+		}
+	},
+	"typesVersions": {
+		"*": {
+			"types": [
+				"./src/types.d.ts"
+			]
+		}
+	}
+}

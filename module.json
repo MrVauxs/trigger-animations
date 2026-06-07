@@ -1,0 +1,55 @@
+{
+	"id": "trigger-animations",
+	"title": "trigger-animations",
+	"description": "Trigger Engine but for animations",
+	"authors": [
+		{
+			"name": "Vauxs",
+			"discord": "vauxs",
+			"twitter": "@ThatVauxs",
+			"email": "mrvauxs@gmail.com",
+			"ko-fi": "MrVauxs",
+			"patreon": "MrVauxs"
+		}
+	],
+	"version": "dev",
+	"compatibility": {
+		"minimum": "14",
+		"verified": "14"
+	},
+	"esmodules": [
+		"dist/trigger-animations.js"
+	],
+	"styles": [
+		"dist/trigger-animations.css"
+	],
+	"relationships": {
+		"systems": []
+	},
+	"packs": [],
+	"packFolders": [],
+	"flags": {
+		"canUpload": true,
+		"hotReload": {
+			"extensions": [
+				"css",
+				"json"
+			],
+			"paths": [
+				"dist"
+			]
+		}
+	},
+	"url": "https://github.com/MrVauxs/trigger-animations",
+	"bugs": "https://github.com/MrVauxs/trigger-animations/issues",
+	"changelog": "https://github.com/MrVauxs/trigger-animations/blob/main/CHANGELOG.md",
+	"manifest": "https://raw.githubusercontent.com/MrVauxs/trigger-animations/latest/releases/module.json",
+	"download": "https://raw.githubusercontent.com/MrVauxs/trigger-animations/latest/releases/module.zip",
+	"media": [
+		{
+			"type": "setup",
+			"url": "modules/trigger-animations/assets/setup.webp",
+			"thumbnail": "modules/trigger-animations/assets/setup.webp"
+		}
+	]
+}
