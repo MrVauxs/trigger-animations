@@ -1,6 +1,6 @@
 {
 	"id": "trigger-animations",
-	"title": "trigger-animations",
+	"title": "Trigger Animations",
 	"description": "Trigger Engine but for animations",
 	"authors": [
 		{
@@ -24,10 +24,17 @@
 		"dist/trigger-animations.css"
 	],
 	"relationships": {
-		"systems": []
+		"systems": [],
+		"modules": [
+			{
+                "id": "trigger-engine",
+                "type": "module"
+            }
+		]
 	},
 	"packs": [],
 	"packFolders": [],
+	"library": true,
 	"flags": {
 		"canUpload": true,
 		"hotReload": {
