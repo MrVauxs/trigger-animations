@@ -22,7 +22,7 @@
 		"noPropertyAccessFromIndexSignature": false,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-        "types": ["@7h3laughingman/foundry-types", "jquery", "vite/client", "gsap"],
+        "types": ["@7h3laughingman/foundry-types", "jquery", "vite/client", "gsap", "trigger-engine/src/types.d.ts"],
 		"paths": {
 			"$lib/*": ["./src/lib/*"],
 			"moduleJSON": ["./module.json"]
