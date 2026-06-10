@@ -1,5 +1,8 @@
+import { id } from "moduleJSON";
+import type { TriggerDataInput } from "trigger-engine/src/engine";
+
 export class API {
-	doSomething(): void {
-		console.log("trigger-animations | doSomething called");
+	openBlueprint(data: TriggerDataInput, ...args: any[]) {
+		return game.triggerEngine?.api.openBlueprintMenu(id, id, data, ...args)
 	}
 }

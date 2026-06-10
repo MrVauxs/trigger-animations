@@ -11,10 +11,11 @@
         "dotenv": "^17.2.3",
         "foundryvtt-sync": "^3",
         "gsap": "^3.15.0",
-        "trigger-engine": "https://github.com/reonZ/trigger-engine#1.9.0",
+        "sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
         "kolorist": "^1.8.0",
         "postcss-preset-env": "^10.6.0",
         "terser": "^5.46.0",
+        "trigger-engine": "https://github.com/reonZ/trigger-engine#1.9.0",
         "vite": "^7.3.0",
       },
     },
@@ -775,6 +776,8 @@
     "safe-regex-test": ["safe-regex-test@1.1.0", "", { "dependencies": { "call-bound": "^1.0.2", "es-errors": "^1.3.0", "is-regex": "^1.2.1" } }, "sha512-x/+Cz4YrimQxQccJf5mKEbIa1NzeCRNI5Ecl/ekmlYaampdNLPalVyIcCZNNH3MvmqBugV5TMYZXv0ljslUlaw=="],
 
     "semver": ["semver@7.6.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A=="],
+
+    "sequencer": ["sequencer@github:fantasycalendar/FoundryVTT-Sequencer#39299b1", {}, "fantasycalendar-FoundryVTT-Sequencer-39299b1", "sha512-yIyb740Ust8Z/w/ATpHLxq1rhD05D5jMfm4j/Ld3PrIjTRvbRBRHhIXnbI7CFxAloIDXJ7QDMa03PQ8cId6wCw=="],
 
     "set-function-length": ["set-function-length@1.2.2", "", { "dependencies": { "define-data-property": "^1.1.4", "es-errors": "^1.3.0", "function-bind": "^1.1.2", "get-intrinsic": "^1.2.4", "gopd": "^1.0.1", "has-property-descriptors": "^1.0.2" } }, "sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg=="],
 

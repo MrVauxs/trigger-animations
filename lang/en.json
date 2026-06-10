@@ -1,1 +1,26 @@
-{}
+{
+	"trigger-animations.trigger-animations": {
+		"node": {
+			"sequence": {
+				"effect": {
+					"title": "Effect",
+					"subtitle": "Starts a Sequencer effect"
+				}
+			},
+			"event": {
+				"animation-event": {
+					"title": "Start Animation",
+					"outputs": {
+						"targets": "Targets",
+						"sources": "Sources"
+					}
+				}
+			}
+		},
+		"category": {
+			"sequence": {
+				"title": "Sequence"
+			}
+		}
+	}
+}

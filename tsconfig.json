@@ -22,13 +22,17 @@
 		"noPropertyAccessFromIndexSignature": false,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
-        "types": ["@7h3laughingman/foundry-types", "jquery", "vite/client", "gsap", "trigger-engine/src/types.d.ts"],
+        "types": [
+			"@7h3laughingman/foundry-types",
+			"jquery",
+			"vite/client",
+			"gsap",
+			"trigger-engine/src/types.d.ts",
+			"sequencer"
+		],
 		"paths": {
 			"$lib/*": ["./src/lib/*"],
-			"moduleJSON": ["./module.json"],
-			"engine": ["./node_modules/trigger-engine/src/engine/index.ts"],
-			"queries": ["./node_modules/trigger-engine/src/queries.ts"],
-			"triggers-menu": ["./node_modules/trigger-engine/src/triggers-menu/index.ts"]
+			"moduleJSON": ["./module.json"]
 		}
 	},
 	"include": ["src/**/*"],

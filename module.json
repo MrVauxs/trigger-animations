@@ -25,15 +25,26 @@
 	],
 	"relationships": {
 		"systems": [],
-		"modules": [
+		"required": [
 			{
                 "id": "trigger-engine",
+                "type": "module"
+            },
+			{
+                "id": "sequencer",
                 "type": "module"
             }
 		]
 	},
 	"packs": [],
 	"packFolders": [],
+	"languages": [
+        {
+            "lang": "en",
+            "name": "English",
+            "path": "lang/en.json"
+        }
+    ],
 	"library": true,
 	"flags": {
 		"canUpload": true,
