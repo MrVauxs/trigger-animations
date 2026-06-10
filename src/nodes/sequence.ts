@@ -28,6 +28,11 @@ class StartNode extends TriggerNode {
 	static override get defineOutputs(): OutputEntrySchemaSource[] | null {
 		return [
 			{
+				key: "sequence",
+				type: "sequence",
+				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.sequence",
+			},
+			{
 				key: "targets",
 				type: "target",
 				isArray: true,
@@ -42,10 +47,10 @@ class StartNode extends TriggerNode {
 		];
 	}
 
-	override _execute(...args: any[]): Promise<boolean> {
+	override async _execute(...args: any[]): Promise<boolean> {
 		devLog(`${this.type} execute`, ...args)
 
-		return this.executeNext("out", new Sequence())
+		return this.executeNext("out")
 	}
 }
 

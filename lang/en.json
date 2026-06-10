@@ -12,6 +12,7 @@
 					"title": "Start Animation",
 					"outputs": {
 						"targets": "Targets",
+						"sequence": "Sequence",
 						"sources": "Sources"
 					}
 				}

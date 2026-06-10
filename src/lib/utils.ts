@@ -16,3 +16,14 @@ export function isValidUpdater(data: Document, update?: Record<string, unknown>)
 export function devLog(...args: unknown[]): void {
 	if (dev) console.log("\x1B[1;31mTrigger-Animations:", ...args);
 }
+
+export function devGroup(s: string) {
+	if (dev) {
+		console.groupCollapsed("\x1B[1;31mTrigger-Animations", s);
+	}
+
+	return {
+		log: dev ? console.log : () => { },
+		end: dev ? console.groupEnd : () => { }
+	}
+}

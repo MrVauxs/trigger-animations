@@ -12,9 +12,12 @@ async function ready() {
 async function registerApplication(register: typeof TriggerApplication.register) {
 	try {
 		const nodes = await import("./nodes/index");
+		const entries = await import("./entries/index");
+
 		register(id, id, {
 			mode: "free",
 			nodes: Object.values(nodes),
+			entries: Object.values(entries),
 			builtins: {
 				entries: true,
 				convertors: true,
