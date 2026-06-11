@@ -16,6 +16,10 @@ class StartNode extends TriggerNode {
 		return true;
 	}
 
+	static localize(str: string) {
+		return `trigger-animations.trigger-animations.node.${this.category}.${this.type}.${str}`
+	}
+
 	override get headerColor() {
 		return this.isEvent ? "#C40000" : "#009690";
 	}
@@ -30,19 +34,24 @@ class StartNode extends TriggerNode {
 			{
 				key: "sequence",
 				type: "sequence",
-				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.sequence",
+				label: this.localize("io.sequence")
 			},
 			{
 				key: "targets",
 				type: "target",
 				isArray: true,
-				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.targets"
+				label: this.localize("io.targets")
 			},
 			{
 				key: "sources",
 				type: "target",
 				isArray: true,
-				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.sources"
+				label: this.localize("io.sources")
+			},
+			{
+				key: "item",
+				type: "item",
+				label: this.localize("io.item")
 			}
 		];
 	}

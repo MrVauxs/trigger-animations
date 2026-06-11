@@ -4,15 +4,22 @@
 			"sequence": {
 				"effect": {
 					"title": "Effect",
-					"subtitle": "Starts a Sequencer effect"
+					"subtitle": "Starts a Sequencer effect",
+					"io": {
+						"targets": "Targets",
+						"sequence": "Sequence",
+						"sources": "Sources",
+						"name": "Name"
+					}
 				}
 			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
-					"outputs": {
+					"io": {
 						"targets": "Targets",
 						"sequence": "Sequence",
+						"item": "Item",
 						"sources": "Sources"
 					}
 				}

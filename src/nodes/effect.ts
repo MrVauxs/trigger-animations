@@ -16,6 +16,10 @@ class EffectNode extends TriggerNode {
 		return "sequence"
 	}
 
+	static localize(str: string) {
+		return `trigger-animations.trigger-animations.node.${this.category}.${this.type}.${str}`
+	}
+
 	override get headerColor() {
 		return this.isEvent ? "#C40000" : "#009690";
 	}
@@ -30,11 +34,12 @@ class EffectNode extends TriggerNode {
 			{
 				key: "sequence",
 				type: "sequence",
-				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.sequence"
+				label: this.localize("io.sequence")
 			},
 			{
 				key: "name",
-				type: "text"
+				type: "text",
+				label: this.localize("io.name")
 			}
 		];
 	}
@@ -44,7 +49,7 @@ class EffectNode extends TriggerNode {
 			{
 				key: "sequence",
 				type: "sequence",
-				label: "trigger-animations.trigger-animations.node.event.animation-event.outputs.sequence",
+				label: this.localize("io.sequence")
 			}
 		];
 	}
