@@ -32,11 +32,6 @@ class StartNode extends TriggerNode {
 	static override get defineOutputs(): OutputEntrySchemaSource[] | null {
 		return [
 			{
-				key: "sequence",
-				type: "sequence",
-				label: this.localize("io.sequence")
-			},
-			{
 				key: "targets",
 				type: "target",
 				isArray: true,
@@ -58,6 +53,7 @@ class StartNode extends TriggerNode {
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		devLog(`${this.type} execute`, ...args)
+		this.setContext("sequence", new Sequence())
 
 		return this.executeNext("out")
 	}

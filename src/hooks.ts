@@ -1,18 +1,18 @@
 import { id, title } from "moduleJSON";
 import { dev } from "$lib/utils";
 import type { TriggerApplication } from "trigger-engine/src/engine/application/application";
+import { API } from "./api";
 
 async function ready() {
 	if (dev) {
 		ui.notifications.info(`${title} is ready!`);
-		console.log("Result", await game.triggerEngine?.api.openBlueprintMenu(id, id, {}, { testArgs: 123 }));
+		console.log("Result", await triggerAnimations.api.openBlueprint());
 	}
 }
 
 async function registerApplication(register: typeof TriggerApplication.register) {
 	try {
 		const nodes = await import("./nodes/index");
-		const entries = await import("./entries/index");
 
 		register(id, id, {
 			mode: "setting",
@@ -24,7 +24,6 @@ async function registerApplication(register: typeof TriggerApplication.register)
 			},
 			*/
 			nodes: Object.values(nodes),
-			entries: Object.values(entries),
 			builtins: {
 				entries: true,
 				convertors: true,

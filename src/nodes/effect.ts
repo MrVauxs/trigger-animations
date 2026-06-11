@@ -3,7 +3,14 @@ import { InputEntrySchemaSource, OutputEntrySchemaSource } from "trigger-engine/
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-class EffectNode extends TriggerNode {
+type Inputs = {
+	name?: string;
+	// TODO: Create Item+Actor+Token UUID entry and converter from Item and Target to UUID entry
+	origin?: string;
+}
+type Outputs = {}
+
+class EffectNode extends TriggerNode<"out", Inputs, Outputs> {
 	static override get type() {
 		return "effect";
 	}
@@ -32,36 +39,33 @@ class EffectNode extends TriggerNode {
 	static override get defineInputs(): InputEntrySchemaSource[] | null {
 		return [
 			{
-				key: "sequence",
-				type: "sequence",
-				label: this.localize("io.sequence")
-			},
-			{
 				key: "name",
 				type: "text",
-				label: this.localize("io.name")
+				label: this.localize("io.name.title"),
+				tooltip: this.localize("io.name.tooltip")
+			},
+			{
+				key: "origin",
+				type: "string",
+				label: this.localize("io.origin.title"),
+				tooltip: this.localize("io.origin.tooltip")
 			}
 		];
 	}
 
 	static override get defineOutputs(): OutputEntrySchemaSource[] | null {
-		return [
-			{
-				key: "sequence",
-				type: "sequence",
-				label: this.localize("io.sequence")
-			}
-		];
+		return null;
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`)
-		const sequence: Sequence = await this.getInputValue("sequence");
-		const name: string = await this.getInputValue("name");
+		const sequence = await this.getContext<Sequence>("sequence");
+		const name = await this.getInputValue("name");
+		const origin = await this.getInputValue("origin");
 		if (sequence) {
 			const effect = sequence.effect();
 			if (name) effect.name(name);
-			this.setOutputValue("sequence", effect)
+			if (origin) effect.origin(origin);
 		}
 		g.log("Effect Node", { sequence, name });
 		g.end();

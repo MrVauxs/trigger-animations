@@ -1,15 +1,40 @@
 {
 	"trigger-animations.trigger-animations": {
+		"setting": {
+			"name": "Trigger Animations"
+		},
 		"node": {
 			"sequence": {
 				"effect": {
 					"title": "Effect",
 					"subtitle": "Starts a Sequencer effect",
 					"io": {
-						"targets": "Targets",
-						"sequence": "Sequence",
-						"sources": "Sources",
-						"name": "Name"
+						"name": {
+							"title": "Name",
+							"tooltip": "Causes the effect’s position to be stored and can then be used with other nodes to refer to previous effects’ locations."
+						},
+						"origin": {
+							"title": "Origin",
+							"tooltip": "Used for adding extra information to an effect, like the origin of the effect in the form of the item’s UUID to then be retrieved or ended."
+						}
+					}
+				},
+				"play": {
+					"title": "Play",
+					"subtitle": "Plays the Sequencer Effect",
+					"io": {
+						"remote": {
+							"title": "Remote",
+							"tooltip": "Causes the sequence to be executed on each users’ machine independently. This does not support .animation() sections when set to true."
+						},
+						"preload": {
+							"title": "Preload",
+							"tooltip": "Causes any section with .file() entries to preload all files that would be played."
+						},
+						"local": {
+							"title": "Local",
+							"tooltip": "Causes sections to be played only locally to the user executing the sequence."
+						}
 					}
 				}
 			},
@@ -18,7 +43,6 @@
 					"title": "Start Animation",
 					"io": {
 						"targets": "Targets",
-						"sequence": "Sequence",
 						"item": "Item",
 						"sources": "Sources"
 					}
