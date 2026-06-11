@@ -15,7 +15,14 @@ async function registerApplication(register: typeof TriggerApplication.register)
 		const entries = await import("./entries/index");
 
 		register(id, id, {
-			mode: "free",
+			mode: "setting",
+			/*
+			// TODO: Make it edit a hidden Journal Document ala Sequencer
+			setting: {
+				get: () => {},
+				set: () => {}
+			},
+			*/
 			nodes: Object.values(nodes),
 			entries: Object.values(entries),
 			builtins: {
