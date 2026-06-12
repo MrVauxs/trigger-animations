@@ -3,12 +3,14 @@ import { devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {}
+type TInputs = {
+	name: string
+}
 type TOutputs = {
-	actor: Actor
-	targets: { actor: Actor; token?: TokenDocument | null }[]
-	sources: { actor: Actor; token?: TokenDocument | null }[]
-	item: Item
+	actor?: Actor
+	targets?: { actor: Actor; token?: TokenDocument | null }[]
+	sources?: { actor: Actor; token?: TokenDocument | null }[]
+	item?: Item
 }
 
 class StartNode extends TriggerNode<
@@ -41,6 +43,10 @@ class StartNode extends TriggerNode<
 		return { unicode: "\ue29d" }
 	}
 
+	static override get defineInputs() {
+		return [{ key: "name", type: "text", label: this.localize("io.actor") }];
+	}
+
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return [
 			{
@@ -68,7 +74,11 @@ class StartNode extends TriggerNode<
 		];
 	}
 
-	override async _execute({ item, targets, sources, actor }: StartNodeOptions): Promise<boolean> {
+	override async _execute({ name, item, targets, sources, actor }: StartNodeOptions): Promise<boolean> {
+		const animationName = await this.getInputValue("name")
+		// If there is no name provided or the event name does not match the animation name, skip the animation.
+		if (!name || (animationName !== name)) return true
+
 		this.setContext("sequence", new Sequence())
 
 		this.setOutputValue("targets", targets?.map(x => ({ actor: x.actor!, token: x })));
@@ -81,10 +91,11 @@ class StartNode extends TriggerNode<
 }
 
 type StartNodeOptions = {
-	item: Item;
-	targets: TokenDocument[]
-	sources: TokenDocument[]
-	actor: Actor
+	name: string;
+	actor?: Actor
+	item?: Item;
+	targets?: TokenDocument[]
+	sources?: TokenDocument[]
 }
 
-export { StartNode };
+export { StartNode, type StartNodeOptions };

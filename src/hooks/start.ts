@@ -1,5 +1,5 @@
-import { devGroup, devLog, toggleHook } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { toggleHook } from "$lib/utils";
+import { StartNodeOptions } from "../nodes";
 
 const { TriggerHook } = globalThis.triggerEngine;
 
@@ -8,8 +8,8 @@ class StartHook extends TriggerHook {
 		return ['animation-event']
 	}
 
-	#hook = toggleHook("on", "trigger-animations.animate", (args: object) => {
-		if (game.user.isActiveGM) this.executeEvent("animation-event", { ...args })
+	#hook = toggleHook("on", "trigger-animations.animate", (args: StartNodeOptions) => {
+		if (game.user.isActiveGM) this.executeEvent("animation-event", args)
 	})
 
 	override _enable() {
