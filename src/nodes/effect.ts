@@ -3,14 +3,18 @@ import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type Inputs = {
+type TInputs = {
 	name?: string;
 	// TODO: Create Item+Actor+Token UUID entry and converter from Item and Target to UUID entry
 	origin?: string;
 }
-type Outputs = {}
+type TOutputs = {}
 
-class EffectNode extends TriggerNode<"out", Inputs, Outputs> {
+class EffectNode extends TriggerNode<
+	"out",
+	TInputs,
+	TOutputs
+> {
 	static override get type() {
 		return "effect";
 	}

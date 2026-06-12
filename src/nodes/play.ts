@@ -3,14 +3,18 @@ import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type Inputs = {
+type TInputs = {
 	remote: boolean;
 	preload: boolean;
 	local: boolean;
 }
-type Outputs = {}
+type TOutputs = {}
 
-class PlayNode extends TriggerNode<"out", Inputs, Outputs> {
+class PlayNode extends TriggerNode<
+	"out",
+	TInputs,
+	TOutputs
+> {
 	static override get type() {
 		return "play";
 	}

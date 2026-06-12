@@ -3,7 +3,18 @@ import { devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-class StartNode extends TriggerNode {
+type TInputs = {}
+type TOutputs = {
+	targets: T.TargetEntry[]
+	sources: T.TargetEntry[]
+	item: T.ItemEntry
+}
+
+class StartNode extends TriggerNode<
+	"out",
+	TInputs,
+	TOutputs
+> {
 	static override get type() {
 		return "animation-event";
 	}

@@ -1,6 +1,7 @@
 import { id, title } from "moduleJSON";
 import { dev } from "$lib/utils";
 import { API } from "./api";
+import type { TriggerEngine as T } from "trigger-engine/types";
 
 async function ready() {
 	if (dev) {
@@ -14,6 +15,7 @@ const hooks = {
 	"triggerEngine.registerApplication": Hooks.once("triggerEngine.registerApplication", async (r) => {
 		try {
 			const nodes = await import("./nodes/index");
+			const hooks = await import("./hooks/index");
 			r(id, id, {
 				mode: "setting",
 				/*
@@ -23,7 +25,8 @@ const hooks = {
 					set: () => {}
 				},
 				*/
-				nodes: Object.values(nodes),
+				nodes: Object.values(nodes) as (typeof T.TriggerNode)[],
+				hooks: Object.values(hooks),
 				builtins: {
 					entries: true,
 					convertors: true,
