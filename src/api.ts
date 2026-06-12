@@ -1,8 +1,8 @@
 import { id } from "moduleJSON";
-import type { TriggerDataInput } from "trigger-engine/src/engine";
+import { TriggerEngine as T } from "trigger-engine/types";
 
 export class API {
-	openBlueprint(data?: TriggerDataInput, ...args: any[]) {
+	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, id, data, ...args)
 	}
 }

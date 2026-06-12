@@ -11,11 +11,11 @@
         "dotenv": "^17.2.3",
         "foundryvtt-sync": "^3",
         "gsap": "^3.15.0",
-        "sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
         "kolorist": "^1.8.0",
         "postcss-preset-env": "^10.6.0",
+        "sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
         "terser": "^5.46.0",
-        "trigger-engine": "https://github.com/reonZ/trigger-engine#1.9.0",
+        "trigger-engine": "https://github.com/reonZ/trigger-engine#1.10.0",
         "vite": "^7.3.0",
       },
     },
@@ -537,7 +537,7 @@
 
     "for-each": ["for-each@0.3.5", "", { "dependencies": { "is-callable": "^1.2.7" } }, "sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg=="],
 
-    "foundry-helpers": ["foundry-helpers@github:reonZ/foundry-helpers#2746496", { "dependencies": { "@7h3laughingman/foundry-types": "^13.351.2", "@7h3laughingman/pf2e-types": "^7.10.0", "@types/jquery": "^3.5.32", "gsap": "3.11.5", "handlebars": "4.7.8", "luxon": "^3.7.2", "remeda": "^2.32.0", "socket.io": "4.8.1", "socket.io-client": "4.8.1", "zod": "^4.3.6" } }, "reonZ-foundry-helpers-2746496", "sha512-sGjb3w7Q0DX5dHl+A5KkNX0wmVstzArtdMwU5wWHanQ4xGn/QnxmV5emxyk5JPF84vJUwko/7JScCp4ZtvXN+w=="],
+    "foundry-helpers": ["foundry-helpers@github:reonZ/foundry-helpers#8dd51ee", { "dependencies": { "@7h3laughingman/foundry-types": "^13.351.2", "@7h3laughingman/pf2e-types": "^7.10.0", "@types/jquery": "^3.5.32", "gsap": "3.11.5", "handlebars": "4.7.8", "luxon": "^3.7.2", "remeda": "^2.32.0", "socket.io": "4.8.1", "socket.io-client": "4.8.1", "zod": "^4.3.6" } }, "reonZ-foundry-helpers-8dd51ee", "sha512-gnpm5ztChSjVUu+PuuZbP+n5dkA/cKda3ZGV+26ojvroWqYXQU//IA0mUjv7EGJS1CVuPKgkQ4VFPJ8IB+Dztw=="],
 
     "foundryvtt-sync": ["foundryvtt-sync@3.0.2", "", { "dependencies": { "@foundryvtt/foundryvtt-cli": "^3.0.3", "chalk": "^5.6.2", "unplugin": "^3.0.0" }, "peerDependencies": { "esbuild": ">=0.17", "rollup": ">=3", "vite": ">=4", "webpack": ">=5" }, "optionalPeers": ["esbuild", "rollup", "vite", "webpack"] }, "sha512-+ImMbfDvZ/01YjgqgF8MAMTlKCsP7eouFANE2gQh9iigGhQ10vJAZgNJAWjpGwsedQRLhgvtphPY5RaZEJb60g=="],
 
@@ -827,7 +827,7 @@
 
     "tinyglobby": ["tinyglobby@0.2.17", "", { "dependencies": { "fdir": "^6.5.0", "picomatch": "^4.0.4" } }, "sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g=="],
 
-    "trigger-engine": ["trigger-engine@github:reonZ/trigger-engine#3759bd6", { "dependencies": { "foundry-helpers": "github:reonZ/foundry-helpers" } }, "reonZ-trigger-engine-3759bd6", "sha512-JDrKe7fyx0JkVvW0JUgks7d/W7pTZAnlfy5H9Zm38DbQK5jkWjhq2Uyc9Sj6KmceZtPziPgSIXa2EqJTaUlXjA=="],
+    "trigger-engine": ["trigger-engine@github:reonZ/trigger-engine#57a57e7", { "dependencies": { "foundry-helpers": "github:reonZ/foundry-helpers" } }, "reonZ-trigger-engine-57a57e7", "sha512-wwKaqawvVwYu7A4IzpPfKxzjQJy0VhlewPXpKpNl6hzM4plUMnSfpHAfUveaeAHAYbfDZziNheSSlhWgbTyRbg=="],
 
     "uglify-js": ["uglify-js@3.19.3", "", { "bin": { "uglifyjs": "bin/uglifyjs" } }, "sha512-v3Xu+yuwBXisp6QYTcH4UbH+xYJXqnq2m/LtQVWKWzYc1iehYnLixoQDN9FH6/j9/oybfd6W9Ghwkl8+UMKTKQ=="],
 

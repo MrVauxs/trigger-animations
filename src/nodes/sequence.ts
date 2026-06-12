@@ -1,5 +1,5 @@
+import { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { OutputEntrySchemaSource } from "trigger-engine/src/engine";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -29,7 +29,7 @@ class StartNode extends TriggerNode {
 		return { unicode: "\ue29d" }
 	}
 
-	static override get defineOutputs(): OutputEntrySchemaSource[] | null {
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return [
 			{
 				key: "targets",

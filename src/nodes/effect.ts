@@ -1,5 +1,5 @@
 import { devGroup, devLog } from "$lib/utils";
-import { InputEntrySchemaSource, OutputEntrySchemaSource } from "trigger-engine/src/engine";
+import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -36,7 +36,7 @@ class EffectNode extends TriggerNode<"out", Inputs, Outputs> {
 		return { unicode: "\ue5d6" }
 	}
 
-	static override get defineInputs(): InputEntrySchemaSource[] | null {
+	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{
 				key: "name",
@@ -53,13 +53,13 @@ class EffectNode extends TriggerNode<"out", Inputs, Outputs> {
 		];
 	}
 
-	static override get defineOutputs(): OutputEntrySchemaSource[] | null {
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return null;
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`)
-		const sequence = await this.getContext<Sequence>("sequence");
+		const sequence = this.getContext<Sequence>("sequence");
 		const name = await this.getInputValue("name");
 		const origin = await this.getInputValue("origin");
 		if (sequence) {

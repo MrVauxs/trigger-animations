@@ -1,5 +1,5 @@
 import { devGroup, devLog } from "$lib/utils";
-import { InputEntrySchemaSource, OutputEntrySchemaSource } from "trigger-engine/src/engine";
+import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -36,7 +36,7 @@ class PlayNode extends TriggerNode<"out", Inputs, Outputs> {
 		return { unicode: "\uf04b" }
 	}
 
-	static override get defineInputs(): InputEntrySchemaSource[] | null {
+	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{
 				key: "remote",
@@ -60,7 +60,11 @@ class PlayNode extends TriggerNode<"out", Inputs, Outputs> {
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const sequence: Sequence = await this.getContext<Sequence>("sequence");
+		const sequence = this.getContext<Sequence>("sequence");
+		if (!sequence) {
+			devLog("No sequence found in context");
+			return Promise.resolve(false);
+		}
 
 		await sequence.play({
 			remote: await this.getInputValue("remote"),

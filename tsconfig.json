@@ -27,7 +27,7 @@
 			"jquery",
 			"vite/client",
 			"gsap",
-			"trigger-engine/src/types.d.ts",
+			"trigger-engine/types",
 			"sequencer"
 		],
 		"paths": {
