@@ -27,3 +27,11 @@ export function devGroup(s: string) {
 		end: dev ? console.groupEnd : () => { }
 	}
 }
+
+export function toggleHook(type: "on" | "once", str: string, fn: (...args: any[]) => void) {
+	let hook: number;
+	return {
+		activate: () => { hook = Hooks[type](str, fn) },
+		deactivate: () => Hooks.off(str, hook)
+	}
+}

@@ -5,9 +5,10 @@ const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {}
 type TOutputs = {
-	targets: T.TargetEntry[]
-	sources: T.TargetEntry[]
-	item: T.ItemEntry
+	actor: Actor
+	targets: { actor: Actor; token?: TokenDocument | null }[]
+	sources: { actor: Actor; token?: TokenDocument | null }[]
+	item: Item
 }
 
 class StartNode extends TriggerNode<
@@ -43,6 +44,11 @@ class StartNode extends TriggerNode<
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return [
 			{
+				key: "actor",
+				type: "actor",
+				label: this.localize("io.actor")
+			},
+			{
 				key: "targets",
 				type: "target",
 				isArray: true,
@@ -62,12 +68,23 @@ class StartNode extends TriggerNode<
 		];
 	}
 
-	override async _execute(...args: any[]): Promise<boolean> {
-		devLog(`${this.type} execute`, ...args)
+	override async _execute({ item, targets, sources, actor }: StartNodeOptions): Promise<boolean> {
 		this.setContext("sequence", new Sequence())
+
+		this.setOutputValue("targets", targets?.map(x => ({ actor: x.actor!, token: x })));
+		this.setOutputValue("sources", sources?.map(x => ({ actor: x.actor!, token: x })));
+		this.setOutputValue("actor", actor);
+		this.setOutputValue("item", item);
 
 		return this.executeNext("out")
 	}
+}
+
+type StartNodeOptions = {
+	item: Item;
+	targets: TokenDocument[]
+	sources: TokenDocument[]
+	actor: Actor
 }
 
 export { StartNode };

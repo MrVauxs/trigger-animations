@@ -1,5 +1,7 @@
 {
-	"trigger-animations.trigger-animations": {
+
+	"trigger-animations": {
+		"trigger-animations": {
 		"setting": {
 			"name": "Trigger Animations"
 		},
@@ -16,6 +18,46 @@
 						"origin": {
 							"title": "Origin",
 							"tooltip": "Used for adding extra information to an effect, like the origin of the effect in the form of the item’s UUID to then be retrieved or ended."
+						},
+						"effect": {
+							"title": "Effect",
+							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"file": {
+					"title": "File",
+					"subtitle": "Sets what files to play",
+					"io": {
+						"file": {
+							"title": "File",
+							"tooltip": "Sequencer compatible file path (either a raw path or a Sequencer database path)."
+						},
+						"effect": {
+							"title": "Effect",
+							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"location": {
+					"title": "Location",
+					"subtitle": "Sets where the effect is",
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "Where the effect will be played."
+						},
+						"effect": {
+							"title": "Effect",
+							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
+						},
+						"attachTo": {
+							"title": "Attach To",
+							"tooltip": "Attaches the effect to the token document."
+						},
+						"gridUnits": {
+							"title": "Use Grid Units",
+							"tooltip": "X and Y values are in grid units instead of pixels."
 						}
 					}
 				},
@@ -55,4 +97,4 @@
 			}
 		}
 	}
-}
+}}

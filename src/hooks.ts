@@ -16,6 +16,7 @@ const hooks = {
 		try {
 			const nodes = await import("./nodes/index");
 			const hooks = await import("./hooks/index");
+			const entries = await import("./entries/index");
 			r(id, id, {
 				mode: "setting",
 				/*
@@ -25,8 +26,9 @@ const hooks = {
 					set: () => {}
 				},
 				*/
+				entries: Object.values(entries) as (typeof T.NodeEntry)[],
 				nodes: Object.values(nodes) as (typeof T.TriggerNode)[],
-				hooks: Object.values(hooks),
+				hooks: Object.values(hooks) as (typeof T.TriggerHook)[],
 				builtins: {
 					entries: true,
 					convertors: true,

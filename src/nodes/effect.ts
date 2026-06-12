@@ -8,7 +8,9 @@ type TInputs = {
 	// TODO: Create Item+Actor+Token UUID entry and converter from Item and Target to UUID entry
 	origin?: string;
 }
-type TOutputs = {}
+type TOutputs = {
+	effect?: EffectSection;
+}
 
 class EffectNode extends TriggerNode<
 	"out",
@@ -58,20 +60,34 @@ class EffectNode extends TriggerNode<
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [
+			{
+				key: "effect",
+				type: "effect",
+				label: this.localize("io.effect.title"),
+				tooltip: this.localize("io.effect.tooltip")
+			}
+		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`)
 		const sequence = this.getContext<Sequence>("sequence");
-		const name = await this.getInputValue("name");
-		const origin = await this.getInputValue("origin");
-		if (sequence) {
-			const effect = sequence.effect();
-			if (name) effect.name(name);
-			if (origin) effect.origin(origin);
+		if (!sequence) {
+			g.log("Effect Node", "no Sequence in context");
+			g.end();
+			return this.executeNext("out");
 		}
-		g.log("Effect Node", { sequence, name });
+		const effect = sequence.effect();
+		this.setOutputValue("effect", effect);
+
+		const name = await this.getInputValue("name");
+		if (name) effect.name(name);
+
+		const origin = await this.getInputValue("origin");
+		if (origin) effect.origin(origin);
+
+		g.log("Effect Node", { sequence, name, effect });
 		g.end();
 
 		return this.executeNext("out");
