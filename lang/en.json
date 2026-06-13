@@ -728,7 +728,10 @@
 				"animation-event": {
 					"title": "Start Animation",
 					"io": {
-						"name": "Name",
+						"name": {
+							"title": "Name",
+							"tooltip": "The name of the animation, filtering which animations are triggered."
+						},
 						"targets": "Targets",
 						"item": "Item",
 						"sources": "Sources",

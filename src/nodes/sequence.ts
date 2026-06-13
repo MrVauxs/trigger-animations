@@ -53,13 +53,13 @@ class StartNode extends TriggerNode<
 			{
 				key: "name",
 				type: "text",
-				label: this.localize("io.name"),
+				label: this.localize("io.name.title"),
 				tooltip: this.localize("io.name.tooltip")
 			},
 			{
 				key: "softFail",
 				type: "boolean",
-				label: this.localize("io.softFail"),
+				label: this.localize("io.softFail.title"),
 				tooltip: this.localize("io.softFail.tooltip"),
 			},
 		];
