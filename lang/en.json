@@ -166,11 +166,11 @@
 							"tooltip": "Pauses the whole sequence until this effect finishes before continuing."
 						},
 						"waitDelayMin": {
-							"title": "Min Delay",
-							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used. May be negative to continue early."
+							"title": "Min Wait",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used. May be negative to start next effect early."
 						},
 						"waitDelayMax": {
-							"title": "Max Delay",
+							"title": "Max Wait",
 							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
 						},
 						"delayMin": {
