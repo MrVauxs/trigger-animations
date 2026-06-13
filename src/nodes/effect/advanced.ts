@@ -71,7 +71,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 			.map((v) => this.resolveObject(v))
 			.filter((v): v is object => !!v && typeof v !== "string");
 		if (uuids.length || docs.length) {
-			effect.tieToDocuments([...uuids, ...docs] as any);
+			effect.tieToDocuments([...uuids, ...docs]);
 		}
 
 		const syncGroup = await this.getInputValue("syncGroup");
@@ -84,8 +84,8 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 		}
 
 		if (await this.getInputValue("isometric")) {
-			// not in 4.2.2 typings
-			(effect as any).isometric({
+			// @ts-expect-error Sequencer types
+			effect.isometric({
 				overlay: await this.getInputValue("isometricOverlay")
 			});
 		}

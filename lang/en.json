@@ -10,6 +10,10 @@
 				"title": "Effect",
 				"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
 			},
+			"animation": {
+				"title": "Animation",
+				"tooltip": "The individual Animation section that can be modified by other nodes regardless of order."
+			},
 			"ease": {
 				"title": "Ease",
 				"tooltip": "The easing function used for the animation."
@@ -89,6 +93,20 @@
 						"effect": {
 							"title": "Effect",
 							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"animation": {
+					"title": "Animation",
+					"subtitle": "Updates a token with animations",
+					"io": {
+						"target": {
+							"title": "Target",
+							"tooltip": "The token to animate. Movement, rotation, fading and visibility act on this object."
+						},
+						"animation": {
+							"title": "Animation",
+							"tooltip": "The individual Animation section that can be modified by other nodes regardless of order."
 						}
 					}
 				},
@@ -749,6 +767,174 @@
 					}
 				}
 			},
+			"animation": {
+				"anim-flow": {
+					"title": "Flow",
+					"subtitle": "Sequencing, repeats and conditions",
+					"group": {
+						"wait": "Wait Until Finished",
+						"delay": "Delay",
+						"repeat": "Repeats"
+					},
+					"io": {
+						"playIf": {
+							"title": "Play If",
+							"tooltip": "The animation only plays when this is true. Defaults to true."
+						},
+						"async": {
+							"title": "Async",
+							"tooltip": "Waits for each repetition to finish before the next one starts."
+						},
+						"waitUntilFinished": {
+							"title": "Wait Until Finished",
+							"tooltip": "Pauses the whole sequence until this animation finishes before continuing."
+						},
+						"waitDelayMin": {
+							"title": "Min Wait",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used. May be negative to start the next section early."
+						},
+						"waitDelayMax": {
+							"title": "Max Wait",
+							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
+						},
+						"delayMin": {
+							"title": "Min Delay",
+							"tooltip": "Delay (ms) before the animation plays. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"delayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random play delay. Leave at 0 for a fixed delay."
+						},
+						"repeats": {
+							"title": "Repeats",
+							"tooltip": "How many times to repeat the animation. Leave at 0 to skip."
+						},
+						"repeatDelayMin": {
+							"title": "Min Repeat Delay",
+							"tooltip": "Delay (ms) between repetitions. With a max set, a random value between the two is used."
+						},
+						"repeatDelayMax": {
+							"title": "Max Repeat Delay",
+							"tooltip": "Upper bound (ms) for a random delay between repetitions. Leave at 0 for a fixed delay."
+						}
+					}
+				},
+				"anim-move": {
+					"title": "Movement",
+					"subtitle": "Move or teleport the target",
+					"states": {
+						"moveTowards": "Move Towards",
+						"teleportTo": "Teleport To"
+					},
+					"io": {
+						"towards": {
+							"title": "Towards",
+							"tooltip": "The destination: a point, a token/target, or a named effect. Required."
+						},
+						"closestSquare": {
+							"title": "Closest Square",
+							"tooltip": "Picks the closest non-overlapping square to the target."
+						},
+						"snapToGrid": {
+							"title": "Snap To Grid",
+							"tooltip": "Snaps the final position to the scene grid."
+						},
+						"rotate": {
+							"title": "Rotate",
+							"tooltip": "Rotates the target to face its direction of movement. Defaults to true."
+						},
+						"moveSpeed": {
+							"title": "Move Speed",
+							"tooltip": "Movement speed in pixels per frame. Leave at 0 to use the duration instead."
+						},
+						"relativeToCenter": {
+							"title": "Relative To Center",
+							"tooltip": "Teleports relative to the target's center instead of its origin."
+						}
+					}
+				},
+				"anim-rotation": {
+					"title": "Rotation",
+					"subtitle": "Rotate the target",
+					"group": {
+						"towards": "Rotate Towards",
+						"rotateIn": "Rotate In",
+						"rotateOut": "Rotate Out"
+					},
+					"io": {
+						"rotate": {
+							"title": "Rotate",
+							"tooltip": "Adds this many degrees to the target's rotation. Leave at 0 to skip."
+						},
+						"randomRotation": {
+							"title": "Random Rotation",
+							"tooltip": "Applies a random rotation to the target."
+						},
+						"towards": {
+							"title": "Towards",
+							"tooltip": "A point or object to rotate the target towards. Leave unconnected to skip."
+						},
+						"rotationOffset": {
+							"title": "Rotation Offset",
+							"tooltip": "Extra rotation (degrees) applied after aiming."
+						},
+						"towardsCenter": {
+							"title": "Towards Center",
+							"tooltip": "Rotates towards the center of the target rather than its edge. Defaults to true."
+						},
+						"degrees": {
+							"title": "Degrees",
+							"tooltip": "How many degrees to rotate over the animation."
+						}
+					}
+				},
+				"anim-opacity": {
+					"title": "Opacity",
+					"subtitle": "Fade and visibility",
+					"group": {
+						"fadeIn": "Fade In",
+						"fadeOut": "Fade Out"
+					},
+					"io": {
+						"opacity": {
+							"title": "Opacity",
+							"tooltip": "Target opacity from 0 to 1. Leave at -1 to skip."
+						},
+						"visibility": {
+							"title": "Visibility",
+							"tooltip": "Hide or show the target as part of the animation."
+						}
+					}
+				},
+				"anim-audio": {
+					"title": "Audio",
+					"subtitle": "Volume and audio fades",
+					"group": {
+						"fadeIn": "Fade In",
+						"fadeOut": "Fade Out"
+					},
+					"io": {
+						"volume": {
+							"title": "Volume",
+							"tooltip": "Audio volume from 0 to 1. Leave at -1 to skip."
+						}
+					}
+				},
+				"anim-misc": {
+					"title": "Misc",
+					"subtitle": "Duration, tint and presets",
+					"io": {
+						"tint": {
+							"title": "Tint",
+							"tooltip": "A hex color (e.g. #ff0000) applied to the target. Leave empty to skip."
+						},
+						"preset": {
+							"title": "Preset",
+							"tooltip": "Applies a registered preset by name. Leave empty to skip."
+						}
+					}
+				}
+			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
@@ -782,6 +968,9 @@
 			},
 			"effect": {
 				"title": "Effect Modifiers"
+			},
+			"animation": {
+				"title": "Animation"
 			}
 		}
 	}}

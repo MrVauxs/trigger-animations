@@ -1,0 +1,120 @@
+import { devGroup, devLog } from "$lib/utils";
+import { TriggerEngine as T } from "trigger-engine/types";
+import { EASE_OPTIONS } from "../effect/constants";
+
+const { TriggerNode } = globalThis.triggerEngine;
+
+const ROOT = "trigger-animations.trigger-animations";
+
+/**
+ * Base class for all nodes that modify an existing AnimationSection.
+ *
+ * Mirrors EffectModifierNode but operates on the `animation` section type.
+ * Subclasses provide `type`, `icon`, `defineInputs` (starting with
+ * `this.animationInput`), optionally `states`, and implement `apply(section)`.
+ * Inputs follow the skip-sentinel conventions: an input left at its default
+ * value must not call its Sequencer method at all.
+ */
+abstract class AnimationModifierNode<
+	TInputs extends Record<string, any> = Record<string, any>,
+	TState extends string = string,
+> extends TriggerNode<
+	"out",
+	TInputs & { animation?: AnimationSection },
+	{},
+	string,
+	string,
+	TState
+> {
+	static override get tags() {
+		return ["animation"];
+	}
+
+	static override get category() {
+		return "animation";
+	}
+
+	static localize(str: string) {
+		return `${ROOT}.node.${this.category}.${this.type}.${str}`;
+	}
+
+	/** Label + tooltip pair for one of this node's own io entries. */
+	static io(key: string) {
+		return {
+			label: this.localize(`io.${key}.title`),
+			tooltip: this.localize(`io.${key}.tooltip`),
+		};
+	}
+
+	/** Label + tooltip pair shared between nodes (ease, delay, ...). */
+	static sharedIo(key: string) {
+		return {
+			label: `${ROOT}.io.${key}.title`,
+			tooltip: `${ROOT}.io.${key}.tooltip`,
+		};
+	}
+
+	/** The standard animation input every modifier node lists first. */
+	static get animationInput(): T.InputEntrySchemaSource {
+		return { key: "animation", type: "animation", ...this.sharedIo("animation") };
+	}
+
+	/** An easing select input. "linear" matches Sequencer's default, so the value is always safe to pass. */
+	static easeInput(
+		key: string,
+		extra?: { group?: string; state?: string },
+	): T.InputEntrySchemaSource {
+		return {
+			key,
+			type: "text",
+			...this.sharedIo("ease"),
+			...extra,
+			field: { type: "select", default: "linear", options: EASE_OPTIONS },
+		};
+	}
+
+	override get headerColor() {
+		return "#6a5acd";
+	}
+
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
+		return null;
+	}
+
+	/**
+	 * Normalize an "any"-typed input into something Sequencer location
+	 * methods accept: a name string, a {x,y} point, or a document/placeable.
+	 * `target` entries ({ actor, token }) are unwrapped to their token.
+	 */
+	protected resolveObject(value: unknown): object | string | undefined {
+		if (!value) return undefined;
+		if (typeof value === "string") return value.trim() || undefined;
+		if (typeof value !== "object") return undefined;
+		const obj = value as Record<string, unknown>;
+		// A target entry wrapper, as opposed to a raw document (which has x/y).
+		if ("actor" in obj && !("x" in obj)) {
+			if (obj.token) return obj.token as object;
+			devLog(`[${this.type}] target has no token; skipping`);
+			return undefined;
+		}
+		return obj;
+	}
+
+	protected abstract apply(section: AnimationSection): Promise<void> | void;
+
+	override async _execute(): Promise<boolean> {
+		const g = devGroup(`[Execute] ${this.type}`);
+		const animation = await this.getInputValue("animation");
+		if (animation) {
+			await this.apply(animation as AnimationSection);
+			g.log("applied", { animation });
+		} else {
+			g.log("no animation connected; skipping");
+		}
+		g.end();
+
+		return this.executeNext("out");
+	}
+}
+
+export { AnimationModifierNode };
