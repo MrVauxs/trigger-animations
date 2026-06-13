@@ -27,6 +27,10 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 		return "content";
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	static override get states(): string[] | null {
 		return ["text", "shape", "copySprite", "tiling", "template"];
 	}

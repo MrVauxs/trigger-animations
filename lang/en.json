@@ -48,6 +48,31 @@
 			}
 		},
 		"node": {
+			"extractor": {
+				"massloop": {
+					"title": "Mass Loop",
+					"io": {
+						"outAfter": {
+							"title": "Out After",
+							"tooltip": "Executes after the loop is finished."
+						},
+						"sources": {
+							"title": "Sources"
+						},
+						"source": {
+							"title": "Source"
+						},
+						"isFinal": {
+							"title": "Is Final",
+							"tooltip": "Whether this is the last iteration of the loop."
+						},
+						"index": {
+							"title": "Index",
+							"tooltip": "The current index of the loop (starting from 0)."
+						}
+					}
+				}
+			},
 			"sequence": {
 				"effect": {
 					"title": "Effect",

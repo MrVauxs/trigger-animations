@@ -17,6 +17,11 @@ export function devLog(...args: unknown[]): void {
 	if (dev) console.log("\x1B[1;31mTrigger-Animations:", ...args);
 }
 
+export function moduleError(...args: unknown[]): void {
+	console.error("\x1B[1;31mTrigger-Animations:", ...args);
+}
+
+
 export function devGroup(s: string) {
 	if (dev) {
 		console.groupCollapsed("\x1B[1;31mTrigger-Animations", s);
