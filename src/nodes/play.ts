@@ -77,7 +77,7 @@ class PlayNode extends TriggerNode<
 		});
 		devLog("Playing Sequence", seq)
 
-		return Promise.resolve(true);
+		return this.executeNext("out");
 	}
 }
 
