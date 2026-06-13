@@ -19,6 +19,10 @@ class FlowNode extends EffectModifierNode<TInputs> {
 		return "flow";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["timing", "time", "control", "delay", "wait", "repeat", "async", "playIf"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf550" }
