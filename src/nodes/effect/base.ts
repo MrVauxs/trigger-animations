@@ -1,0 +1,145 @@
+import { devGroup, devLog } from "$lib/utils";
+import { TriggerEngine as T } from "trigger-engine/types";
+import { EASE_OPTIONS } from "./constants";
+
+const { TriggerNode } = globalThis.triggerEngine;
+
+const ROOT = "trigger-animations.trigger-animations";
+
+/**
+ * Base class for all nodes that modify an existing EffectSection.
+ *
+ * Subclasses provide `type`, `icon`, `defineInputs` (starting with
+ * `this.effectInput`), optionally `states`, and implement `apply(effect)`.
+ * Inputs follow the skip-sentinel conventions: an input left at its default
+ * value must not call its Sequencer method at all, so an untouched node
+ * plays the effect unchanged.
+ */
+abstract class EffectModifierNode<
+	TInputs extends Record<string, any> = Record<string, any>,
+	TState extends string = string,
+> extends TriggerNode<
+	"out",
+	TInputs & { effect?: EffectSection },
+	{},
+	string,
+	string,
+	TState
+> {
+	static override get tags() {
+		return ["animation"];
+	}
+
+	static override get category() {
+		return "effect";
+	}
+
+	static localize(str: string) {
+		return `${ROOT}.node.${this.category}.${this.type}.${str}`;
+	}
+
+	/** Label + tooltip pair for one of this node's own io entries. */
+	static io(key: string) {
+		return {
+			label: this.localize(`io.${key}.title`),
+			tooltip: this.localize(`io.${key}.tooltip`),
+		};
+	}
+
+	/** Label + tooltip pair shared between nodes (ease, delay, gridUnits, ...). */
+	static sharedIo(key: string) {
+		return {
+			label: `${ROOT}.io.${key}.title`,
+			tooltip: `${ROOT}.io.${key}.tooltip`,
+		};
+	}
+
+	/** The standard effect input every modifier node lists first. */
+	static get effectInput(): T.InputEntrySchemaSource {
+		return { key: "effect", type: "effect", ...this.sharedIo("effect") };
+	}
+
+	/** An easing select input. "linear" matches Sequencer's default, so the value is always safe to pass. */
+	static easeInput(
+		key: string,
+		extra?: { group?: string; state?: string },
+	): T.InputEntrySchemaSource {
+		return {
+			key,
+			type: "text",
+			...this.sharedIo("ease"),
+			...extra,
+			field: { type: "select", default: "linear", options: EASE_OPTIONS },
+		};
+	}
+
+	override get headerColor() {
+		return "#009690";
+	}
+
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
+		return null;
+	}
+
+	/**
+	 * Parse a json text field. Returns undefined (= skip) for empty input,
+	 * the field's untouched "{}" default, or malformed JSON.
+	 */
+	protected parseJson<TVal = Record<string, unknown>>(
+		raw: string | undefined,
+		what: string,
+	): TVal | undefined {
+		if (!raw?.trim()) return undefined;
+		try {
+			const parsed = JSON.parse(raw);
+			if (
+				parsed &&
+				typeof parsed === "object" &&
+				Object.keys(parsed).length === 0
+			) {
+				return undefined;
+			}
+			return parsed as TVal;
+		} catch (e) {
+			devLog(`[${this.type}] invalid JSON for ${what}`, e);
+			return undefined;
+		}
+	}
+
+	/**
+	 * Normalize an "any"-typed input into something Sequencer location
+	 * methods accept: a name string, a {x,y} point, or a document/placeable.
+	 * `target` entries ({ actor, token }) are unwrapped to their token.
+	 */
+	protected resolveObject(value: unknown): object | string | undefined {
+		if (!value) return undefined;
+		if (typeof value === "string") return value.trim() || undefined;
+		if (typeof value !== "object") return undefined;
+		const obj = value as Record<string, unknown>;
+		// A target entry wrapper, as opposed to a raw document (which has x/y).
+		if ("actor" in obj && !("x" in obj)) {
+			if (obj.token) return obj.token as object;
+			devLog(`[${this.type}] target has no token; skipping`);
+			return undefined;
+		}
+		return obj;
+	}
+
+	protected abstract apply(effect: EffectSection): Promise<void> | void;
+
+	override async _execute(): Promise<boolean> {
+		const g = devGroup(`[Execute] ${this.type}`);
+		const effect = await this.getInputValue("effect");
+		if (effect) {
+			await this.apply(effect as EffectSection);
+			g.log("applied", { effect });
+		} else {
+			g.log("no effect connected; skipping");
+		}
+		g.end();
+
+		return this.executeNext("out");
+	}
+}
+
+export { EffectModifierNode };

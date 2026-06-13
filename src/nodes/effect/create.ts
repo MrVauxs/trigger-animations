@@ -52,7 +52,7 @@ class EffectNode extends TriggerNode<
 			},
 			{
 				key: "origin",
-				type: "string",
+				type: "text",
 				label: this.localize("io.origin.title"),
 				tooltip: this.localize("io.origin.tooltip")
 			}

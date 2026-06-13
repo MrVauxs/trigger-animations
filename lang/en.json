@@ -5,6 +5,48 @@
 		"setting": {
 			"name": "Trigger Animations"
 		},
+		"io": {
+			"effect": {
+				"title": "Effect",
+				"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
+			},
+			"ease": {
+				"title": "Ease",
+				"tooltip": "The easing function used for the animation."
+			},
+			"delay": {
+				"title": "Delay",
+				"tooltip": "Delay in milliseconds before this part of the animation starts."
+			},
+			"duration": {
+				"title": "Duration",
+				"tooltip": "Duration in milliseconds. Leave at 0 to skip."
+			},
+			"gridUnits": {
+				"title": "Grid Units",
+				"tooltip": "Treat the values as grid units instead of pixels."
+			},
+			"local": {
+				"title": "Local",
+				"tooltip": "Apply the offset in the effect's local (pre-rotation) space."
+			},
+			"offset": {
+				"title": "Offset",
+				"tooltip": "Offset from the position, as an x/y vector. Leave at 0,0 to skip."
+			},
+			"randomOffset": {
+				"title": "Random Offset",
+				"tooltip": "Random offset multiplier within the target's bounds. Leave at 0 to skip."
+			},
+			"cacheLocation": {
+				"title": "Cache Location",
+				"tooltip": "Capture the target's position immediately instead of when the effect plays."
+			},
+			"attachTo": {
+				"title": "Attach To",
+				"tooltip": "Attach to the target so the effect follows it as it moves."
+			}
+		},
 		"node": {
 			"sequence": {
 				"effect": {
@@ -22,42 +64,6 @@
 						"effect": {
 							"title": "Effect",
 							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
-						}
-					}
-				},
-				"file": {
-					"title": "File",
-					"subtitle": "Sets what files to play",
-					"io": {
-						"file": {
-							"title": "File",
-							"tooltip": "Sequencer compatible file path (either a raw path or a Sequencer database path)."
-						},
-						"effect": {
-							"title": "Effect",
-							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
-						}
-					}
-				},
-				"location": {
-					"title": "Location",
-					"subtitle": "Sets where the effect is",
-					"io": {
-						"location": {
-							"title": "Location",
-							"tooltip": "Where the effect will be played."
-						},
-						"effect": {
-							"title": "Effect",
-							"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
-						},
-						"attachTo": {
-							"title": "Attach To",
-							"tooltip": "Attaches the effect to the token document."
-						},
-						"gridUnits": {
-							"title": "Use Grid Units",
-							"tooltip": "X and Y values are in grid units instead of pixels."
 						}
 					}
 				},
@@ -80,6 +86,644 @@
 					}
 				}
 			},
+			"effect": {
+				"file": {
+					"title": "File",
+					"subtitle": "Sets what files to play",
+					"io": {
+						"file": {
+							"title": "File",
+							"tooltip": "Sequencer compatible file path (either a raw path or a Sequencer database path)."
+						},
+						"baseFolder": {
+							"title": "Base Folder",
+							"tooltip": "A folder path prepended to relative file paths. Leave empty to skip."
+						},
+						"mustache": {
+							"title": "Mustache",
+							"tooltip": "A JSON object of values substituted into the file path using Handlebars/mustache syntax. Leave empty to skip."
+						}
+					}
+				},
+				"location": {
+					"title": "Location",
+					"subtitle": "Sets where the effect is",
+					"states": {
+						"points": "Point",
+						"targets": "Target",
+						"screenSpace": "Screen"
+					},
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "Where the effect will be played."
+						},
+						"snapToGrid": {
+							"title": "Snap To Grid",
+							"tooltip": "Snaps the effect's final location to the scene grid."
+						},
+						"aboveUI": {
+							"title": "Above UI",
+							"tooltip": "Renders the screen-space effect above all Foundry interface elements."
+						},
+						"position": {
+							"title": "Position",
+							"tooltip": "Screen-space position offset from the anchor. Leave at 0,0 to skip."
+						},
+						"anchorX": {
+							"title": "Anchor X",
+							"tooltip": "Horizontal screen anchor (0 = left, 1 = right). Leave at -1 to use the default of 0.5."
+						},
+						"anchorY": {
+							"title": "Anchor Y",
+							"tooltip": "Vertical screen anchor (0 = top, 1 = bottom). Leave at -1 to use the default of 0.5."
+						},
+						"scale": {
+							"title": "Screen Scale",
+							"tooltip": "A JSON object with x, y, fitX, fitY, ratioX, ratioY controlling screen-space scaling. Leave empty to skip."
+						}
+					}
+				},
+				"flow": {
+					"title": "Flow",
+					"subtitle": "Sequencing, repeats and conditions",
+					"group": {
+						"wait": "Wait Until Finished",
+						"delay": "Delay",
+						"repeat": "Repeats"
+					},
+					"io": {
+						"playIf": {
+							"title": "Play If",
+							"tooltip": "The effect only plays when this is true. Defaults to true."
+						},
+						"async": {
+							"title": "Async",
+							"tooltip": "Waits for each repetition to finish before the next one starts."
+						},
+						"waitUntilFinished": {
+							"title": "Wait Until Finished",
+							"tooltip": "Pauses the whole sequence until this effect finishes before continuing."
+						},
+						"waitDelayMin": {
+							"title": "Min Delay",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used. May be negative to continue early."
+						},
+						"waitDelayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
+						},
+						"delayMin": {
+							"title": "Min Delay",
+							"tooltip": "Delay (ms) before the effect plays. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"delayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random play delay. Leave at 0 for a fixed delay."
+						},
+						"repeats": {
+							"title": "Repeats",
+							"tooltip": "How many times to repeat the effect. Leave at 0 to skip."
+						},
+						"repeatDelayMin": {
+							"title": "Min Repeat Delay",
+							"tooltip": "Delay (ms) between repetitions. With a max set, a random value between the two is used."
+						},
+						"repeatDelayMax": {
+							"title": "Max Repeat Delay",
+							"tooltip": "Upper bound (ms) for a random delay between repetitions. Leave at 0 for a fixed delay."
+						}
+					}
+				},
+				"timing": {
+					"title": "Timing",
+					"subtitle": "Duration and playback range",
+					"states": {
+						"milliseconds": "Milliseconds",
+						"percentage": "Percentage"
+					},
+					"io": {
+						"playbackRate": {
+							"title": "Playback Rate",
+							"tooltip": "Multiplies playback speed (2 = twice as fast, 0.5 = half). Leave at 1 to skip."
+						},
+						"startTime": {
+							"title": "Start Time",
+							"tooltip": "Skips to this millisecond position within the effect. Leave at 0 to skip."
+						},
+						"endTime": {
+							"title": "End Time",
+							"tooltip": "Stops the effect at this millisecond position. Leave at 0 to skip."
+						},
+						"startPerc": {
+							"title": "Start %",
+							"tooltip": "Skips to this fraction (0-1) of the effect's duration. Leave at 0 to skip."
+						},
+						"endPerc": {
+							"title": "End %",
+							"tooltip": "Stops the effect at this fraction (0-1) of its duration. Leave at 0 to skip."
+						}
+					}
+				},
+				"audio": {
+					"title": "Audio",
+					"subtitle": "Volume and audio fades",
+					"group": {
+						"fadeIn": "Fade In",
+						"fadeOut": "Fade Out"
+					},
+					"io": {
+						"volume": {
+							"title": "Volume",
+							"tooltip": "Audio volume from 0 to 1. Leave at -1 to skip."
+						}
+					}
+				},
+				"rotation": {
+					"title": "Rotation",
+					"subtitle": "Rotates the effect and sprite",
+					"group": {
+						"rotateIn": "Rotate In",
+						"rotateOut": "Rotate Out"
+					},
+					"io": {
+						"rotate": {
+							"title": "Rotate",
+							"tooltip": "Rotates the effect's container by this many degrees. Leave at 0 to skip."
+						},
+						"randomRotation": {
+							"title": "Random Rotation",
+							"tooltip": "Applies a random rotation to the effect."
+						},
+						"spriteRotation": {
+							"title": "Sprite Rotation",
+							"tooltip": "Rotates the sprite by this many degrees without rotating its container. Leave at 0 to skip."
+						},
+						"randomSpriteRotation": {
+							"title": "Random Sprite Rotation",
+							"tooltip": "Applies a random rotation to the sprite only."
+						},
+						"zeroSpriteRotation": {
+							"title": "Zero Sprite Rotation",
+							"tooltip": "Keeps the sprite from rotating when its container rotates."
+						},
+						"degrees": {
+							"title": "Degrees",
+							"tooltip": "How many degrees to rotate over the animation."
+						}
+					}
+				},
+				"scale": {
+					"title": "Scale",
+					"subtitle": "Resizes the effect",
+					"states": {
+						"factor": "Factor",
+						"object": "To Object",
+						"size": "Size"
+					},
+					"group": {
+						"scaleIn": "Scale In",
+						"scaleOut": "Scale Out"
+					},
+					"io": {
+						"scale": {
+							"title": "Scale",
+							"tooltip": "Overall size multiplier. Leave at 0 to skip."
+						},
+						"scaleMax": {
+							"title": "Scale Max",
+							"tooltip": "When above 0, a random uniform scale between Scale and this value is picked."
+						},
+						"objectScale": {
+							"title": "Object Scale",
+							"tooltip": "Scales the effect relative to the target object's size (1 = match)."
+						},
+						"uniform": {
+							"title": "Uniform",
+							"tooltip": "Scale both axes equally based on the object."
+						},
+						"considerTokenScale": {
+							"title": "Consider Token Scale",
+							"tooltip": "Factor the token's own scale into the calculation."
+						},
+						"width": {
+							"title": "Width",
+							"tooltip": "Effect width in pixels (or grid units). Leave at 0 to skip."
+						},
+						"height": {
+							"title": "Height",
+							"tooltip": "Effect height in pixels (or grid units). Leave at 0 to skip."
+						},
+						"spriteScale": {
+							"title": "Sprite Scale",
+							"tooltip": "Scales the sprite independently of the container. Leave at 0 to skip."
+						},
+						"spriteScaleMax": {
+							"title": "Sprite Scale Max",
+							"tooltip": "When above 0, a random uniform sprite scale between Sprite Scale and this value is picked."
+						},
+						"fadeScale": {
+							"title": "Scale",
+							"tooltip": "The scale to animate from (in) or to (out)."
+						}
+					}
+				},
+				"sprite": {
+					"title": "Sprite",
+					"subtitle": "Anchor, mirroring and offset",
+					"group": {
+						"anchor": "Anchor",
+						"spriteAnchor": "Sprite Anchor",
+						"mirror": "Mirror",
+						"offset": "Offset"
+					},
+					"io": {
+						"anchorX": {
+							"title": "Anchor X",
+							"tooltip": "Horizontal pivot (0 = left, 1 = right). Leave at -1 to use the default of 0.5."
+						},
+						"anchorY": {
+							"title": "Anchor Y",
+							"tooltip": "Vertical pivot (0 = top, 1 = bottom). Leave at -1 to use the default of 0.5."
+						},
+						"center": {
+							"title": "Center",
+							"tooltip": "Centers the sprite at the effect location (anchor 0.5, 0.5)."
+						},
+						"mirrorX": {
+							"title": "Mirror X",
+							"tooltip": "Flips the sprite horizontally."
+						},
+						"mirrorY": {
+							"title": "Mirror Y",
+							"tooltip": "Flips the sprite vertically."
+						},
+						"randomizeMirrorX": {
+							"title": "Randomize Mirror X",
+							"tooltip": "Randomly flips the sprite horizontally."
+						},
+						"randomizeMirrorY": {
+							"title": "Randomize Mirror Y",
+							"tooltip": "Randomly flips the sprite vertically."
+						}
+					}
+				},
+				"aim": {
+					"title": "Aim",
+					"subtitle": "Point, stretch or move towards a target",
+					"states": {
+						"rotateTowards": "Rotate Towards",
+						"stretchTo": "Stretch To",
+						"moveTowards": "Move Towards"
+					},
+					"io": {
+						"towards": {
+							"title": "Towards",
+							"tooltip": "The target to aim at: a point, a token/target, or a named effect. Required."
+						},
+						"missed": {
+							"title": "Missed",
+							"tooltip": "Offsets the effect to simulate a missed attack."
+						},
+						"rotationOffset": {
+							"title": "Rotation Offset",
+							"tooltip": "Extra rotation (degrees) applied after aiming. Leave at 0 to skip."
+						},
+						"onlyX": {
+							"title": "Only X",
+							"tooltip": "Only stretches along the X axis to reach the target."
+						},
+						"tiling": {
+							"title": "Tiling",
+							"tooltip": "Tiles the texture along the stretched length instead of scaling it."
+						},
+						"requiresLineOfSight": {
+							"title": "Requires Line Of Sight",
+							"tooltip": "Skips the effect if walls block the line to the target."
+						},
+						"hideLineOfSight": {
+							"title": "Hide Behind Walls",
+							"tooltip": "Hides the portion of the effect blocked by walls."
+						},
+						"rotate": {
+							"title": "Rotate",
+							"tooltip": "Rotates the effect to face the direction of movement. Defaults to true."
+						},
+						"moveSpeed": {
+							"title": "Move Speed",
+							"tooltip": "Movement speed in pixels per frame. Leave at 0 to use the duration instead."
+						}
+					}
+				},
+				"layer": {
+					"title": "Layering",
+					"subtitle": "Render order and elevation",
+					"group": {
+						"elevation": "Elevation"
+					},
+					"io": {
+						"belowTokens": {
+							"title": "Below Tokens",
+							"tooltip": "Renders the effect beneath tokens."
+						},
+						"belowTiles": {
+							"title": "Below Tiles",
+							"tooltip": "Renders the effect beneath tiles."
+						},
+						"aboveLighting": {
+							"title": "Above Lighting",
+							"tooltip": "Renders the effect above darkness and fog-of-war."
+						},
+						"aboveInterface": {
+							"title": "Above Interface",
+							"tooltip": "Renders the effect above all Foundry UI elements."
+						},
+						"zIndex": {
+							"title": "Z-Index",
+							"tooltip": "Drawing order for effects at the same elevation. Leave at 0 to skip."
+						},
+						"sortLayer": {
+							"title": "Sort Layer",
+							"tooltip": "Canvas sort layer, placing the effect among tokens, tiles or weather. Leave at 0 to skip."
+						},
+						"elevation": {
+							"title": "Elevation",
+							"tooltip": "Vertical elevation of the effect. Leave at 0 (with Top at 0 and Absolute off) to skip."
+						},
+						"elevationTop": {
+							"title": "Elevation Top",
+							"tooltip": "When above 0, the effect spans an elevation range from Elevation to this value."
+						},
+						"absolute": {
+							"title": "Absolute",
+							"tooltip": "Treat the elevation as an absolute value rather than relative to the source."
+						},
+						"topInclusive": {
+							"title": "Top Inclusive",
+							"tooltip": "Range form only: include the top value in the range."
+						},
+						"levels": {
+							"title": "Levels",
+							"tooltip": "Comma-separated level ids or names to restrict the effect to (Levels module). Leave empty to skip."
+						}
+					}
+				},
+				"persist": {
+					"title": "Persistence",
+					"subtitle": "Persist and loop the effect",
+					"group": {
+						"persist": "Persist",
+						"loop": "Loop Options"
+					},
+					"io": {
+						"persist": {
+							"title": "Persist",
+							"tooltip": "Keeps the effect on the canvas indefinitely until ended through the Effect Manager."
+						},
+						"persistTokenPrototype": {
+							"title": "Persist Token Prototype",
+							"tooltip": "Stores the persisted effect on the token's prototype so copies inherit it."
+						},
+						"temporary": {
+							"title": "Temporary",
+							"tooltip": "Prevents a persisted effect's flags from being saved to the document."
+						},
+						"extraEndDuration": {
+							"title": "Extra End Duration",
+							"tooltip": "Keeps a persisted effect around for this many ms before removal. Leave at 0 to skip."
+						},
+						"loops": {
+							"title": "Loops",
+							"tooltip": "How many times the effect loops. Leave at 0 for the default (infinite for persisted effects)."
+						},
+						"loopDelay": {
+							"title": "Loop Delay",
+							"tooltip": "Delay (ms) between each loop."
+						},
+						"endOnLastLoop": {
+							"title": "End On Last Loop",
+							"tooltip": "Ends the effect when the final loop completes instead of holding the last frame."
+						}
+					}
+				},
+				"visibility": {
+					"title": "Visibility",
+					"subtitle": "Who sees the effect and how visible it is",
+					"group": {
+						"mask": "Mask",
+						"fadeIn": "Fade In",
+						"fadeOut": "Fade Out"
+					},
+					"io": {
+						"locally": {
+							"title": "Locally",
+							"tooltip": "Plays the effect only on the current client."
+						},
+						"private": {
+							"title": "Private",
+							"tooltip": "Hides the effect from the Effect Manager UI."
+						},
+						"xray": {
+							"title": "X-Ray",
+							"tooltip": "Makes the effect visible through walls and vision masking."
+						},
+						"constrainedByWalls": {
+							"title": "Constrained By Walls",
+							"tooltip": "Clips the effect to the walls around its source."
+						},
+						"users": {
+							"title": "Users",
+							"tooltip": "Restricts the effect's visibility to these users. Leave unconnected to show to everyone."
+						},
+						"masks": {
+							"title": "Masks",
+							"tooltip": "Tokens, tiles or regions the effect is masked to. Each entry adds a mask."
+						},
+						"maskToSource": {
+							"title": "Mask To Source",
+							"tooltip": "Masks the effect to its own source object."
+						},
+						"opacity": {
+							"title": "Opacity",
+							"tooltip": "Effect opacity from 0 to 1. Leave at -1 to skip."
+						}
+					}
+				},
+				"style": {
+					"title": "Style",
+					"subtitle": "Tint, blend mode and filters",
+					"group": {
+						"filter": "Filter"
+					},
+					"io": {
+						"tint": {
+							"title": "Tint",
+							"tooltip": "A hex color (e.g. #ff0000) overlaid on the effect. Leave empty to skip."
+						},
+						"blendMode": {
+							"title": "Blend Mode",
+							"tooltip": "Compositing blend mode. Leave at normal to skip."
+						},
+						"filterType": {
+							"title": "Filter",
+							"tooltip": "The visual filter to apply. Leave at None to skip."
+						},
+						"filterData": {
+							"title": "Filter Data",
+							"tooltip": "A JSON object of options for the chosen filter."
+						},
+						"filterName": {
+							"title": "Filter Name",
+							"tooltip": "An optional name to reference this filter later."
+						}
+					}
+				},
+				"content": {
+					"title": "Content",
+					"subtitle": "Text, shapes and copied sprites",
+					"states": {
+						"text": "Text",
+						"shape": "Shape",
+						"copySprite": "Copy Sprite",
+						"tiling": "Tiling",
+						"template": "Template"
+					},
+					"io": {
+						"text": {
+							"title": "Text",
+							"tooltip": "The text to render as part of the effect. Required for this mode."
+						},
+						"textStyle": {
+							"title": "Text Style",
+							"tooltip": "A JSON PIXI.TextStyle object controlling the text appearance."
+						},
+						"shapeType": {
+							"title": "Shape",
+							"tooltip": "The kind of geometric shape to draw."
+						},
+						"shapeOptions": {
+							"title": "Shape Options",
+							"tooltip": "A JSON object with radius, width, height, points, fillColor, etc. Required for this mode."
+						},
+						"from": {
+							"title": "From",
+							"tooltip": "The token or tile to copy as an effect. Required for this mode."
+						},
+						"tilingScale": {
+							"title": "Tiling Scale",
+							"tooltip": "Scale of the tiled texture as an x/y vector. Defaults to 1,1."
+						},
+						"tilingPosition": {
+							"title": "Tiling Position",
+							"tooltip": "Position offset of the tiled texture as an x/y vector."
+						},
+						"templateGridSize": {
+							"title": "Grid Size",
+							"tooltip": "The effect's internal grid size relative to the scene grid. Required for this mode."
+						},
+						"templateStartPoint": {
+							"title": "Start Point",
+							"tooltip": "Padding at the left edge of the templated effect."
+						},
+						"templateEndPoint": {
+							"title": "End Point",
+							"tooltip": "Padding at the right edge of the templated effect."
+						}
+					}
+				},
+				"animate": {
+					"title": "Animate Property",
+					"subtitle": "Animates a raw property over time",
+					"states": {
+						"animate": "Animate",
+						"loop": "Loop"
+					},
+					"io": {
+						"target": {
+							"title": "Target",
+							"tooltip": "Which part to animate, e.g. sprite, spriteContainer, alphaFilter. Defaults to sprite."
+						},
+						"property": {
+							"title": "Property",
+							"tooltip": "The property path to animate, e.g. position.x, rotation, alpha. Required."
+						},
+						"from": {
+							"title": "From",
+							"tooltip": "The value to animate from."
+						},
+						"to": {
+							"title": "To",
+							"tooltip": "The value to animate to."
+						},
+						"fromEnd": {
+							"title": "From End",
+							"tooltip": "Plays the animation from the end of the effect, like a fade out."
+						},
+						"screenSpace": {
+							"title": "Screen Space",
+							"tooltip": "Interprets position/size values in screen dimensions."
+						},
+						"absolute": {
+							"title": "Absolute",
+							"tooltip": "Overrides the current value rather than adding to it."
+						},
+						"values": {
+							"title": "Values",
+							"tooltip": "A JSON array of numbers to loop between. When set, overrides From/To."
+						},
+						"loops": {
+							"title": "Loops",
+							"tooltip": "How many times to loop. Leave at 0 for infinite."
+						},
+						"pingPong": {
+							"title": "Ping Pong",
+							"tooltip": "Reverses direction each loop instead of snapping back to the first value."
+						}
+					}
+				},
+				"advanced": {
+					"title": "Advanced",
+					"subtitle": "Overrides and meta options",
+					"group": {
+						"preset": "Preset",
+						"isometric": "Isometric"
+					},
+					"io": {
+						"override": {
+							"title": "Override",
+							"tooltip": "JavaScript run before the effect plays. Receives (effect, data) and must return data. Leave empty to skip."
+						},
+						"tieTo": {
+							"title": "Tie To UUIDs",
+							"tooltip": "Comma-separated document UUIDs; the effect ends if any are deleted. Leave empty to skip."
+						},
+						"tieToDocs": {
+							"title": "Tie To Documents",
+							"tooltip": "Documents the effect is tied to; the effect ends if any are deleted."
+						},
+						"syncGroup": {
+							"title": "Sync Group",
+							"tooltip": "Effects sharing this group name start at the same time. Leave empty to skip."
+						},
+						"preset": {
+							"title": "Preset",
+							"tooltip": "Applies a registered preset by name. Leave empty to skip."
+						},
+						"presetArgs": {
+							"title": "Preset Args",
+							"tooltip": "A JSON array of arguments passed to the preset."
+						},
+						"isometric": {
+							"title": "Isometric",
+							"tooltip": "Renders the effect on the isometric plane (Isometric module)."
+						},
+						"isometricOverlay": {
+							"title": "Isometric Overlay",
+							"tooltip": "Draws the effect as an isometric overlay."
+						}
+					}
+				}
+			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
@@ -94,7 +738,10 @@
 		"category": {
 			"sequence": {
 				"title": "Sequence"
+			},
+			"effect": {
+				"title": "Effect Modifiers"
 			}
 		}
-	}
-}}
+	}}
+}
