@@ -730,7 +730,15 @@
 					"io": {
 						"targets": "Targets",
 						"item": "Item",
-						"sources": "Sources"
+						"sources": "Sources",
+						"options": {
+							"title": "Options",
+							"tooltip": "A list of string options that can be used to modify the effect (e.g. pf2e roll options)."
+						},
+						"path": {
+							"title": "Path",
+							"tooltip": "Extracts whatever data you want from a given path of the provided data (e.g. outcome)."
+						}
 					}
 				}
 			}

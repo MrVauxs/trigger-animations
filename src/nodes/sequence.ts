@@ -10,13 +10,16 @@ type TOutputs = {
 	actor?: Actor
 	targets?: { actor: Actor; token?: TokenDocument | null }[]
 	sources?: { actor: Actor; token?: TokenDocument | null }[]
-	item?: Item
-}
+	item?: Item,
+	options?: string[]
+} & Record<string, unknown>
 
 class StartNode extends TriggerNode<
 	"out",
 	TInputs,
-	TOutputs
+	TOutputs,
+	never,
+	"path"
 > {
 	static override get type() {
 		return "animation-event";
@@ -70,11 +73,33 @@ class StartNode extends TriggerNode<
 				key: "item",
 				type: "item",
 				label: this.localize("io.item")
-			}
+			},
+			{
+				key: "options",
+				type: "text",
+				isArray: true,
+				label: this.localize("io.options.title"),
+				tooltip: this.localize("io.options.tooltip")
+			},
 		];
 	}
 
-	override async _execute({ name, item, targets, sources, actor }: StartNodeOptions): Promise<boolean> {
+	static override get defineCustomOutputs(): T.BuiltinsCustomEntry[] {
+		return [
+			{
+				slug: "path",
+				types: ["any", "boolean", "item", "number", "point", "target", "text", "user"],
+				array: true,
+				label: this.localize("io.path.title"),
+				tooltip: this.localize("io.path.tooltip"),
+				input: {
+					label: this.localize("io.path.title"),
+				}
+			},
+		];
+	}
+
+	override async _execute({ name, item, targets, sources, actor, options, ...args }: StartNodeOptions): Promise<boolean> {
 		const animationName = await this.getInputValue("name")
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
 		if (!name || (animationName !== name)) return true
@@ -85,6 +110,13 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("sources", sources?.map(x => ({ actor: x.actor!, token: x })));
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
+		this.setOutputValue("options", options);
+
+		const entries = this.getCustomOutputs("path");
+		for (const { key, input } of entries) {
+			const value = typeof input === "string" ? foundry.utils.getProperty(args, input) : undefined;
+			this.setOutputValue(key, value);
+		}
 
 		return this.executeNext("out")
 	}
@@ -96,6 +128,7 @@ type StartNodeOptions = {
 	item?: Item;
 	targets?: TokenDocument[]
 	sources?: TokenDocument[]
-}
+	options?: string[]
+} & Record<string, unknown>
 
 export { StartNode, type StartNodeOptions };
