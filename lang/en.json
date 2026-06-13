@@ -728,6 +728,7 @@
 				"animation-event": {
 					"title": "Start Animation",
 					"io": {
+						"name": "Name",
 						"targets": "Targets",
 						"item": "Item",
 						"sources": "Sources",
@@ -738,6 +739,10 @@
 						"path": {
 							"title": "Path",
 							"tooltip": "Extracts whatever data you want from a given path of the provided data (e.g. outcome)."
+						},
+						"softFail": {
+							"title": "Soft Fail",
+							"tooltip": "Makes sequencer consider all failures to find files a non-issue and continue executing the sequence, rather than halt the execution."
 						}
 					}
 				}

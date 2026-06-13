@@ -1,10 +1,12 @@
 import { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
+import { id } from 'moduleJSON';
 
 const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
 	name: string
+	softFail: boolean
 }
 type TOutputs = {
 	actor?: Actor
@@ -46,8 +48,21 @@ class StartNode extends TriggerNode<
 		return { unicode: "\ue29d" }
 	}
 
-	static override get defineInputs() {
-		return [{ key: "name", type: "text", label: this.localize("io.actor") }];
+	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
+		return [
+			{
+				key: "name",
+				type: "text",
+				label: this.localize("io.name"),
+				tooltip: this.localize("io.name.tooltip")
+			},
+			{
+				key: "softFail",
+				type: "boolean",
+				label: this.localize("io.softFail"),
+				tooltip: this.localize("io.softFail.tooltip"),
+			},
+		];
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
@@ -101,10 +116,11 @@ class StartNode extends TriggerNode<
 
 	override async _execute({ name, item, targets, sources, actor, options, ...args }: StartNodeOptions): Promise<boolean> {
 		const animationName = await this.getInputValue("name")
+		const softFail = await this.getInputValue("softFail")
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
 		if (!name || (animationName !== name)) return true
 
-		this.setContext("sequence", new Sequence())
+		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
 
 		this.setOutputValue("targets", targets?.map(x => ({ actor: x.actor!, token: x })));
 		this.setOutputValue("sources", sources?.map(x => ({ actor: x.actor!, token: x })));
