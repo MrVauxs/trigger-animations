@@ -70,11 +70,12 @@ class PlayNode extends TriggerNode<
 			return Promise.resolve(false);
 		}
 
-		await sequence.play({
+		const seq = await sequence.play({
 			remote: await this.getInputValue("remote"),
 			preload: await this.getInputValue("preload"),
 			local: await this.getInputValue("local")
 		});
+		devLog("Playing Sequence", seq)
 
 		return Promise.resolve(true);
 	}

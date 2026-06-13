@@ -3,7 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
 type TInputs = {
-	towards: unknown;
+	towards: TargetDocuments | string;
 	missed: boolean;
 	rotationOffset: number;
 	cacheLocation: boolean;
@@ -30,7 +30,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 	}
 
 	static override get states(): string[] | null {
-		return ["rotateTowards", "stretchTo", "moveTowards"];
+		return ["stretchTo", "rotateTowards", "moveTowards"];
 	}
 
 	override get icon() {
@@ -155,6 +155,11 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 			opts.tiling = await this.getInputValue("tiling");
 			opts.requiresLineOfSight = await this.getInputValue("requiresLineOfSight");
 			opts.hideLineOfSight = await this.getInputValue("hideLineOfSight");
+			/*
+				TODO: Look into adding a Sequencer option to make errors of "0" distance not show up or be restricted to console only.
+				https://github.com/fantasycalendar/FoundryVTT-Sequencer/blob/master/src/canvas-effects/canvas-effect.js#L1347
+				https://github.com/fantasycalendar/FoundryVTT-Sequencer/blob/master/src/canvas-effects/canvas-effect.js#L2101-L2105
+			*/
 			effect.stretchTo(towards, opts);
 		} else {
 			opts.rotationOffset = await this.getInputValue("rotationOffset");

@@ -29,7 +29,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 	// World location and screen space are mutually exclusive, so screen space
 	// lives here as a third state rather than as its own node.
 	static override get states(): string[] | null {
-		return ["points", "targets", "screenSpace"];
+		return ["targets", "points", "screenSpace"];
 	}
 
 	override get icon() {
