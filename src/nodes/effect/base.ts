@@ -8,12 +8,6 @@ const ROOT = "trigger-animations.trigger-animations";
 
 /**
  * Base class for all nodes that modify an existing EffectSection.
- *
- * Subclasses provide `type`, `icon`, `defineInputs` (starting with
- * `this.effectInput`), optionally `states`, and implement `apply(effect)`.
- * Inputs follow the skip-sentinel conventions: an input left at its default
- * value must not call its Sequencer method at all, so an untouched node
- * plays the effect unchanged.
  */
 abstract class EffectModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,

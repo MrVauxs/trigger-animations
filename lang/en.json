@@ -14,6 +14,10 @@
 				"title": "Animation",
 				"tooltip": "The individual Animation section that can be modified by other nodes regardless of order."
 			},
+			"crosshair": {
+				"title": "Crosshair",
+				"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
+			},
 			"ease": {
 				"title": "Ease",
 				"tooltip": "The easing function used for the animation."
@@ -52,6 +56,79 @@
 			}
 		},
 		"node": {
+			"action": {
+				"crosshair-pick": {
+					"title": "Pick Location",
+					"subtitle": "Shows a crosshair and waits for placement",
+					"progress": "Waiting for crosshair placement",
+					"outs": {
+						"placed": "Placed",
+						"cancelled": "Cancelled"
+					},
+					"io": {
+						"type": {
+							"title": "Type",
+							"tooltip": "The template shape of the crosshair (circle, cone, rect, ray)."
+						},
+						"distance": {
+							"title": "Distance",
+							"tooltip": "Radius/length in grid units. Leave at 0 for the Sequencer default."
+						},
+						"angle": {
+							"title": "Angle",
+							"tooltip": "Cone angle in degrees. Leave at 0 for the default."
+						},
+						"direction": {
+							"title": "Direction",
+							"tooltip": "Starting direction in degrees (cone/ray). Leave at 0 to skip."
+						},
+						"width": {
+							"title": "Width",
+							"tooltip": "Ray width in grid units. Leave at 0 for the default."
+						},
+						"label": {
+							"title": "Label",
+							"tooltip": "Text shown on the crosshair. Leave empty to skip."
+						},
+						"borderColor": {
+							"title": "Border Color",
+							"tooltip": "Hex color for the crosshair border (e.g. #000000). Leave empty for the default."
+						},
+						"fillColor": {
+							"title": "Fill Color",
+							"tooltip": "Hex color for the crosshair fill. Leave empty for your user color."
+						},
+						"gridHighlight": {
+							"title": "Grid Highlight",
+							"tooltip": "Highlights the affected grid squares. On by default."
+						},
+						"lockDrag": {
+							"title": "Lock Drag",
+							"tooltip": "Prevents dragging the end position. On by default."
+						},
+						"timeout": {
+							"title": "Timeout",
+							"tooltip": "Seconds to wait for a placement before cancelling. Leave at 0 for no timeout."
+						},
+						"config": {
+							"title": "Config",
+							"tooltip": "A JSON object deep-merged over the inputs for rare nested options (icon, location range limits, range polygon colors)."
+						},
+						"location": {
+							"title": "Location",
+							"tooltip": "The chosen placement point, for use by Location nodes."
+						},
+						"directionOut": {
+							"title": "Direction",
+							"tooltip": "The chosen direction in degrees."
+						},
+						"distanceOut": {
+							"title": "Distance",
+							"tooltip": "The chosen distance in grid units."
+						}
+					}
+				}
+			},
 			"extractor": {
 				"massloop": {
 					"title": "Mass Loop",
@@ -107,6 +184,20 @@
 						"animation": {
 							"title": "Animation",
 							"tooltip": "The individual Animation section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"crosshair": {
+					"title": "Crosshair",
+					"subtitle": "Starts a Sequencer crosshair section",
+					"io": {
+						"name": {
+							"title": "Name",
+							"tooltip": "Stores the crosshair's placement so later sections can reference it by name."
+						},
+						"crosshair": {
+							"title": "Crosshair",
+							"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
 						}
 					}
 				},
@@ -935,6 +1026,167 @@
 					}
 				}
 			},
+			"crosshair": {
+				"cross-shape": {
+					"title": "Shape",
+					"subtitle": "Template type and dimensions",
+					"group": {
+						"distance": "Distance"
+					},
+					"io": {
+						"type": {
+							"title": "Type",
+							"tooltip": "The template shape (circle, cone, rect, ray)."
+						},
+						"distance": {
+							"title": "Distance",
+							"tooltip": "Radius/length in grid units. Leave at 0 to skip."
+						},
+						"distanceMin": {
+							"title": "Min Distance",
+							"tooltip": "Minimum draggable distance. Leave at 0 for the default."
+						},
+						"distanceMax": {
+							"title": "Max Distance",
+							"tooltip": "Maximum draggable distance. Leave at 0 for the default."
+						},
+						"angle": {
+							"title": "Angle",
+							"tooltip": "Cone angle in degrees. Leave at 0 to skip."
+						},
+						"direction": {
+							"title": "Direction",
+							"tooltip": "Starting direction in degrees (cone/ray). Leave at 0 to skip."
+						},
+						"width": {
+							"title": "Width",
+							"tooltip": "Ray width in grid units. Leave at 0 to skip."
+						},
+						"snapPosition": {
+							"title": "Snap Position",
+							"tooltip": "Grid snapping mode for the position (CONST.GRID_SNAPPING_MODES). Leave at -1 to skip."
+						},
+						"snapDirection": {
+							"title": "Snap Direction",
+							"tooltip": "Degrees the direction snaps along. Leave at 0 to skip."
+						}
+					}
+				},
+				"cross-appearance": {
+					"title": "Appearance",
+					"subtitle": "Label, icon, colors and texture",
+					"group": {
+						"label": "Label",
+						"icon": "Icon",
+						"border": "Border",
+						"fill": "Fill",
+						"texture": "Texture"
+					},
+					"io": {
+						"label": {
+							"title": "Label",
+							"tooltip": "Text shown on the crosshair. Leave empty to skip."
+						},
+						"labelDx": {
+							"title": "Label X",
+							"tooltip": "Horizontal label offset in pixels."
+						},
+						"labelDy": {
+							"title": "Label Y",
+							"tooltip": "Vertical label offset in pixels."
+						},
+						"icon": {
+							"title": "Icon",
+							"tooltip": "Texture path for a custom icon. Leave empty to skip."
+						},
+						"iconBorderVisible": {
+							"title": "Icon Border",
+							"tooltip": "Shows a border around the icon."
+						},
+						"borderColor": {
+							"title": "Border Color",
+							"tooltip": "Hex color for the border (e.g. #000000). Leave empty to skip."
+						},
+						"borderAlpha": {
+							"title": "Border Alpha",
+							"tooltip": "Border opacity from 0 to 1. Leave at -1 for the default."
+						},
+						"fillColor": {
+							"title": "Fill Color",
+							"tooltip": "Hex color for the fill. Leave empty to skip."
+						},
+						"fillAlpha": {
+							"title": "Fill Alpha",
+							"tooltip": "Fill opacity from 0 to 1. Leave at -1 for the default."
+						},
+						"texture": {
+							"title": "Texture",
+							"tooltip": "Texture path for the crosshair. Leave empty to skip."
+						},
+						"textureAlpha": {
+							"title": "Texture Alpha",
+							"tooltip": "Texture opacity from 0 to 1. Leave at -1 for the default."
+						},
+						"textureScale": {
+							"title": "Texture Scale",
+							"tooltip": "Texture scale multiplier. Leave at 0 for the default."
+						},
+						"gridHighlight": {
+							"title": "Grid Highlight",
+							"tooltip": "Highlights the affected grid squares. On by default."
+						}
+					}
+				},
+				"cross-behavior": {
+					"title": "Behavior",
+					"subtitle": "Placement limits and persistence",
+					"group": {
+						"location": "Location"
+					},
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "Anchor the crosshair around this token and limit its range. Leave unconnected to skip."
+						},
+						"limitMinRange": {
+							"title": "Min Range",
+							"tooltip": "Minimum range from the anchor in grid units. Leave at 0 to skip."
+						},
+						"limitMaxRange": {
+							"title": "Max Range",
+							"tooltip": "Maximum range from the anchor in grid units. Leave at 0 to skip."
+						},
+						"showRange": {
+							"title": "Show Range",
+							"tooltip": "Displays the allowed range."
+						},
+						"lockToEdge": {
+							"title": "Lock To Edge",
+							"tooltip": "Locks the crosshair to the edge of the range."
+						},
+						"lockToEdgeDirection": {
+							"title": "Lock Edge Direction",
+							"tooltip": "Locks the direction to point away from the anchor."
+						},
+						"wallBehavior": {
+							"title": "Wall Behavior",
+							"tooltip": "How walls restrict placement (anywhere, line of sight, no collidables)."
+						},
+						"lockDrag": {
+							"title": "Lock Drag",
+							"tooltip": "Prevents dragging the end position. On by default."
+						},
+						"lockManualRotation": {
+							"title": "Lock Rotation",
+							"tooltip": "Prevents manual rotation of the crosshair."
+						},
+						"persist": {
+							"title": "Persist",
+							"tooltip": "Spawns a measured template matching the crosshair after placement."
+						}
+					}
+				}
+			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
@@ -963,6 +1215,9 @@
 			}
 		},
 		"category": {
+			"action": {
+				"title": "Action"
+			},
 			"sequence": {
 				"title": "Sequence"
 			},
@@ -971,6 +1226,9 @@
 			},
 			"animation": {
 				"title": "Animation"
+			},
+			"crosshair": {
+				"title": "Crosshair"
 			}
 		}
 	}}

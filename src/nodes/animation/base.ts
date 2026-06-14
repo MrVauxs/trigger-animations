@@ -8,12 +8,6 @@ const ROOT = "trigger-animations.trigger-animations";
 
 /**
  * Base class for all nodes that modify an existing AnimationSection.
- *
- * Mirrors EffectModifierNode but operates on the `animation` section type.
- * Subclasses provide `type`, `icon`, `defineInputs` (starting with
- * `this.animationInput`), optionally `states`, and implement `apply(section)`.
- * Inputs follow the skip-sentinel conventions: an input left at its default
- * value must not call its Sequencer method at all.
  */
 abstract class AnimationModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
