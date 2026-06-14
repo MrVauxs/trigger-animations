@@ -69,7 +69,7 @@ class StartNode extends TriggerNode<
 		return [
 			{
 				key: "actor",
-				type: "actor",
+				type: "target",
 				label: this.localize("io.actor")
 			},
 			{
