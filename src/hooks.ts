@@ -12,7 +12,7 @@ async function ready() {
 
 const hooks = {
 	"ready": Hooks.once("ready", ready),
-	"triggerEngine.registerApplication": Hooks.once("triggerEngine.registerApplication", async (r) => {
+	"triggerEngine.registerApplication": Hooks.on("triggerEngine.registerApplication", async (r, builtInKeys) => {
 		try {
 			const nodes = await import("./nodes/index");
 			const hooks = await import("./hooks/index");
@@ -32,13 +32,7 @@ const hooks = {
 				builtins: {
 					entries: true,
 					convertors: true,
-					nodes: [
-						"await-confirm", "console-log", "create-message", "delete-item",
-						"execute-script", "update-item", "if-truthy", "is-combatant", "list-contains",
-						"extract-actor", "extract-item", "actors-match", "break-loop", "compare-numbers",
-						"filter-targets", "format-text", "resolve-formula", "texts-match", "split-boolean",
-						"split-number", "split-text", "current-combatant", "scene-targets", "user-value"
-					],
+					nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
 				},
 			});
 		} catch (e) {
