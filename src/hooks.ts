@@ -1,6 +1,5 @@
 import { id, title } from "moduleJSON";
 import { dev } from "$lib/utils";
-import { API } from "./api";
 import type { TriggerEngine as T } from "trigger-engine/types";
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
