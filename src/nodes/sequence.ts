@@ -114,7 +114,7 @@ class StartNode extends TriggerNode<
 		];
 	}
 
-	override async _execute({ name, item, targets, sources, actor, options, ...args }: StartNodeOptions): Promise<boolean> {
+	override async _execute({ name, item, targets, sources, actor, options, userInputs }: StartNodeOptions): Promise<boolean> {
 		const animationName = await this.getInputValue("name")
 		const softFail = await this.getInputValue("softFail")
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
@@ -128,10 +128,9 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("item", item);
 		this.setOutputValue("options", options);
 
-		const entries = this.getCustomOutputs("path");
-		for (const { key, input } of entries) {
-			const value = typeof input === "string" ? foundry.utils.getProperty(args, input) : undefined;
-			this.setOutputValue(key, value);
+		const returnedValues = this.parseUserValues(userInputs).map((x) => x?.value);
+		if (returnedValues.length) {
+			this.setCustomOutputValues("path", returnedValues);
 		}
 
 		return this.executeNext("out")
@@ -145,6 +144,7 @@ type StartNodeOptions = {
 	targets?: TokenDocument[]
 	sources?: TokenDocument[]
 	options?: string[]
-} & Record<string, unknown>
+	userInputs: { type: string; value: any }[]
+}
 
 export { StartNode, type StartNodeOptions };
