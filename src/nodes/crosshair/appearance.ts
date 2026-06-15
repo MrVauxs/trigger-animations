@@ -25,6 +25,12 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 		return "cross-appearance";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"label", "icon", "borderColor", "fillColor", "texture", "gridHighlight"
+		])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf53f" }

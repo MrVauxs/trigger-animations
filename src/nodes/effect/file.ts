@@ -12,6 +12,10 @@ class FileNode extends EffectModifierNode<TInputs> {
 		return "file";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["baseFolder", "file", "setMustache"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf1c8" }

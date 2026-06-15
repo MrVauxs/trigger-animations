@@ -19,6 +19,10 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 		return "anim-opacity";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["opacity", "fadeIn", "fadeOut", "hide", "show"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf042" }

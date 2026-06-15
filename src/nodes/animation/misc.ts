@@ -12,6 +12,10 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 		return "anim-misc";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["duration", "tint", "preset"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf0ad" }

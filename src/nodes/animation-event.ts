@@ -128,7 +128,7 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("sources", sources);
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
-		if (options) this.setOutputValue("options", options.concat(foundNames.map((x) => `animation-name:${x.trim()}`)));
+		if (options) this.setOutputValue("options", options.concat(...foundNames.map((x) => `animation-name:${x.trim()}`)));
 
 		const returnedValues = this.parseUserValues(userInputs).map((x) => x?.value);
 		if (returnedValues.length) {

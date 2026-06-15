@@ -22,6 +22,12 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 		return "anim-move";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"offset", "closestSquare", "snapToGrid", "teleportTo", "moveTowards", "moveSpeed"
+		])
+	}
+
 	override get title(): string | null {
 		return `${this.localize("title")} (${this.state})`;
 	}

@@ -20,7 +20,7 @@ class CrosshairNode extends TriggerNode<
 	}
 
 	static override get tags() {
-		return ["animation"];
+		return ["animation", "crosshair"];
 	}
 
 	static override get category() {

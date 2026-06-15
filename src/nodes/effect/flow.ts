@@ -20,7 +20,7 @@ class FlowNode extends EffectModifierNode<TInputs> {
 	}
 
 	static override get tags() {
-		return super.tags.concat(...["timing", "time", "control", "delay", "wait", "repeat", "async", "playIf"])
+		return super.tags.concat(...["waitUntilFinished", "async", "delay", "repeats", "playIf"])
 	}
 
 	override get icon() {

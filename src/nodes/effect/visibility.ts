@@ -23,6 +23,13 @@ class VisibilityNode extends EffectModifierNode<TInputs> {
 		return "visibility";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"locally", "private", "xray", "constrainedByWalls", "forUsers",
+			"mask", "opacity", "fadeIn", "fadeOut"
+		])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf06e" }

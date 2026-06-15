@@ -29,6 +29,12 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 		return "scale";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"scale", "scaleToObject", "size", "spriteScale", "scaleIn", "scaleOut"
+		])
+	}
+
 	static override get states(): string[] | null {
 		return ["factor", "object", "size"];
 	}

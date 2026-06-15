@@ -19,6 +19,10 @@ class AnimationFlowNode extends AnimationModifierNode<TInputs> {
 		return "anim-flow";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["waitUntilFinished", "async", "delay", "repeats", "playIf"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf550" }

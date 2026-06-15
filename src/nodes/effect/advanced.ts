@@ -18,6 +18,10 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 		return "advanced";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["addOverride", "tieToDocuments", "syncGroup", "preset", "isometric"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf085" }

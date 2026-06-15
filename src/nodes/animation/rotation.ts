@@ -26,6 +26,12 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 		return "anim-rotation";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"rotate", "randomRotation", "rotateTowards", "rotateIn", "rotateOut"
+		])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf2f1" }

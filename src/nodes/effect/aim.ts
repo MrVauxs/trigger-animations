@@ -29,6 +29,12 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 		return "aim";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"missed", "moveTowards", "moveSpeed", "stretchTo", "rotateTowards"
+		])
+	}
+
 	static override get states(): string[] | null {
 		return ["stretchTo", "rotateTowards", "moveTowards"];
 	}

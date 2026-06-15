@@ -20,7 +20,7 @@ class PlayNode extends TriggerNode<
 	}
 
 	static override get tags() {
-		return ["animation"];
+		return ["animation", "play"];
 	}
 
 	static override get category() {

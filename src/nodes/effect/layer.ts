@@ -20,6 +20,13 @@ class LayerNode extends EffectModifierNode<TInputs> {
 		return "layer";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"belowTokens", "belowTiles", "aboveLighting", "aboveInterface",
+			"zIndex", "sortLayer", "elevation", "onLevels"
+		])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf5fd" }

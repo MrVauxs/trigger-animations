@@ -16,6 +16,10 @@ class AnimationAudioNode extends AnimationModifierNode<TInputs> {
 		return "anim-audio";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["volume", "fadeInAudio", "fadeOutAudio"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf028" }

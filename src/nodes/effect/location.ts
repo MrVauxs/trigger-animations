@@ -26,6 +26,13 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 		return "location";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...[
+			"atLocation", "attachTo", "snapToGrid", "screenSpace", "screenSpaceAboveUI",
+			"screenSpacePosition", "screenSpaceAnchor", "screenSpaceScale"
+		])
+	}
+
 	// World location and screen space are mutually exclusive, so screen space
 	// lives here as a third state rather than as its own node.
 	static override get states(): string[] | null {

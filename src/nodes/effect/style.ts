@@ -15,6 +15,10 @@ class StyleNode extends EffectModifierNode<TInputs> {
 		return "style";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["tint", "blendMode", "filter"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf53f" }

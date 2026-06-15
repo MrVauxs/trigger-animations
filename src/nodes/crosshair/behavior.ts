@@ -21,6 +21,10 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 		return "cross-behavior";
 	}
 
+	static override get tags() {
+		return super.tags.concat(...["location", "lockDrag", "lockManualRotation", "persist"])
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uf1de" }
