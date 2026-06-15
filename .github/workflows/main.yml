@@ -64,33 +64,7 @@ jobs:
           artifacts: "./module.json, ./module.zip"
           omitDraftDuringUpdate: true
           omitPrereleaseDuringUpdate: true
-      - name: Get FTP Path
-        id: ftp
-        run: echo "ftp=${{fromJson(steps.set_var.outputs.PACKAGE_JSON).flags.ftpPath}}" >> $GITHUB_OUTPUT
 
-      - name: Put Files into FTP Folder
-        env:
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        if: ${{ env.FTP_PASSWORD != '' }}
-        run: |
-          ls
-          mkdir _ftp
-          cp module.json _ftp/
-          cp module.zip _ftp/
-          mkdir _ftp/${{steps.module_id.outputs.module_id}}
-          cp module.json _ftp/${{steps.module_id.outputs.module_id}}/
-
-      - name: Upload FTP
-        uses: sebastianpopp/ftp-action@releases/v2
-        env:
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-        if: ${{ env.FTP_PASSWORD != '' }}
-        with:
-          host: ${{ secrets.FTP_SERVER }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ env.FTP_PASSWORD }}
-          localDir: _ftp
-          remoteDir: ${{steps.ftp.outputs.ftp}}
       - name: Send Discord Ping
         uses: Ilshidur/action-discord@0.3.2
         env:
