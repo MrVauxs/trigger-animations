@@ -96,7 +96,7 @@ class StartNode extends TriggerNode<
 				isArray: true,
 				label: this.localize("io.options.title"),
 				tooltip: this.localize("io.options.tooltip")
-			},
+			}
 		];
 	}
 
@@ -116,10 +116,11 @@ class StartNode extends TriggerNode<
 	}
 
 	override async _execute({ name, item, targets, sources, actor, options, userInputs }: StartNodeOptions): Promise<boolean> {
-		const animationName = await this.getInputValue("name")
+		const animationName = (await this.getInputValue("name")).split(",")
 		const softFail = await this.getInputValue("softFail")
+		const foundNames = animationName.filter((x) => x === name)
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
-		if (!name || (animationName !== name)) return true
+		if (!name || !foundNames.length) return true
 
 		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
 
@@ -127,7 +128,7 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("sources", sources);
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
-		this.setOutputValue("options", options);
+		if (options) this.setOutputValue("options", options.concat(foundNames.map((x) => `animation-name:${x.trim()}`)));
 
 		const returnedValues = this.parseUserValues(userInputs).map((x) => x?.value);
 		if (returnedValues.length) {

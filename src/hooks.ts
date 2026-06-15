@@ -26,7 +26,7 @@ const hooks = {
 					hooks: true,
 					entries: true,
 					convertors: true,
-					nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
+					nodes: true // builtInKeys.nodes.filter(x => !x.includes("event")),
 				}
 
 				devLog(

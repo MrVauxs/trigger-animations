@@ -1,1 +1,1 @@
-export * from './start';
+export * from './animation-event';

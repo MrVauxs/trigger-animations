@@ -1,4 +1,4 @@
-export * from "./sequence";
+export * from "./animation-event";
 export * from "./play";
 export * from "./effect/index";
 export * from "./animation/index";

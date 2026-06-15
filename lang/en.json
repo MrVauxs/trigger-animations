@@ -1193,7 +1193,7 @@
 					"io": {
 						"name": {
 							"title": "Name",
-							"tooltip": "The name of the animation, filtering which animations are triggered."
+							"tooltip": "Required name of the animation, filtering which animations are triggered. Comma separated for multiple animations."
 						},
 						"actor": {
 							"title": "Actor",
