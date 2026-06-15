@@ -145,7 +145,7 @@ type StartNodeOptions = {
 	targets?: TargetDocuments[]
 	sources?: TargetDocuments[]
 	options?: string[]
-	userInputs: { type: string; value: any }[]
+	userInputs: T.EmitableValue[]
 }
 
 export { StartNode, type StartNodeOptions };

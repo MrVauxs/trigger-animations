@@ -4,7 +4,7 @@ import { StartNodeOptions } from "../nodes";
 const { TriggerHook } = globalThis.triggerEngine;
 
 class StartHook extends TriggerHook {
-	static executePath = "triggerAnimations.api.run";
+	static executePath = "triggerAnimations.api.runFromTrigger";
 
 	override get events() {
 		return ['animation-event' as const];
