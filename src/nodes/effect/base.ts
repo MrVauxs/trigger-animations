@@ -100,6 +100,14 @@ abstract class EffectModifierNode<
 		}
 	}
 
+	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
+		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
+		if (typeof loc === "object" && "x" in loc && "y" in loc) {
+			return { x: (loc as Point).x, y: (loc as Point).y };
+		}
+		return this.getTargetToken(loc as TargetDocuments);
+	}
+
 	/**
 	 * Normalize an "any"-typed input into something Sequencer location
 	 * methods accept: a name string, a {x,y} point, or a document/placeable.

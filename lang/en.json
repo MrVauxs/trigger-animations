@@ -1195,6 +1195,10 @@
 							"title": "Name",
 							"tooltip": "The name of the animation, filtering which animations are triggered."
 						},
+						"actor": {
+							"title": "Actor",
+							"tooltip": "The origin actor of the animation."
+						},
 						"targets": "Targets",
 						"item": "Item",
 						"sources": "Sources",

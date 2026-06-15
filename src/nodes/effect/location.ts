@@ -4,7 +4,7 @@ import { EffectModifierNode } from "./base";
 
 type LocationKind = {
 	points: { x: number; y: number };
-	targets: { actor: Actor; token?: TokenDocument | null };
+	targets: TargetDocuments;
 };
 
 type TInputs = {
@@ -97,20 +97,18 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 			return;
 		}
 
-		const location = await this.getInputValue("location");
+		const location = this.getLocation(await this.getInputValue("location"));
 		if (location) {
 			const gridUnits = await this.getInputValue("gridUnits");
 			if (this.state === "targets") {
-				const target = location as LocationKind["targets"];
-				if (!target.token) {
-					devLog(`[${this.type}] target has no token; skipping location`);
-				} else if (await this.getInputValue("attachTo")) {
-					effect.attachTo(target.token, { gridUnits });
+				const target = location;
+				if (await this.getInputValue("attachTo")) {
+					effect.attachTo(target, { gridUnits });
 				} else {
-					effect.atLocation(target.token, { gridUnits });
+					effect.atLocation(target, { gridUnits });
 				}
 			} else {
-				effect.atLocation(location as LocationKind["points"], { gridUnits });
+				effect.atLocation(location, { gridUnits });
 			}
 		}
 

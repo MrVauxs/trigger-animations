@@ -9,9 +9,9 @@ type TInputs = {
 	softFail: boolean
 }
 type TOutputs = {
-	actor?: Actor
-	targets?: { actor: Actor; token?: TokenDocument | null }[]
-	sources?: { actor: Actor; token?: TokenDocument | null }[]
+	actor?: TargetDocuments
+	targets?: TargetDocuments[]
+	sources?: TargetDocuments[]
 	item?: Item,
 	options?: string[]
 } & Record<string, unknown>
@@ -70,7 +70,8 @@ class StartNode extends TriggerNode<
 			{
 				key: "actor",
 				type: "target",
-				label: this.localize("io.actor")
+				label: this.localize("io.actor.title"),
+				tooltip: this.localize("io.actor.tooltip")
 			},
 			{
 				key: "targets",
@@ -122,8 +123,8 @@ class StartNode extends TriggerNode<
 
 		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
 
-		this.setOutputValue("targets", targets?.map(x => ({ actor: x.actor!, token: x })));
-		this.setOutputValue("sources", sources?.map(x => ({ actor: x.actor!, token: x })));
+		this.setOutputValue("targets", targets);
+		this.setOutputValue("sources", sources);
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
 		this.setOutputValue("options", options);
@@ -139,10 +140,10 @@ class StartNode extends TriggerNode<
 
 type StartNodeOptions = {
 	name: string;
-	actor?: Actor
+	actor?: TargetDocuments;
 	item?: Item;
-	targets?: TokenDocument[]
-	sources?: TokenDocument[]
+	targets?: TargetDocuments[]
+	sources?: TargetDocuments[]
 	options?: string[]
 	userInputs: { type: string; value: any }[]
 }

@@ -20,7 +20,7 @@
 		"postcss-preset-env": "^10.6.0",
 		"sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
 		"terser": "^5.46.0",
-		"trigger-engine": "https://github.com/reonZ/trigger-engine#1.10.0",
+		"trigger-engine": "https://github.com/reonZ/trigger-engine#1.11.0",
 		"typescript": "^6.0.3",
 		"vite": "^7.3.0"
 	},

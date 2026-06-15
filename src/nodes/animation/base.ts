@@ -84,14 +84,20 @@ abstract class AnimationModifierNode<
 		if (!value) return undefined;
 		if (typeof value === "string") return value.trim() || undefined;
 		if (typeof value !== "object") return undefined;
-		const obj = value as Record<string, unknown>;
+		const obj = value as Record<string, any>;
 		// A target entry wrapper, as opposed to a raw document (which has x/y).
 		if ("actor" in obj && !("x" in obj)) {
-			if (obj.token) return obj.token as object;
-			devLog(`[${this.type}] target has no token; skipping`);
-			return undefined;
+			return this.getTargetToken(obj as TargetDocuments);
 		}
 		return obj;
+	}
+
+	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
+		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
+		if (typeof loc === "object" && "x" in loc && "y" in loc) {
+			return { x: (loc as Point).x, y: (loc as Point).y };
+		}
+		return this.getTargetToken(loc as TargetDocuments);
 	}
 
 	protected abstract apply(section: AnimationSection): Promise<void> | void;

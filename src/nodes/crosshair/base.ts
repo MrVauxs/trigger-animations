@@ -62,6 +62,14 @@ abstract class CrosshairModifierNode<
 
 	protected abstract apply(section: CrosshairSection): Promise<void> | void;
 
+	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
+		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
+		if (typeof loc === "object" && "x" in loc && "y" in loc) {
+			return { x: (loc as Point).x, y: (loc as Point).y };
+		}
+		return this.getTargetToken(loc as TargetDocuments);
+	}
+
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 		const crosshair = await this.getInputValue("crosshair");

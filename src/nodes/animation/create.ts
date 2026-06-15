@@ -4,7 +4,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
-	target?: { actor: Actor; token?: TokenDocument | null };
+	target?: TargetDocuments;
 }
 type TOutputs = {
 	animation?: AnimationSection;
@@ -73,8 +73,9 @@ class AnimationNode extends TriggerNode<
 		const animation = sequence.animation();
 		this.setOutputValue("animation", animation);
 
-		const target = await this.getInputValue("target");
-		if (target?.token) animation.on(target.token);
+		const targetInput = await this.getInputValue("target");
+		const target = this.getTargetToken(targetInput);
+		if (target) animation.on(target);
 		else if (target) devLog(`[${this.type}] target has no token; nothing to animate`);
 
 		g.log("Animation Node", { sequence, target, animation });

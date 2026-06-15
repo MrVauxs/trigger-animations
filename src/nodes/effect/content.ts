@@ -7,7 +7,7 @@ type TInputs = {
 	textStyle: string;
 	shapeType: Shapes;
 	shapeOptions: string;
-	from: { actor: Actor; token?: TokenDocument | null };
+	from: TargetDocuments;
 	cacheLocation: boolean;
 	gridUnits: boolean;
 	local: boolean;

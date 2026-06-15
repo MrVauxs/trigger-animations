@@ -12,10 +12,10 @@ class API {
 	async endAllAnimation(scene: string) {
 		return Sequencer.EffectManager.endAllEffects(scene)
 	}
+	async runFromTrigger(data: StartNodeOptions): Promise<void> { };
 }
 
-interface API {
-	run(data: StartNodeOptions): Promise<void>;
-}
+export const api = new API();
 
-export { API };
+// Expose the API on the module's global namespace
+globalThis.triggerAnimations = { api };

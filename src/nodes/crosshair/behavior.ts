@@ -3,7 +3,7 @@ import { CrosshairModifierNode } from "./base";
 import { WALL_BEHAVIOR_OPTIONS } from "./constants";
 
 type TInputs = {
-	location: { actor: Actor; token?: TokenDocument | null };
+	location: TargetDocuments;
 	limitMinRange: number;
 	limitMaxRange: number;
 	showRange: boolean;
@@ -67,8 +67,9 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 	}
 
 	protected override async apply(section: CrosshairSection): Promise<void> {
-		const location = await this.getInputValue("location");
-		if (location?.token) {
+
+		const location = this.getLocation(await this.getInputValue("location"));
+		if (location) {
 			const opts: Record<string, unknown> = {
 				showRange: await this.getInputValue("showRange"),
 				lockToEdge: await this.getInputValue("lockToEdge"),
@@ -81,7 +82,7 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 			if (max > 0) opts.limitMaxRange = max;
 			const offset = await this.getInputValue("offset");
 			if (offset && (offset.x !== 0 || offset.y !== 0)) opts.offset = offset;
-			section.location(location.token, opts);
+			section.location(location, opts);
 		}
 
 		// lockDrag defaults true in Sequencer, let the user turn it off.

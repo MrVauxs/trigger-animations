@@ -1,13 +1,14 @@
 import { id, title } from "moduleJSON";
-import { dev } from "$lib/utils";
+import { dev, devLog } from "$lib/utils";
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { api } from "./api";
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
 
 async function ready() {
 	if (dev) {
 		ui.notifications.info(`${title} is ready!`);
-		console.log("Result", await triggerAnimations.api.openBlueprint());
+		console.log("Result", await api.openBlueprint());
 	}
 }
 
@@ -20,6 +21,24 @@ const hooks = {
 				const nodes = await import("./nodes/index");
 				const hooks = await import("./hooks/index");
 				const entries = await import("./entries/index");
+
+				const builtins: NonNullable<Parameters<typeof r>[2]>['builtins'] = {
+					hooks: true,
+					entries: true,
+					convertors: true,
+					nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
+				}
+
+				devLog(
+					"Registering trigger-animations application",
+					{
+						nodes: Object.keys(nodes),
+						hooks: Object.keys(hooks),
+						entries: Object.keys(entries),
+						builtins
+					}
+				)
+
 				r(id, id, {
 					mode: "setting",
 					/*
@@ -32,11 +51,7 @@ const hooks = {
 					entries: Object.values(entries) as (typeof T.NodeEntry)[],
 					nodes: Object.values(nodes) as (typeof T.TriggerNode)[],
 					hooks: Object.values(hooks) as (typeof T.TriggerHook)[],
-					builtins: {
-						entries: true,
-						convertors: true,
-						nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
-					},
+					builtins,
 				});
 			} catch (e) {
 				ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
