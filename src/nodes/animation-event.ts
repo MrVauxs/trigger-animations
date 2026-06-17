@@ -1,5 +1,5 @@
 import { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { devLog, log } from "$lib/utils";
 import { id } from 'moduleJSON';
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -116,19 +116,24 @@ class StartNode extends TriggerNode<
 	}
 
 	override async _execute({ name, item, targets, sources, actor, options, userInputs }: StartNodeOptions): Promise<boolean> {
+		// ["bow", "shortbow", "longbow"]
 		const animationName = (await this.getInputValue("name")).split(",")
+		const givenNames = name.split(",").map(x => x.trim());
 		const softFail = await this.getInputValue("softFail")
-		const matchesPattern = (pattern: string) => {
-			pattern = pattern.trim()
+		const matchesPattern = (candidate: string) => {
+			candidate = candidate.trim()
 			// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
-			if (pattern === "*") return true
-			if (!pattern.includes("*")) return pattern === name
-			const regex = new RegExp("^" + pattern.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$")
+			if (candidate === "*") return true
+			if (!candidate.includes("*")) return givenNames.includes(candidate)
+			const regex = new RegExp("^" + candidate.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$")
 			return regex.test(name)
 		}
 		const foundNames = animationName.filter(matchesPattern)
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
-		if (!name || !foundNames.length) return true
+		if (!name || !foundNames.length) {
+			devLog(`Skipping animation ${name} because it does not match the event name ${animationName}.`)
+			return true
+		}
 
 		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
 
