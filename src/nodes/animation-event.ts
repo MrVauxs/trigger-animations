@@ -130,10 +130,8 @@ class StartNode extends TriggerNode<
 		}
 		const foundNames = animationName.filter(matchesPattern)
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
-		if (!name || !foundNames.length) {
-			devLog(`Skipping animation ${name} because it does not match the event name ${animationName}.`)
-			return true
-		}
+		if (!name || !foundNames.length) return true;
+		devLog(`Found ${foundNames.join(", ")}, playing ${this.triggerName}`);
 
 		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
 
