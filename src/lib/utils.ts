@@ -13,8 +13,12 @@ export function isValidUpdater(data: Document, update?: Record<string, unknown>)
 	return game.users.getDesignatedUser((u => data.canUserModify(u, "update", update)))?.isSelf || false;
 }
 
+export function log(...args: unknown[]): void {
+	console.log("\x1B[1;31mTrigger-Animations:", ...args)
+}
+
 export function devLog(...args: unknown[]): void {
-	if (dev) console.log("\x1B[1;31mTrigger-Animations:", ...args);
+	if (dev) log(...args);
 }
 
 export function moduleError(...args: unknown[]): void {

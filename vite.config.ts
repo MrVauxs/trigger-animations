@@ -48,7 +48,7 @@ export default defineConfig(({ command }) => {
 			open: "/game",
 			proxy: {
 				// Serves static files from main Foundry server.
-				[`^(/${PACKAGE_ID}/(assets|lang|packs))`]: `http://localhost:${foundryPort}`,
+				[`^(/${PACKAGE_ID}/(assets|lang|packs|static))`]: `http://localhost:${foundryPort}`,
 
 				// All other paths besides package ID path are served from main Foundry server.
 				[`^(?!/${PACKAGE_ID}/)`]: `http://localhost:${foundryPort}`,

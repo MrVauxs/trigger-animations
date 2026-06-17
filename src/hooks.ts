@@ -1,5 +1,5 @@
 import { id, title } from "moduleJSON";
-import { dev, devLog } from "$lib/utils";
+import { dev, devLog, log } from "$lib/utils";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { api } from "./api";
 
@@ -60,10 +60,15 @@ const hooks = {
 		}
 	),
 	"triggerEngine.registerTriggers": Hooks.once("triggerEngine.registerTriggers", (registerTriggers) => {
+		log(`Registering triggers for trigger-engine`)
+		registerTriggers("trigger-engine", "pf2e-trigger", "modules/trigger-animations/static/pf2e-triggers.json");
+
 		for (const mod of game.modules) {
 			if (!mod.active) continue;
 			const flag = (mod?.flags?.['trigger-animations'] as { triggers: string })?.triggers;
-			if (flag) registerTriggers(id, id, flag);
+			if (!flag) continue;
+			log(`Registering triggers for ${mod.id}`, flag)
+			registerTriggers(id, id, flag);
 		}
 	})
 };

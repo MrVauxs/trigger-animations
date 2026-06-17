@@ -3,7 +3,9 @@
 	"trigger-animations": {
 		"trigger-animations": {
 		"setting": {
-			"name": "Trigger Animations"
+			"name": "Trigger Animations",
+			"hint": "Register your triggers within the module.",
+			"label": "Register Triggers"
 		},
 		"io": {
 			"effect": {
