@@ -45,7 +45,7 @@
             "path": "lang/en.json"
         }
     ],
-	"library": true,
+	"library": false,
 	"flags": {
 		"trigger-animations": {
 			"triggers": "modules/trigger-animations/static/animations.json"

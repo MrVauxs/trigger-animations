@@ -2,6 +2,9 @@ import { id, title } from "moduleJSON";
 import { dev, devLog, log } from "$lib/utils";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { api } from "./api";
+import * as tNodes from "./nodes"
+import * as tHooks from "./hooks"
+import * as tEntries from "./entries"
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
 
@@ -16,12 +19,8 @@ const hooks = {
 	"ready": Hooks.once("ready", ready),
 	"triggerEngine.registerApplication": Hooks.on(
 		"triggerEngine.registerApplication",
-		async (r: typeof T.TriggerApplication.register, builtInKeys: BuiltInKeys) => {
+		(r: typeof T.TriggerApplication.register, builtInKeys: BuiltInKeys) => {
 			try {
-				const nodes = await import("./nodes/index");
-				const hooks = await import("./hooks/index");
-				const entries = await import("./entries/index");
-
 				const builtins: NonNullable<Parameters<typeof r>[2]>['builtins'] = {
 					// hooks: true,
 					entries: true,
@@ -32,9 +31,9 @@ const hooks = {
 				devLog(
 					"Registering trigger-animations application",
 					{
-						nodes: Object.keys(nodes),
-						hooks: Object.keys(hooks),
-						entries: Object.keys(entries),
+						nodes: Object.keys(tNodes),
+						hooks: Object.keys(tHooks),
+						entries: Object.keys(tEntries),
 						builtins
 					}
 				)
@@ -48,9 +47,9 @@ const hooks = {
 						set: () => {}
 					},
 					*/
-					entries: Object.values(entries) as (typeof T.NodeEntry)[],
-					nodes: Object.values(nodes) as (typeof T.TriggerNode)[],
-					hooks: Object.values(hooks) as (typeof T.TriggerHook)[],
+					entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
+					nodes: Object.values(tNodes) as (typeof T.TriggerNode)[],
+					hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
 					builtins,
 				});
 			} catch (e) {
