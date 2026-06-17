@@ -59,6 +59,13 @@ const hooks = {
 			}
 		}
 	),
+	"triggerEngine.registerTriggers": Hooks.once("triggerEngine.registerTriggers", (registerTriggers) => {
+		for (const mod of game.modules) {
+			if (!mod.active) continue;
+			const flag = (mod?.flags?.['trigger-animations'] as { triggers: string })?.triggers;
+			if (flag) registerTriggers(id, id, flag);
+		}
+	})
 };
 
 // Hot Module Replacement (HMR) used in development mode.
