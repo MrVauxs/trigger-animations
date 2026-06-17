@@ -1,4 +1,4 @@
-import { devGroup, devLog } from "$lib/utils";
+import { dev, devGroup, devLog } from "$lib/utils";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { EASE_OPTIONS } from "./constants";
 
@@ -134,7 +134,18 @@ abstract class EffectModifierNode<
 		const effect = await this.getInputValue("effect");
 		if (effect) {
 			await this.apply(effect as EffectSection);
-			g.log("applied", { effect });
+			if (dev) {
+				const definedInputs = (this.constructor as typeof TriggerNode).defineInputs;
+				const inputs = Object.fromEntries(
+					await Promise.all(
+						(definedInputs ?? []).map(async (x) => [
+							x.key,
+							await this.getInputValue(x.key),
+						] as const),
+					),
+				);
+				g.log("applied", { effect, inputs });
+			}
 		} else {
 			g.log("no effect connected; skipping");
 		}
