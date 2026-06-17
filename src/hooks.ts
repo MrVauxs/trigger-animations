@@ -23,10 +23,10 @@ const hooks = {
 				const entries = await import("./entries/index");
 
 				const builtins: NonNullable<Parameters<typeof r>[2]>['builtins'] = {
-					hooks: true,
+					// hooks: true,
 					entries: true,
 					convertors: true,
-					nodes: true // builtInKeys.nodes.filter(x => !x.includes("event")),
+					nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
 				}
 
 				devLog(
