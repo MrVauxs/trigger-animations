@@ -118,7 +118,15 @@ class StartNode extends TriggerNode<
 	override async _execute({ name, item, targets, sources, actor, options, userInputs }: StartNodeOptions): Promise<boolean> {
 		const animationName = (await this.getInputValue("name")).split(",")
 		const softFail = await this.getInputValue("softFail")
-		const foundNames = animationName.filter((x) => x === name)
+		const matchesPattern = (pattern: string) => {
+			pattern = pattern.trim()
+			// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
+			if (pattern === "*") return true
+			if (!pattern.includes("*")) return pattern === name
+			const regex = new RegExp("^" + pattern.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$")
+			return regex.test(name)
+		}
+		const foundNames = animationName.filter(matchesPattern)
 		// If there is no name provided or the event name does not match the animation name, skip the animation.
 		if (!name || !foundNames.length) return true
 
@@ -128,7 +136,8 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("sources", sources);
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
-		if (options) this.setOutputValue("options", options.concat(...foundNames.map((x) => `animation-name:${x.trim()}`)));
+
+		if (options) this.setOutputValue("options", options.concat(`animation-name:${name}`));
 
 		const returnedValues = this.parseUserValues(userInputs).map((x) => x?.value);
 		if (returnedValues.length) {
