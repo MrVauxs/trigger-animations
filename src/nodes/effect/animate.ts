@@ -73,7 +73,7 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				type: "text",
 				...this.io("values"),
 				state: "loop",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{
 				key: "loops",

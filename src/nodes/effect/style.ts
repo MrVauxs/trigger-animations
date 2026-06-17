@@ -46,7 +46,7 @@ class StyleNode extends EffectModifierNode<TInputs> {
 				type: "text",
 				...this.io("filterData"),
 				group: "filter",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{ key: "filterName", type: "text", ...this.io("filterName"), group: "filter" }
 		];

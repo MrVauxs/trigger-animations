@@ -75,7 +75,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				type: "text",
 				...this.io("scale"),
 				state: "screenSpace",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			}
 		];
 	}

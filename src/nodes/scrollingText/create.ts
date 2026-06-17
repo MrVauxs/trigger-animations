@@ -50,7 +50,7 @@ class ScrollingTextNode extends TriggerNode<
 				key: "textStyle",
 				type: "text",
 				...this.io("textStyle"),
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			}
 		];
 	}

@@ -58,7 +58,7 @@ class MacroNode extends TriggerNode<
 				key: "args",
 				type: "text",
 				...this.io("args"),
-				field: { type: "json", width: 160, default: DEFAULT_ARGS }
+				field: { type: "json", default: DEFAULT_ARGS }
 			}
 		];
 	}

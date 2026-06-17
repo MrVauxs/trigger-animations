@@ -42,13 +42,13 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{
 				key: "override",
 				type: "text",
 				...this.io("override"),
-				field: { type: "javascript", width: 160 }
+				field: { type: "javascript" }
 			}
 		];
 	}

@@ -33,7 +33,7 @@ class ScrollingTextTextNode extends ScrollingTextModifierNode<TInputs> {
 				key: "textStyle",
 				type: "text",
 				...this.io("textStyle"),
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{
 				key: "anchor",

@@ -30,7 +30,7 @@ class FileNode extends EffectModifierNode<TInputs> {
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			}
 		];
 	}

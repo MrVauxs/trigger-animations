@@ -34,7 +34,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				key: "override",
 				type: "text",
 				...this.io("override"),
-				field: { type: "javascript", width: 160 }
+				field: { type: "javascript" }
 			},
 			{ key: "tieTo", type: "text", ...this.io("tieTo") },
 			{ key: "tieToDocs", type: "any", isArray: true, ...this.io("tieToDocs") },
@@ -45,7 +45,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				type: "text",
 				...this.io("presetArgs"),
 				group: "preset",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{ key: "isometric", type: "boolean", ...this.io("isometric"), group: "isometric" },
 			{

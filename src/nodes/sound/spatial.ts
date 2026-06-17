@@ -153,7 +153,7 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 				key: "levels",
 				type: "text",
 				...this.io("levels"),
-				field: { type: "text", width: 160 }
+				field: { type: "text" }
 			}
 		];
 	}

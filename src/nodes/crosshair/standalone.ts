@@ -147,7 +147,7 @@ class CrosshairPickNode extends TriggerNode<
 				type: "text",
 				label: this.localize("io.config.title"),
 				tooltip: this.localize("io.config.tooltip"),
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			}
 		];
 	}

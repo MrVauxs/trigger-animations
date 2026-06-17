@@ -53,7 +53,7 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 				type: "text",
 				...this.io("textStyle"),
 				state: "text",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{
 				key: "shapeType",
@@ -67,7 +67,7 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 				type: "text",
 				...this.io("shapeOptions"),
 				state: "shape",
-				field: { type: "json", width: 160 }
+				field: { type: "json" }
 			},
 			{ key: "from", type: "target", ...this.io("from"), state: "copySprite" },
 			{
