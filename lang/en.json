@@ -661,7 +661,7 @@
 						},
 						"requiresLineOfSight": {
 							"title": "Requires Line Of Sight",
-							"tooltip": "Skips the effect if walls block the line to the target."
+							"tooltip": "Skips the effect if walls block the line to the target. Requires Attach To."
 						},
 						"hideLineOfSight": {
 							"title": "Hide Behind Walls",
