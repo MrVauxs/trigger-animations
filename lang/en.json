@@ -22,6 +22,10 @@
 				"title": "Sound",
 				"tooltip": "The individual Sound section that can be modified by other nodes regardless of order."
 			},
+			"scrollingText": {
+				"title": "Scrolling Text",
+				"tooltip": "The individual Scrolling Text section that can be modified by other nodes regardless of order."
+			},
 			"ease": {
 				"title": "Ease",
 				"tooltip": "The easing function used for the animation."
@@ -1535,6 +1539,9 @@
 			},
 			"sound": {
 				"title": "Sound"
+			},
+			"scrollingText": {
+				"title": "Scrolling Text"
 			}
 		}
 	}}
