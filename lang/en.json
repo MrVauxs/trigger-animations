@@ -26,6 +26,10 @@
 				"title": "Scrolling Text",
 				"tooltip": "The individual Scrolling Text section that can be modified by other nodes regardless of order."
 			},
+			"canvasPan": {
+				"title": "Canvas Pan",
+				"tooltip": "The individual Canvas Pan section that can be modified by other nodes regardless of order."
+			},
 			"ease": {
 				"title": "Ease",
 				"tooltip": "The easing function used for the animation."
@@ -224,6 +228,28 @@
 						"sound": {
 							"title": "Sound",
 							"tooltip": "The individual Sound section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"canvas-pan": {
+					"title": "Canvas Pan",
+					"subtitle": "Starts a Sequencer canvas pan section",
+					"io": {
+						"target": {
+							"title": "Target",
+							"tooltip": "The token or point to pan the camera to."
+						},
+						"duration": {
+							"title": "Duration",
+							"tooltip": "How long the pan takes, in milliseconds. Leave at 0 for the default."
+						},
+						"scale": {
+							"title": "Scale",
+							"tooltip": "The zoom level at the destination. Leave at 0 to keep the current zoom."
+						},
+						"canvasPan": {
+							"title": "Canvas Pan",
+							"tooltip": "The individual Canvas Pan section that can be modified by other nodes regardless of order."
 						}
 					}
 				},
@@ -1490,6 +1516,130 @@
 					}
 				}
 			},
+			"canvasPan": {
+				"pan-flow": {
+					"title": "Flow",
+					"subtitle": "Sequencing, repeats and conditions",
+					"group": {
+						"wait": "Wait Until Finished",
+						"delay": "Delay",
+						"repeat": "Repeats"
+					},
+					"io": {
+						"playIf": {
+							"title": "Play If",
+							"tooltip": "The pan only plays when this is true. Defaults to true."
+						},
+						"async": {
+							"title": "Async",
+							"tooltip": "Waits for each repetition to finish before the next one starts."
+						},
+						"waitUntilFinished": {
+							"title": "Wait Until Finished",
+							"tooltip": "Pauses the whole sequence until the pan finishes before continuing."
+						},
+						"waitDelayMin": {
+							"title": "Min Wait",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used."
+						},
+						"waitDelayMax": {
+							"title": "Max Wait",
+							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
+						},
+						"delayMin": {
+							"title": "Min Delay",
+							"tooltip": "Delay (ms) before the pan plays. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"delayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random play delay. Leave at 0 for a fixed delay."
+						},
+						"repeats": {
+							"title": "Repeats",
+							"tooltip": "How many times to repeat the pan. Leave at 0 to skip."
+						},
+						"repeatDelayMin": {
+							"title": "Min Repeat Delay",
+							"tooltip": "Delay (ms) between repetitions. With a max set, a random value between the two is used."
+						},
+						"repeatDelayMax": {
+							"title": "Max Repeat Delay",
+							"tooltip": "Upper bound (ms) for a random delay between repetitions. Leave at 0 for a fixed delay."
+						},
+						"preset": {
+							"title": "Preset",
+							"tooltip": "Applies a registered preset by name. Leave empty to skip."
+						}
+					}
+				},
+				"pan-place": {
+					"title": "Placement",
+					"subtitle": "Where to pan and who sees it",
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "The token or point to pan the camera to. Leave unconnected to skip."
+						},
+						"locally": {
+							"title": "Locally",
+							"tooltip": "Pans the camera only on the current client."
+						},
+						"users": {
+							"title": "Users",
+							"tooltip": "Restricts the pan to these users. Leave unconnected to pan for everyone."
+						}
+					}
+				},
+				"pan-control": {
+					"title": "Control",
+					"subtitle": "Speed, zoom, lock and shake",
+					"group": {
+						"shake": "Shake"
+					},
+					"io": {
+						"speed": {
+							"title": "Speed",
+							"tooltip": "Pan speed in pixels per frame. Leave at 0 to use the duration instead."
+						},
+						"scale": {
+							"title": "Scale",
+							"tooltip": "The zoom level at the destination. Leave at 0 to keep the current zoom."
+						},
+						"lockView": {
+							"title": "Lock View",
+							"tooltip": "Locks the camera at the destination for this many milliseconds. Leave at 0 to skip."
+						},
+						"shake": {
+							"title": "Shake",
+							"tooltip": "Shakes the camera. Enable to use the shake settings below."
+						},
+						"shakeDuration": {
+							"title": "Duration",
+							"tooltip": "How long the shake lasts, in milliseconds."
+						},
+						"shakeStrength": {
+							"title": "Strength",
+							"tooltip": "Maximum shake offset in pixels."
+						},
+						"shakeFrequency": {
+							"title": "Frequency",
+							"tooltip": "How often the shake changes direction, in milliseconds."
+						},
+						"shakeFadeIn": {
+							"title": "Fade In",
+							"tooltip": "How long the shake takes to ramp up, in milliseconds."
+						},
+						"shakeFadeOut": {
+							"title": "Fade Out",
+							"tooltip": "How long the shake takes to settle, in milliseconds."
+						},
+						"shakeRotation": {
+							"title": "Rotation",
+							"tooltip": "Also rotates the camera slightly while shaking. On by default."
+						}
+					}
+				}
+			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
@@ -1542,6 +1692,9 @@
 			},
 			"scrollingText": {
 				"title": "Scrolling Text"
+			},
+			"canvasPan": {
+				"title": "Canvas Pan"
 			}
 		}
 	}}

@@ -5,4 +5,5 @@ export * from "./animation/index";
 export * from "./crosshair/index";
 export * from "./sound/index";
 export * from "./scrollingText/index";
+export * from "./canvasPan/index";
 export * from "./logic/index";
