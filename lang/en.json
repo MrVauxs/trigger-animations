@@ -18,6 +18,10 @@
 				"title": "Crosshair",
 				"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
 			},
+			"sound": {
+				"title": "Sound",
+				"tooltip": "The individual Sound section that can be modified by other nodes regardless of order."
+			},
 			"ease": {
 				"title": "Ease",
 				"tooltip": "The easing function used for the animation."
@@ -198,6 +202,24 @@
 						"crosshair": {
 							"title": "Crosshair",
 							"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
+				"sound": {
+					"title": "Sound",
+					"subtitle": "Starts a Sequencer sound section",
+					"io": {
+						"file": {
+							"title": "File",
+							"tooltip": "Sound file path (a raw path or a Sequencer database path). Can also be set with the File node."
+						},
+						"name": {
+							"title": "Name",
+							"tooltip": "Stores the sound's position so later sections can reference it by name."
+						},
+						"sound": {
+							"title": "Sound",
+							"tooltip": "The individual Sound section that can be modified by other nodes regardless of order."
 						}
 					}
 				},
@@ -1187,6 +1209,283 @@
 					}
 				}
 			},
+			"sound": {
+				"snd-file": {
+					"title": "File",
+					"subtitle": "Sets what sound files to play",
+					"io": {
+						"file": {
+							"title": "File",
+							"tooltip": "Sound file path or array (raw path or Sequencer database path). Leave empty to skip."
+						},
+						"baseFolder": {
+							"title": "Base Folder",
+							"tooltip": "A folder path prepended to relative file paths. Leave empty to skip."
+						},
+						"mustache": {
+							"title": "Mustache",
+							"tooltip": "A JSON object of values substituted into the file path using Handlebars syntax. Leave empty to skip."
+						},
+						"override": {
+							"title": "Override",
+							"tooltip": "JavaScript run before the sound plays. Receives (sound, data) and must return data. Leave empty to skip."
+						}
+					}
+				},
+				"snd-flow": {
+					"title": "Flow",
+					"subtitle": "Sequencing, repeats and conditions",
+					"group": {
+						"wait": "Wait Until Finished",
+						"delay": "Delay",
+						"repeat": "Repeats"
+					},
+					"io": {
+						"playIf": {
+							"title": "Play If",
+							"tooltip": "The sound only plays when this is true. Defaults to true."
+						},
+						"async": {
+							"title": "Async",
+							"tooltip": "Waits for each repetition to finish before the next one starts."
+						},
+						"waitUntilFinished": {
+							"title": "Wait Until Finished",
+							"tooltip": "Pauses the whole sequence until this sound finishes before continuing."
+						},
+						"waitDelayMin": {
+							"title": "Min Wait",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used."
+						},
+						"waitDelayMax": {
+							"title": "Max Wait",
+							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
+						},
+						"delayMin": {
+							"title": "Min Delay",
+							"tooltip": "Delay (ms) before the sound plays. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"delayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random play delay. Leave at 0 for a fixed delay."
+						},
+						"repeats": {
+							"title": "Repeats",
+							"tooltip": "How many times to repeat the sound. Leave at 0 to skip."
+						},
+						"repeatDelayMin": {
+							"title": "Min Repeat Delay",
+							"tooltip": "Delay (ms) between repetitions. With a max set, a random value between the two is used."
+						},
+						"repeatDelayMax": {
+							"title": "Max Repeat Delay",
+							"tooltip": "Upper bound (ms) for a random delay between repetitions. Leave at 0 for a fixed delay."
+						},
+						"preset": {
+							"title": "Preset",
+							"tooltip": "Applies a registered preset by name. Leave empty to skip."
+						}
+					}
+				},
+				"snd-timing": {
+					"title": "Timing",
+					"subtitle": "Duration and playback range",
+					"states": {
+						"milliseconds": "Milliseconds",
+						"percentage": "Percentage"
+					},
+					"io": {
+						"startTime": {
+							"title": "Start Time",
+							"tooltip": "Skips to this millisecond position within the sound. Leave at 0 to skip."
+						},
+						"endTime": {
+							"title": "End Time",
+							"tooltip": "Stops the sound at this millisecond position. Leave at 0 to skip."
+						},
+						"startPerc": {
+							"title": "Start %",
+							"tooltip": "Skips to this fraction (0-1) of the sound's duration. Leave at 0 to skip."
+						},
+						"endPerc": {
+							"title": "End %",
+							"tooltip": "Stops the sound at this fraction (0-1) of its duration. Leave at 0 to skip."
+						}
+					}
+				},
+				"snd-volume": {
+					"title": "Volume",
+					"subtitle": "Volume and audio fades",
+					"group": {
+						"fadeIn": "Fade In",
+						"fadeOut": "Fade Out"
+					},
+					"io": {
+						"volume": {
+							"title": "Volume",
+							"tooltip": "Audio volume from 0 to 1. Leave at -1 to skip."
+						}
+					}
+				},
+				"snd-location": {
+					"title": "Location",
+					"subtitle": "Where the sound plays from",
+					"states": {
+						"atLocation": "At Location",
+						"attachTo": "Attach To"
+					},
+					"group": {
+						"toLocation": "To Location",
+						"move": "Move Towards"
+					},
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "The token or point the sound plays from. Leave unconnected to play globally."
+						},
+						"bindVisibility": {
+							"title": "Bind Visibility",
+							"tooltip": "Mutes the sound while the attached object is hidden. On by default."
+						},
+						"bindElevation": {
+							"title": "Bind Elevation",
+							"tooltip": "Tracks the attached object's elevation. On by default."
+						},
+						"toTarget": {
+							"title": "To Location",
+							"tooltip": "A second location used to pick a database range-finding sound. Leave unconnected to skip."
+						},
+						"moveTowards": {
+							"title": "Move Towards",
+							"tooltip": "A destination the sound moves towards. Leave unconnected to skip."
+						},
+						"moveSpeed": {
+							"title": "Move Speed",
+							"tooltip": "Movement speed in pixels per frame. Leave at 0 to use the duration instead."
+						}
+					}
+				},
+				"snd-spatial": {
+					"title": "Spatial",
+					"subtitle": "Positional audio and effects",
+					"group": {
+						"pan": "Pan",
+						"baseEffect": "Base Effect",
+						"muffledEffect": "Muffled Effect",
+						"elevation": "Elevation"
+					},
+					"io": {
+						"radius": {
+							"title": "Radius",
+							"tooltip": "Radius in grid units the sound plays within. Leave at 0 to skip."
+						},
+						"constrainedByWalls": {
+							"title": "Constrained By Walls",
+							"tooltip": "Fully blocks the sound with walls."
+						},
+						"distanceEasing": {
+							"title": "Distance Easing",
+							"tooltip": "Eases the volume by distance from the origin. On by default."
+						},
+						"audioChannel": {
+							"title": "Audio Channel",
+							"tooltip": "The output channel (music, environment, interface). Leave at Default to skip."
+						},
+						"alwaysForGMs": {
+							"title": "Always For GMs",
+							"tooltip": "GMs hear the sound as if standing at its origin."
+						},
+						"globalSound": {
+							"title": "Global Sound",
+							"tooltip": "Ignores location and always plays globally."
+						},
+						"panSound": {
+							"title": "Pan Sound",
+							"tooltip": "Pans the audio left/right based on position relative to the listener."
+						},
+						"panDistanceToEase": {
+							"title": "Ease Distance",
+							"tooltip": "Distance over which the panning eases. Leave at 0 for the default."
+						},
+						"baseEffectType": {
+							"title": "Type",
+							"tooltip": "Audio effect applied when the sound is unobstructed. Leave at None to skip."
+						},
+						"baseEffectIntensity": {
+							"title": "Intensity",
+							"tooltip": "Intensity of the base effect."
+						},
+						"muffledEffectType": {
+							"title": "Type",
+							"tooltip": "Audio effect applied when the sound passes through walls. Leave at None to skip."
+						},
+						"muffledEffectIntensity": {
+							"title": "Intensity",
+							"tooltip": "Intensity of the muffled effect."
+						},
+						"elevation": {
+							"title": "Elevation",
+							"tooltip": "Vertical elevation of the sound. Leave at 0 (with Absolute off) to skip."
+						},
+						"absolute": {
+							"title": "Absolute",
+							"tooltip": "Treat the elevation as absolute rather than relative to the source."
+						},
+						"levels": {
+							"title": "Levels",
+							"tooltip": "Comma-separated level ids or names to restrict the sound to (Levels module). Leave empty to skip."
+						}
+					}
+				},
+				"snd-users": {
+					"title": "Users",
+					"subtitle": "Who hears the sound",
+					"io": {
+						"locally": {
+							"title": "Locally",
+							"tooltip": "Plays the sound only on the current client."
+						},
+						"users": {
+							"title": "Users",
+							"tooltip": "Restricts the sound to these users. Leave unconnected to play for everyone."
+						}
+					}
+				},
+				"snd-persist": {
+					"title": "Persistence",
+					"subtitle": "Persist and loop the sound",
+					"group": {
+						"persist": "Persist",
+						"loop": "Loop Options"
+					},
+					"io": {
+						"persist": {
+							"title": "Persist",
+							"tooltip": "Keeps the sound on the canvas indefinitely until ended through the Sound Manager."
+						},
+						"persistTokenPrototype": {
+							"title": "Persist Token Prototype",
+							"tooltip": "Stores the persisted sound on the token's prototype so copies inherit it."
+						},
+						"extraEndDuration": {
+							"title": "Extra End Duration",
+							"tooltip": "Keeps a persisted sound around for this many ms before removal. Leave at 0 to skip."
+						},
+						"loops": {
+							"title": "Loops",
+							"tooltip": "How many times the sound loops. Leave at 0 for the default."
+						},
+						"loopDelay": {
+							"title": "Loop Delay",
+							"tooltip": "Delay (ms) between each loop."
+						},
+						"endOnLastLoop": {
+							"title": "End On Last Loop",
+							"tooltip": "Ends the sound when the final loop completes."
+						}
+					}
+				}
+			},
 			"event": {
 				"animation-event": {
 					"title": "Start Animation",
@@ -1233,6 +1532,9 @@
 			},
 			"crosshair": {
 				"title": "Crosshair"
+			},
+			"sound": {
+				"title": "Sound"
 			}
 		}
 	}}
