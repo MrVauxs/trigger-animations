@@ -231,6 +231,28 @@
 						}
 					}
 				},
+				"scrolling-text": {
+					"title": "Scrolling Text",
+					"subtitle": "Starts a Sequencer scrolling text section",
+					"io": {
+						"target": {
+							"title": "Target",
+							"tooltip": "The token or point the text scrolls from."
+						},
+						"text": {
+							"title": "Text",
+							"tooltip": "The text to scroll. Leave empty to set it with the Text node."
+						},
+						"textStyle": {
+							"title": "Text Style",
+							"tooltip": "A JSON PIXI.TextStyle object controlling the text appearance."
+						},
+						"scrollingText": {
+							"title": "Scrolling Text",
+							"tooltip": "The individual Scrolling Text section that can be modified by other nodes regardless of order."
+						}
+					}
+				},
 				"canvas-pan": {
 					"title": "Canvas Pan",
 					"subtitle": "Starts a Sequencer canvas pan section",
@@ -1512,6 +1534,111 @@
 						"endOnLastLoop": {
 							"title": "End On Last Loop",
 							"tooltip": "Ends the sound when the final loop completes."
+						}
+					}
+				}
+			},
+			"scrollingText": {
+				"scroll-flow": {
+					"title": "Flow",
+					"subtitle": "Sequencing, repeats and conditions",
+					"group": {
+						"wait": "Wait Until Finished",
+						"delay": "Delay",
+						"repeat": "Repeats"
+					},
+					"io": {
+						"playIf": {
+							"title": "Play If",
+							"tooltip": "The text only plays when this is true. Defaults to true."
+						},
+						"async": {
+							"title": "Async",
+							"tooltip": "Waits for each repetition to finish before the next one starts."
+						},
+						"waitUntilFinished": {
+							"title": "Wait Until Finished",
+							"tooltip": "Pauses the whole sequence until this section finishes before continuing."
+						},
+						"waitDelayMin": {
+							"title": "Min Wait",
+							"tooltip": "Extra delay (ms) after finishing before continuing. With a max set, a random value between the two is used."
+						},
+						"waitDelayMax": {
+							"title": "Max Wait",
+							"tooltip": "Upper bound (ms) for a random wait delay. Leave at 0 for a fixed delay."
+						},
+						"delayMin": {
+							"title": "Min Delay",
+							"tooltip": "Delay (ms) before the text plays. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"delayMax": {
+							"title": "Max Delay",
+							"tooltip": "Upper bound (ms) for a random play delay. Leave at 0 for a fixed delay."
+						},
+						"repeats": {
+							"title": "Repeats",
+							"tooltip": "How many times to repeat the text. Leave at 0 to skip."
+						},
+						"repeatDelayMin": {
+							"title": "Min Repeat Delay",
+							"tooltip": "Delay (ms) between repetitions. With a max set, a random value between the two is used."
+						},
+						"repeatDelayMax": {
+							"title": "Max Repeat Delay",
+							"tooltip": "Upper bound (ms) for a random delay between repetitions. Leave at 0 for a fixed delay."
+						},
+						"preset": {
+							"title": "Preset",
+							"tooltip": "Applies a registered preset by name. Leave empty to skip."
+						}
+					}
+				},
+				"scroll-place": {
+					"title": "Placement",
+					"subtitle": "Where the text appears and who sees it",
+					"io": {
+						"location": {
+							"title": "Location",
+							"tooltip": "The token or point the text scrolls from. Leave unconnected to skip."
+						},
+						"locally": {
+							"title": "Locally",
+							"tooltip": "Shows the text only on the current client."
+						},
+						"users": {
+							"title": "Users",
+							"tooltip": "Restricts the text to these users. Leave unconnected to show to everyone."
+						}
+					}
+				},
+				"scroll-text": {
+					"title": "Text",
+					"subtitle": "Content, anchor and scroll direction",
+					"io": {
+						"text": {
+							"title": "Text",
+							"tooltip": "The text to scroll. Leave empty to keep the text set on the Create node."
+						},
+						"textStyle": {
+							"title": "Text Style",
+							"tooltip": "A JSON PIXI.TextStyle object controlling the text appearance."
+						},
+						"anchor": {
+							"title": "Anchor",
+							"tooltip": "Where the text appears relative to its location. Leave at Default to skip."
+						},
+						"direction": {
+							"title": "Direction",
+							"tooltip": "The direction the text scrolls towards. Leave at Default to skip."
+						},
+						"jitter": {
+							"title": "Jitter",
+							"tooltip": "Randomization (0-1) applied to the starting position. Leave at 0 to skip."
+						},
+						"duration": {
+							"title": "Duration",
+							"tooltip": "How long the text stays on screen, in milliseconds. Leave at 0 for the default."
 						}
 					}
 				}
