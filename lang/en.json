@@ -275,6 +275,58 @@
 						}
 					}
 				},
+				"wait": {
+					"title": "Wait",
+					"subtitle": "Waits before the next section",
+					"io": {
+						"min": {
+							"title": "Min",
+							"tooltip": "Milliseconds to wait. With a max set, a random value between the two is used. Leave at 0 to skip."
+						},
+						"max": {
+							"title": "Max",
+							"tooltip": "Upper bound (ms) for a random wait. Leave at 0 for a fixed wait."
+						}
+					}
+				},
+				"then-do": {
+					"title": "Then Do",
+					"subtitle": "Runs a function in the sequence",
+					"io": {
+						"code": {
+							"title": "Code",
+							"tooltip": "JavaScript run as a sequence step. Inside the function, `this` is the Sequence, so you can call this.effect(), this.wait(), etc. to extend it. Leave empty to skip."
+						}
+					}
+				},
+				"macro": {
+					"title": "Macro",
+					"subtitle": "Runs a macro in the sequence",
+					"io": {
+						"macro": {
+							"title": "Macro",
+							"tooltip": "A macro name, id, or UUID to run as a sequence step. Inside the macro, `this` is the Sequence, so it can extend it. Leave empty to skip."
+						},
+						"args": {
+							"title": "Args",
+							"tooltip": "A JSON object passed to the macro's scope."
+						}
+					}
+				},
+				"named-location": {
+					"title": "Named Location",
+					"subtitle": "Stores a location for later reference",
+					"io": {
+						"name": {
+							"title": "Name",
+							"tooltip": "The name to store this location under, for use by later sections."
+						},
+						"location": {
+							"title": "Location",
+							"tooltip": "The token or point to store."
+						}
+					}
+				},
 				"play": {
 					"title": "Play",
 					"subtitle": "Plays the Sequencer Effect",

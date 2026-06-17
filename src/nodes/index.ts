@@ -6,4 +6,5 @@ export * from "./crosshair/index";
 export * from "./sound/index";
 export * from "./scrollingText/index";
 export * from "./canvasPan/index";
+export * from "./utility/index";
 export * from "./logic/index";
