@@ -2,16 +2,16 @@ import { id, title } from "moduleJSON";
 import { dev, devLog, log } from "$lib/utils";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { api } from "./api";
-import * as tNodes from "./nodes"
-import * as tHooks from "./hooks"
-import * as tEntries from "./entries"
+import * as tNodes from "./nodes/index"
+import * as tEntries from "./entries/index"
+import * as tHooks from "./hooks/index"
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
 
 async function ready() {
 	if (dev) {
 		ui.notifications.info(`${title} is ready!`);
-		console.log("Result", await api.openBlueprint());
+		setTimeout(() => api.openBlueprint(), 1000);
 	}
 }
 
@@ -71,19 +71,3 @@ const hooks = {
 		}
 	})
 };
-
-// Hot Module Replacement (HMR) used in development mode.
-if (import.meta.hot) {
-	import.meta.hot.accept((newModule) => {
-		if (newModule) {
-			// Remove all old hooks
-			Object.entries(hooks).forEach(
-				([k, h]) => Array.isArray(h)
-					? h.forEach((hook) => Hooks.off(k, hook))
-					: Hooks.off(k, h)
-			);
-
-			ui.notifications.warn("Make sure to reload the page to re-register the trigger engine applications.")
-		}
-	})
-}
