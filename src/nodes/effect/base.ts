@@ -1,4 +1,4 @@
-import { dev, devGroup, devLog } from "$lib/utils";
+import { dev, devGroup, devLog, log } from "$lib/utils";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { EASE_OPTIONS } from "./constants";
 
@@ -100,10 +100,14 @@ abstract class EffectModifierNode<
 		}
 	}
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
+	getLocation(loc: TargetDocuments | Point | RegionDocument): TokenDocument | Point | RegionDocument | undefined {
 		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
 		if (typeof loc === "object" && "x" in loc && "y" in loc) {
 			return { x: (loc as Point).x, y: (loc as Point).y };
+		}
+		// It can also be a Region Document
+		else if (typeof loc === "object" && "collectionName" in loc && loc.collectionName === "regions") {
+			return loc as RegionDocument;
 		}
 		return this.getTargetToken(loc as TargetDocuments);
 	}
@@ -120,7 +124,7 @@ abstract class EffectModifierNode<
 		const obj = value as Record<string, unknown>;
 		// A target entry wrapper, as opposed to a raw document (which has x/y).
 		if ("actor" in obj && !("x" in obj)) {
-			if (obj.token) return obj.token as object;
+			if ("token" in obj) return obj.token as object;
 			devLog(`[${this.type}] target has no token; skipping`);
 			return undefined;
 		}
@@ -133,7 +137,6 @@ abstract class EffectModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const effect = await this.getInputValue("effect");
 		if (effect) {
-			await this.apply(effect as EffectSection);
 			if (dev) {
 				const definedInputs = (this.constructor as typeof TriggerNode).defineInputs;
 				const inputs = Object.fromEntries(
@@ -145,6 +148,13 @@ abstract class EffectModifierNode<
 					),
 				);
 				g.log("applied", { effect, inputs });
+			}
+			try {
+				await this.apply(effect as EffectSection);
+			} catch (e) {
+				g.end();
+				log(`[${this.type}] error applying effect`, e)
+				return false;
 			}
 		} else {
 			g.log("no effect connected; skipping");

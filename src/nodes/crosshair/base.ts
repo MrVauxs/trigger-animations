@@ -62,10 +62,14 @@ abstract class CrosshairModifierNode<
 
 	protected abstract apply(section: CrosshairSection): Promise<void> | void;
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
+	getLocation(loc: TargetDocuments | Point | RegionDocument): TokenDocument | Point | RegionDocument | undefined {
 		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
 		if (typeof loc === "object" && "x" in loc && "y" in loc) {
 			return { x: (loc as Point).x, y: (loc as Point).y };
+		}
+		// It can also be a Region Document
+		else if (typeof loc === "object" && "collectionName" in loc && loc.collectionName === "regions") {
+			return loc as RegionDocument;
 		}
 		return this.getTargetToken(loc as TargetDocuments);
 	}
