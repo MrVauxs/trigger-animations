@@ -104,7 +104,7 @@ class StartNode extends TriggerNode<
 		return [
 			{
 				slug: "path",
-				types: ["any", "boolean", "item", "number", "point", "target", "text", "user"],
+				types: ["any", "boolean", "item", "number", "point", "target", "text", "user", "region"],
 				array: true,
 				label: this.localize("io.path.title"),
 				tooltip: this.localize("io.path.tooltip"),
