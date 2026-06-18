@@ -35,3 +35,14 @@ export const FILTER_OPTIONS = [
 
 // node_modules/sequencer/src/constants.js (SHAPES)
 export const SHAPE_OPTIONS = ["circle", "rectangle", "polygon", "ellipse", "roundedRect"];
+
+// node_modules/sequencer/src/lib/canvas-lib.js (alignments); used by .attachTo({ align }).
+export const ALIGN_OPTIONS = [
+	"center",
+	"top-left", "top", "top-right",
+	"left", "right",
+	"bottom-left", "bottom", "bottom-right",
+];
+
+// node_modules/sequencer/src/sections/effect.js (.attachTo edge validation).
+export const EDGE_OPTIONS = ["on", "inner", "outer"];

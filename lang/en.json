@@ -375,10 +375,41 @@
 						"targets": "Target",
 						"screenSpace": "Screen"
 					},
+					"group": {
+						"attach": "Attach Options"
+					},
 					"io": {
 						"location": {
 							"title": "Location",
 							"tooltip": "Where the effect will be played."
+						},
+						"align": {
+							"title": "Align",
+							"tooltip": "Which point on the attached object the effect snaps to. Defaults to center."
+						},
+						"edge": {
+							"title": "Edge",
+							"tooltip": "Snap the effect to the inner, outer, or on the object's edge. Defaults to on."
+						},
+						"bindVisibility": {
+							"title": "Bind Visibility",
+							"tooltip": "Hides the effect when the attached object is hidden. On by default."
+						},
+						"bindAlpha": {
+							"title": "Bind Alpha",
+							"tooltip": "Matches the effect's alpha to the attached object's. On by default."
+						},
+						"bindScale": {
+							"title": "Bind Scale",
+							"tooltip": "Binds the effect's scale to the object when Scale To Object is used. On by default."
+						},
+						"bindRotation": {
+							"title": "Bind Rotation",
+							"tooltip": "Rotates the effect along with the attached object. On by default."
+						},
+						"bindElevation": {
+							"title": "Bind Elevation",
+							"tooltip": "Matches the effect's elevation to the attached object's. On by default."
 						},
 						"snapToGrid": {
 							"title": "Snap To Grid",
