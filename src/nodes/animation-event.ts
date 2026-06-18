@@ -74,16 +74,16 @@ class StartNode extends TriggerNode<
 				tooltip: this.localize("io.actor.tooltip")
 			},
 			{
-				key: "targets",
-				type: "target",
-				isArray: true,
-				label: this.localize("io.targets")
-			},
-			{
 				key: "sources",
-				type: "target",
+				type: "any",
 				isArray: true,
 				label: this.localize("io.sources")
+			},
+			{
+				key: "targets",
+				type: "any",
+				isArray: true,
+				label: this.localize("io.targets")
 			},
 			{
 				key: "item",
@@ -155,8 +155,8 @@ type StartNodeOptions = {
 	name: string;
 	actor?: TargetDocuments;
 	item?: Item;
-	targets?: TargetDocuments[]
-	sources?: TargetDocuments[]
+	targets?: any[]
+	sources?: any[]
 	options?: string[]
 	userInputs: T.EmitableValue[]
 }

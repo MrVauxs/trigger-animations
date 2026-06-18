@@ -33,8 +33,8 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 
 	static override get defineInputs(): T.BuiltinsInputEntry[] {
 		return [
-			{ key: "targets", type: "target", isArray: true },
-			{ key: "sources", type: "target", isArray: true, label: this.localize("io.sources.title") },
+			{ key: "targets", type: "any", isArray: true },
+			{ key: "sources", type: "any", isArray: true, label: this.localize("io.sources.title") },
 			{
 				key: "callback",
 				type: "text",
@@ -48,8 +48,8 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 
 	static override get defineOutputs(): T.BuiltinsOutputEntry[] {
 		return [
-			{ key: "target", type: "target" },
-			{ key: "source", type: "target", label: this.localize("io.source.title") },
+			{ key: "target", type: "any" },
+			{ key: "source", type: "any", label: this.localize("io.source.title") },
 			{
 				key: "isFinal",
 				type: "boolean",

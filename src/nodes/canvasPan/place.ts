@@ -24,7 +24,7 @@ class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.canvasPanInput,
-			{ key: "location", type: "target", ...this.io("location") },
+			{ key: "location", type: "any", ...this.io("location") },
 			{ key: "locally", type: "boolean", ...this.io("locally") },
 			{ key: "users", type: "user", isArray: true, ...this.io("users") }
 		];

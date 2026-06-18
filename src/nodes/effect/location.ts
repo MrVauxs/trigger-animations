@@ -4,8 +4,8 @@ import { EffectModifierNode } from "./base";
 import { ALIGN_OPTIONS, EDGE_OPTIONS } from "./constants";
 
 type LocationKind = {
-	points: { x: number; y: number };
-	targets: TargetDocuments;
+	points: Point;
+	targets: any;
 };
 
 type TInputs = {
@@ -60,7 +60,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 		return [
 			this.effectInput,
 			{ key: "location", type: "point", ...this.io("location"), state: "points" },
-			{ key: "location", type: "target", ...this.io("location"), state: "targets" },
+			{ key: "location", type: "any", ...this.io("location"), state: "targets" },
 			{ key: "attachTo", type: "boolean", ...this.sharedIo("attachTo"), state: "targets" },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation"), state: "targets" },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation"), state: "points" },

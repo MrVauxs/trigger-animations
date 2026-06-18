@@ -49,7 +49,7 @@ class NamedLocationNode extends TriggerNode<
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{ key: "name", type: "text", ...this.io("name") },
-			{ key: "location", type: "target", ...this.io("location") }
+			{ key: "location", type: "any", ...this.io("location") }
 		];
 	}
 

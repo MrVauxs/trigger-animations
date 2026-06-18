@@ -33,7 +33,7 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.crosshairInput,
-			{ key: "location", type: "target", ...this.io("location"), group: "location" },
+			{ key: "location", type: "any", ...this.io("location"), group: "location" },
 			{
 				key: "limitMinRange",
 				type: "number",

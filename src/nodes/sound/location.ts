@@ -43,7 +43,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.soundInput,
-			{ key: "location", type: "target", ...this.io("location") },
+			{ key: "location", type: "any", ...this.io("location") },
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits") },
 			{ key: "bindVisibility", type: "boolean", ...this.io("bindVisibility"), state: "attachTo", field: { default: true } },
 			{ key: "bindElevation", type: "boolean", ...this.io("bindElevation"), state: "attachTo", field: { default: true } },
