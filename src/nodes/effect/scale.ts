@@ -80,14 +80,14 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("width"),
 				state: "size",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0, step: 0.05 }
 			},
 			{
 				key: "height",
 				type: "number",
 				...this.io("height"),
 				state: "size",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0, step: 0.05 }
 			},
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits"), state: "size" },
 			{
