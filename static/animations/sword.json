@@ -1,0 +1,354 @@
+{
+	"name": "Sword",
+	"folder": "Weapons",
+	"priority": 0,
+	"tags": [
+		"weapon",
+		"pf2e"
+	],
+	"nodes": [
+		{
+			"id": "zwvWO50CXI44ObmF",
+			"position": {
+				"x": 315.3333154823181,
+				"y": 194.66668701171875
+			},
+			"type": "animation-event",
+			"inputs": {
+				"name": {
+					"value": "sword"
+				}
+			},
+			"custom": {
+				"outputs": {
+					"9GG5oGEm2a9RAiZ5": {
+						"id": "9GG5oGEm2a9RAiZ5",
+						"input": "outcome",
+						"label": "Outcome",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "mpa5CCtLfa7bjI71:ins:in"
+				}
+			}
+		},
+		{
+			"type": "effect",
+			"position": {
+				"x": 981.7776878222768,
+				"y": -11.629621659793969
+			},
+			"id": "9Ny9laSD1AJY2y4E",
+			"inputs": {
+				"name": {
+					"connection": "mpa5CCtLfa7bjI71:outputs:sR6Cy5NKJKuZpmQg"
+				},
+				"origin": {
+					"connection": "mpa5CCtLfa7bjI71:outputs:qHvhdFqXb77u8E8o"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "e9lcLUsF8nmzdJg7:ins:in"
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 559.9999843445869,
+				"y": 244.00001072164162
+			},
+			"id": "mpa5CCtLfa7bjI71",
+			"custom": {
+				"outputs": {
+					"qHvhdFqXb77u8E8o": {
+						"id": "qHvhdFqXb77u8E8o",
+						"input": "uuid",
+						"label": "UUID",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					},
+					"sR6Cy5NKJKuZpmQg": {
+						"id": "sR6Cy5NKJKuZpmQg",
+						"input": "name",
+						"label": "Name",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					},
+					"QPWf9ZnV9bidhNIQ": {
+						"id": "QPWf9ZnV9bidhNIQ",
+						"input": "system.damage.die",
+						"label": "Damage Die",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "zwvWO50CXI44ObmF:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "4gZJ8Gm9UjlhMc4G:ins:in"
+				}
+			}
+		},
+		{
+			"type": "play",
+			"position": {
+				"x": 988.963104861186,
+				"y": 133.43925146542256
+			},
+			"id": "kkkNTCli7BCyXs18",
+			"inputs": {
+				"preload": {
+					"value": true
+				}
+			}
+		},
+		{
+			"type": "location",
+			"state": "targets",
+			"inputs": {
+				"effect": {
+					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
+				},
+				"location": {
+					"connection": "4gZJ8Gm9UjlhMc4G:outputs:source"
+				},
+				"attachTo": {
+					"value": true
+				},
+				"offset": {
+					"value": {
+						"x": -1.25,
+						"y": 0
+					}
+				},
+				"gridUnits": {
+					"value": true
+				},
+				"local": {
+					"value": true
+				}
+			},
+			"position": {
+				"x": 1267.5555584358076,
+				"y": -163.99815750230124
+			},
+			"id": "e9lcLUsF8nmzdJg7",
+			"outs": {
+				"out": {
+					"connection": "O6CdlUGUG4fVIrRY:ins:in"
+				}
+			}
+		},
+		{
+			"type": "file",
+			"inputs": {
+				"effect": {
+					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
+				},
+				"file": {
+					"connection": "O6CdlUGUG4fVIrRY:outputs:RgX9zjQqGgUUnOA7"
+				}
+			},
+			"position": {
+				"x": 1794.5926045014387,
+				"y": -174.9350707350145
+			},
+			"id": "HrjxmdV9fn6KEOE0",
+			"outs": {
+				"out": {
+					"connection": "2bt2cdnyg4ntLfaK:ins:in"
+				}
+			}
+		},
+		{
+			"type": "aim",
+			"state": "rotateTowards",
+			"inputs": {
+				"effect": {
+					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
+				},
+				"towards": {
+					"connection": "4gZJ8Gm9UjlhMc4G:outputs:target"
+				},
+				"missed": {
+					"connection": "2bt2cdnyg4ntLfaK:outputs:boolean"
+				},
+				"attachTo": {
+					"value": true
+				},
+				"offset": {
+					"value": {
+						"x": 0,
+						"y": 0
+					}
+				}
+			},
+			"position": {
+				"x": 1998.465668183612,
+				"y": 47.45157051876333
+			},
+			"id": "mzztRWLWfGStDgf8",
+			"outs": {
+				"out": {
+					"connection": "7eJYxPPCfZY9S2YP:ins:in"
+				}
+			}
+		},
+		{
+			"type": "massloop",
+			"position": {
+				"x": 670.0002040592956,
+				"y": 54.888896970017754
+			},
+			"id": "4gZJ8Gm9UjlhMc4G",
+			"inputs": {
+				"targets": {
+					"connection": "zwvWO50CXI44ObmF:outputs:targets"
+				},
+				"sources": {
+					"connection": "zwvWO50CXI44ObmF:outputs:sources"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "9Ny9laSD1AJY2y4E:ins:in"
+				},
+				"outAfter": {
+					"connection": "kkkNTCli7BCyXs18:ins:in"
+				}
+			}
+		},
+		{
+			"type": "list-contains",
+			"position": {
+				"x": 1763.947319439657,
+				"y": 257.86251572489493
+			},
+			"id": "2bt2cdnyg4ntLfaK",
+			"inputs": {
+				"entry": {
+					"connection": "zwvWO50CXI44ObmF:outputs:9GG5oGEm2a9RAiZ5"
+				},
+				"list": {
+					"connection": "Kfd0h5Nepcqvhmyb:outputs:list"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "mzztRWLWfGStDgf8:ins:in"
+				}
+			},
+			"state": "boolean"
+		},
+		{
+			"type": "list-value",
+			"position": {
+				"x": 1528.5714280097736,
+				"y": 281.619038677939
+			},
+			"id": "Kfd0h5Nepcqvhmyb",
+			"inputs": {
+				"entry": {
+					"value": "failure,criticalFailure"
+				}
+			}
+		},
+		{
+			"type": "scale",
+			"position": {
+				"x": 2291.33333021089,
+				"y": 45.33330611936992
+			},
+			"id": "7eJYxPPCfZY9S2YP",
+			"inputs": {
+				"effect": {
+					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
+				},
+				"considerTokenScale": {
+					"value": true
+				},
+				"objectScale": {
+					"value": 4
+				}
+			},
+			"state": "object"
+		},
+		{
+			"inputs": {
+				"entry": {
+					"connection": "mpa5CCtLfa7bjI71:outputs:QPWf9ZnV9bidhNIQ"
+				}
+			},
+			"type": "__variable_getter__",
+			"position": {
+				"x": 1354.3335223172303,
+				"y": -201.24995163893595
+			},
+			"id": "trh2jQ3SsGJQbBjs"
+		},
+		{
+			"type": "execute-script",
+			"position": {
+				"x": 1518.6668353055115,
+				"y": -295.3332341096391
+			},
+			"id": "O6CdlUGUG4fVIrRY",
+			"custom": {
+				"inputs": {
+					"735NTTLwKepLMLl8": {
+						"id": "735NTTLwKepLMLl8",
+						"label": "Damage Dice",
+						"slug": "input",
+						"isArray": false,
+						"type": "text"
+					}
+				},
+				"outputs": {
+					"RgX9zjQqGgUUnOA7": {
+						"id": "RgX9zjQqGgUUnOA7",
+						"label": "File",
+						"slug": "output",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"735NTTLwKepLMLl8": {
+					"connection": "trh2jQ3SsGJQbBjs:outputs:entry"
+				},
+				"script": {
+					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst dieText = inputs[0]\nconst files = {\n  \"d4\": \"jb2a.melee_attack.01.shortsword.01\",\n  \"d6\": \"jb2a.melee_attack.01.shortsword.01\",\n  \"d8\": \"jb2a.sword.melee.01.white\",\n  \"d10\": \"jb2a.melee_attack.03.greatsword.01\",\n  \"d12\": \"jb2a.melee_attack.03.greatsword.01\"\n}\n\nreturn [{type: \"text\", value: files[dieText]}];"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "HrjxmdV9fn6KEOE0:ins:in"
+				}
+			}
+		}
+	],
+	"id": "rF0CPCgaXu48s5AL",
+	"variables": {
+		"mpa5CCtLfa7bjI71:outputs:QPWf9ZnV9bidhNIQ": {
+			"isArray": false,
+			"label": "Damage Die",
+			"type": "text"
+		}
+	}
+}

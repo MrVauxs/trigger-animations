@@ -1,0 +1,93 @@
+{
+	"name": "Template Placed",
+	"folder": "Animations",
+	"priority": 0,
+	"id": "iT8FJRItcrt2ZtiZ",
+	"nodes": [
+		{
+			"type": "template-placed-event",
+			"position": {
+				"x": 285.99996010752795,
+				"y": 277.9999895095825
+			},
+			"id": "sqXwYxJCnyViQuiI",
+			"outs": {
+				"out": {
+					"connection": "tvYccg3Tp4UMMwm2:ins:in"
+				}
+			}
+		},
+		{
+			"type": "execute-animation",
+			"position": {
+				"x": 769.9229901233516,
+				"y": 257.7333330154419
+			},
+			"id": "ewGhQqm0NDvFzVuZ",
+			"inputs": {
+				"actor": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:origin"
+				},
+				"item": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:item"
+				},
+				"options": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:options"
+				},
+				"name": {
+					"connection": "tvYccg3Tp4UMMwm2:outputs:ORwOjJ9EF0ULW2b8"
+				},
+				"sources": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:origin"
+				},
+				"targets": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:attachment"
+				},
+				"EWfWcvf8tTwjmfzJ": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:region"
+				}
+			},
+			"custom": {
+				"inputs": {
+					"EWfWcvf8tTwjmfzJ": {
+						"id": "EWfWcvf8tTwjmfzJ",
+						"label": "Template",
+						"slug": "input",
+						"isArray": false,
+						"type": "any"
+					}
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 529.3333566722321,
+				"y": 256.6666460683448
+			},
+			"id": "tvYccg3Tp4UMMwm2",
+			"custom": {
+				"outputs": {
+					"ORwOjJ9EF0ULW2b8": {
+						"id": "ORwOjJ9EF0ULW2b8",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "ewGhQqm0NDvFzVuZ:ins:in"
+				}
+			}
+		}
+	]
+}
