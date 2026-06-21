@@ -81,6 +81,7 @@ export class API {
 			});
 		}
 		this._db = database!;
+		this.settingsMount();
 		return database;
 	}
 }
