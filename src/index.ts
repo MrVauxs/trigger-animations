@@ -1,3 +1,3 @@
 import "./module.css";
-import "./hooks"
+import "./register"
 import "./api"
