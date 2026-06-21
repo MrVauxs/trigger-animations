@@ -89,7 +89,7 @@ export default defineConfig(({ command }) => {
 		plugins: [
 			vttSync(moduleJSON, { ignoreAdventureHMR: true }), // Build the database from JSON files on build
 			{
-				name: 'create-dist-files', // Create dummy files for Foundry's tests to pass
+				name: 'foundryvtt-stubs', // Create dummy files for Foundry's tests to pass
 				apply: 'serve',
 				buildStart() {
 					if (!fs.existsSync('dist')) fs.mkdirSync('dist');
@@ -98,6 +98,17 @@ export default defineConfig(({ command }) => {
 					for (const name of files) {
 						fs.writeFileSync(name, '', { flag: 'a' });
 					}
+				},
+				configureServer(server) {
+					const stylePaths = new Set(moduleJSON.styles.map(s => `/${PACKAGE_ID}/${s}`));
+					server.middlewares.use((req, res, next) => {
+						if (req.url && stylePaths.has(req.url.split('?')[0])) {
+							res.setHeader('Content-Type', 'text/css');
+							res.end('');
+							return;
+						}
+						next();
+					});
 				},
 			},
 		],
