@@ -34,6 +34,7 @@ export class API {
 
 	static get setting(): CustomSetting {
 		return {
+			registerMenu: true,
 			get: () => (globalThis.triggerAnimations.api.db.getFlag(id, "data") || {}),
 			set: async (data, prepare) => {
 				await globalThis.triggerAnimations.api.db.setFlag(id, "data", data);
