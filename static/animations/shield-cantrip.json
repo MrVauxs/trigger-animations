@@ -1,0 +1,206 @@
+{
+	"name": "Shield Cantrip",
+	"folder": "Spells",
+	"priority": 0,
+	"tags": [
+		"pf2e"
+	],
+	"nodes": [
+		{
+			"id": "cmlqRAbNU6Qhyhgz",
+			"position": {
+				"x": 286.66669160794214,
+				"y": 203.9999998707567
+			},
+			"type": "animation-event",
+			"inputs": {
+				"name": {
+					"value": "spell-effect-shield"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "RXGgrusPFssap4Jg:ins:in"
+				}
+			}
+		},
+		{
+			"type": "effect",
+			"position": {
+				"x": 764.5897323560308,
+				"y": 277.8333832156985
+			},
+			"id": "14pfkjbW1HJj3E54",
+			"inputs": {
+				"name": {
+					"connection": "RXGgrusPFssap4Jg:outputs:EwCWjbhEVx8Vce1c"
+				},
+				"origin": {
+					"connection": "RXGgrusPFssap4Jg:outputs:EwCWjbhEVx8Vce1c"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "LInulq9CbfjyIbQM:ins:in"
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 538.6666651661346,
+				"y": 293.333323537599
+			},
+			"id": "RXGgrusPFssap4Jg",
+			"custom": {
+				"outputs": {
+					"EwCWjbhEVx8Vce1c": {
+						"id": "EwCWjbhEVx8Vce1c",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "cmlqRAbNU6Qhyhgz:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "14pfkjbW1HJj3E54:ins:in"
+				}
+			}
+		},
+		{
+			"type": "file",
+			"inputs": {
+				"effect": {
+					"connection": "14pfkjbW1HJj3E54:outputs:effect"
+				},
+				"file": {
+					"value": "jb2a.shield.01.complete.01.blue"
+				}
+			},
+			"position": {
+				"x": 1055.3334350585938,
+				"y": 278.25000839526194
+			},
+			"id": "LInulq9CbfjyIbQM",
+			"outs": {
+				"out": {
+					"connection": "Hxv6UeeaL6Bs3tbn:ins:in"
+				}
+			}
+		},
+		{
+			"type": "location",
+			"state": "targets",
+			"inputs": {
+				"effect": {
+					"connection": "14pfkjbW1HJj3E54:outputs:effect"
+				},
+				"location": {
+					"connection": "cmlqRAbNU6Qhyhgz:outputs:sources"
+				},
+				"attachTo": {
+					"value": true
+				}
+			},
+			"position": {
+				"x": 1278.666748046875,
+				"y": 278.15000800753194
+			},
+			"id": "Hxv6UeeaL6Bs3tbn",
+			"outs": {
+				"out": {
+					"connection": "UoDyN2Txpgum1GSs:ins:in"
+				}
+			}
+		},
+		{
+			"type": "scale",
+			"state": "object",
+			"inputs": {
+				"effect": {
+					"connection": "14pfkjbW1HJj3E54:outputs:effect"
+				},
+				"objectScale": {
+					"value": 1.5
+				}
+			},
+			"position": {
+				"x": 1515.3333740234375,
+				"y": 277.48335153493144
+			},
+			"id": "UoDyN2Txpgum1GSs",
+			"outs": {
+				"out": {
+					"connection": "gquw2AbUqDcgBa8R:ins:in"
+				}
+			}
+		},
+		{
+			"type": "play",
+			"position": {
+				"x": 2214.590008075421,
+				"y": 277.83335269812136
+			},
+			"id": "dIE6ApJMYrwjC4Bq",
+			"inputs": {
+				"preload": {
+					"value": true
+				}
+			}
+		},
+		{
+			"type": "persist",
+			"inputs": {
+				"effect": {
+					"connection": "14pfkjbW1HJj3E54:outputs:effect"
+				},
+				"persist": {
+					"value": true
+				},
+				"persistTokenPrototype": {
+					"value": true
+				}
+			},
+			"position": {
+				"x": 1752.666748046875,
+				"y": 277.58335192266145
+			},
+			"id": "gquw2AbUqDcgBa8R",
+			"outs": {
+				"out": {
+					"connection": "8tEta9Mc903eRLv7:ins:in"
+				}
+			}
+		},
+		{
+			"type": "advanced",
+			"inputs": {
+				"effect": {
+					"connection": "14pfkjbW1HJj3E54:outputs:effect"
+				},
+				"tieToDocs": {
+					"connection": "cmlqRAbNU6Qhyhgz:outputs:item"
+				}
+			},
+			"position": {
+				"x": 1996.666748046875,
+				"y": 278.2500389128388
+			},
+			"id": "8tEta9Mc903eRLv7",
+			"outs": {
+				"out": {
+					"connection": "dIE6ApJMYrwjC4Bq:ins:in"
+				}
+			}
+		}
+	],
+	"id": "tIAYEZpSGSd49hqf"
+}

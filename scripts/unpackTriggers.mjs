@@ -14,16 +14,17 @@ import path from "node:path";
 import * as p from "@clack/prompts";
 import { green, yellow } from "kolorist";
 
+const distDir = path.resolve(process.cwd(), "dist");
 const staticDir = path.resolve(process.cwd(), "static");
 
 p.intro("Unpacking trigger bundle");
 
-// 1. Which bundle? — passed as an argument or picked from static/*.json.
+// 1. Which bundle? — passed as an argument or picked from dist/*.json.
 let bundlePath = process.argv[2];
 
 if (!bundlePath) {
-	const entries = existsSync(staticDir)
-		? await fs.readdir(staticDir, { withFileTypes: true })
+	const entries = existsSync(distDir)
+		? await fs.readdir(distDir, { withFileTypes: true })
 		: [];
 	const bundles = entries
 		.filter((e) => e.isFile() && e.name.endsWith(".json"))
@@ -36,7 +37,7 @@ if (!bundlePath) {
 
 	const picked = await p.select({
 		message: "Which bundle do you want to unpack?",
-		options: bundles.map((name) => ({ value: path.join(staticDir, name), label: name })),
+		options: bundles.map((name) => ({ value: path.join(distDir, name), label: name })),
 	});
 
 	if (p.isCancel(picked)) {

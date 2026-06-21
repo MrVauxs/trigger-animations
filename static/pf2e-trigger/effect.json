@@ -1,0 +1,89 @@
+{
+	"name": "Effect",
+	"folder": "Animations",
+	"priority": 0,
+	"id": "qZFBC3oLW9JVA5XF",
+	"nodes": [
+		{
+			"type": "create-item-event",
+			"position": {
+				"x": 250.66661581079768,
+				"y": 291.3333236022206
+			},
+			"id": "NrSe7qkQAoAEuv9L",
+			"inputs": {
+				"type": {
+					"value": "effect"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "mosxx1pPt8nuHzjX:ins:in"
+				}
+			}
+		},
+		{
+			"type": "execute-animation",
+			"position": {
+				"x": 771.2564190162728,
+				"y": 307.0666948684661
+			},
+			"id": "PEXiYyM5Qoo77FZK",
+			"inputs": {
+				"actor": {
+					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
+				},
+				"item": {
+					"connection": "NrSe7qkQAoAEuv9L:outputs:item"
+				},
+				"name": {
+					"connection": "mosxx1pPt8nuHzjX:outputs:E85qTXVg1K7pfp77"
+				},
+				"sources": {
+					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
+				},
+				"targets": {
+					"connection": "iLQqpDvy8aS7XhpM:outputs:targets"
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 516.0000401088153,
+				"y": 306.6666971302242
+			},
+			"id": "mosxx1pPt8nuHzjX",
+			"custom": {
+				"outputs": {
+					"E85qTXVg1K7pfp77": {
+						"id": "E85qTXVg1K7pfp77",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "NrSe7qkQAoAEuv9L:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "PEXiYyM5Qoo77FZK:ins:in"
+				}
+			}
+		},
+		{
+			"type": "scene-targets",
+			"position": {
+				"x": 251.33330279547897,
+				"y": 425.3333803077239
+			},
+			"id": "iLQqpDvy8aS7XhpM"
+		}
+	]
+}

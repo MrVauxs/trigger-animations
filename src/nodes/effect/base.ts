@@ -125,8 +125,6 @@ abstract class EffectModifierNode<
 		// A target entry wrapper, as opposed to a raw document (which has x/y).
 		if ("actor" in obj && !("x" in obj)) {
 			if ("token" in obj) return obj.token as object;
-			devLog(`[${this.type}] target has no token; skipping`);
-			return undefined;
 		}
 		return obj;
 	}
