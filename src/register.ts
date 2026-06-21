@@ -38,7 +38,7 @@ Hooks.on(
 
 			r(id, id, {
 				mode: "setting",
-				setting: globalThis.triggerAnimations.api.setting,
+				setting: API.setting,
 				entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
 				nodes: Object.values(tNodes) as (typeof T.TriggerNode)[],
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
