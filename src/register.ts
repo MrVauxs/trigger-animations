@@ -53,7 +53,7 @@ Hooks.on(
 
 Hooks.once("triggerEngine.registerTriggers", (registerTriggers) => {
 	log(`Registering triggers for trigger-engine`)
-	registerTriggers("trigger-engine", "pf2e-trigger", "modules/trigger-animations/static/pf2e-trigger.json");
+	registerTriggers("trigger-engine", "pf2e-trigger", "modules/trigger-animations/dist/pf2e-trigger.json");
 
 	for (const mod of game.modules) {
 		if (!mod.active) continue;
