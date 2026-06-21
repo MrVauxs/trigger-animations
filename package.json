@@ -4,7 +4,7 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
-		"build": "vite build",
+		"build": "vite build && bun run bundle",
 		"dev": "vite",
 		"extract": "node scripts/extractPacks.mjs",
 		"bundle": "node scripts/bundleTriggers.mjs",
