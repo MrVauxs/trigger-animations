@@ -24,6 +24,9 @@ if (!existsSync(rootDir)) {
 	process.exit(1);
 }
 
+const distDir = path.resolve(process.cwd(), "dist");
+await fs.mkdir(distDir, { recursive: true });
+
 async function getTriggerFiles(dir) {
 	const files = [];
 	const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -78,10 +81,10 @@ await p.tasks(
 				return `No triggers in ${yellow(subdir)}, skipped`;
 			}
 
-			const outFile = path.join(rootDir, `${subdir}.json`);
+			const outFile = path.join(distDir, `${subdir}.json`);
 			await fs.writeFile(outFile, JSON.stringify(triggers));
 			bundled++;
-			return `Bundled ${green(triggers.length)} trigger(s) into ${yellow(`${subdir}.json`)}`;
+			return `Bundled ${green(triggers.length)} trigger(s) into ${yellow(`dist/${subdir}.json`)}`;
 		},
 	})),
 	{},

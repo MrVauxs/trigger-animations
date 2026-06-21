@@ -1,5 +1,6 @@
 packs
 temp/
+static/*.json
 
 # dependencies (bun install)
 node_modules
