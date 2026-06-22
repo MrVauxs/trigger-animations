@@ -1,7 +1,7 @@
 import { id } from "moduleJSON";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { StartNodeOptions } from "./nodes";
-import { devLog } from "$lib/utils";
+import { devLog, log } from "$lib/utils";
 
 type CustomSetting = Extract<
 	T.TriggerApplicationOptions["setting"],
@@ -33,15 +33,19 @@ export class API {
 	get setting() { return API.setting }
 
 	_enabledTriggerNames: Record<string, string> = {};
-	prepareTriggers = () => { };
+
+	static prepareTriggers = () => { log("Prepare Triggers not set") }
 	prepare() {
-		devLog("Running prepareTriggers")
-		this.prepareTriggers();
+		devLog("Running prepareTriggers", API.prepareTriggers)
+		API.prepareTriggers();
 	};
 
 	static get setting(): CustomSetting {
 		return {
-			menu: true,
+			menu: {
+				icon: "fas fa-video",
+				restricted: false,
+			},
 			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") || {}),
 			set: async (data, prepare) => {
 				// TODO: Some kind of update reconciliation for multiple users?
@@ -52,7 +56,7 @@ export class API {
 					sources: TriggerDataInput[];
 				*/
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
-				prepare();
+				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
 			},
 			afterPrepared: (data) => {
 				devLog("afterPrepared", data)

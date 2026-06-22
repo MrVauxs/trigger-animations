@@ -44,7 +44,7 @@ Hooks.on(
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
 				builtins,
 			});
-			globalThis.triggerAnimations.api.prepareTriggers = prepareTriggers;
+			API.prepareTriggers = prepareTriggers;
 		} catch (e) {
 			ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
 			console.error(e);
