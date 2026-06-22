@@ -4,7 +4,7 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
-		"build": "vite build && bun run bundle",
+		"build": "vite build && bun run triggers:bundle",
 		"dev": "vite",
 		"triggers:bundle": "node scripts/bundleTriggers.mjs",
 		"triggers:unpack": "node scripts/unpackTriggers.mjs",
