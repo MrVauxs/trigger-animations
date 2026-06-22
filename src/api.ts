@@ -35,9 +35,10 @@ export class API {
 	static get setting(): CustomSetting {
 		return {
 			menu: true,
-			get: () => (globalThis.triggerAnimations.api.db.getFlag(id, "data") || {}),
+			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") || {}),
 			set: async (data, prepare) => {
-				await globalThis.triggerAnimations.api.db.setFlag(id, "data", data);
+				// TODO: Some kind of update reconciliation for multiple users?
+				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				prepare();
 			},
 			afterPrepared: (data) => {
@@ -72,16 +73,19 @@ export class API {
 	}
 
 	async createJournalDatabase() {
+		const end = () => {
+			this._db = database!;
+			this.settingsMount();
+			return database;
+		}
 		let database = game.journal.getName("Trigger Animations DB");
-		if (!game.user?.isGM) return database;
+		if (!JournalEntry.canUserCreate(game.user)) return end()
 		if (!database) {
 			database = await JournalEntry.create({
 				name: "Trigger Animations DB",
 				ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
 			});
 		}
-		this._db = database!;
-		this.settingsMount();
-		return database;
+		return end();
 	}
 }
