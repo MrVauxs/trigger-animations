@@ -36,7 +36,7 @@ Hooks.on(
 				}
 			)
 
-			r(id, id, {
+			const { prepareTriggers } = r(id, id, {
 				mode: "setting",
 				setting: API.setting,
 				entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
@@ -44,6 +44,7 @@ Hooks.on(
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
 				builtins,
 			});
+			globalThis.triggerAnimations.api.prepareTriggers = prepareTriggers;
 		} catch (e) {
 			ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
 			console.error(e);

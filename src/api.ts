@@ -32,12 +32,25 @@ export class API {
 	set db(db) { this._db = db }
 	get setting() { return API.setting }
 
+	_enabledTriggerNames: Record<string, string> = {};
+	prepareTriggers = () => { };
+	prepare() {
+		devLog("Running prepareTriggers")
+		this.prepareTriggers();
+	};
+
 	static get setting(): CustomSetting {
 		return {
 			menu: true,
 			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") || {}),
 			set: async (data, prepare) => {
 				// TODO: Some kind of update reconciliation for multiple users?
+				/*
+					disabled: string[]; (string of IDs from registered triggers or sources)
+					enabled: string[]; (string of IDs from registered triggers or sources)
+					folders: Record<string, string>; (overrides for registered triggers <trigger id> -> new folder name)
+					sources: TriggerDataInput[];
+				*/
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				prepare();
 			},
@@ -72,10 +85,14 @@ export class API {
 		})
 	}
 
+	#updateHook: number | undefined;
 	async createJournalDatabase() {
 		const end = () => {
 			this._db = database!;
 			this.settingsMount();
+			if (!this.#updateHook) this.#updateHook = Hooks.on("updateJournalEntry", (journal, data, log) => {
+				if (journal.id === this.db.id) this.prepare();
+			})
 			return database;
 		}
 		let database = game.journal.getName("Trigger Animations DB");
