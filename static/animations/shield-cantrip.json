@@ -146,7 +146,7 @@
 		{
 			"type": "play",
 			"position": {
-				"x": 2214.590008075421,
+				"x": 2011.2566571954503,
 				"y": 277.83335269812136
 			},
 			"id": "dIE6ApJMYrwjC4Bq",
@@ -167,6 +167,9 @@
 				},
 				"persistTokenPrototype": {
 					"value": true
+				},
+				"tieToDocs": {
+					"connection": "cmlqRAbNU6Qhyhgz:outputs:item"
 				}
 			},
 			"position": {
@@ -174,27 +177,6 @@
 				"y": 277.58335192266145
 			},
 			"id": "gquw2AbUqDcgBa8R",
-			"outs": {
-				"out": {
-					"connection": "8tEta9Mc903eRLv7:ins:in"
-				}
-			}
-		},
-		{
-			"type": "advanced",
-			"inputs": {
-				"effect": {
-					"connection": "14pfkjbW1HJj3E54:outputs:effect"
-				},
-				"tieToDocs": {
-					"connection": "cmlqRAbNU6Qhyhgz:outputs:item"
-				}
-			},
-			"position": {
-				"x": 1996.666748046875,
-				"y": 278.2500389128388
-			},
-			"id": "8tEta9Mc903eRLv7",
 			"outs": {
 				"out": {
 					"connection": "dIE6ApJMYrwjC4Bq:ins:in"
