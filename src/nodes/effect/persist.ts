@@ -9,6 +9,8 @@ type TInputs = {
 	loops: number;
 	loopDelay: number;
 	endOnLastLoop: boolean;
+	tieTo: string;
+	tieToDocs: unknown[];
 };
 
 class PersistNode extends EffectModifierNode<TInputs> {
@@ -17,7 +19,7 @@ class PersistNode extends EffectModifierNode<TInputs> {
 	}
 
 	static override get tags() {
-		return super.tags.concat(...["persist", "temporary", "extraEndDuration", "loopOptions"])
+		return super.tags.concat(...["persist", "temporary", "extraEndDuration", "loopOptions", "tieToDocuments"])
 	}
 
 	override get icon() {
@@ -35,6 +37,8 @@ class PersistNode extends EffectModifierNode<TInputs> {
 				...this.io("persistTokenPrototype"),
 				group: "persist"
 			},
+			{ key: "tieTo", type: "text", ...this.sharedIo("tieTo") },
+			{ key: "tieToDocs", type: "any", isArray: true, ...this.sharedIo("tieToDocs") },
 			{ key: "temporary", type: "boolean", ...this.io("temporary") },
 			{
 				key: "extraEndDuration",
@@ -79,6 +83,15 @@ class PersistNode extends EffectModifierNode<TInputs> {
 
 		const extraEndDuration = await this.getInputValue("extraEndDuration");
 		if (extraEndDuration > 0) effect.extraEndDuration(extraEndDuration);
+
+		const tieTo = await this.getInputValue("tieTo");
+		const uuids = tieTo ? tieTo.split(",").map((s) => s.trim()).filter(Boolean) : [];
+		const docs = ((await this.getInputValue("tieToDocs")) ?? [])
+			.map((v) => this.resolveObject(v))
+			.filter((v): v is object => !!v && typeof v !== "string");
+		if (uuids.length || docs.length) {
+			effect.tieToDocuments([...uuids, ...docs]);
+		}
 
 		const loops = await this.getInputValue("loops");
 		const loopDelay = await this.getInputValue("loopDelay");

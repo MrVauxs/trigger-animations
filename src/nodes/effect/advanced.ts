@@ -4,8 +4,6 @@ import { EffectModifierNode } from "./base";
 
 type TInputs = {
 	override: string;
-	tieTo: string;
-	tieToDocs: unknown[];
 	syncGroup: string;
 	preset: string;
 	presetArgs: string;
@@ -19,7 +17,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 	}
 
 	static override get tags() {
-		return super.tags.concat(...["addOverride", "tieToDocuments", "syncGroup", "preset", "isometric"])
+		return super.tags.concat(...["addOverride", "syncGroup", "preset", "isometric"])
 	}
 
 	override get icon() {
@@ -36,8 +34,6 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				...this.io("override"),
 				field: { type: "javascript" }
 			},
-			{ key: "tieTo", type: "text", ...this.io("tieTo") },
-			{ key: "tieToDocs", type: "any", isArray: true, ...this.io("tieToDocs") },
 			{ key: "syncGroup", type: "text", ...this.io("syncGroup") },
 			{ key: "preset", type: "text", ...this.io("preset"), group: "preset" },
 			{
@@ -67,15 +63,6 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 			} catch (e) {
 				devLog(`[${this.type}] invalid override function; skipping`, e);
 			}
-		}
-
-		const tieTo = await this.getInputValue("tieTo");
-		const uuids = tieTo ? tieTo.split(",").map((s) => s.trim()).filter(Boolean) : [];
-		const docs = ((await this.getInputValue("tieToDocs")) ?? [])
-			.map((v) => this.resolveObject(v))
-			.filter((v): v is object => !!v && typeof v !== "string");
-		if (uuids.length || docs.length) {
-			effect.tieToDocuments([...uuids, ...docs]);
 		}
 
 		const syncGroup = await this.getInputValue("syncGroup");

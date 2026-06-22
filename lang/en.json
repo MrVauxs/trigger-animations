@@ -8,6 +8,14 @@
 			"label": "Register Triggers"
 		},
 		"io": {
+			"tieTo": {
+				"title": "Tie To UUIDs",
+				"tooltip": "Comma-separated document UUIDs; the effect ends if any are deleted. Leave empty to skip."
+			},
+			"tieToDocs": {
+				"title": "Tie To Documents",
+				"tooltip": "Documents the effect is tied to; the effect ends if any are deleted."
+			},
 			"effect": {
 				"title": "Effect",
 				"tooltip": "The individual Effect section that can be modified by other nodes regardless of order."
@@ -985,14 +993,6 @@
 						"override": {
 							"title": "Override",
 							"tooltip": "JavaScript run before the effect plays. Receives (effect, data) and must return data. Leave empty to skip."
-						},
-						"tieTo": {
-							"title": "Tie To UUIDs",
-							"tooltip": "Comma-separated document UUIDs; the effect ends if any are deleted. Leave empty to skip."
-						},
-						"tieToDocs": {
-							"title": "Tie To Documents",
-							"tooltip": "Documents the effect is tied to; the effect ends if any are deleted."
 						},
 						"syncGroup": {
 							"title": "Sync Group",
