@@ -3,7 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-const ROOT = "trigger-animations.trigger-animations";
+const ROOT = "trigger-animations.anim-trigger";
 
 /**
  * Base class for nodes that modify an existing CanvasPanSection.
@@ -61,16 +61,16 @@ abstract class CanvasPanModifierNode<
 	}
 
 	getLocation(loc: TargetDocuments | Point | RegionDocument): TokenDocument | Point | RegionDocument | undefined {
-			// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
-			if (typeof loc === "object" && "x" in loc && "y" in loc) {
-				return { x: (loc as Point).x, y: (loc as Point).y };
-			}
-			// It can also be a Region Document
-			else if (typeof loc === "object" && "collectionName" in loc && loc.collectionName === "regions") {
-				return loc as RegionDocument;
-			}
-			return this.getTargetToken(loc as TargetDocuments);
+		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
+		if (typeof loc === "object" && "x" in loc && "y" in loc) {
+			return { x: (loc as Point).x, y: (loc as Point).y };
 		}
+		// It can also be a Region Document
+		else if (typeof loc === "object" && "collectionName" in loc && loc.collectionName === "regions") {
+			return loc as RegionDocument;
+		}
+		return this.getTargetToken(loc as TargetDocuments);
+	}
 
 	protected abstract apply(section: CanvasPanSection): Promise<void> | void;
 

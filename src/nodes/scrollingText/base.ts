@@ -3,7 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-const ROOT = "trigger-animations.trigger-animations";
+const ROOT = "trigger-animations.anim-trigger";
 
 /**
  * Base class for nodes that modify an existing ScrollingTextSection.

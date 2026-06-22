@@ -74,7 +74,7 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.trigger-animations.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
 	}
 
 	static override get defineOuts(): T.BridgeSchemaInput[] | null {

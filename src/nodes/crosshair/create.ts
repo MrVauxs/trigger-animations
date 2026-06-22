@@ -28,7 +28,7 @@ class CrosshairNode extends TriggerNode<
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.trigger-animations.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
 	}
 
 	override get headerColor() {

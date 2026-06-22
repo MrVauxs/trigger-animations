@@ -4,7 +4,7 @@ import { EASE_OPTIONS } from "../effect/constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-const ROOT = "trigger-animations.trigger-animations";
+const ROOT = "trigger-animations.anim-trigger";
 
 /**
  * Base class for all nodes that modify an existing SoundSection.
