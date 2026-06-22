@@ -17,7 +17,7 @@ export class API {
 	}
 
 	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
-		return game.triggerEngine?.api.openBlueprintMenu(id, id, data, ...args)
+		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args)
 	}
 	async endAnimation(opts: Parameters<typeof Sequencer.EffectManager.endEffects>[0]) {
 		return Sequencer.EffectManager.endEffects(opts)
@@ -60,13 +60,13 @@ export class API {
 			},
 			afterPrepared: (data) => {
 				devLog("afterPrepared", data)
-				globalThis.triggerAnimations.api.settingsMount();
+				globalThis.triggerAnimations.api.databaseMount();
 			}
 		}
 	}
 
 	#hooks: Record<string, number> = {};
-	settingsMount() {
+	databaseMount() {
 		devLog("DB Mount Hook", this.db)
 		if (!this.db) return;
 		if (this.#hooks.renderJournalDirectory) Hooks.off("renderJournalDirectory", this.#hooks.renderJournalDirectory)
@@ -75,7 +75,6 @@ export class API {
 			const element = app.element.querySelector(`[data-entry-id="${this.db.id}"]`);
 			if (element) element.remove();
 		})
-
 
 		const style = document.createElement("style");
 		style.id = `trigger-animations-${this.db.id}`;
@@ -93,7 +92,7 @@ export class API {
 	async createJournalDatabase() {
 		const end = () => {
 			this._db = database!;
-			this.settingsMount();
+			this.databaseMount();
 			if (!this.#updateHook) this.#updateHook = Hooks.on("updateJournalEntry", (journal, data, log) => {
 				if (journal.id === this.db.id) this.prepare();
 			})

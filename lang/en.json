@@ -1,7 +1,9 @@
 {
 
 	"trigger-animations": {
-		"trigger-animations": {
+		"settings": {
+		},
+		"anim-trigger": {
 		"setting": {
 			"name": "Trigger Animations",
 			"hint": "Register your triggers within the module.",

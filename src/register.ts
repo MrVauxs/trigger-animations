@@ -36,7 +36,7 @@ Hooks.on(
 				}
 			)
 
-			const { prepareTriggers } = r(id, id, {
+			const { prepareTriggers } = r(id, "anim-trigger", {
 				mode: "setting",
 				setting: API.setting,
 				entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
@@ -61,6 +61,6 @@ Hooks.once("triggerEngine.registerTriggers", (registerTriggers) => {
 		const flag = (mod?.flags?.['trigger-animations'] as { triggers: string })?.triggers;
 		if (!flag) continue;
 		log(`Registering triggers for ${mod.id}`, flag)
-		registerTriggers(id, id, flag);
+		registerTriggers(id, "anim-trigger", flag);
 	}
 });

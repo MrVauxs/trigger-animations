@@ -48,7 +48,7 @@
 	"library": false,
 	"flags": {
 		"trigger-animations": {
-			"triggers": "modules/trigger-animations/dist/animations.json"
+			"triggers": "modules/trigger-animations/dist/anim-trigger.json"
 		},
 		"canUpload": true,
 		"hotReload": {
