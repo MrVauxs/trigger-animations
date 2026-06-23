@@ -1,0 +1,149 @@
+{
+	"name": "Check Roll",
+	"folder": "Animations",
+	"priority": 0,
+	"tags": [
+		"pf2e",
+		"sf2e"
+	],
+	"id": "P1XspLbVV9MJ4ayT",
+	"nodes": [
+		{
+			"type": "execute-animation",
+			"position": {
+				"x": 880.4414236949079,
+				"y": 247.95560949113622
+			},
+			"id": "zJiAEHL0uEXPz5FL",
+			"custom": {
+				"inputs": {
+					"5E6lWUteSYs0PMsw": {
+						"id": "5E6lWUteSYs0PMsw",
+						"label": "Outcome",
+						"slug": "input",
+						"isArray": false,
+						"type": "any"
+					},
+					"1NXZ8AH8e79Nfdaq": {
+						"id": "1NXZ8AH8e79Nfdaq",
+						"label": "Is Reroll",
+						"slug": "input",
+						"isArray": false,
+						"type": "any"
+					}
+				}
+			},
+			"inputs": {
+				"1NXZ8AH8e79Nfdaq": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:reroll"
+				},
+				"5E6lWUteSYs0PMsw": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:outcome"
+				},
+				"options": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:options"
+				},
+				"item": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:item"
+				},
+				"targets": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:target"
+				},
+				"sources": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:roller"
+				},
+				"actor": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:origin"
+				},
+				"name": {
+					"connection": "t4i7doPyf0RqdGbg:outputs:result"
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 350.5925926533921,
+				"y": 221.18515974919484
+			},
+			"id": "J4upselpWIkszsLI",
+			"custom": {
+				"outputs": {
+					"ORwOjJ9EF0ULW2b8": {
+						"id": "ORwOjJ9EF0ULW2b8",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "t4i7doPyf0RqdGbg:ins:in"
+				}
+			}
+		},
+		{
+			"type": "check-roll-event",
+			"position": {
+				"x": 124.66665225038781,
+				"y": 252.66664600372314
+			},
+			"id": "NNGbeJ0Gi5YfgOol",
+			"outs": {
+				"out": {
+					"connection": "J4upselpWIkszsLI:ins:in"
+				}
+			}
+		},
+		{
+			"type": "format-text",
+			"position": {
+				"x": 571.9999805286624,
+				"y": 199.33330249786377
+			},
+			"id": "t4i7doPyf0RqdGbg",
+			"custom": {
+				"inputs": {
+					"aessLq9h6kaS3HjI": {
+						"id": "aessLq9h6kaS3HjI",
+						"input": "slug",
+						"label": "slug",
+						"slug": "variable",
+						"type": "text"
+					},
+					"pKouzzHfVABGrRtd": {
+						"id": "pKouzzHfVABGrRtd",
+						"input": "type",
+						"label": "type",
+						"slug": "variable",
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"plain": {
+					"value": "@type:@slug"
+				},
+				"aessLq9h6kaS3HjI": {
+					"connection": "J4upselpWIkszsLI:outputs:ORwOjJ9EF0ULW2b8"
+				},
+				"pKouzzHfVABGrRtd": {
+					"connection": "NNGbeJ0Gi5YfgOol:outputs:type"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "zJiAEHL0uEXPz5FL:ins:in"
+				}
+			}
+		}
+	]
+}

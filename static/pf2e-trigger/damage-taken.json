@@ -1,0 +1,127 @@
+{
+	"name": "Damage Taken",
+	"priority": 0,
+	"id": "v5qzsRtP0pKrpvBE",
+	"nodes": [
+		{
+			"type": "damage-taken-event",
+			"position": {
+				"x": 336.66667530382455,
+				"y": 170.66664600372314
+			},
+			"id": "4tQW1HNQucnFhKAW",
+			"inputs": {
+				"requires": {
+					"value": false
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "Jo0VrfJDLW7Mvt6d:ins:in"
+				}
+			},
+			"state": "select"
+		},
+		{
+			"type": "extract-item",
+			"position": {
+				"x": 596.0000405865962,
+				"y": 127.33336353302002
+			},
+			"id": "Jo0VrfJDLW7Mvt6d",
+			"custom": {
+				"outputs": {
+					"RNE8lD7qDcKIiDni": {
+						"id": "RNE8lD7qDcKIiDni",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"input": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:item"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "ZooAkFwRIY46wMYH:ins:in"
+				}
+			}
+		},
+		{
+			"type": "execute-animation",
+			"position": {
+				"x": 1141.9229187400122,
+				"y": 201.06667652130125
+			},
+			"id": "3t3A8VL9c5svibPe",
+			"inputs": {
+				"item": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:item"
+				},
+				"actor": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:origin"
+				},
+				"sources": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:origin"
+				},
+				"targets": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:target"
+				},
+				"options": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:options"
+				},
+				"name": {
+					"connection": "ZooAkFwRIY46wMYH:outputs:result"
+				}
+			}
+		},
+		{
+			"type": "format-text",
+			"position": {
+				"x": 819.3332851331579,
+				"y": 125.33330249786377
+			},
+			"id": "ZooAkFwRIY46wMYH",
+			"custom": {
+				"inputs": {
+					"5YEY3kuRaXjzEXq8": {
+						"id": "5YEY3kuRaXjzEXq8",
+						"input": "slug",
+						"label": "slug",
+						"slug": "variable",
+						"type": "text"
+					},
+					"wzRgUtsTgpqgizLY": {
+						"id": "wzRgUtsTgpqgizLY",
+						"input": "type",
+						"label": "type",
+						"slug": "variable",
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"plain": {
+					"value": "@type:@slug"
+				},
+				"5YEY3kuRaXjzEXq8": {
+					"connection": "Jo0VrfJDLW7Mvt6d:outputs:RNE8lD7qDcKIiDni"
+				},
+				"wzRgUtsTgpqgizLY": {
+					"value": "damage"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "3t3A8VL9c5svibPe:ins:in"
+				}
+			}
+		}
+	],
+	"folder": "Animations"
+}

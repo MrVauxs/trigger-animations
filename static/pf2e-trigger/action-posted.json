@@ -1,0 +1,79 @@
+{
+	"name": "Action Posted",
+	"folder": "Animations",
+	"priority": 0,
+	"id": "MhPnCiFPfnfPZSee",
+	"nodes": [
+		{
+			"type": "action-chat-event",
+			"position": {
+				"x": 297.999989718216,
+				"y": 410.6666327347437
+			},
+			"id": "ZREUrMbreHUDuemk",
+			"outs": {
+				"out": {
+					"connection": "IDQTw5JJD4UBtg2T:ins:in"
+				}
+			}
+		},
+		{
+			"type": "extract-item",
+			"inputs": {
+				"input": {
+					"connection": "ZREUrMbreHUDuemk:outputs:item"
+				}
+			},
+			"position": {
+				"x": 574.0000406786016,
+				"y": 424.8166907973018
+			},
+			"id": "IDQTw5JJD4UBtg2T",
+			"custom": {
+				"outputs": {
+					"oYiZvjkJXmEWqmzA": {
+						"id": "oYiZvjkJXmEWqmzA",
+						"input": "slug",
+						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "jAzKMfwdadNuNIBA:ins:in"
+				}
+			}
+		},
+		{
+			"type": "execute-animation",
+			"position": {
+				"x": 825.9230478718617,
+				"y": 410.40000451796243
+			},
+			"id": "jAzKMfwdadNuNIBA",
+			"inputs": {
+				"actor": {
+					"connection": "ZREUrMbreHUDuemk:outputs:origin"
+				},
+				"sources": {
+					"connection": "ZREUrMbreHUDuemk:outputs:origin"
+				},
+				"targets": {
+					"connection": "ZREUrMbreHUDuemk:outputs:targets"
+				},
+				"options": {
+					"connection": "ZREUrMbreHUDuemk:outputs:options"
+				},
+				"item": {
+					"connection": "ZREUrMbreHUDuemk:outputs:item"
+				},
+				"name": {
+					"connection": "IDQTw5JJD4UBtg2T:outputs:oYiZvjkJXmEWqmzA"
+				}
+			}
+		}
+	]
+}
