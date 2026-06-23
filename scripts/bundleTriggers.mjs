@@ -44,8 +44,11 @@ async function getTriggerFiles(dir) {
 }
 
 // Only subdirectories of the source root become bundles.
+// Skip those prefixed with "_" (e.g. _deleted), which hold non-bundled files.
 const rootEntries = await fs.readdir(rootDir, { withFileTypes: true });
-const subdirs = rootEntries.filter((e) => e.isDirectory()).map((e) => e.name);
+const subdirs = rootEntries
+	.filter((e) => e.isDirectory() && !e.name.startsWith("_"))
+	.map((e) => e.name);
 
 if (subdirs.length === 0) {
 	p.cancel(`No subdirectories found in ${yellow(sourceRoot)} to bundle.`);
