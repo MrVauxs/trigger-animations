@@ -752,7 +752,7 @@
 			"id": "1AbuTiAdPiFJiy51"
 		}
 	],
-	"id": "K6qaa5RsjMLpqi76",
+	"id": "IiVwVHVMzyDLNo0V",
 	"variables": {
 		"1uSVoD3c1s4A59Be:outputs:uMS4ixeUqsnWWTRj": {
 			"isArray": false,
@@ -764,5 +764,8 @@
 			"label": "Traits",
 			"type": "any"
 		}
-	}
+	},
+	"tags": [
+		"template"
+	]
 }

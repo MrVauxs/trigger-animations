@@ -3,8 +3,7 @@
 	"folder": "Weapons",
 	"priority": 0,
 	"tags": [
-		"weapon",
-		"pf2e"
+		"attack-roll"
 	],
 	"nodes": [
 		{
@@ -232,5 +231,5 @@
 			}
 		}
 	],
-	"id": "5xjBf50xT6ecy41F"
+	"id": "qLo0Xc1y1TQoctDo"
 }
