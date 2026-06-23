@@ -1883,11 +1883,54 @@
 						}
 					}
 				}
+			},
+			"value": {
+				"random-list": {
+					"title": "Random List",
+					"states": {
+						"list": "From List",
+						"between": "Between",
+						"any": "From Array"
+					},
+					"io": {
+						"list": {
+							"title": "List",
+							"tooltip": "A comma separated list of candidates. One of them is picked at random."
+						},
+						"min": {
+							"title": "Min",
+							"tooltip": "The lowest number that can be picked (inclusive)."
+						},
+						"max": {
+							"title": "Max",
+							"tooltip": "The upper bound of the random number (exclusive)."
+						},
+						"value": {
+							"title": "Value",
+							"tooltip": "The randomly picked result."
+						},
+						"any": {
+							"title": "Array",
+							"tooltip": "An array of candidates from another node. A random element is picked from it."
+						},
+						"recurse": {
+							"title": "Recurse",
+							"tooltip": "When the picked element is itself an array, keep picking from it until a non-array value is found."
+						},
+						"type": {
+							"title": "Type",
+							"tooltip": "Whether to pick a whole number (integer) or a decimal (float). The maximum is exclusive (i.e. 1-4 will pick 1, 2, 3.)"
+						}
+					}
+				}
 			}
 		},
 		"category": {
 			"action": {
 				"title": "Action"
+			},
+			"value": {
+				"title": "Value"
 			},
 			"sequence": {
 				"title": "Sequence"
