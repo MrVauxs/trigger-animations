@@ -9,7 +9,7 @@
   - Persistent Damage Taken
 - (Nodes) Moved "tieTo" from the Advanced effect node to the Persist effect node.
 - (Backend) `prepareTriggers` now runs across all connected clients.
-- (Backend) Added a live-update plugin so triggers reload during development.
+- (Backend) Added a live-update plugin so created triggers are exported into the repo during development.
 
 # 0.0.3
 - Moved database to Journal Entries. Now everyone can edit the animations.
