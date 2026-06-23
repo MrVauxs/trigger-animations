@@ -3,6 +3,20 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { StartNodeOptions } from "./nodes";
 import { devLog, log } from "$lib/utils";
 
+// Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
+if (import.meta.hot) {
+	import.meta.hot.on("trigger-animations:saved", (result) => {
+		if (result?.error) {
+			ui.notifications.error("Failed to save triggers to static/. See console.")
+			log("Failed to save triggers to static/", result.error);
+		}
+		else {
+			ui.notifications.info(`Saved ${result?.written ?? "?"} trigger(s) to static/${result?.subdir ?? "anim-trigger"}`)
+			devLog(`Saved ${result?.written ?? "?"} trigger(s) to static/${result?.subdir ?? "anim-trigger"}`);
+		}
+	});
+}
+
 type CustomSetting = Extract<
 	T.TriggerApplicationOptions["setting"],
 	{
@@ -26,6 +40,10 @@ export class API {
 		return Sequencer.EffectManager.endAllEffects(scene)
 	}
 	async runFromTrigger(data: StartNodeOptions): Promise<void> { };
+
+	saveTriggers(data: T.TriggerDataInput[]): void {
+		import.meta.hot?.send("trigger-animations:save", { triggers: data });
+	};
 
 	_db!: JournalEntry
 	get db() { return this._db }
@@ -60,6 +78,7 @@ export class API {
 			},
 			afterPrepared: (data) => {
 				devLog("afterPrepared", data)
+				globalThis.triggerAnimations.api.saveTriggers(data);
 				globalThis.triggerAnimations.api.databaseMount();
 			}
 		}

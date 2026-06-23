@@ -21,7 +21,6 @@ const postcss = {
 
 const PACKAGE_ID = `modules/${moduleJSON.id}`;
 
-
 export default defineConfig(({ command }) => {
 	if (command === 'serve') console.log(`Running foundry port ${foundryPort} -> dev port ${devPort}`);
 	return {
@@ -111,6 +110,74 @@ export default defineConfig(({ command }) => {
 					});
 				},
 			},
+			{
+				name: "save-triggers", // Saves triggers live from server in dev mode
+				apply: "serve",
+				configureServer(server) {
+					server.ws.on("trigger-animations:save", (payload, client) => {
+						const triggers = (payload as { triggers?: unknown })?.triggers;
+						const subdir = (payload as { subdir?: string })?.subdir || "anim-trigger";
+
+						if (!Array.isArray(triggers)) {
+							client.send("trigger-animations:saved", { error: "Expected an array of triggers." });
+							return;
+						}
+
+						const outDir = path.resolve(__dirname, "static", subdir);
+						try {
+							fs.mkdirSync(outDir, { recursive: true });
+
+							const used = new Set<string>();
+							let written = 0;
+							for (const [index, trigger] of triggers.entries()) {
+								let base = slugify((trigger as { name?: unknown })?.name);
+								// Disambiguate collisions with the trigger id, then a running index.
+								if (used.has(base)) base = `${base}-${(trigger as { id?: unknown })?.id ?? index}`;
+								while (used.has(base)) base = `${base}-${index}`;
+								used.add(base);
+
+								fs.writeFileSync(
+									path.join(outDir, `${base}.json`),
+									JSON.stringify(purgeObject(trigger) ?? {}, null, "\t"),
+								);
+								written++;
+							}
+
+							console.log(`[save-triggers] Wrote ${written} trigger(s) to static/${subdir}.`);
+							client.send("trigger-animations:saved", { written, subdir });
+						} catch (error) {
+							console.error("[save-triggers]", error);
+							client.send("trigger-animations:saved", { error: (error as Error).message });
+						}
+					});
+				},
+			}
 		],
 	} satisfies UserConfig;
 });
+
+// Mirrors `scripts/unpackTriggers.mjs`
+function slugify(name: unknown): string {
+	return (
+		String(name || "trigger")
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-+|-+$/g, "") || "trigger"
+	);
+}
+
+function purgeObject(value: unknown): unknown {
+	if (Array.isArray(value)) {
+		const next = value.map(purgeObject).filter((v) => v != null);
+		return next.length ? next : undefined;
+	}
+	if (value && typeof value === "object") {
+		const next: Record<string, unknown> = {};
+		for (const [key, v] of Object.entries(value)) {
+			const purged = purgeObject(v);
+			if (purged != null) next[key] = purged;
+		}
+		return Object.keys(next).length ? next : undefined;
+	}
+	return value === "" ? undefined : value;
+}
