@@ -1922,6 +1922,27 @@
 							"tooltip": "Whether to pick a whole number (integer) or a decimal (float). The maximum is exclusive (i.e. 1-4 will pick 1, 2, 3.)"
 						}
 					}
+				},
+				"get-setting": {
+					"title": "Get Setting",
+					"subtitle": "Reads a registered game setting",
+					"io": {
+						"module": {
+							"title": "Module",
+							"tooltip": "The id of the module (or system/core) the setting is registered under."
+						},
+						"key": {
+							"title": "Key",
+							"tooltip": "The key the setting is registered with."
+						},
+						"output": {
+							"title": "Output",
+							"tooltip": "Add an output for each value you want to read, and pick its type. Leave the path empty to return the whole setting, or enter a property path (e.g. enabled) to dig into an object setting.",
+							"path": {
+								"label": "Path"
+							}
+						}
+					}
 				}
 			}
 		},

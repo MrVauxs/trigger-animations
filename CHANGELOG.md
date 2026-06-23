@@ -1,3 +1,6 @@
+# 0.0.5
+- (Nodes) Added "Get Setting" query node.
+
 # 0.0.4
 - (Nodes) Added "Random List" query node.
 - (Triggers) Added Pathfinder 2e triggers:
