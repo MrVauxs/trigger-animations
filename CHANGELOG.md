@@ -1,3 +1,6 @@
+# 0.0.6
+- Move node tags to aliases.
+
 # 0.0.5
 - Optimize hooks by caching trigger IDs and their names.
 - Make local animations run for every individual user independent of each other.
