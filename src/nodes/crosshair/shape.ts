@@ -18,10 +18,8 @@ class CrosshairShapeNode extends CrosshairModifierNode<TInputs> {
 		return "cross-shape";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"type", "distance", "angle", "direction", "width", "snapPosition", "snapDirection"
-		])
+	static get aliases(): string[] {
+		return ["type", "distance", "angle", "direction", "width", "snapPosition", "snapDirection"];
 	}
 
 	override get icon() {

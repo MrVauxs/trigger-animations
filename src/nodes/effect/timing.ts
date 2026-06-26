@@ -17,11 +17,9 @@ class TimingNode extends EffectModifierNode<TInputs, TState> {
 		return "timing";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"duration", "playbackRate", "startTimePerc", "endTimePerc",
-			"timeRange", "startTime", "endTime"
-		])
+	static get aliases(): string[] {
+		return ["duration", "playbackRate", "startTimePerc", "endTimePerc",
+			"timeRange", "startTime", "endTime"];
 	}
 
 	static override get states(): string[] | null {

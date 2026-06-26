@@ -11,8 +11,8 @@ class SoundUsersNode extends SoundModifierNode<TInputs> {
 		return "snd-users";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["locally", "forUsers"]);
+	static get aliases(): string[] {
+		return ["locally", "forUsers"];
 	}
 
 	override get icon() {

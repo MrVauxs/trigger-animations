@@ -23,11 +23,9 @@ class VisibilityNode extends EffectModifierNode<TInputs> {
 		return "visibility";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"locally", "private", "xray", "constrainedByWalls", "forUsers",
-			"mask", "opacity", "fadeIn", "fadeOut"
-		])
+	static get aliases(): string[] {
+		return ["locally", "private", "xray", "constrainedByWalls", "forUsers",
+			"mask", "opacity", "fadeIn", "fadeOut"];
 	}
 
 	override get icon() {

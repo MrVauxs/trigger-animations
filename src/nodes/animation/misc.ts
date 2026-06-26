@@ -12,8 +12,8 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 		return "anim-misc";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["duration", "tint", "preset"])
+	static get aliases(): string[] {
+		return ["duration", "tint", "preset"];
 	}
 
 	override get icon() {

@@ -20,11 +20,9 @@ class LayerNode extends EffectModifierNode<TInputs> {
 		return "layer";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"belowTokens", "belowTiles", "aboveLighting", "aboveInterface",
-			"zIndex", "sortLayer", "elevation", "onLevels"
-		])
+	static get aliases(): string[] {
+		return ["belowTokens", "belowTiles", "aboveLighting", "aboveInterface",
+			"zIndex", "sortLayer", "elevation", "onLevels"];
 	}
 
 	override get icon() {

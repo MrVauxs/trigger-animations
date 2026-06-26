@@ -22,11 +22,9 @@ class RotationNode extends EffectModifierNode<TInputs> {
 		return "rotation";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"rotate", "randomRotation", "spriteRotation", "randomSpriteRotation",
-			"zeroSpriteRotation", "rotateIn", "rotateOut"
-		])
+	static get aliases(): string[] {
+		return ["rotate", "randomRotation", "spriteRotation", "randomSpriteRotation",
+			"zeroSpriteRotation", "rotateIn", "rotateOut"];
 	}
 
 	override get icon() {

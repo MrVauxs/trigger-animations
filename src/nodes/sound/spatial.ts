@@ -25,9 +25,8 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 		return "snd-spatial";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"radius",
+	static get aliases(): string[] {
+		return ["radius",
 			"constrainedByWalls",
 			"distanceEasing",
 			"audioChannel",
@@ -37,8 +36,7 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 			"baseEffect",
 			"muffledEffect",
 			"elevation",
-			"onLevels"
-		]);
+			"onLevels"];
 	}
 
 	override get icon() {

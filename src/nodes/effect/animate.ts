@@ -26,8 +26,8 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 		return "animate";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["animateProperty", "loopProperty"])
+	static get aliases(): string[] {
+		return ["animateProperty", "loopProperty"];
 	}
 
 	static override get states(): string[] | null {

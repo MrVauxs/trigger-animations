@@ -20,8 +20,8 @@ class ScrollingTextFlowNode extends ScrollingTextModifierNode<TInputs> {
 		return "scroll-flow";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["waitUntilFinished", "async", "delay", "repeats", "playIf", "preset"]);
+	static get aliases(): string[] {
+		return ["waitUntilFinished", "async", "delay", "repeats", "playIf", "preset"];
 	}
 
 	override get icon() {

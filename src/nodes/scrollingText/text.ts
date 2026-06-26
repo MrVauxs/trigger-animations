@@ -16,8 +16,8 @@ class ScrollingTextTextNode extends ScrollingTextModifierNode<TInputs> {
 		return "scroll-text";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["text", "anchor", "direction", "jitter", "duration"]);
+	static get aliases(): string[] {
+		return ["text", "anchor", "direction", "jitter", "duration"];
 	}
 
 	override get icon() {

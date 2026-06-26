@@ -18,8 +18,8 @@ class PersistNode extends EffectModifierNode<TInputs> {
 		return "persist";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["persist", "temporary", "extraEndDuration", "loopOptions", "tieToDocuments"])
+	static get aliases(): string[] {
+		return ["persist", "temporary", "extraEndDuration", "loopOptions", "tieToDocuments"];
 	}
 
 	override get icon() {

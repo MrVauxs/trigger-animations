@@ -15,8 +15,8 @@ class StyleNode extends EffectModifierNode<TInputs> {
 		return "style";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["tint", "blendMode", "filter"])
+	static get aliases(): string[] {
+		return ["tint", "blendMode", "filter"];
 	}
 
 	override get icon() {

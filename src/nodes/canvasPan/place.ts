@@ -12,8 +12,8 @@ class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 		return "pan-place";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["atLocation", "locally", "forUsers"]);
+	static get aliases(): string[] {
+		return ["atLocation", "locally", "forUsers"];
 	}
 
 	override get icon() {

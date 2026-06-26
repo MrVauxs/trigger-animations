@@ -27,8 +27,8 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 		return "content";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["text", "shape", "copySprite", "tilingTexture", "template"])
+	static get aliases(): string[] {
+		return ["text", "shape", "copySprite", "tilingTexture", "template"];
 	}
 
 	override get title(): string | null {

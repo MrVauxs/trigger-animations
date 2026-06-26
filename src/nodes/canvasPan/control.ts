@@ -19,8 +19,8 @@ class CanvasPanControlNode extends CanvasPanModifierNode<TInputs> {
 		return "pan-control";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["speed", "scale", "lockView", "shake"]);
+	static get aliases(): string[] {
+		return ["speed", "scale", "lockView", "shake"];
 	}
 
 	override get icon() {

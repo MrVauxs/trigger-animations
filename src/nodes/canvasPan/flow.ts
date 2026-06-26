@@ -20,8 +20,8 @@ class CanvasPanFlowNode extends CanvasPanModifierNode<TInputs> {
 		return "pan-flow";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["waitUntilFinished", "async", "delay", "repeats", "playIf", "preset"]);
+	static get aliases(): string[] {
+		return ["waitUntilFinished", "async", "delay", "repeats", "playIf", "preset"];
 	}
 
 	override get icon() {

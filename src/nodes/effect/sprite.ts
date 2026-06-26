@@ -24,11 +24,9 @@ class SpriteNode extends EffectModifierNode<TInputs> {
 		return "sprite";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...[
-			"anchor", "spriteAnchor", "center", "mirrorX", "mirrorY",
-			"randomizeMirrorX", "randomizeMirrorY", "spriteOffset"
-		])
+	static get aliases(): string[] {
+		return ["anchor", "spriteAnchor", "center", "mirrorX", "mirrorY",
+			"randomizeMirrorX", "randomizeMirrorY", "spriteOffset"];
 	}
 
 	override get icon() {

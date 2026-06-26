@@ -12,8 +12,8 @@ class FileNode extends EffectModifierNode<TInputs> {
 		return "file";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["baseFolder", "file", "setMustache"])
+	static get aliases(): string[] {
+		return ["baseFolder", "file", "setMustache"];
 	}
 
 	override get icon() {

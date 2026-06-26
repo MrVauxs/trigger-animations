@@ -19,8 +19,8 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 		return "anim-opacity";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["opacity", "fadeIn", "fadeOut", "hide", "show"])
+	static get aliases(): string[] {
+		return ["opacity", "fadeIn", "fadeOut", "hide", "show"];
 	}
 
 	override get icon() {

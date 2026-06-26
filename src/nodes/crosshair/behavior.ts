@@ -21,8 +21,8 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 		return "cross-behavior";
 	}
 
-	static override get tags() {
-		return super.tags.concat(...["location", "lockDrag", "lockManualRotation", "persist"])
+	static get aliases(): string[] {
+		return ["location", "lockDrag", "lockManualRotation", "persist"];
 	}
 
 	override get icon() {
