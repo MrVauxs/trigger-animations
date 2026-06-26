@@ -11,18 +11,21 @@ class StartHook extends TriggerHook {
 	}
 
 	#execute(data: StartNodeOptions) {
-		const triggerId = globalThis.triggerAnimations.api.matchTrigger(data.name);
-		if (!triggerId) {
+		const trigger = globalThis.triggerAnimations.api.matchTrigger(data.name);
+		if (!trigger) {
 			devLog("No animation-event trigger matched", data.name)
 			return;
 		}
 
-		if (game.user.isActiveGM) {
-			devLog("Executing animation-event", triggerId, data)
-			return this.executeTriggerEvent(triggerId, "animation-event", data)
+		const { id, local } = trigger;
+
+		// Sequences run for everyone by default. Local makes it run only for the person running it. So we ensure everyone plays the local sequence separately.
+		if (local || game.user.isActiveGM) {
+			devLog("Executing animation-event", local ? "(local)" : "", id, data)
+			return this.executeTriggerEvent(id, "animation-event", data)
 		} else {
-			devLog("Executing animation-event via GM", triggerId, data)
-			return this.executeTriggerEventAsGM(triggerId, "animation-event", data)
+			devLog("Executing animation-event via GM", id, data)
+			return this.executeTriggerEventAsGM(id, "animation-event", data)
 		}
 	}
 

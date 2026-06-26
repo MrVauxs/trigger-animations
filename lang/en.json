@@ -353,7 +353,7 @@
 						},
 						"local": {
 							"title": "Local",
-							"tooltip": "Causes sections to be played only locally to the user executing the sequence."
+							"tooltip": "Causes sections to be played only locally to the user executing the sequence. This applies to all effects applied within this Trigger, even if there are subsequent non-local Play nodes."
 						}
 					}
 				}

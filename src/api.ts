@@ -30,6 +30,7 @@ type CachedTrigger = {
 	patterns: string[] | null;
 	priority: number;
 	specificity: number;
+	local: boolean;
 };
 
 function patternSpecificity(pattern: string): number {
@@ -80,7 +81,10 @@ export class API {
 			.flatMap((trigger) => {
 				const id = trigger.id;
 				if (!id) return [];
-				return (trigger.nodes ?? [])
+				const nodes = trigger.nodes ?? [];
+				// A trigger plays locally if any of its `play` nodes has `local: true`.
+				const local = nodes.some((node) => node.type === "play" && node.inputs?.local?.value === true);
+				return nodes
 					.filter((node) => node.type === "animation-event")
 					.map((node): CachedTrigger => {
 						const input = node.inputs?.name;
@@ -94,20 +98,20 @@ export class API {
 						const specificity = patterns === null
 							? Infinity // dynamic patterns are treated as maximally specific
 							: Math.max(0, ...patterns.map(patternSpecificity));
-						return { id, patterns, priority: trigger.priority ?? 0, specificity };
+						return { id, patterns, priority: trigger.priority ?? 0, specificity, local };
 					});
 			})
 			.sort((a, b) => b.priority - a.priority || b.specificity - a.specificity);
 		devLog("Cached animation-event triggers", this._triggerCache);
 	}
 
-	matchTrigger(name: string): string | undefined {
+	matchTrigger(name: string): CachedTrigger | undefined {
 		if (!name) return undefined;
 		const givenNames = name.split(",").map((x) => x.trim());
 		return this._triggerCache.find(({ patterns }) => {
 			if (patterns === null) return true;
 			return patterns.some((pattern) => patternMatches(pattern, name, givenNames));
-		})?.id;
+		});
 	}
 
 	static prepareTriggers = () => { log("Prepare Triggers not set") }
