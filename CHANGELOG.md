@@ -1,5 +1,6 @@
 # 0.0.5
 - (Nodes) Added "Get Setting" query node.
+- Removed vestigial "Path" input from Animation Event Node.
 
 # 0.0.4
 - (Nodes) Added "Random List" query node.
