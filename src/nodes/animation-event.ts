@@ -108,9 +108,6 @@ class StartNode extends TriggerNode<
 				array: true,
 				label: this.localize("io.path.title"),
 				tooltip: this.localize("io.path.tooltip"),
-				input: {
-					label: this.localize("io.path.title"),
-				}
 			},
 		];
 	}
