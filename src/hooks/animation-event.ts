@@ -11,12 +11,18 @@ class StartHook extends TriggerHook {
 	}
 
 	#execute(data: StartNodeOptions) {
+		const triggerId = globalThis.triggerAnimations.api.matchTrigger(data.name);
+		if (!triggerId) {
+			devLog("No animation-event trigger matched", data.name)
+			return;
+		}
+
 		if (game.user.isActiveGM) {
-			devLog("Executing animation-event", data)
-			return this.executeEvent("animation-event", data)
+			devLog("Executing animation-event", triggerId, data)
+			return this.executeTriggerEvent(triggerId, "animation-event", data)
 		} else {
-			devLog("Executing animation-event via GM", data)
-			return this.executeEventAsGM("animation-event", data)
+			devLog("Executing animation-event via GM", triggerId, data)
+			return this.executeTriggerEventAsGM(triggerId, "animation-event", data)
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { id } from "moduleJSON";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { StartNodeOptions } from "./nodes";
-import { devLog, log } from "$lib/utils";
+import { dev, devLog, log } from "$lib/utils";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
 if (import.meta.hot) {
@@ -24,6 +24,28 @@ type CustomSetting = Extract<
 		set: unknown;
 	}
 >;
+
+type CachedTrigger = {
+	id: string;
+	patterns: string[] | null;
+	priority: number;
+	specificity: number;
+};
+
+function patternSpecificity(pattern: string): number {
+	if (pattern === "*") return 0;
+	// Score by the number of non-wildcard characters. A wildcard is less worth than a full string so `bow` beats `bow*`
+	const literalLength = pattern.replace(/\*/g, "").length;
+	return pattern.includes("*") ? literalLength - 0.5 : literalLength;
+}
+
+function patternMatches(pattern: string, name: string, givenNames: string[]): boolean {
+	// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
+	if (pattern === "*") return true;
+	if (!pattern.includes("*")) return givenNames.includes(pattern);
+	const regex = new RegExp("^" + pattern.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$");
+	return regex.test(name);
+}
 
 export class API {
 	constructor() {
@@ -50,7 +72,43 @@ export class API {
 	set db(db) { this._db = db }
 	get setting() { return API.setting }
 
-	_enabledTriggerNames: Record<string, string> = {};
+	_triggerCache: CachedTrigger[] = [];
+
+	/** Build {@link _triggerCache} from prepared trigger data. */
+	cacheTriggers(triggerData: T.TriggerDataInput[]) {
+		this._triggerCache = triggerData
+			.flatMap((trigger) => {
+				const id = trigger.id;
+				if (!id) return [];
+				return (trigger.nodes ?? [])
+					.filter((node) => node.type === "animation-event")
+					.map((node): CachedTrigger => {
+						const input = node.inputs?.name;
+						// A wired input is only resolved at runtime, so it can always match.
+						const raw = input && !input.connection && typeof input.value === "string"
+							? input.value
+							: null;
+						const patterns = raw === null
+							? null
+							: raw.split(",").map((p) => p.trim()).filter(Boolean);
+						const specificity = patterns === null
+							? Infinity // dynamic patterns are treated as maximally specific
+							: Math.max(0, ...patterns.map(patternSpecificity));
+						return { id, patterns, priority: trigger.priority ?? 0, specificity };
+					});
+			})
+			.sort((a, b) => b.priority - a.priority || b.specificity - a.specificity);
+		devLog("Cached animation-event triggers", this._triggerCache);
+	}
+
+	matchTrigger(name: string): string | undefined {
+		if (!name) return undefined;
+		const givenNames = name.split(",").map((x) => x.trim());
+		return this._triggerCache.find(({ patterns }) => {
+			if (patterns === null) return true;
+			return patterns.some((pattern) => patternMatches(pattern, name, givenNames));
+		})?.id;
+	}
 
 	static prepareTriggers = () => { log("Prepare Triggers not set") }
 	prepare() {
@@ -66,19 +124,13 @@ export class API {
 			},
 			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") || {}),
 			set: async (data, prepare) => {
-				// TODO: Some kind of update reconciliation for multiple users?
-				/*
-					disabled: string[]; (string of IDs from registered triggers or sources)
-					enabled: string[]; (string of IDs from registered triggers or sources)
-					folders: Record<string, string>; (overrides for registered triggers <trigger id> -> new folder name)
-					sources: TriggerDataInput[];
-				*/
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
 			},
 			afterPrepared: async (triggerData) => {
 				devLog("afterPrepared", triggerData)
-				globalThis.triggerAnimations.api.saveTriggers(triggerData);
+				if (dev) globalThis.triggerAnimations.api.saveTriggers(triggerData);
+				globalThis.triggerAnimations.api.cacheTriggers(triggerData);
 				globalThis.triggerAnimations.api.databaseMount();
 			}
 		}
