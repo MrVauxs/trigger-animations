@@ -1,5 +1,8 @@
 # 0.0.5
+- Optimize hooks by caching trigger IDs and their names.
+- Make local animations run for every individual user independent of each other.
 - (Nodes) Added "Get Setting" query node.
+- (Animations) Added Fireball.
 - Removed vestigial "Path" input from Animation Event Node.
 
 # 0.0.4
