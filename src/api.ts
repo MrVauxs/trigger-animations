@@ -76,9 +76,9 @@ export class API {
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
 			},
-			afterPrepared: (data) => {
-				devLog("afterPrepared", data)
-				globalThis.triggerAnimations.api.saveTriggers(data);
+			afterPrepared: async (triggerData) => {
+				devLog("afterPrepared", triggerData)
+				globalThis.triggerAnimations.api.saveTriggers(triggerData);
 				globalThis.triggerAnimations.api.databaseMount();
 			}
 		}
