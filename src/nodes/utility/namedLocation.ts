@@ -18,9 +18,7 @@ class NamedLocationNode extends TriggerNode<
 		return "named-location";
 	}
 
-	static override get tags() {
-		return ["animation"];
-	}
+
 
 	static override get category() {
 		return "sequence"

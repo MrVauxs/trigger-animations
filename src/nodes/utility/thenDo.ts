@@ -32,9 +32,7 @@ class ThenDoNode extends TriggerNode<
 		return "then-do";
 	}
 
-	static override get tags() {
-		return ["animation"];
-	}
+
 
 	static override get category() {
 		return "sequence"

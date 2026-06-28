@@ -21,10 +21,6 @@ class CanvasPanNode extends TriggerNode<
 		return "canvas-pan";
 	}
 
-	static override get tags() {
-		return ["animation", "canvas-pan"];
-	}
-
 	static override get category() {
 		return "sequence"
 	}

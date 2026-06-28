@@ -17,10 +17,6 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 		return "value";
 	}
 
-	static override get tags() {
-		return ["setting"];
-	}
-
 	// Query node: no incoming bridge nor outgoing bridges, only custom outputs.
 	static override get hasIn(): boolean {
 		return false;

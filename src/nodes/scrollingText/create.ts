@@ -21,10 +21,6 @@ class ScrollingTextNode extends TriggerNode<
 		return "scrolling-text";
 	}
 
-	static override get tags() {
-		return ["animation", "scrolling-text"];
-	}
-
 	static override get category() {
 		return "sequence"
 	}

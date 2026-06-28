@@ -18,9 +18,7 @@ class WaitNode extends TriggerNode<
 		return "wait";
 	}
 
-	static override get tags() {
-		return ["animation"];
-	}
+
 
 	static override get category() {
 		return "sequence"

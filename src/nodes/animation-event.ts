@@ -27,9 +27,7 @@ class StartNode extends TriggerNode<
 		return "animation-event";
 	}
 
-	static override get tags() {
-		return ["animation"];
-	}
+
 
 	static override get isEvent() {
 		return true;

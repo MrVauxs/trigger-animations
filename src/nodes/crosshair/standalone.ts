@@ -37,9 +37,10 @@ class CrosshairPickNode extends TriggerNode<
 		return "crosshair-pick";
 	}
 
-	static override get tags() {
-		return ["animation", "user", "location", "crosshair"];
+	static get aliases(): string[] {
+		return ["crosshair"];
 	}
+
 
 	static override get category() {
 		return "action"

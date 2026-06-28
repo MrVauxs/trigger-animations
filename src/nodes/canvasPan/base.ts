@@ -19,10 +19,6 @@ abstract class CanvasPanModifierNode<
 	string,
 	TState
 > {
-	static override get tags() {
-		return ["animation", "canvas-pan"];
-	}
-
 	static override get category() {
 		return "canvasPan";
 	}

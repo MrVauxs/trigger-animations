@@ -20,10 +20,6 @@ class SoundNode extends TriggerNode<
 		return "sound";
 	}
 
-	static override get tags() {
-		return ["animation", "sound"];
-	}
-
 	static override get category() {
 		return "sequence"
 	}

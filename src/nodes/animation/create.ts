@@ -19,10 +19,6 @@ class AnimationNode extends TriggerNode<
 		return "animation";
 	}
 
-	static override get tags() {
-		return ["animation", "on"];
-	}
-
 	static override get category() {
 		return "sequence"
 	}

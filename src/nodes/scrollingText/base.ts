@@ -19,10 +19,6 @@ abstract class ScrollingTextModifierNode<
 	string,
 	TState
 > {
-	static override get tags() {
-		return ["animation", "scrolling-text"];
-	}
-
 	static override get category() {
 		return "scrollingText";
 	}

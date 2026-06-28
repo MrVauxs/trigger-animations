@@ -21,10 +21,6 @@ class EffectNode extends TriggerNode<
 		return "effect";
 	}
 
-	static override get tags() {
-		return ["animation", "effect", "name", "origin"];
-	}
-
 	static override get category() {
 		return "sequence"
 	}

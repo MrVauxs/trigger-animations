@@ -20,10 +20,6 @@ abstract class SoundModifierNode<
 	string,
 	TState
 > {
-	static override get tags() {
-		return ["animation", "sound"];
-	}
-
 	static override get category() {
 		return "sound";
 	}
