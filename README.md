@@ -1,7 +1,8 @@
 # trigger-animations
 
-![GitHub all releases](https://img.shields.io/github/downloads/MrVauxs/trigger-animations/total)
+[![GitHub all releases](https://img.shields.io/github/downloads/MrVauxs/trigger-animations/total)](https://github.com/MrVauxs/trigger-animations/releases)
 [![gitlocalized ](https://gitlocalize.com/repo/10816/whole_project/badge.svg)](https://gitlocalize.com/repo/10816?utm_source=badge)
+[![Wiki](https://img.shields.io/badge/Wiki-Read%20the%20Documentation!-ffffff?logo=astro&style=flat&color=52b922&logoColor=FF5D01)](https://wiki.mrvauxs.net/)
 
 Trigger Engine but for animations
 
