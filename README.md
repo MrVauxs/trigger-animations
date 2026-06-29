@@ -1,4 +1,8 @@
 # trigger-animations
+
+![GitHub all releases](https://img.shields.io/github/downloads/MrVauxs/trigger-animations/total)
+[![gitlocalized ](https://gitlocalize.com/repo/10816/whole_project/badge.svg)](https://gitlocalize.com/repo/10816?utm_source=badge)
+
 Trigger Engine but for animations
 
 ## Installation
