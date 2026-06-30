@@ -1,5 +1,5 @@
 {
-	"name": "Effect",
+	"name": "Effect / Condition Granted",
 	"folder": "Animations",
 	"priority": 0,
 	"id": "qZFBC3oLW9JVA5XF",
@@ -13,7 +13,7 @@
 			"id": "NrSe7qkQAoAEuv9L",
 			"inputs": {
 				"type": {
-					"value": "effect"
+					"value": "effect,condition"
 				}
 			},
 			"outs": {
