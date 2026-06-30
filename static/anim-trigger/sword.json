@@ -346,7 +346,7 @@
 	"variables": {
 		"mpa5CCtLfa7bjI71:outputs:QPWf9ZnV9bidhNIQ": {
 			"isArray": false,
-			"label": "Damage Die",
+			"label": "Damage Die (V)",
 			"type": "text"
 		}
 	}

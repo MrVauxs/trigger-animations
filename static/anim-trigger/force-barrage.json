@@ -379,22 +379,22 @@
 	"variables": {
 		"DIKQm9cpxx67j5yf:outputs:effect": {
 			"isArray": false,
-			"label": "Effect",
+			"label": "Effect (V)",
 			"type": "effect"
 		},
 		"8YV9BSdaxTaTUYyZ:outputs:index": {
 			"isArray": false,
-			"label": "Index",
+			"label": "Index (V)",
 			"type": "number"
 		},
 		"8YV9BSdaxTaTUYyZ:outputs:target": {
 			"isArray": false,
-			"label": "Target",
+			"label": "Target (V)",
 			"type": "any"
 		},
 		"8YV9BSdaxTaTUYyZ:outputs:source": {
 			"isArray": false,
-			"label": "Source",
+			"label": "Source (V)",
 			"type": "any"
 		}
 	},

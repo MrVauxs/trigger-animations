@@ -791,12 +791,12 @@
 	"variables": {
 		"1uSVoD3c1s4A59Be:outputs:uMS4ixeUqsnWWTRj": {
 			"isArray": false,
-			"label": "Template",
+			"label": "Template (V)",
 			"type": "region"
 		},
 		"0HC0ejGIfwAMwq3C:outputs:n2KtHJP4iyJmmMsK": {
 			"isArray": false,
-			"label": "Traits",
+			"label": "Traits (V)",
 			"type": "any"
 		}
 	},
