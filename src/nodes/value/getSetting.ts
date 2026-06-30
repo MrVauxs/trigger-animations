@@ -30,10 +30,6 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 		return "#6b5646";
 	}
 
-	override get subtitle(): string | null {
-		return null;
-	}
-
 	override get icon() {
 		// Font Awesome Pro unicode (gear), top right corner.
 		return { unicode: "\uf013" };

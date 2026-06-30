@@ -23,8 +23,6 @@ class MacroNode extends TriggerNode<
 		return "macro";
 	}
 
-
-
 	static override get category() {
 		return "sequence"
 	}

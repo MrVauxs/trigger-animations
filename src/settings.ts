@@ -1,5 +1,20 @@
-import { id } from 'moduleJSON';
+import { id as moduleId } from 'moduleJSON';
+
+const settingString = (id: string, property: string) => `trigger-animations.settings.${id}.${property}`
 
 Hooks.on("init", () => {
-
+	game.settings.register(moduleId, "quality", {
+		name: settingString("quality", "name"),
+		type: String,
+		default: "medium",
+		choices: {
+			minimal: settingString("quality", "choices.minimal"),
+			low: settingString("quality", "choices.low"),
+			medium: settingString("quality", "choices.medium"),
+			high: settingString("quality", "choices.high"),
+		},
+		config: true,
+		scope: "user",
+		hint: settingString("quality", "hint"),
+	})
 })

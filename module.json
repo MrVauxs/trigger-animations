@@ -57,7 +57,8 @@
 				"json"
 			],
 			"paths": [
-				"dist"
+				"dist",
+				"lang"
 			]
 		}
 	},
