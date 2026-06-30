@@ -1,9 +1,12 @@
 # 0.0.6
-- Move node tags to aliases.
+- Moved node tags to aliases.
+- (Triggers) Updated Effect Trigger to contain Conditions as well.
+- (Nodes) Added "Get Quality" node.
+- (Animations) Added "Get Quality" node to Breathe Fire example.
 
 # 0.0.5
-- Optimize hooks by caching trigger IDs and their names.
-- Make local animations run for every individual user independent of each other.
+- Optimized hooks by caching trigger IDs and their names.
+- Made local animations run for every individual user independent of each other.
 - (Nodes) Added "Get Setting" query node.
 - (Animations) Added Fireball.
 - Removed vestigial "Path" input from Animation Event Node.
