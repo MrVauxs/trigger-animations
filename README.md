@@ -87,7 +87,7 @@ Reasoning behind not including a trigger is most often due to the trigger being 
 | ✗ | Combatant Removed | *Too Specific* |
 | ✓ | Damage Taken | `(damage\|healing\|persistent\|negated):item-slug` |
 | ✗ | Execute Event | ***Not Applicable*** |
-| ! | Item Added to Actor | `item-slug` (*only applies to Effect items*) |
+| ! | Item Added to Actor | `item-slug` (*only applies to Effects and Conditions*) |
 | ✗ | On Hook Called | ***Not Applicable*** |
 | ✗ | Region Triggered | *Too Specific* |
 | ✗ | Test Event | ***Not Applicable*** |
