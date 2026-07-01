@@ -85,7 +85,7 @@ Reasoning behind not including a trigger is most often due to the trigger being 
 | ✓ | Check Rolled | `item-slug` |
 | ✗ | Combatant Created | *Too Specific* |
 | ✗ | Combatant Removed | *Too Specific* |
-| ✓ | Damage Taken | `<damage|healing|persistent|negated>:item-slug` |
+| ✓ | Damage Taken | `(damage\|healing\|persistent\|negated):item-slug` |
 | ✗ | Execute Event | ***Not Applicable*** |
 | ! | Item Added to Actor | `item-slug` (*only applies to Effect items*) |
 | ✗ | On Hook Called | ***Not Applicable*** |
