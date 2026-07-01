@@ -4,7 +4,10 @@
 [![gitlocalized ](https://gitlocalize.com/repo/10817/whole_project/badge.svg)](https://gitlocalize.com/repo/10817?utm_source=badge)
 [![Wiki](https://img.shields.io/badge/Wiki-Read%20the%20Documentation!-ffffff?logo=astro&style=flat&color=52b922&logoColor=FF5D01)](https://wiki.mrvauxs.net/)
 
-Trigger Engine but for animations
+Trigger Engine but for animations.
+
+> [!important]
+> If you want a library of premade animations, see [pf2e-trigger-animations-collection](https://github.com/ChasarooniZ/pf2e-trigger-animations-collection)!
 
 ## Installation
 
@@ -20,12 +23,12 @@ cd trigger-animations && bun install
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `dev` | Start the development server with HMR |
-| `build` | Build the module for production |
+| Script    | Description                                       |
+| --------- | ------------------------------------------------- |
+| `dev`     | Start the development server with HMR             |
+| `build`   | Build the module for production                   |
 | `symlink` | Symlink the module to your Foundry data directory |
-| `extract` | Extract Foundry compendium packs |
+| `extract` | Extract Foundry compendium packs                  |
 
 ## Using the API
 
@@ -76,25 +79,25 @@ The naming convention of each event describes what animation names the event sen
 
 Reasoning behind not including a trigger is most often due to the trigger being too specific for broader purposes or requiring too many combinations of parameters to be wholly encompassing.
 
-| Included | Event | Naming Convention / Reasoning |
-| ----------- | ----- | ----------------- |
-| ✓ | Action Sent to Chat | `item-slug` |
-| ✓ | Attack Rolled | `item-slug, weapon group, base-item` |
-| ✗ | Aura Entered | *Too Specific* |
-| ✗ | Aura Left | *Too Specific* |
-| ✓ | Check Rolled | `item-slug` |
-| ✗ | Combatant Created | *Too Specific* |
-| ✗ | Combatant Removed | *Too Specific* |
-| ✓ | Damage Taken | `(damage\|healing\|persistent\|negated):item-slug` |
-| ✗ | Execute Event | ***Not Applicable*** |
-| ! | Item Added to Actor | `item-slug` (*only applies to Effects and Conditions*) |
-| ✗ | On Hook Called | ***Not Applicable*** |
-| ✗ | Region Triggered | *Too Specific* |
-| ✗ | Test Event | ***Not Applicable*** |
-| ✗ | Token Created | *Too Specific* |
-| ✗ | Token Moved | *Too Specific* |
-| ✗ | Token Removed | *Too Specific* |
-| ✗ | Turn End | *Too Specific* |
-| ✗ | Turn Start | *Too Specific* |
+| Included | Event               | Naming Convention / Reasoning                          |
+| -------- | ------------------- | ------------------------------------------------------ |
+| ✓        | Action Sent to Chat | `item-slug`                                            |
+| ✓        | Attack Rolled       | `item-slug, weapon group, base-item`                   |
+| ✗        | Aura Entered        | *Too Specific*                                         |
+| ✗        | Aura Left           | *Too Specific*                                         |
+| ✓        | Check Rolled        | `item-slug`                                            |
+| ✗        | Combatant Created   | *Too Specific*                                         |
+| ✗        | Combatant Removed   | *Too Specific*                                         |
+| ✓        | Damage Taken        | `(damage\|healing\|persistent\|negated):item-slug`     |
+| ✗        | Execute Event       | ***Not Applicable***                                   |
+| !        | Item Added to Actor | `item-slug` (*only applies to Effects and Conditions*) |
+| ✗        | On Hook Called      | ***Not Applicable***                                   |
+| ✗        | Region Triggered    | *Too Specific*                                         |
+| ✗        | Test Event          | ***Not Applicable***                                   |
+| ✗        | Token Created       | *Too Specific*                                         |
+| ✗        | Token Moved         | *Too Specific*                                         |
+| ✗        | Token Removed       | *Too Specific*                                         |
+| ✗        | Turn End            | *Too Specific*                                         |
+| ✗        | Turn Start          | *Too Specific*                                         |
 
 
