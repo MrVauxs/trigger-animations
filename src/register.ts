@@ -43,7 +43,7 @@ Hooks.on(
 				nodes: Object.values(tNodes) as (typeof T.TriggerNode)[],
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
 				builtins,
-			});
+			})!;
 			API.prepareTriggers = prepareTriggers;
 		} catch (e) {
 			ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
