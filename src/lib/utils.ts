@@ -1,4 +1,5 @@
 import type Document from "@7h3laughingman/foundry-types/common/abstract/document.mjs";
+import type BaseUser from "@7h3laughingman/foundry-types/common/documents/user.mjs";
 
 export const dev = import.meta.env.DEV;
 
@@ -6,11 +7,11 @@ export function isValidUpdater(data: Document, update?: Record<string, unknown>)
 	// V13 and earlier compatible
 	const isThereAnActiveGM = game.users.activeGM;
 	// No GM, see if you can do it yourself.
-	if (!isThereAnActiveGM) return data.canUserModify(game.user, "update", update);
+	if (!isThereAnActiveGM) return data.canUserModify(game.user as unknown as BaseUser, "update", update);
 	// If there is a GM, you have to be the GM to update.
 	return game.users.activeGM?.isSelf || false;
 	// >V14
-	return game.users.getDesignatedUser((u => data.canUserModify(u, "update", update)))?.isSelf || false;
+	return game.users.getDesignatedUser(((u) => data.canUserModify(u as unknown as BaseUser, "update", update)))?.isSelf || false;
 }
 
 export function log(...args: unknown[]): void {
@@ -43,4 +44,11 @@ export function toggleHook(type: "on" | "once", str: string, fn: (...args: any[]
 		activate: () => { hook = Hooks[type](str, fn) },
 		deactivate: () => Hooks.off(str, hook)
 	}
+}
+
+export function getMajorMinor(version: string): string | null {
+	if (typeof version !== "string") return null;
+	const match = version.match(/^(\d+)\.(\d+)/);
+	if (!match || !match[1] || !match[2]) return null;
+	return `${match[1]}.${match[2]}`;
 }

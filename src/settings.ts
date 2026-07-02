@@ -17,4 +17,10 @@ Hooks.on("init", () => {
 		scope: "user",
 		hint: settingString("quality", "hint"),
 	})
+	game.settings.register(moduleId, "update-notice-shown-version", {
+		type: String,
+		name: "update-notice-shown-version",
+		config: false,
+		scope: "world",
+	})
 })

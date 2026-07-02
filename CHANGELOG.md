@@ -1,4 +1,5 @@
 # 0.0.6
+- Added an automatic update notice message in chat.
 - Moved node tags to aliases.
 - (Triggers) Updated Effect Trigger to contain Conditions as well.
 - (Nodes) Added "Get Quality" node.
