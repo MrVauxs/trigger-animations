@@ -16,6 +16,16 @@ type TOutputs = {
 	options?: string[]
 } & Record<string, unknown>
 
+type StartNodeOptions = {
+	name: string;
+	actor?: TargetDocuments;
+	item?: Item;
+	targets?: TargetDocuments[]
+	sources?: TargetDocuments[]
+	options?: string[]
+	userInputs: T.EmitableValue[]
+}
+
 class StartNode extends TriggerNode<
 	"out",
 	TInputs,
@@ -26,8 +36,6 @@ class StartNode extends TriggerNode<
 	static override get type() {
 		return "animation-event";
 	}
-
-
 
 	static override get isEvent() {
 		return true;
@@ -110,7 +118,27 @@ class StartNode extends TriggerNode<
 		];
 	}
 
-	override async _execute({ name, item, targets, sources, actor, options, userInputs }: StartNodeOptions): Promise<boolean> {
+	private async convertStartObjectFromEmitable(emitable: Record<string, any>): Promise<StartNodeOptions> {
+		const converted = await this.convertObjectFromEmitable(
+			emitable,
+			{
+				actor: "target",
+				item: "item",
+				targets: "target",
+				sources: "target",
+			},
+			["userInputs"],
+		);
+
+		devLog("Converting emitable to converted", emitable, converted);
+		return converted as StartNodeOptions;
+	}
+
+	override async _execute(emitable: any): Promise<boolean> {
+		const convertedData = await this.convertStartObjectFromEmitable(emitable);
+		devLog("Running animation-event", convertedData)
+		const { name, item, targets, sources, actor, options, userInputs } = convertedData;
+
 		// ["bow", "shortbow", "longbow"]
 		const animationName = (await this.getInputValue("name")).split(",")
 		const givenNames = name.split(",").map(x => x.trim());
@@ -144,16 +172,6 @@ class StartNode extends TriggerNode<
 
 		return this.executeNext("out")
 	}
-}
-
-type StartNodeOptions = {
-	name: string;
-	actor?: TargetDocuments;
-	item?: Item;
-	targets?: any[]
-	sources?: any[]
-	options?: string[]
-	userInputs: T.EmitableValue[]
 }
 
 export { StartNode, type StartNodeOptions };

@@ -46,6 +46,7 @@
         }
     ],
 	"library": false,
+	"socket": true,
 	"flags": {
 		"trigger-animations": {
 			"triggers": "modules/trigger-animations/dist/anim-trigger.json"

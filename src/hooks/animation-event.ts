@@ -1,16 +1,18 @@
 import { devLog } from "$lib/utils";
 import { StartNodeOptions } from "../nodes";
+import { id } from "moduleJSON";
 
 const { TriggerHook } = globalThis.triggerEngine;
 
 class StartHook extends TriggerHook {
 	static executePath = "triggerAnimations.api.runFromTrigger";
+	static socketPath = `module.${id}`
 
 	override get events() {
 		return ['animation-event' as const];
 	}
 
-	#execute(data: StartNodeOptions) {
+	async #execute(data: StartNodeOptions, socket = false) {
 		const trigger = globalThis.triggerAnimations.api.matchTrigger(data.name);
 		if (!trigger) {
 			devLog("No animation-event trigger matched", data.name)
@@ -19,17 +21,29 @@ class StartHook extends TriggerHook {
 
 		const { id, local } = trigger;
 
-		// Sequences run for everyone by default. Local makes it run only for the person running it. So we ensure everyone plays the local sequence separately.
-		if (game.user.isActiveGM) {
-			devLog("Executing animation-event", local ? "(local)" : "", id, data)
-			if (local) {
-				// TODO: Add socket propagation
-			} else {
-				return this.executeTriggerEvent(id, "animation-event", data)
+		const emitable = this.convertObjectToEmitable(
+			data,
+			{
+				actor: "target",
+				item: "item",
+				targets: "target",
+				sources: "target",
+			},
+			["userInputs"],
+		)
+
+		// Local:	Player -> GM -> Everyone (playLocal)
+		// Global:	Player -> GM
+		if (game.user.isActiveGM || socket) {
+			if (local && !socket) {
+				devLog("Emitting local animation-event", id, emitable)
+				game.socket.emit(StartHook.socketPath, emitable, true);
 			}
+			devLog("Executing animation-event", local ? "(local)" : "", socket ? "(via socket)" : "", id, emitable)
+			return this.executeTriggerEvent(id, "animation-event", emitable)
 		} else {
-			devLog("Executing animation-event via GM", id, data)
-			return this.executeTriggerEventAsGM(id, "animation-event", data)
+			devLog("Executing animation-event via GM", id, emitable)
+			return this.executeTriggerEventAsGM(id, "animation-event", emitable)
 		}
 	}
 
@@ -39,10 +53,12 @@ class StartHook extends TriggerHook {
 
 	override _enable(): void {
 		foundry.utils.setProperty(globalThis, StartHook.executePath, this.#execute.bind(this));
+		game.socket.on(StartHook.socketPath, this.#execute.bind(this))
 	}
 
 	override _disable(): void {
 		foundry.utils.setProperty(globalThis, StartHook.executePath, () => { });
+		game.socket.removeAllListeners(StartHook.socketPath)
 	}
 }
 

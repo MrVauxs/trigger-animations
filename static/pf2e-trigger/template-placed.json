@@ -54,7 +54,7 @@
 						"label": "Template",
 						"slug": "input",
 						"isArray": false,
-						"type": "any"
+						"type": "region"
 					}
 				}
 			}
