@@ -20,13 +20,21 @@ class StartHook extends TriggerHook {
 		const { id, local } = trigger;
 
 		// Sequences run for everyone by default. Local makes it run only for the person running it. So we ensure everyone plays the local sequence separately.
-		if (local || game.user.isActiveGM) {
+		if (game.user.isActiveGM) {
 			devLog("Executing animation-event", local ? "(local)" : "", id, data)
-			return this.executeTriggerEvent(id, "animation-event", data)
+			if (local) {
+				// TODO: Add socket propagation
+			} else {
+				return this.executeTriggerEvent(id, "animation-event", data)
+			}
 		} else {
 			devLog("Executing animation-event via GM", id, data)
 			return this.executeTriggerEventAsGM(id, "animation-event", data)
 		}
+	}
+
+	override get gmOnly() {
+		return false;
 	}
 
 	override _enable(): void {
