@@ -1,5 +1,8 @@
-# 0.0.6
+# 0.0.7
 - Added an automatic update notice message in chat.
+- Fixed `local` not working across clients.
+
+# 0.0.6
 - Moved node tags to aliases.
 - (Triggers) Updated Effect Trigger to contain Conditions as well.
 - (Nodes) Added "Get Quality" node.
