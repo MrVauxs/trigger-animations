@@ -45,8 +45,7 @@ async function displayTriggersUpdateNotice() {
 		whisper: gmIds,
 		content: `
 <div class="trigger-animations welcome">
-<!-- <img class="welcome-image" src="modules/sequencer/images/sequencer.png"/> -->
-TODO: Trigger Animations Logo :^)
+<img class="welcome-image" src="modules/sequencer/assets/TA.webp"/>
 <div class="welcome-divider"></div>
 <p class="welcome-title">Trigger Animations updated to v${currentVersion}</p>
 <div class="welcome-divider"></div>
