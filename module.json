@@ -28,11 +28,17 @@
 		"required": [
 			{
                 "id": "trigger-engine",
-                "type": "module"
+                "type": "module",
+				"compatibility": {
+					"minimum": "1.17.0"
+				}
             },
 			{
                 "id": "sequencer",
-                "type": "module"
+                "type": "module",
+				"compatibility": {
+					"minimum": "3.4.8"
+				}
             }
 		]
 	},

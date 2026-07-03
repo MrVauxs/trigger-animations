@@ -165,10 +165,7 @@ class StartNode extends TriggerNode<
 
 		if (options) this.setOutputValue("options", options.concat(`animation-name:${name}`));
 
-		const returnedValues = this.parseUserValues(userInputs).map((x) => x?.value);
-		if (returnedValues.length) {
-			this.setCustomOutputValues("path", returnedValues);
-		}
+		this.setCustomOutputValues("path", userInputs);
 
 		return this.executeNext("out")
 	}

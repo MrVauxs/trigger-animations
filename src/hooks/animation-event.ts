@@ -21,7 +21,7 @@ class StartHook extends TriggerHook {
 
 		const { id, local } = trigger;
 
-		const emitable = this.convertObjectToEmitable(
+		const emitable = socket ? data : this.convertObjectToEmitable(
 			data,
 			{
 				actor: "target",
