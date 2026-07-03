@@ -1,6 +1,7 @@
 # 0.0.7
 - Added an automatic update notice message in chat.
 - Fixed `local` not working across clients.
+- Bumped up minimum module version requirements.
 
 # 0.0.6
 - Moved node tags to aliases.
