@@ -48,6 +48,7 @@ class PlayNode extends TriggerNode<
 			{
 				key: "preload",
 				type: "boolean",
+				field: { default: true },
 				label: this.localize("io.preload.title"),
 				tooltip: this.localize("io.preload.tooltip")
 			},
