@@ -1,4 +1,5 @@
 import { devGroup, devLog } from "$lib/utils";
+import { defineNamedLocation, requestNamedLocation } from "$lib/namedLocations";
 import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -57,7 +58,10 @@ class NamedLocationNode extends TriggerNode<
 		const name = await this.getInputValue("name");
 		if (sequence && name) {
 			const location = this.getLocation(await this.getInputValue("location"));
-			if (location) sequence.addNamedLocation(name, location as any);
+			if (location) {
+				sequence.addNamedLocation(name, location as any);
+				defineNamedLocation(this, name);
+			}
 			else devLog(`[${this.type}] no location to name`);
 		}
 
@@ -67,7 +71,7 @@ class NamedLocationNode extends TriggerNode<
 		return this.executeNext("out");
 	}
 
-	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | undefined {
+	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | string | undefined {
 		switch (loc.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
@@ -75,6 +79,10 @@ class NamedLocationNode extends TriggerNode<
 				return loc.region;
 			case "target":
 				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				// Aliasing one named location to another; Sequencer resolves it at play time.
+				requestNamedLocation(this, loc.name);
+				return loc.name;
 		}
 	}
 }

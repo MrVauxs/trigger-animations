@@ -1,5 +1,5 @@
 # Unreleased
-- Added "Position" entry that merges "Target", "Region", and "Point" entries. Replaced "any" entries in inputs that related to positioning.
+- Added "Position" entry that merges "Target", "Region", "Point", and "String" entries (attaching to a Token, Region, X/Y coordinates, and a named location respectively). Replaced "any" entries in inputs that related to positioning.
 
 # 0.0.7
 - Added an automatic update notice message in chat.

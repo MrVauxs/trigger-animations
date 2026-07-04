@@ -1,4 +1,5 @@
 import { dev, devGroup, devLog, log } from "$lib/utils";
+import { requestNamedLocation } from "$lib/namedLocations";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { EASE_OPTIONS } from "./constants";
 
@@ -96,7 +97,7 @@ abstract class EffectModifierNode<
 		}
 	}
 
-	getLocation(loc: PositionSource | Point): TokenDocument | Point | RegionDocument | undefined {
+	getLocation(loc: PositionSource | Point): TokenDocument | Point | RegionDocument | string | undefined {
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
 		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
 
@@ -107,6 +108,9 @@ abstract class EffectModifierNode<
 				return loc.region;
 			case "target":
 				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				requestNamedLocation(this, loc.name);
+				return loc.name;
 		}
 	}
 

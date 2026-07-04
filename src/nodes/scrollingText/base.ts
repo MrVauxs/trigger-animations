@@ -1,4 +1,5 @@
 import { devGroup } from "$lib/utils";
+import { requestNamedLocation } from "$lib/namedLocations";
 import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -56,7 +57,7 @@ abstract class ScrollingTextModifierNode<
 		return null;
 	}
 
-	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | undefined {
+	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | string | undefined {
 		switch (loc.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
@@ -64,6 +65,9 @@ abstract class ScrollingTextModifierNode<
 				return loc.region;
 			case "target":
 				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				requestNamedLocation(this, loc.name);
+				return loc.name;
 		}
 	}
 

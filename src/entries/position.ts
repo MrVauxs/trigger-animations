@@ -6,7 +6,8 @@ declare global {
 	type PositionSource =
 		| { kind: "region"; region: RegionDocument }
 		| { kind: "target"; actor: ActorPF2e; token?: TokenDocumentPF2e }
-		| { kind: "point"; x: number; y: number };
+		| { kind: "point"; x: number; y: number }
+		| { kind: "name"; name: string };
 }
 
 class PositionEntry extends NodeEntry<PositionSource> {
@@ -56,11 +57,20 @@ class PositionEntry extends NodeEntry<PositionSource> {
 		);
 	}
 
+	static #isName(v: unknown): v is { kind: "name"; name: string } {
+		return (
+			PositionEntry.#isPlainObject(v) &&
+			v["kind"] === "name" &&
+			typeof v["name"] === "string"
+		);
+	}
+
 	static override isValidType(value: unknown): value is PositionSource {
 		return (
 			PositionEntry.#isPoint(value) ||
 			PositionEntry.#isTarget(value) ||
-			PositionEntry.#isRegion(value)
+			PositionEntry.#isRegion(value) ||
+			PositionEntry.#isName(value)
 		);
 	}
 
@@ -83,7 +93,7 @@ class PositionEntry extends NodeEntry<PositionSource> {
 			return { kind: "region", region: value };
 		}
 
-		// UUID string — try resolving
+		// String — a UUID resolves to a document; anything else is a named location.
 		if (typeof value === "string") {
 			const doc = fromUuidSync(value);
 
@@ -97,6 +107,9 @@ class PositionEntry extends NodeEntry<PositionSource> {
 			if (doc instanceof RegionDocument) {
 				return { kind: "region", region: doc };
 			}
+
+			const name = value.trim();
+			if (name) return { kind: "name", name };
 		}
 
 		// Plain object — infer shape
@@ -134,6 +147,11 @@ class PositionEntry extends NodeEntry<PositionSource> {
 			if (value["region"] instanceof RegionDocument) {
 				return { kind: "region", region: value["region"] };
 			}
+
+			// Name-like: { name: string }
+			if (typeof value["name"] === "string" && value["name"].trim()) {
+				return { kind: "name", name: value["name"].trim() };
+			}
 		}
 
 		return undefined;
@@ -152,6 +170,8 @@ class PositionEntry extends NodeEntry<PositionSource> {
 				};
 			case "region":
 				return { kind: "region", region: value.region.uuid };
+			case "name":
+				return { kind: "name", name: value.name };
 		}
 	}
 
@@ -193,6 +213,10 @@ class PositionEntry extends NodeEntry<PositionSource> {
 				const region = await fromUuid(v["region"]);
 				if (!(region instanceof RegionDocument)) return undefined;
 				return { kind: "region", region };
+			}
+			case "name": {
+				if (typeof v["name"] !== "string" || !v["name"].trim()) return undefined;
+				return { kind: "name", name: v["name"].trim() };
 			}
 		}
 

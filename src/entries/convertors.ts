@@ -25,13 +25,21 @@ const positionConvertors = [
 		},
 	},
 	{
-		// An item resolves to its owner (`item.parent`), mirroring the built-in
-		// item -> target convertor which pulls the item's actor.
+		// Mirrors built-in item -> target convertor which pulls the item's actor.
 		output: "item",
 		input: "position",
 		convertToInput: (value: Item): PositionSource | undefined => {
 			const actor = value.parent;
 			return actor ? { kind: "target", actor: actor as ActorPF2e } : undefined;
+		},
+	},
+	{
+		// A plain string is treated as a Sequencer named location (defined by a Named Location node earlier in the trigger).
+		output: "text",
+		input: "position",
+		convertToInput: (value: string): PositionSource | undefined => {
+			const name = value.trim();
+			return name ? { kind: "name", name } : undefined;
 		},
 	},
 	// #endregion
@@ -55,6 +63,13 @@ const positionConvertors = [
 		input: "point",
 		convertToInput: (value: PositionSource): Point | undefined => {
 			return value.kind === "point" ? { x: value.x, y: value.y } : undefined;
+		},
+	},
+	{
+		output: "position",
+		input: "text",
+		convertToInput: (value: PositionSource): string | undefined => {
+			return value.kind === "name" ? value.name : undefined;
 		},
 	},
 	// #endregion

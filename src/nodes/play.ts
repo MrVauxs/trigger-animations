@@ -1,4 +1,5 @@
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, devLog, log } from "$lib/utils";
+import { unresolvedNamedLocations } from "$lib/namedLocations";
 import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -64,6 +65,14 @@ class PlayNode extends TriggerNode<
 		if (!sequence) {
 			devLog("No sequence found in context");
 			return Promise.resolve(false);
+		}
+
+		// Sequencer silently no-ops if named location is invalid. So we warn here.
+		const unresolved = unresolvedNamedLocations(this);
+		if (unresolved.length) {
+			const list = unresolved.join(", ");
+			log(`[${this.type}] named location(s) never defined; effects using them will not play: ${list}`);
+			ui.notifications.warn(`Trigger Animations: named location(s) not found: ${list}`);
 		}
 
 		const seq = await sequence.play({
