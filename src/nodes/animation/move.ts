@@ -3,7 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { AnimationModifierNode } from "./base";
 
 type TInputs = {
-	towards: unknown;
+	towards: PositionSource;
 	offset: { x: number; y: number };
 	closestSquare: boolean;
 	snapToGrid: boolean;
@@ -42,7 +42,7 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.animationInput,
-			{ key: "towards", type: "any", ...this.io("towards") },
+			{ key: "towards", type: "position", ...this.io("towards") },
 			{ key: "offset", type: "point", ...this.sharedIo("offset") },
 			{ key: "closestSquare", type: "boolean", ...this.io("closestSquare") },
 			{ key: "snapToGrid", type: "boolean", ...this.io("snapToGrid") },

@@ -4,7 +4,7 @@ import { AnimationModifierNode } from "./base";
 type TInputs = {
 	rotate: number;
 	randomRotation: boolean;
-	towards: unknown;
+	towards: PositionSource;
 	towardsDuration: number;
 	towardsEase: string;
 	towardsDelay: number;
@@ -40,7 +40,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 			this.animationInput,
 			{ key: "rotate", type: "number", ...this.io("rotate"), field: { default: 0 } },
 			{ key: "randomRotation", type: "boolean", ...this.io("randomRotation") },
-			{ key: "towards", type: "any", ...this.io("towards"), group: "towards" },
+			{ key: "towards", type: "position", ...this.io("towards"), group: "towards" },
 			{
 				key: "towardsDuration",
 				type: "number",

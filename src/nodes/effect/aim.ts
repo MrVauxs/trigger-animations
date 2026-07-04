@@ -3,7 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
 type TInputs = {
-	towards: TargetDocuments | string;
+	towards: PositionSource;
 	missed: boolean;
 	rotationOffset: number;
 	cacheLocation: boolean;
@@ -45,7 +45,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.effectInput,
-			{ key: "towards", type: "any", ...this.io("towards") },
+			{ key: "towards", type: "position", ...this.io("towards") },
 			{ key: "missed", type: "boolean", ...this.io("missed") },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation") },
 			{
