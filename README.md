@@ -1,8 +1,9 @@
-# trigger-animations
+# ![Trigger Animations logo by HongBo](https://github.com/MrVauxs/trigger-animations/blob/master/assets/TA.webp?raw=true)
 
 [![GitHub all releases](https://img.shields.io/github/downloads/MrVauxs/trigger-animations/total)](https://github.com/MrVauxs/trigger-animations/releases)
 [![gitlocalized ](https://gitlocalize.com/repo/10817/whole_project/badge.svg)](https://gitlocalize.com/repo/10817?utm_source=badge)
 [![Wiki](https://img.shields.io/badge/Wiki-Read%20the%20Documentation!-ffffff?logo=astro&style=flat&color=52b922&logoColor=FF5D01)](https://wiki.mrvauxs.net/)
+[![Logo By Hongbo](https://img.shields.io/badge/Who%20made%20the-Logo%3F-e4682a?style=flat&logo=svg)](http://hongbo-portfolio.free.nf/)
 
 Trigger Engine but for animations.
 
