@@ -5,7 +5,7 @@ const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
 	name: string;
-	location: TargetDocuments | { x: number; y: number };
+	location: PositionSource;
 }
 type TOutputs = {}
 
@@ -47,7 +47,7 @@ class NamedLocationNode extends TriggerNode<
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{ key: "name", type: "text", ...this.io("name") },
-			{ key: "location", type: "any", ...this.io("location") }
+			{ key: "location", type: "position", ...this.io("location") }
 		];
 	}
 
@@ -67,11 +67,15 @@ class NamedLocationNode extends TriggerNode<
 		return this.executeNext("out");
 	}
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
-		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | undefined {
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
 		}
-		return this.getTargetToken(loc as TargetDocuments);
 	}
 }
 

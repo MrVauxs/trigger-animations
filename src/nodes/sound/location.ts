@@ -2,12 +2,12 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
 type TInputs = {
-	location: TargetDocuments | { x: number; y: number };
+	location: PositionSource;
 	gridUnits: boolean;
 	bindVisibility: boolean;
 	bindElevation: boolean;
-	toTarget: TargetDocuments | { x: number; y: number };
-	moveTowards: TargetDocuments | { x: number; y: number };
+	toTarget: TargetDocuments;
+	moveTowards: TargetDocuments;
 	moveSpeed: number;
 	moveEase: string;
 	moveDelay: number;
@@ -41,7 +41,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.soundInput,
-			{ key: "location", type: "any", ...this.io("location") },
+			{ key: "location", type: "position", ...this.io("location") },
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits") },
 			{ key: "bindVisibility", type: "boolean", ...this.io("bindVisibility"), state: "attachTo", field: { default: true } },
 			{ key: "bindElevation", type: "boolean", ...this.io("bindElevation"), state: "attachTo", field: { default: true } },
@@ -80,7 +80,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 
 		const toTargetValue = await this.getInputValue("toTarget");
 		if (toTargetValue) {
-			const toLocation = this.getLocation(toTargetValue);
+			const toLocation = this.getLocation({ kind: "target", actor: toTargetValue.actor, token: toTargetValue.token ?? undefined });
 			if (toLocation) {
 				const gridUnits = await this.getInputValue("gridUnits");
 				section.toLocation(toLocation as any, { gridUnits });
@@ -89,7 +89,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 
 		const moveTowardsValue = await this.getInputValue("moveTowards");
 		if (moveTowardsValue) {
-			const moveTowards = this.getLocation(moveTowardsValue);
+			const moveTowards = this.getLocation({ kind: "target", actor: moveTowardsValue.actor, token: moveTowardsValue.token ?? undefined });
 			if (moveTowards) {
 				const moveEase = await this.getInputValue("moveEase");
 				const moveDelay = await this.getInputValue("moveDelay");

@@ -2,7 +2,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { ScrollingTextModifierNode } from "./base";
 
 type TInputs = {
-	location: TargetDocuments | { x: number; y: number };
+	location: PositionSource;
 	locally: boolean;
 	users: User[];
 };
@@ -24,7 +24,7 @@ class ScrollingTextPlaceNode extends ScrollingTextModifierNode<TInputs> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.scrollingTextInput,
-			{ key: "location", type: "any", ...this.io("location") },
+			{ key: "location", type: "position", ...this.io("location") },
 			{ key: "locally", type: "boolean", ...this.io("locally") },
 			{ key: "users", type: "user", isArray: true, ...this.io("users") }
 		];

@@ -3,7 +3,7 @@ import { CrosshairModifierNode } from "./base";
 import { WALL_BEHAVIOR_OPTIONS } from "./constants";
 
 type TInputs = {
-	location: TargetDocuments;
+	location: PositionSource;
 	limitMinRange: number;
 	limitMaxRange: number;
 	showRange: boolean;
@@ -33,7 +33,7 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.crosshairInput,
-			{ key: "location", type: "any", ...this.io("location"), group: "location" },
+			{ key: "location", type: "position", ...this.io("location"), group: "location" },
 			{
 				key: "limitMinRange",
 				type: "number",

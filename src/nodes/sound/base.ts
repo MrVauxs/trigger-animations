@@ -71,12 +71,15 @@ abstract class SoundModifierNode<
 		return null;
 	}
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
-		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
-		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | undefined {
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
 		}
-		return this.getTargetToken(loc as TargetDocuments);
 	}
 
 	protected abstract apply(section: SoundSection): Promise<void> | void;

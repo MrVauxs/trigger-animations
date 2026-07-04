@@ -56,11 +56,15 @@ abstract class ScrollingTextModifierNode<
 		return null;
 	}
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
-		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | undefined {
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
 		}
-		return this.getTargetToken(loc as TargetDocuments);
 	}
 
 	protected abstract apply(section: ScrollingTextSection): Promise<void> | void;

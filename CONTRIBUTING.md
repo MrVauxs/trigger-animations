@@ -6,3 +6,5 @@ Trigger Animations accepts requests for new Nodes, Hooks, Entries, and **Trigger
 This repository does **NOT** accept requests that introduce new **Trigger Animations** triggers. Trigger Animations is a building block, not a library. For libraries, see modules such as [pf2e-trigger-animations-collection](https://github.com/ChasarooniZ/pf2e-trigger-animations-collection).
 
 When making an issue or pull request, please provide an example as to why this is useful and for what kind of animation. Also provide your best case alternative and preferably why that isn't preferable (this reasoning can be as simple as causing too much boilerplate).
+
+If the changes are user facing, please write your changes in the [CHANGELOG.md](/CHANGELOG.md) file under the Unreleased header. Write in imperative past tense and group related changes loosely by category, such as new Trigger Engine triggers by (Triggers), new Trigger Animation nodes by (Nodes), and new premade animations by (Animations).

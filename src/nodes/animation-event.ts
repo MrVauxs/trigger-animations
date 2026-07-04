@@ -81,13 +81,13 @@ class StartNode extends TriggerNode<
 			},
 			{
 				key: "sources",
-				type: "any",
+				type: "target",
 				isArray: true,
 				label: this.localize("io.sources")
 			},
 			{
 				key: "targets",
-				type: "any",
+				type: "target",
 				isArray: true,
 				label: this.localize("io.targets")
 			},

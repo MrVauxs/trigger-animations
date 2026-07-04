@@ -1,3 +1,6 @@
+# Unreleased
+- Added "Position" entry that merges "Target", "Region", and "Point" entries. Replaced "any" entries in inputs that related to positioning.
+
 # 0.0.7
 - Added an automatic update notice message in chat.
 - Fixed `local` not working across clients.
@@ -39,7 +42,7 @@
 - Implemented region support
 - Changed locations to any
 - Fixed the app not registering
-- Add more built in triggers
+- Added more built in triggers
 
 # 0.0.1
 - Initial release

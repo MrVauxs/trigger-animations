@@ -5,6 +5,7 @@ import { API } from "./api";
 import * as tNodes from "./nodes/index"
 import * as tEntries from "./entries/index"
 import * as tHooks from "./hooks/index"
+import { positionConvertors } from "./entries/convertors"
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
 
@@ -42,6 +43,7 @@ Hooks.on(
 				entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
 				nodes: Object.values(tNodes) as (typeof T.TriggerNode)[],
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
+				convertors: [...positionConvertors],
 				builtins,
 			})!;
 			API.prepareTriggers = prepareTriggers;
