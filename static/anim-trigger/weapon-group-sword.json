@@ -1,5 +1,5 @@
 {
-	"name": "Sword",
+	"name": "Weapon Group: Sword",
 	"folder": "Weapons",
 	"priority": 0,
 	"tags": [
@@ -349,5 +349,6 @@
 			"label": "Damage Die (V)",
 			"type": "text"
 		}
-	}
+	},
+	"description": "<p>Animates on attack rolls from all weapons from the sword weapon group. Uses the damage die to decide on sword type.</p><p><strong>Keywords:</strong> sword</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>"
 }

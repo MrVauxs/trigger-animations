@@ -805,5 +805,6 @@
 	},
 	"tags": [
 		"template"
-	]
+	],
+	"description": "<p>Animates on Breathe Fire template placement. Has fire/cold trait variants.</p><p><strong>Keywords:</strong> breathe-fire</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>"
 }

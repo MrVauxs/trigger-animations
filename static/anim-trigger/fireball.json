@@ -3,7 +3,8 @@
 	"folder": "Spells",
 	"priority": 0,
 	"tags": [
-		"template"
+		"template",
+		"local"
 	],
 	"nodes": [
 		{
@@ -169,5 +170,6 @@
 			"state": "object"
 		}
 	],
-	"id": "72Hpvo77HylvlEpK"
+	"id": "72Hpvo77HylvlEpK",
+	"description": "<p>Animates on Fireball template placement. Has different animation quality variants.</p><p><strong>Keywords:</strong> fireball</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>"
 }

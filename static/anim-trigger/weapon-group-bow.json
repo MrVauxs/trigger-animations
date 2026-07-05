@@ -1,5 +1,5 @@
 {
-	"name": "Bow",
+	"name": "Weapon Group: Bow",
 	"folder": "Weapons",
 	"priority": 0,
 	"tags": [
@@ -231,5 +231,6 @@
 			}
 		}
 	],
-	"id": "qLo0Xc1y1TQoctDo"
+	"id": "qLo0Xc1y1TQoctDo",
+	"description": "<p>Animates on attac rolls from all weapons from the bow weapon group.</p><p><strong>Keywords:</strong> bow</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>"
 }

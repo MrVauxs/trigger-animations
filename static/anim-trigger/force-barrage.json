@@ -398,7 +398,7 @@
 			"type": "any"
 		}
 	},
-	"description": "<p>Animates Force Barrage / Magic Missile and Force Bolt.</p>",
+	"description": "<p>Animates when damaged by Force Barrage, Magic Missile or Force Bolt.</p><p><strong>Keywords:</strong> damage:force-barrage, damage:magic-missile, damage:force-bolt</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>",
 	"folder": "Spells",
 	"id": "zydrP4NhKT1JPzru",
 	"tags": [
