@@ -1,4 +1,4 @@
-# ![Trigger Animations logo by HongBo](https://github.com/MrVauxs/trigger-animations/blob/master/assets/TA.webp?raw=true)
+# ![Trigger Animations logo by HongBo](https://github.com/MrVauxs/trigger-animations/blob/master/assets/TA_Border.webp?raw=true)
 
 [![GitHub all releases](https://img.shields.io/github/downloads/MrVauxs/trigger-animations/total)](https://github.com/MrVauxs/trigger-animations/releases)
 [![gitlocalized ](https://gitlocalize.com/repo/10817/whole_project/badge.svg)](https://gitlocalize.com/repo/10817?utm_source=badge)
