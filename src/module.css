@@ -1,3 +1,31 @@
+.trigger-animations-volume > .ta-volume-track {
+  flex: 2;
+  min-width: 0;
+  position: relative;
+}
+
+.trigger-animations-volume > .ta-volume-track > input[type="range"] {
+  display: block;
+  width: 100%;
+  margin: 0;
+  height: var(--entry-height);
+}
+
+/* Decorative center notch marking 100% on the 0–200% range. */
+.trigger-animations-volume > .ta-volume-track::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 55%;
+  transform: translate(-50%, -50%);
+  border-radius: 1px;
+  background: var(--color-text-subtle, #999);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 .chat-message:has(.trigger-animations.welcome) {
   background: #282828;
   & .message-header {

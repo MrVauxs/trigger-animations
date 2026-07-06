@@ -2,6 +2,7 @@ import "./module.css";
 import "./register"
 import "./api"
 import "./settings"
+import "./volume"
 import { id } from 'moduleJSON';
 import { dev, getMajorMinor } from "$lib/utils";
 

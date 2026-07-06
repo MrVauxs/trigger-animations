@@ -1,8 +1,19 @@
 import { id as moduleId } from 'moduleJSON';
+import { onVolumeChanged } from './volume';
 
 const settingString = (id: string, property: string) => `trigger-animations.settings.${id}.${property}`
 
 Hooks.on("init", () => {
+	game.settings.register(moduleId, "volume", {
+		name: settingString("volume", "name"),
+		hint: settingString("volume", "hint"),
+		type: Number,
+		default: 1,
+		range: { min: 0, max: 2, step: 0.05 } as never,
+		config: true,
+		scope: "client",
+		onChange: (value) => onVolumeChanged(Number(value)),
+	})
 	game.settings.register(moduleId, "quality", {
 		name: settingString("quality", "name"),
 		type: String,
