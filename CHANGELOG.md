@@ -3,6 +3,7 @@
 - Made "preload" option on Play Node true by default.
 - Added descriptions to example triggers.
 - Renamed weapon group example triggers.
+- Added volume slider.
 
 # 0.0.7
 - Added an automatic update notice message in chat.
