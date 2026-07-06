@@ -1,10 +1,11 @@
+import { requestNamedLocation } from "$lib/namedLocations";
 import { devGroup } from "$lib/utils";
 import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
-	target?: TargetDocuments | { x: number; y: number };
+	target?: PositionSource;
 	duration: number;
 	scale: number;
 }
@@ -47,7 +48,7 @@ class CanvasPanNode extends TriggerNode<
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
-			{ key: "target", type: "target", ...this.io("target") },
+			{ key: "target", type: "position", ...this.io("target") },
 			{
 				key: "duration",
 				type: "number",
@@ -88,7 +89,7 @@ class CanvasPanNode extends TriggerNode<
 
 		const targetInput = await this.getInputValue("target");
 		const target = targetInput ? this.getLocation(targetInput) : undefined;
-		if (target) canvasPan.atLocation(target as any);
+		if (target) canvasPan.atLocation(target);
 
 		const duration = await this.getInputValue("duration");
 		if (duration > 0) canvasPan.duration(duration);
@@ -102,11 +103,21 @@ class CanvasPanNode extends TriggerNode<
 		return this.executeNext("out");
 	}
 
-	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
-		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+	getLocation(loc: PositionSource | Point): TokenDocument | Point | RegionDocument | string | undefined {
+		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
+		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				requestNamedLocation(this, loc.name);
+				return loc.name;
 		}
-		return this.getTargetToken(loc as TargetDocuments);
 	}
 }
 

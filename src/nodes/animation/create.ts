@@ -1,10 +1,11 @@
+import { requestNamedLocation } from "$lib/namedLocations";
 import { devGroup, devLog } from "$lib/utils";
 import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
-	target?: TargetDocuments;
+	target?: PositionSource;
 }
 type TOutputs = {
 	animation?: AnimationSection;
@@ -40,7 +41,7 @@ class AnimationNode extends TriggerNode<
 		return [
 			{
 				key: "target",
-				type: "target",
+				type: "position",
 				label: this.localize("io.target.title"),
 				tooltip: this.localize("io.target.tooltip")
 			}
@@ -58,6 +59,24 @@ class AnimationNode extends TriggerNode<
 		];
 	}
 
+	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
+		if (!loc) return loc;
+		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
+		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				requestNamedLocation(this, loc.name);
+				return loc.name;
+		}
+	}
+
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`)
 		const sequence = this.getContext<Sequence>("sequence");
@@ -70,7 +89,7 @@ class AnimationNode extends TriggerNode<
 		this.setOutputValue("animation", animation);
 
 		const targetInput = await this.getInputValue("target");
-		const target = this.getTargetToken(targetInput);
+		const target = this.getLocation(targetInput);
 		if (target) animation.on(target);
 		else if (target) devLog(`[${this.type}] target has no token; nothing to animate`);
 

@@ -83,7 +83,7 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 	}
 
 	protected override async apply(section: AnimationSection): Promise<void> {
-		const towards = this.resolveObject(await this.getInputValue("towards"));
+		const towards = this.getLocation(await this.getInputValue("towards"));
 		if (!towards) {
 			devLog(`[${this.type}] no destination; skipping`);
 			return;

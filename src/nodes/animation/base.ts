@@ -1,6 +1,7 @@
 import { devGroup, devLog } from "$lib/utils";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { EASE_OPTIONS } from "../effect/constants";
+import { requestNamedLocation } from "$lib/namedLocations";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -90,16 +91,21 @@ abstract class AnimationModifierNode<
 		return obj;
 	}
 
-	getLocation(loc: TargetDocuments | Point | RegionDocument): TokenDocument | Point | RegionDocument | undefined {
-		// Type-guard: if loc has x/y it's a Point, otherwise treat as TargetDocuments
-		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+	getLocation(loc: PositionSource | Point): TokenDocument | Point | RegionDocument | string | undefined {
+		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
+		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+
+		switch (loc.kind) {
+			case "point":
+				return { x: loc.x, y: loc.y };
+			case "region":
+				return loc.region;
+			case "target":
+				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+			case "name":
+				requestNamedLocation(this, loc.name);
+				return loc.name;
 		}
-		// It can also be a Region Document
-		else if (typeof loc === "object" && "collectionName" in loc && loc.collectionName === "regions") {
-			return loc as RegionDocument;
-		}
-		return this.getTargetToken(loc as TargetDocuments);
 	}
 
 	protected abstract apply(section: AnimationSection): Promise<void> | void;

@@ -117,7 +117,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
-		const towards = this.resolveObject(await this.getInputValue("towards"));
+		const towards = this.getLocation(await this.getInputValue("towards"));
 		if (!towards) {
 			devLog(`[${this.type}] no aim target; skipping`);
 			return;

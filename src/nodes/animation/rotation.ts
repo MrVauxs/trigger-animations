@@ -118,7 +118,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 
 		if (await this.getInputValue("randomRotation")) section.randomRotation(true);
 
-		const towards = this.resolveObject(await this.getInputValue("towards"));
+		const towards = this.getLocation(await this.getInputValue("towards"));
 		if (towards) {
 			section.rotateTowards(towards, {
 				// @ts-expect-error Sequencer types
