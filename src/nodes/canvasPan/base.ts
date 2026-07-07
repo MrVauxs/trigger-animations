@@ -57,7 +57,8 @@ abstract class CanvasPanModifierNode<
 		return null;
 	}
 
-	getLocation(loc: PositionSource | Point): TokenDocument | Point | RegionDocument | string | undefined {
+	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
+		if (!loc) return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
 		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
 

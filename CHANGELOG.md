@@ -1,3 +1,6 @@
+# 0.1.1
+- Fixed Position inputs erroring on being undefined.
+
 # 0.1.0
 - Added "Position" entry that merges "Target", "Region", "Point", and "String" entries (attaching to a Token, Region, X/Y coordinates, and a named location respectively). Replaced "any" entries in inputs that related to positioning.
 - Made "preload" option on Play Node true by default.
