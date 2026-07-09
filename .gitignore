@@ -3,6 +3,7 @@ temp/
 static/*.json
 static/_deleted/
 WIKI.mdx
+static/*/*-copy*
 
 # dependencies (bun install)
 node_modules
