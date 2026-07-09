@@ -42,7 +42,16 @@ class CanvasPanFlowNode extends CanvasPanModifierNode<TInputs> {
 			{ key: "repeats", type: "number", ...this.io("repeats"), group: "repeat", field: { default: 0, min: 0, step: 1 } },
 			{ key: "repeatDelayMin", type: "number", ...this.io("repeatDelayMin"), group: "repeat", field: { default: 0, min: 0 } },
 			{ key: "repeatDelayMax", type: "number", ...this.io("repeatDelayMax"), group: "repeat", field: { default: 0, min: 0 } },
-			{ key: "preset", type: "text", ...this.io("preset") }
+			{
+				key: "preset",
+				type: "text",
+				...this.io("preset"),
+				field: {
+					type: "select",
+					default: Sequencer.Presets.getAll().keys().toArray()[0],
+					options: Sequencer.Presets.getAll().keys().toArray()
+				}
+			}
 		];
 	}
 

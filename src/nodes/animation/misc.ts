@@ -31,7 +31,16 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 				field: { default: 0, min: 0 }
 			},
 			{ key: "tint", type: "text", ...this.io("tint") },
-			{ key: "preset", type: "text", ...this.io("preset") }
+			{
+				key: "preset",
+				type: "text",
+				...this.io("preset"),
+				field: {
+					type: "select",
+					default: Sequencer.Presets.getAll().keys().toArray()[0],
+					options: Sequencer.Presets.getAll().keys().toArray()
+				}
+			}
 		];
 	}
 

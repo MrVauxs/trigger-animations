@@ -88,7 +88,11 @@ class SoundFlowNode extends SoundModifierNode<TInputs> {
 				key: "preset",
 				type: "text",
 				...this.io("preset"),
-				field: { default: "" }
+				field: {
+					type: "select",
+					default: Sequencer.Presets.getAll().keys().toArray()[0],
+					options: Sequencer.Presets.getAll().keys().toArray()
+				}
 			}
 		];
 	}

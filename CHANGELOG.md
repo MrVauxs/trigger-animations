@@ -1,5 +1,6 @@
 # 0.2.0
 - (Nodes) Added "Module Enabled" node.
+- (Nodes) Improved Sequencer preset selection by making it a dropdown of all registered presets, if any.
 
 # 0.1.1
 - Fixed Position inputs erroring on being undefined.
