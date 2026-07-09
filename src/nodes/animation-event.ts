@@ -138,22 +138,32 @@ class StartNode extends TriggerNode<
 		const convertedData = await this.convertStartObjectFromEmitable(emitable);
 		devLog("Running animation-event", convertedData)
 		const { name, item, targets, sources, actor, options, userInputs } = convertedData;
+		if (!name) return true;
 
-		// ["bow", "shortbow", "longbow"]
-		const animationName = (await this.getInputValue("name")).split(",")
+		/**
+		 * The name the animation-event node has.
+		 * ["bow", "shortbow", "longbow"]
+		 */
+		const animationNames = (await this.getInputValue("name")).split(",")
+		/**
+		 * The name provided by the function.
+		 * "bow"
+		 */
 		const givenNames = name.split(",").map(x => x.trim());
 		const softFail = await this.getInputValue("softFail")
-		const matchesPattern = (candidate: string) => {
-			candidate = candidate.trim()
+		const matchesPattern = (animationName: string) => {
+			animationName = animationName.trim()
 			// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
-			if (candidate === "*") return true
-			if (!candidate.includes("*")) return givenNames.includes(candidate)
-			const regex = new RegExp("^" + candidate.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$")
+			if (animationName === "*") return true
+			// Match if we happen to do something like damage:* and damage:*
+			if (animationName === name) return true
+			if (!animationName.includes("*")) return givenNames.includes(animationName)
+			// Turns "long*ow" into /^long.*ow$/
+			const regex = new RegExp("^" + animationName.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$")
 			return regex.test(name)
 		}
-		const foundNames = animationName.filter(matchesPattern)
-		// If there is no name provided or the event name does not match the animation name, skip the animation.
-		if (!name || !foundNames.length) return true;
+		const foundNames = animationNames.filter(matchesPattern)
+		if (!foundNames.length) return true;
 		devLog(`Found ${foundNames.join(", ")}, playing ${this.triggerName}`);
 
 		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
