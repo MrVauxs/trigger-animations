@@ -104,10 +104,6 @@
 								"title": "Sequence",
 								"tooltip": "The running Sequence to build onto. Leave unconnected to use this trigger's own; the same Sequence is passed out so the animation can continue mid-sequence."
 							},
-							"useContext": {
-								"title": "Use Current Sequence",
-								"tooltip": "Build onto this trigger's own running Sequence instead of one wired into the Sequence input. When enabled, the Sequence input is ignored."
-							},
 							"name": {
 								"title": "Name",
 								"tooltip": "The name(s) of the animation(s) to run, matched against Start Animation nodes. Comma separated for multiple."
@@ -2044,32 +2040,6 @@
 							}
 						}
 					}
-				}
-			},
-			"entry": {
-				"animation": {
-					"title": "Animation"
-				},
-				"canvasPan": {
-					"title": "Canvas Pan"
-				},
-				"crosshair": {
-					"title": "Crosshair"
-				},
-				"effect": {
-					"title": "Effect"
-				},
-				"position": {
-					"title": "Position"
-				},
-				"scrollingText": {
-					"title": "Scrolling Text"
-				},
-				"sequence": {
-					"title": "Sequence"
-				},
-				"sound": {
-					"title": "Sound"
 				}
 			},
 			"category": {

@@ -6,7 +6,6 @@ const { TriggerNode } = globalThis.triggerEngine;
 
 type TInputs = {
 	sequence?: Sequence;
-	useContext: boolean;
 	name: string;
 	actor?: TargetDocuments;
 	sources: any[];
@@ -57,7 +56,6 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{ key: "sequence", type: "sequence", ...this.io("sequence") },
-			{ key: "useContext", type: "boolean", ...this.io("useContext") },
 			{ key: "name", type: "text", ...this.io("name") },
 			{ key: "actor", type: "target", ...this.io("actor") },
 			{ key: "sources", type: "target", isArray: true, ...this.io("sources") },
@@ -81,9 +79,8 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 
-		const sequence = (await this.getInputValue("useContext"))
-			? this.getContext<Sequence>("sequence")
-			: await this.getInputValue("sequence")
+		// A wired Sequence overrides the running one; otherwise reuse this trigger's own.
+		const sequence = (await this.getInputValue("sequence"))
 		if (sequence) {
 			this.setOutputValue("sequence", sequence);
 		}
