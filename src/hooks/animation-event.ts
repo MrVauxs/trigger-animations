@@ -20,9 +20,10 @@ class StartHook extends TriggerHook {
 		}
 
 		const { id, local } = trigger;
+		const { sequence, ...rest } = data;
 
-		const emitable = socket ? data : this.convertObjectToEmitable(
-			data,
+		const emitable = socket ? rest : this.convertObjectToEmitable(
+			rest,
 			{
 				actor: "target",
 				item: "item",
@@ -39,9 +40,11 @@ class StartHook extends TriggerHook {
 				devLog("Emitting local animation-event", id, emitable)
 				game.socket.emit(StartHook.socketPath, emitable, true);
 			}
-			devLog("Executing animation-event", local ? "(local)" : "", socket ? "(via socket)" : "", id, emitable)
+			if (sequence) (emitable as Record<string, unknown>).sequence = sequence;
+			devLog("Executing animation-event", sequence ? "(from another animation)" : "", local ? "(local)" : "", socket ? "(via socket)" : "", id, emitable)
 			return this.executeTriggerEvent(id, "animation-event", emitable)
 		} else {
+			// The GM runs it remotely (serialized), so nested Sequences can't be shared.
 			devLog("Executing animation-event via GM", id, emitable)
 			return this.executeTriggerEventAsGM(id, "animation-event", emitable)
 		}

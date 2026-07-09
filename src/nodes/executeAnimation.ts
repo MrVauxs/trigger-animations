@@ -1,0 +1,114 @@
+import { devGroup } from "$lib/utils";
+import { TriggerEngine as T } from "trigger-engine/types";
+import type { StartNodeOptions } from "./animation-event";
+
+const { TriggerNode } = globalThis.triggerEngine;
+
+type TInputs = {
+	sequence?: Sequence;
+	name: string;
+	actor?: TargetDocuments;
+	sources: any[];
+	targets: any[];
+	item?: Item;
+	options: string[];
+	await: boolean;
+};
+
+type TOutputs = {
+	sequence?: Sequence;
+};
+
+class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"> {
+	static override get type() {
+		return "execute-animation" as const;
+	}
+
+	static override get category() {
+		return "action";
+	}
+
+	static override get tags(): string[] {
+		return ["animation"];
+	}
+
+	static localize(str: string) {
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
+	}
+
+	static io(key: string) {
+		return {
+			label: this.localize(`io.${key}.title`),
+			tooltip: this.localize(`io.${key}.tooltip`),
+		};
+	}
+
+	override get headerColor() {
+		// Matches the built-in action nodes' blue header.
+		return "#2162bd";
+	}
+
+	override get icon() {
+		// Font Awesome Pro unicode (film), top right corner.
+		return { unicode: "\uf03d" };
+	}
+
+	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
+		return [
+			{ key: "sequence", type: "sequence", ...this.io("sequence") },
+			{ key: "name", type: "text", ...this.io("name") },
+			{ key: "actor", type: "target", ...this.io("actor") },
+			{ key: "sources", type: "target", isArray: true, ...this.io("sources") },
+			{ key: "targets", type: "target", isArray: true, ...this.io("targets") },
+			{ key: "item", type: "item", ...this.io("item") },
+			{ key: "options", type: "text", isArray: true, ...this.io("options") },
+			{ key: "await", type: "boolean", ...this.io("await") },
+		];
+	}
+
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
+		return [
+			{ key: "sequence", type: "sequence", ...this.io("sequence") },
+		];
+	}
+
+	static override get defineCustomInputs(): T.BuiltinsCustomEntry[] {
+		return [{ slug: "input", array: true, ...this.io("input") }];
+	}
+
+	override async _execute(): Promise<boolean> {
+		const g = devGroup(`[Execute] ${this.type}`);
+
+		// A wired Sequence overrides the running one; otherwise reuse this trigger's own.
+		const sequence = (await this.getInputValue("sequence"))
+		if (sequence) {
+			this.setOutputValue("sequence", sequence);
+		}
+
+		const run = globalThis.triggerAnimations.api.runFromTrigger!
+		const payload = {
+			name: await this.getInputValue("name"),
+			actor: await this.getInputValue("actor"),
+			item: await this.getInputValue("item"),
+			options: await this.getInputValue("options"),
+			sources: await this.getInputValue("sources"),
+			targets: await this.getInputValue("targets"),
+			userInputs: await this.getCustomInputs("input"),
+			// added
+			sequence,
+		};
+		const animationCall = run(payload);
+
+		if (await this.getInputValue("await") || sequence) {
+			await animationCall;
+		}
+
+
+		g.log("Execute Animation Node", { hasSequence: !!sequence });
+		g.end();
+
+		return this.executeNext("out");
+	}
+}
+
+export { ExecuteAnimationNode };

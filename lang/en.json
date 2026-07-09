@@ -96,6 +96,48 @@
 			},
 			"node": {
 				"action": {
+					"execute-animation": {
+						"title": "Execute Animation",
+						"subtitle": "Runs a named animation, passing a Sequence",
+						"io": {
+							"sequence": {
+								"title": "Sequence",
+								"tooltip": "The running Sequence to build onto. Leave unconnected to use this trigger's own; the same Sequence is passed out so the animation can continue mid-sequence."
+							},
+							"name": {
+								"title": "Name",
+								"tooltip": "The name(s) of the animation(s) to run, matched against Start Animation nodes. Comma separated for multiple."
+							},
+							"actor": {
+								"title": "Actor",
+								"tooltip": "The origin actor passed to the nested animation."
+							},
+							"sources": {
+								"title": "Sources",
+								"tooltip": "Source tokens/objects passed to the nested animation."
+							},
+							"targets": {
+								"title": "Targets",
+								"tooltip": "Target tokens/objects passed to the nested animation."
+							},
+							"item": {
+								"title": "Item",
+								"tooltip": "The origin item passed to the nested animation."
+							},
+							"options": {
+								"title": "Options",
+								"tooltip": "A list of string options passed to the nested animation (e.g. roll options)."
+							},
+							"await": {
+								"title": "Await",
+								"tooltip": "Wait for the nested animation to finish before continuing. Enable this when nesting into a shared Sequence so its sections are added before it plays."
+							},
+							"input": {
+								"title": "Inputs",
+								"tooltip": "Extra values forwarded to the nested animation's Start Animation node path outputs."
+							}
+						}
+					},
 					"crosshair-pick": {
 						"title": "Pick Location",
 						"subtitle": "Shows a crosshair and waits for placement",

@@ -24,6 +24,7 @@ type StartNodeOptions = {
 	sources?: TargetDocuments[]
 	options?: string[]
 	userInputs: T.EmitableValue[]
+	sequence?: Sequence
 }
 
 class StartNode extends TriggerNode<
@@ -166,7 +167,11 @@ class StartNode extends TriggerNode<
 		if (!foundNames.length) return true;
 		devLog(`Found ${foundNames.join(", ")}, playing ${this.triggerName}`);
 
-		this.setContext("sequence", new Sequence({ inModuleName: this.triggerName, softFail }))
+		const passedSequence = (emitable as { sequence?: unknown })?.sequence;
+		const sequence = passedSequence instanceof Sequence
+			? passedSequence
+			: new Sequence({ inModuleName: this.triggerName, softFail });
+		this.setContext("sequence", sequence)
 
 		this.setOutputValue("targets", targets);
 		this.setOutputValue("sources", sources);

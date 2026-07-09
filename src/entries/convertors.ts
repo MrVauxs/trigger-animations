@@ -75,4 +75,19 @@ const positionConvertors = [
 	// #endregion
 ] as const satisfies T.EntryConvertor[];
 
-export { positionConvertors };
+const sequenceConvertors = [
+	{ output: "sequence", input: "animation", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sequence", input: "canvasPan", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sequence", input: "crosshair", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sequence", input: "effect", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sequence", input: "scrollingText", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sequence", input: "sound", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "animation", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "canvasPan", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "crosshair", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "effect", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "scrollingText", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+	{ output: "sound", input: "sequence", convertToInput: (value: Sequence): Sequence => value },
+] as const satisfies T.EntryConvertor[];
+
+export { positionConvertors, sequenceConvertors };

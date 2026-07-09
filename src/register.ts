@@ -5,7 +5,7 @@ import { API } from "./api";
 import * as tNodes from "./nodes/index"
 import * as tEntries from "./entries/index"
 import * as tHooks from "./hooks/index"
-import { positionConvertors } from "./entries/convertors"
+import { positionConvertors, sequenceConvertors } from "./entries/convertors"
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
 
@@ -24,7 +24,7 @@ Hooks.on(
 				// hooks: true,
 				entries: true,
 				convertors: true,
-				nodes: builtInKeys.nodes.filter(x => !x.includes("event")),
+				nodes: builtInKeys.nodes.filter(x => !x.includes("event") && x !== "execute-animation"),
 			}
 
 			devLog(
@@ -43,7 +43,7 @@ Hooks.on(
 				entries: Object.values(tEntries) as (typeof T.NodeEntry)[],
 				nodes: Object.values(tNodes) as (typeof T.TriggerNode)[],
 				hooks: Object.values(tHooks) as (typeof T.TriggerHook)[],
-				convertors: [...positionConvertors],
+				convertors: [...positionConvertors, ...sequenceConvertors],
 				builtins,
 			})!;
 			API.prepareTriggers = prepareTriggers;
