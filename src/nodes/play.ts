@@ -81,7 +81,7 @@ class PlayNode extends TriggerNode<
 			preload: await this.getInputValue("preload"),
 			local: await this.getInputValue("local")
 		});
-		devLog("Playing Sequence", seq)
+		devLog("Playing Sequence", sequence)
 
 		return this.executeNext("out");
 	}
