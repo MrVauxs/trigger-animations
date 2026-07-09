@@ -55,6 +55,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
+			// TODO: Make Sequence entry have a BooleanField so it uses this.getContext
 			{ key: "sequence", type: "sequence", ...this.io("sequence") },
 			{ key: "name", type: "text", ...this.io("name") },
 			{ key: "actor", type: "target", ...this.io("actor") },
@@ -79,7 +80,6 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 
-		// A wired Sequence overrides the running one; otherwise reuse this trigger's own.
 		const sequence = (await this.getInputValue("sequence"))
 		if (sequence) {
 			this.setOutputValue("sequence", sequence);
@@ -97,12 +97,11 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			// added
 			sequence,
 		};
-		const animationCall = run(payload);
 
+		const animationCall = run(payload);
 		if (await this.getInputValue("await") || sequence) {
 			await animationCall;
 		}
-
 
 		g.log("Execute Animation Node", { hasSequence: !!sequence });
 		g.end();
