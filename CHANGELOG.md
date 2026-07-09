@@ -1,5 +1,5 @@
 # 0.2.0
-- (Nodes) Added "Module Enabled" node.
+- (Nodes) Added "Module Enabled" and "Execute Animation" nodes.
 - (Nodes) Improved Sequencer preset selection by making it a dropdown of all registered presets, if any.
 
 # 0.1.1
