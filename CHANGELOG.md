@@ -1,3 +1,6 @@
+# 0.2.0
+- (Nodes) Added "Module Enabled" node.
+
 # 0.1.1
 - Fixed Position inputs erroring on being undefined.
 

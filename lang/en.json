@@ -193,6 +193,21 @@
 						}
 					}
 				},
+				"logic": {
+					"module-enabled": {
+						"title": "Module Enabled",
+						"outs": {
+							"true": "True",
+							"false": "False"
+						},
+						"io": {
+							"module": {
+								"title": "Module",
+								"tooltip": "The id of the module to check (as it appears in its manifest). Routes to True when the module is installed and enabled, otherwise False."
+							}
+						}
+					}
+				},
 				"sequence": {
 					"effect": {
 						"title": "Effect",
