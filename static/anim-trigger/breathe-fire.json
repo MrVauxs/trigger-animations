@@ -12,7 +12,7 @@
 			"type": "animation-event",
 			"inputs": {
 				"name": {
-					"value": "breathe-fire"
+					"value": "template:breathe-fire"
 				}
 			},
 			"outs": {

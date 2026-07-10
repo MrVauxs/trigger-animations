@@ -1,3 +1,7 @@
+# 0.3.0
+- (Triggers) Changed the default name definition. Now every trigger has its own unique name, including Attack Roll (`attack:slug`), Template Placed (`template:slug`), Effect / Condition Granted (`effect:slug`/`condition:slug`), Action Posted (`action:slug`).
+- (Animations) Adjusted the names per above changes.
+
 # 0.2.1
 - Added guards against infinite loops due to the Execute Animation node.
 

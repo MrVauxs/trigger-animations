@@ -25,8 +25,8 @@
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 771.2564190162728,
-				"y": 307.0666948684661
+				"x": 1027.256419016273,
+				"y": 295.73338224637354
 			},
 			"id": "PEXiYyM5Qoo77FZK",
 			"inputs": {
@@ -36,22 +36,22 @@
 				"item": {
 					"connection": "NrSe7qkQAoAEuv9L:outputs:item"
 				},
-				"name": {
-					"connection": "mosxx1pPt8nuHzjX:outputs:E85qTXVg1K7pfp77"
-				},
 				"sources": {
 					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
 				},
 				"targets": {
 					"connection": "iLQqpDvy8aS7XhpM:outputs:targets"
+				},
+				"name": {
+					"connection": "8PHo7eVUOmXJjHXK:outputs:result"
 				}
 			}
 		},
 		{
 			"type": "extract-item",
 			"position": {
-				"x": 516.0000401088153,
-				"y": 306.6666971302242
+				"x": 494.66666608537776,
+				"y": 308.66666654802543
 			},
 			"id": "mosxx1pPt8nuHzjX",
 			"custom": {
@@ -60,6 +60,14 @@
 						"id": "E85qTXVg1K7pfp77",
 						"input": "slug",
 						"label": "Slug",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
+					},
+					"AQuEoVK4OXKt5CBl": {
+						"id": "AQuEoVK4OXKt5CBl",
+						"input": "type",
+						"label": "Type",
 						"slug": "path",
 						"isArray": false,
 						"type": "text"
@@ -73,7 +81,7 @@
 			},
 			"outs": {
 				"out": {
-					"connection": "PEXiYyM5Qoo77FZK:ins:in"
+					"connection": "8PHo7eVUOmXJjHXK:ins:in"
 				}
 			}
 		},
@@ -84,6 +92,48 @@
 				"y": 425.3333803077239
 			},
 			"id": "iLQqpDvy8aS7XhpM"
+		},
+		{
+			"type": "format-text",
+			"position": {
+				"x": 719.9999389648438,
+				"y": 309.99997949322614
+			},
+			"id": "8PHo7eVUOmXJjHXK",
+			"custom": {
+				"inputs": {
+					"aessLq9h6kaS3HjI": {
+						"id": "aessLq9h6kaS3HjI",
+						"input": "a",
+						"label": "a",
+						"slug": "variable",
+						"type": "text"
+					},
+					"KJ2Dao3zd2aGkzMh": {
+						"id": "KJ2Dao3zd2aGkzMh",
+						"input": "b",
+						"label": "b",
+						"slug": "variable",
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"plain": {
+					"value": "@a:@b"
+				},
+				"aessLq9h6kaS3HjI": {
+					"connection": "mosxx1pPt8nuHzjX:outputs:AQuEoVK4OXKt5CBl"
+				},
+				"KJ2Dao3zd2aGkzMh": {
+					"connection": "mosxx1pPt8nuHzjX:outputs:E85qTXVg1K7pfp77"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "PEXiYyM5Qoo77FZK:ins:in"
+				}
+			}
 		}
 	]
 }

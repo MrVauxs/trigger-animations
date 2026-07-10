@@ -15,7 +15,7 @@
 			"type": "animation-event",
 			"inputs": {
 				"name": {
-					"value": "spell-effect-shield"
+					"value": "effect:spell-effect-shield"
 				}
 			},
 			"outs": {

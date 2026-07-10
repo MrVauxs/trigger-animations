@@ -69,17 +69,17 @@
 				"actor": {
 					"connection": "4tQW1HNQucnFhKAW:outputs:origin"
 				},
-				"sources": {
-					"connection": "4tQW1HNQucnFhKAW:outputs:origin"
-				},
-				"targets": {
-					"connection": "4tQW1HNQucnFhKAW:outputs:target"
-				},
 				"options": {
 					"connection": "4tQW1HNQucnFhKAW:outputs:options"
 				},
 				"name": {
 					"connection": "ZooAkFwRIY46wMYH:outputs:result"
+				},
+				"sources": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:origin"
+				},
+				"targets": {
+					"connection": "4tQW1HNQucnFhKAW:outputs:target"
 				}
 			}
 		},

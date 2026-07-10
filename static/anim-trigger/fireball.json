@@ -28,7 +28,7 @@
 			},
 			"inputs": {
 				"name": {
-					"value": "fireball"
+					"value": "template:fireball"
 				}
 			},
 			"outs": {
