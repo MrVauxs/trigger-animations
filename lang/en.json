@@ -16,6 +16,10 @@
 				"name": "Animation Volume",
 				"hint": "Multiplies the volume of all sounds and effects played by animations. Adjust it here or from the slider in the Playlists tab.",
 				"short": "Animations"
+			},
+			"show-template-button": {
+				"name": "Show Template Button",
+				"hint": "Shows the Trigger Animations button in item sheet headers for quickly creating a template animation."
 			}
 		},
 		"anim-trigger": {

@@ -28,6 +28,14 @@ Hooks.on("init", () => {
 		scope: "user",
 		hint: settingString("quality", "hint"),
 	})
+	game.settings.register(moduleId, "show-template-button", {
+		name: settingString("show-template-button", "name"),
+		hint: settingString("show-template-button", "hint"),
+		type: Boolean,
+		default: true,
+		config: true,
+		scope: "user",
+	})
 	game.settings.register(moduleId, "update-notice-shown-version", {
 		type: String,
 		name: "update-notice-shown-version",

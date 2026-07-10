@@ -1,4 +1,5 @@
 import { devLog } from "$lib/utils";
+import { id as moduleId } from "moduleJSON";
 import { DEFAULT_TEMPLATE } from "./templates";
 import { type ApplicationV1HeaderButton } from "@7h3laughingman/foundry-types/client/appv1/api/_module.mjs";
 import type ItemSheet from "@7h3laughingman/foundry-types/client/appv1/sheets/item-sheet.mjs";
@@ -21,6 +22,7 @@ const getItemSheetHeaderButtonsId = Hooks.on("getItemSheetHeaderButtons", (
 	sheet: ItemSheet<any, any>, buttons: ApplicationV1HeaderButton[]
 ) => {
 	if (!sheet.item) return devLog("No item in sheet.");
+	if (!game.settings.get(moduleId, "show-template-button")) return;
 	buttons.unshift({ label: "TA", class: "trigger-anims", icon: "fas fa-film", onclick: () => openTemplateDialog(sheet.item) })
 })
 
@@ -75,6 +77,8 @@ async function openTemplateDialog(item: Item) {
 	const trigger = DEFAULT_TEMPLATE.build({
 		triggerNames: triggerName.split(",").map((n) => n.trim()).filter(Boolean),
 		label: item.name ?? "Unnamed Item",
+		uuid: item.uuid,
+		folder: game.user.name,
 	});
 
 	const setting = triggerAnimations.api.setting;

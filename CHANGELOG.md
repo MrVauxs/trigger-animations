@@ -1,3 +1,6 @@
+# 0.4.0
+- Added a basic animation template tool for items. Opening an item sheet will show a new button (disable-able in settings) to create a new Trigger Animations trigger using a suggested name.
+
 # 0.3.1
 - Removed accidental duplicate Attack Roll trigger.
 
