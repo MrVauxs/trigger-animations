@@ -3,6 +3,7 @@ import "./register"
 import "./api"
 import "./settings"
 import "./volume"
+import "./templateButton"
 import { id } from 'moduleJSON';
 import { dev, getMajorMinor } from "$lib/utils";
 
