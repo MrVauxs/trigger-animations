@@ -1,4 +1,5 @@
 import { devLog } from "$lib/utils";
+import { DEFAULT_TEMPLATE } from "./templates";
 import { type ApplicationV1HeaderButton } from "@7h3laughingman/foundry-types/client/appv1/api/_module.mjs";
 import type ItemSheet from "@7h3laughingman/foundry-types/client/appv1/sheets/item-sheet.mjs";
 
@@ -68,11 +69,25 @@ async function openTemplateDialog(item: Item) {
 		rejectClose: false,
 	});
 
-	const triggerName = (result as HTMLInputElement | null)?.value;
+	const triggerName = (result as HTMLInputElement | null)?.value?.trim();
 	if (!triggerName) return devLog("Template dialog cancelled.");
 
-	// TODO: create the blueprint using `triggerName` and `item`.
-	devLog("Create blueprint", { item, triggerName });
+	const trigger = DEFAULT_TEMPLATE.build({
+		triggerNames: triggerName.split(",").map((n) => n.trim()).filter(Boolean),
+		label: item.name ?? "Unnamed Item",
+	});
+
+	const setting = triggerAnimations.api.setting;
+	const current = setting.get();
+	await setting.set({
+		disabled: current.disabled ?? [],
+		enabled: current.enabled ?? [],
+		folders: current.folders ?? {},
+		sources: [...(current.sources ?? []), trigger],
+	}, () => { });
+
+	devLog("Created blueprint", trigger);
+	ui.notifications.info(`Created trigger animation "${trigger.name}".`);
 }
 
 if (import.meta.hot) {
