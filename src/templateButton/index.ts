@@ -24,15 +24,22 @@ const getItemSheetHeaderButtonsId = Hooks.on("getItemSheetHeaderButtons", (
 })
 
 /** Turn an item into its suggested trigger name. Fill the switch as you go. */
-function suggestTriggerName(item: Item): string {
+function suggestTriggerName(item: Item): string[] {
 	const slug = (item as any).slug ?? (item as any).system?.slug ?? item.name?.slugify?.() ?? "item-slug";
 
-	switch (item.type) {
-		// TODO: map item types to their suggested trigger-name prefix.
-		// e.g. case "action": return `action:${slug}`;
-		default:
-			return `${item.type}:${slug}`;
+	switch (game.system.id) {
+		case "sf2e":
+		case "pf2e": {
+			switch (item.type) {
+				// TODO: map item types to their suggested trigger-name prefix.
+				// e.g. case "action": return `action:${slug}`;
+				case "spell": return [`template:${slug}`, `attack:${slug}`, `damage:${slug}`]
+				case "weapon": return [`attack:${slug}`, `damage:${slug}`]
+			}
+		}
 	}
+
+	return [`${item.type}:${slug}`];
 }
 
 async function openTemplateDialog(item: Item) {
@@ -43,9 +50,10 @@ async function openTemplateDialog(item: Item) {
 <section class="trigger-anims-template">
 	<p>Creating a template animation for <strong>${foundry.utils.escapeHTML(item.name ?? "Unnamed Item")}</strong>.</p>
 	<p>Item type: <code>${foundry.utils.escapeHTML(item.type)}</code></p>
+	${suggested[1] ? `<p>Additional Suggestions: <code>${foundry.utils.escapeHTML(suggested.join(", "))}</code></p>` : ""}
 	<p>
 		<label>Suggested trigger name</label>
-		<input type="text" name="triggerName" value="${foundry.utils.escapeHTML(suggested)}" autofocus>
+		<input type="text" name="triggerName" value="${foundry.utils.escapeHTML(suggested[0])}" autofocus>
 	</p>
 </section>`;
 

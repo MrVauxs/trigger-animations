@@ -52,7 +52,6 @@ export class API {
 	constructor() {
 		globalThis.triggerAnimations = { api: this };
 	}
-
 	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args)
 	}
