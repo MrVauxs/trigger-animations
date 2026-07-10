@@ -13,25 +13,61 @@ export type TriggerTemplate = {
 	id: string;
 	label: string;
 	hint: string;
+	prefixes: string[];
 	build: (ctx: TemplateContext) => T.TriggerDataInput;
 };
 
 const rid = () => foundry.utils.randomID();
-
-/** Node position helper — templates lay nodes out left-to-right. */
 const at = (col: number, row = 0) => ({ x: col * 280, y: row * 160 });
+function pathOut(id: string, input: string, label: string, type = "text") {
+	return { id, input, label, slug: "path", isArray: false, type };
+}
 
-function animationEvent(triggerNames: string[], nextId: string, id = rid()): T.NodeDataInput {
+function animationEvent(
+	triggerNames: string[],
+	nextId: string,
+	id: string,
+	customOutputs?: Record<string, ReturnType<typeof pathOut>>,
+): T.NodeDataInput {
 	return {
 		id,
 		type: "animation-event",
 		position: at(0),
+		...(customOutputs ? { custom: { outputs: customOutputs } } : {}),
+		inputs: { name: { value: triggerNames.join(",") } },
+		outs: { out: { connection: `${nextId}:ins:in` } },
+	};
+}
+
+function extractItem(eventId: string, id: string, nextId: string, col: number) {
+	const nameOutId = rid();
+	const uuidOutId = rid();
+	const node: T.NodeDataInput = {
+		id,
+		type: "extract-item",
+		position: at(col),
+		custom: {
+			outputs: {
+				[nameOutId]: pathOut(nameOutId, "name", "Name"),
+				[uuidOutId]: pathOut(uuidOutId, "uuid", "UUID"),
+			},
+		},
+		inputs: { input: { connection: `${eventId}:outputs:item` } },
+		outs: { out: { connection: `${nextId}:ins:in` } },
+	};
+	return { node, nameOutId, uuidOutId };
+}
+
+function effectNode(extractId: string, nameOutId: string, uuidOutId: string, id: string, nextId: string, col: number): T.NodeDataInput {
+	return {
+		id,
+		type: "effect",
+		position: at(col),
 		inputs: {
-			name: { value: triggerNames.join(",") },
+			name: { connection: `${extractId}:outputs:${nameOutId}` },
+			origin: { connection: `${extractId}:outputs:${uuidOutId}` },
 		},
-		outs: {
-			out: { connection: `${nextId}:ins:in` },
-		},
+		outs: { out: { connection: `${nextId}:ins:in` } },
 	};
 }
 
@@ -47,10 +83,14 @@ function baseTrigger(ctx: TemplateContext, nodes: T.NodeDataInput[]): T.TriggerD
 	};
 }
 
-const basic: TriggerTemplate = {
-	id: "basic",
-	label: "Basic (effect → file → location → aim)",
-	hint: "An effect placed on the source, stretched to the target.",
+/**
+ * Attack projectile: animation-event => extract-item => effect => file => location(source) => aim(stretchTo target) => play.
+ */
+const attack: TriggerTemplate = {
+	id: "attack",
+	label: "Attack",
+	hint: "Effect on the source, stretched to the target.",
+	prefixes: ["attack", "damage"],
 	build: (ctx) => {
 		const eventId = rid();
 		const extractId = rid();
@@ -60,38 +100,13 @@ const basic: TriggerTemplate = {
 		const aimId = rid();
 		const playId = rid();
 
-		// Custom output slots the extract-item node pulls off the triggering item.
-		const nameOutId = rid();
-		const uuidOutId = rid();
-
 		const effect = { connection: `${effectId}:outputs:effect` };
+		const extract = extractItem(eventId, extractId, effectId, 1);
 
 		return baseTrigger(ctx, [
 			animationEvent(ctx.triggerNames, extractId, eventId),
-			{
-				id: extractId,
-				type: "extract-item",
-				position: at(1),
-				// Pull `name` and `uuid` off the item that fired the event.
-				custom: {
-					outputs: {
-						[nameOutId]: { id: nameOutId, input: "name", label: "Name", slug: "path", isArray: false, type: "text" },
-						[uuidOutId]: { id: uuidOutId, input: "uuid", label: "UUID", slug: "path", isArray: false, type: "text" },
-					},
-				},
-				inputs: { input: { connection: `${eventId}:outputs:item` } },
-				outs: { out: { connection: `${effectId}:ins:in` } },
-			},
-			{
-				id: effectId,
-				type: "effect",
-				position: at(2),
-				inputs: {
-					name: { connection: `${extractId}:outputs:${nameOutId}` },
-					origin: { connection: `${extractId}:outputs:${uuidOutId}` },
-				},
-				outs: { out: { connection: `${fileId}:ins:in` } },
-			},
+			extract.node,
+			effectNode(extractId, extract.nameOutId, extract.uuidOutId, effectId, fileId, 2),
 			{
 				id: fileId,
 				type: "file",
@@ -131,10 +146,72 @@ const basic: TriggerTemplate = {
 	},
 };
 
+/**
+ * Region/template placement: animation-event(+Region) => extract-item => effect => file => location(region) => play.
+ */
+const region: TriggerTemplate = {
+	id: "region",
+	label: "Region",
+	hint: "Effect on a placed measured template. Good for area spells.",
+	prefixes: ["template"],
+	build: (ctx) => {
+		const eventId = rid();
+		const extractId = rid();
+		const effectId = rid();
+		const fileId = rid();
+		const locationId = rid();
+		const playId = rid();
+
+		const regionOutId = rid();
+		const effect = { connection: `${effectId}:outputs:effect` };
+		const extract = extractItem(eventId, extractId, effectId, 1);
+
+		return baseTrigger({ ...ctx, tags: [...(ctx.tags ?? []), "template"] }, [
+			animationEvent(ctx.triggerNames, extractId, eventId, {
+				[regionOutId]: pathOut(regionOutId, "region", "Region", "region"),
+			}),
+			extract.node,
+			effectNode(extractId, extract.nameOutId, extract.uuidOutId, effectId, fileId, 2),
+			{
+				id: fileId,
+				type: "file",
+				position: at(3),
+				inputs: { effect, file: { value: "jb2a.fireball.explosion.orange" } },
+				outs: { out: { connection: `${locationId}:ins:in` } },
+			},
+			{
+				id: locationId,
+				type: "location",
+				state: "targets",
+				position: at(4),
+				inputs: {
+					effect,
+					// Place the effect directly on the event's measured template/region.
+					location: { connection: `${eventId}:outputs:${regionOutId}` },
+				},
+				outs: { out: { connection: `${playId}:ins:in` } },
+			},
+			{
+				id: playId,
+				type: "play",
+				position: at(5),
+				inputs: { preload: { value: true } },
+			},
+		]);
+	},
+};
+
 // TODO: richer templates (on-target burst, persistent effect, projectile-per-target, ...).
 // Each just returns another `TriggerTemplate`; add it to TEMPLATES below.
 export const TEMPLATES: Record<string, TriggerTemplate> = {
-	[basic.id]: basic,
+	[attack.id]: attack,
+	[region.id]: region,
 };
 
-export const DEFAULT_TEMPLATE = basic;
+export const DEFAULT_TEMPLATE = attack;
+
+/** Is this template a fit for the given suggested trigger names? */
+export function isRecommended(template: TriggerTemplate, suggestedNames: string[]): boolean {
+	const prefixes = suggestedNames.map((n) => n.split(":")[0]);
+	return template.prefixes.some((p) => prefixes.includes(p));
+}

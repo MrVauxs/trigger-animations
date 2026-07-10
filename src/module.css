@@ -39,6 +39,15 @@
     line-height: 1.4;
   }
 
+  & p.ta-suggestions {
+    line-height: 1.4;
+
+    & code {
+      display: inline-block;
+      margin-block: 2px;
+    }
+  }
+
   & strong {
     color: var(--ta-accent);
   }
@@ -49,6 +58,8 @@
     font-family: var(--font-mono, monospace);
     background: var(--ta-code-bg);
     color: var(--ta-code-fg);
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   & label {
@@ -66,13 +77,140 @@
     background: var(--ta-input-bg);
     color: var(--ta-input-fg);
     border: 1px solid var(--ta-input-border);
-    transition: border-color 120ms ease, box-shadow 120ms ease;
+    transition:
+      border-color 120ms ease,
+      box-shadow 120ms ease;
   }
 
   & input[type="text"]:focus {
     outline: none;
     border-color: var(--ta-accent);
     box-shadow: 0 0 0 2px rgba(46, 204, 142, 0.3);
+  }
+
+  /* Customizable <select> shenanigans */
+  & .ta-select,
+  & .ta-select::picker(select) {
+    padding: 0 0.5rem 0 0;
+    appearance: base-select;
+  }
+
+  & .ta-select {
+    width: 100%;
+    height: auto;
+    font-size: var(--font-size-13, 0.8125rem);
+    border-radius: 4px;
+    border: 1px solid var(--ta-input-border);
+    background: var(--ta-input-bg);
+    color: var(--ta-input-fg);
+    transition:
+      border-color 120ms ease,
+      box-shadow 120ms ease;
+  }
+
+  /* The trigger is a <button> child; strip Foundry's button styling. */
+  & .ta-select > button {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.3rem 0.6rem;
+    line-height: 1.2;
+    font-family: var(--font-mono, monospace);
+    cursor: pointer;
+  }
+
+  & .ta-select:focus-visible {
+    outline: none;
+    border-color: var(--ta-accent);
+    box-shadow: 0 0 0 2px rgba(46, 204, 142, 0.3);
+  }
+
+  & .ta-select::picker-icon {
+    color: var(--ta-accent);
+    font-size: 0.8em;
+    transition: transform 150ms ease;
+  }
+
+  & .ta-select:open::picker-icon {
+    transform: rotate(180deg);
+  }
+
+  & .ta-select::picker(select) {
+    box-sizing: border-box;
+    margin-top: 0.2rem;
+    padding: 0.15rem;
+    border-radius: 4px;
+    border: 1px solid var(--ta-input-border);
+    background: var(--ta-picker-bg);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    font-size: var(--font-size-13, 0.8125rem);
+  }
+
+  & .ta-select option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding: 0.25rem 0.45rem;
+    border-radius: 3px;
+    background: transparent;
+    text-align: left;
+    line-height: 1.35;
+    cursor: pointer;
+    margin-block: 2px;
+  }
+
+  & .ta-select option:hover,
+  & .ta-select option:focus,
+  & .ta-select option:checked {
+    background: var(--ta-option-hover);
+  }
+
+  & .ta-select option::checkmark {
+    display: none;
+  }
+
+  & .ta-select selectedcontent {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* Only show the label row in the closed button, not the hint. */
+  & .ta-select selectedcontent .ta-opt-hint {
+    display: none;
+  }
+
+  & .ta-opt-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  & .ta-opt-label {
+    font-family: var(--font-mono, monospace);
+  }
+
+  & .ta-opt-hint {
+    font-size: 0.85em;
+    font-family: var(--font-sans);
+    color: var(--color-text-subtle, #999);
+  }
+
+  & .ta-badge {
+    padding: 0.05em 0.35em;
+    border-radius: 3px;
+    font-size: 0.65em;
+    font-weight: bold;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--ta-accent);
+    color: #06281c;
   }
 }
 
@@ -82,6 +220,8 @@
   --ta-input-bg: rgba(0, 0, 0, 0.04);
   --ta-input-fg: #111;
   --ta-input-border: rgba(0, 0, 0, 0.25);
+  --ta-picker-bg: #f4f4f4;
+  --ta-option-hover: rgba(0, 0, 0, 0.08);
 }
 
 .theme-dark .trigger-anims-template {
@@ -90,6 +230,8 @@
   --ta-input-bg: rgba(0, 0, 0, 0.35);
   --ta-input-fg: #eee;
   --ta-input-border: rgba(255, 255, 255, 0.18);
+  --ta-picker-bg: #1c1c1c;
+  --ta-option-hover: rgba(255, 255, 255, 0.1);
 }
 
 .chat-message:has(.trigger-animations.welcome) {
