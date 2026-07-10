@@ -24,7 +24,9 @@ type StartNodeOptions = {
 	sources?: TargetDocuments[]
 	options?: string[]
 	userInputs: T.EmitableValue[]
+	// addons
 	sequence?: Sequence
+	stopRecursionFor?: string[]
 }
 
 class StartNode extends TriggerNode<
@@ -138,8 +140,16 @@ class StartNode extends TriggerNode<
 	override async _execute(emitable: any): Promise<boolean> {
 		const convertedData = await this.convertStartObjectFromEmitable(emitable);
 		devLog("Running animation-event", convertedData)
-		const { name, item, targets, sources, actor, options, userInputs, sequence: passedSequence } = convertedData;
+		const { name, item, targets, sources, actor, options, userInputs, sequence: passedSequence, stopRecursionFor } = convertedData;
 		if (!name) return true;
+
+		if (stopRecursionFor?.includes(name)) {
+			ui.notifications.warn(`Trigger Animations | Loop detected in ${this.triggerName}, aborting early.`)
+			return true;
+		} else {
+			this.setContext("recursionGuard", name)
+			this.setContext("stopRecursionFor", stopRecursionFor || [])
+		}
 
 		/**
 		 * The name the animation-event node has.

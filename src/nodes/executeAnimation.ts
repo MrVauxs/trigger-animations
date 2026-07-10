@@ -79,11 +79,13 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-
 		const sequence = (await this.getInputValue("sequence"))
 		if (sequence) {
 			this.setOutputValue("sequence", sequence);
 		}
+
+		const stopRecursionFor = this.getContext<string[]>("stopRecursionFor")!
+		const recursionGuard = this.getContext<string>("recursionGuard")!
 
 		const run = globalThis.triggerAnimations.api.runFromTrigger!
 		const payload = {
@@ -94,8 +96,9 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			sources: await this.getInputValue("sources"),
 			targets: await this.getInputValue("targets"),
 			userInputs: await this.getCustomInputs("input"),
-			// added
+			// addons
 			sequence,
+			stopRecursionFor: [recursionGuard, ...stopRecursionFor]
 		};
 
 		const animationCall = run(payload);
