@@ -26,6 +26,72 @@
   pointer-events: none;
 }
 
+.trigger-anims-template {
+  --ta-accent: #2ecc8e;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0.25rem 0.5rem;
+  font-size: var(--font-size-14, 0.875rem);
+
+  & p {
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  & strong {
+    color: var(--ta-accent);
+  }
+
+  & code {
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    font-family: var(--font-mono, monospace);
+    background: var(--ta-code-bg);
+    color: var(--ta-code-fg);
+  }
+
+  & label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+  }
+
+  & input[type="text"] {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border-radius: 4px;
+    font-family: var(--font-mono, monospace);
+    background: var(--ta-input-bg);
+    color: var(--ta-input-fg);
+    border: 1px solid var(--ta-input-border);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+  }
+
+  & input[type="text"]:focus {
+    outline: none;
+    border-color: var(--ta-accent);
+    box-shadow: 0 0 0 2px rgba(46, 204, 142, 0.3);
+  }
+}
+
+.theme-light .trigger-anims-template {
+  --ta-code-bg: rgba(0, 0, 0, 0.06);
+  --ta-code-fg: #1b3a2b;
+  --ta-input-bg: rgba(0, 0, 0, 0.04);
+  --ta-input-fg: #111;
+  --ta-input-border: rgba(0, 0, 0, 0.25);
+}
+
+.theme-dark .trigger-anims-template {
+  --ta-code-bg: rgba(255, 255, 255, 0.08);
+  --ta-code-fg: #7dffc4;
+  --ta-input-bg: rgba(0, 0, 0, 0.35);
+  --ta-input-fg: #eee;
+  --ta-input-border: rgba(255, 255, 255, 0.18);
+}
+
 .chat-message:has(.trigger-animations.welcome) {
   background: #282828;
   & .message-header {

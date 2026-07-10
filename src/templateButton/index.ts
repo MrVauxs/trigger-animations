@@ -23,8 +23,48 @@ const getItemSheetHeaderButtonsId = Hooks.on("getItemSheetHeaderButtons", (
 	buttons.unshift({ label: "TA", class: "trigger-anims", icon: "fas fa-film", onclick: () => openTemplateDialog(sheet.item) })
 })
 
-function openTemplateDialog(item: Item) {
-	devLog("openTemplateDialog", item);
+/** Turn an item into its suggested trigger name. Fill the switch as you go. */
+function suggestTriggerName(item: Item): string {
+	const slug = (item as any).slug ?? (item as any).system?.slug ?? item.name?.slugify?.() ?? "item-slug";
+
+	switch (item.type) {
+		// TODO: map item types to their suggested trigger-name prefix.
+		// e.g. case "action": return `action:${slug}`;
+		default:
+			return `${item.type}:${slug}`;
+	}
+}
+
+async function openTemplateDialog(item: Item) {
+	const DialogV2 = foundry.applications.api.DialogV2;
+	const suggested = suggestTriggerName(item);
+
+	const content = `
+<section class="trigger-anims-template">
+	<p>Creating a template animation for <strong>${foundry.utils.escapeHTML(item.name ?? "Unnamed Item")}</strong>.</p>
+	<p>Item type: <code>${foundry.utils.escapeHTML(item.type)}</code></p>
+	<p>
+		<label>Suggested trigger name</label>
+		<input type="text" name="triggerName" value="${foundry.utils.escapeHTML(suggested)}" autofocus>
+	</p>
+</section>`;
+
+	const result = await DialogV2.prompt({
+		window: { title: "Trigger Animations – New Template", icon: "fas fa-film" },
+		content,
+		ok: {
+			label: "Create Blueprint",
+			icon: "fas fa-check",
+			callback: (_event, button) => button.form?.elements.namedItem("triggerName") as HTMLInputElement | null,
+		},
+		rejectClose: false,
+	});
+
+	const triggerName = (result as HTMLInputElement | null)?.value;
+	if (!triggerName) return devLog("Template dialog cancelled.");
+
+	// TODO: create the blueprint using `triggerName` and `item`.
+	devLog("Create blueprint", { item, triggerName });
 }
 
 if (import.meta.hot) {
