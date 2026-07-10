@@ -138,7 +138,7 @@ class StartNode extends TriggerNode<
 	override async _execute(emitable: any): Promise<boolean> {
 		const convertedData = await this.convertStartObjectFromEmitable(emitable);
 		devLog("Running animation-event", convertedData)
-		const { name, item, targets, sources, actor, options, userInputs } = convertedData;
+		const { name, item, targets, sources, actor, options, userInputs, sequence: passedSequence } = convertedData;
 		if (!name) return true;
 
 		/**
@@ -167,7 +167,6 @@ class StartNode extends TriggerNode<
 		if (!foundNames.length) return true;
 		devLog(`Found ${foundNames.join(", ")}, playing ${this.triggerName}`);
 
-		const passedSequence = (emitable as { sequence?: unknown })?.sequence;
 		const sequence = passedSequence instanceof Sequence
 			? passedSequence
 			: new Sequence({ inModuleName: this.triggerName, softFail });
