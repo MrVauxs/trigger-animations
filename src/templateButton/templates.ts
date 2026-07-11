@@ -202,13 +202,10 @@ const region: TriggerTemplate = {
 };
 
 // TODO: richer templates (on-target burst, persistent effect, projectile-per-target, ...).
-// Each just returns another `TriggerTemplate`; add it to TEMPLATES below.
-export const TEMPLATES: Record<string, TriggerTemplate> = {
+export const BUILTIN_TEMPLATES: Record<string, TriggerTemplate> = {
 	[attack.id]: attack,
 	[region.id]: region,
 };
-
-export const DEFAULT_TEMPLATE = attack;
 
 /** Is this template a fit for the given suggested trigger names? */
 export function isRecommended(template: TriggerTemplate, suggestedNames: string[]): boolean {

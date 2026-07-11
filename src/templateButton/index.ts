@@ -1,6 +1,6 @@
 import { devLog } from "$lib/utils";
 import { id as moduleId } from "moduleJSON";
-import { DEFAULT_TEMPLATE, TEMPLATES, isRecommended } from "./templates";
+import { isRecommended } from "./templates";
 import { type ApplicationV1HeaderButton } from "@7h3laughingman/foundry-types/client/appv1/api/_module.mjs";
 import type ItemSheet from "@7h3laughingman/foundry-types/client/appv1/sheets/item-sheet.mjs";
 
@@ -36,10 +36,13 @@ async function openTemplateDialog(item: Item) {
 	const DialogV2 = foundry.applications.api.DialogV2;
 	const suggested = suggestTriggerName(item);
 
-	const templates = Object.values(TEMPLATES);
-	// Prefer a template that fits the suggested names; fall back to the default.
+	const registered = triggerAnimations.api.templates;
+	const templates = Object.values(registered);
+	const fallback = templates[0];
+	if (!fallback) return devLog("No templates registered.");
+	// Prefer a template that fits the suggested names; fall back to the first.
 	const recommended = templates.filter((t) => isRecommended(t, suggested));
-	const preselected = (recommended[0] ?? DEFAULT_TEMPLATE).id;
+	const preselected = (recommended[0] ?? fallback).id;
 
 	const options = templates.map((t) => {
 		const fits = isRecommended(t, suggested);
@@ -93,7 +96,7 @@ async function openTemplateDialog(item: Item) {
 	if (!triggerName) return devLog("No trigger name given.");
 
 	const templateId = (form.elements.namedItem("template") as HTMLSelectElement | null)?.value;
-	const template = (templateId && TEMPLATES[templateId]) || DEFAULT_TEMPLATE;
+	const template = (templateId && registered[templateId]) || fallback;
 
 	const trigger = template.build({
 		triggerNames: triggerName.split(",").map((n) => n.trim()).filter(Boolean),

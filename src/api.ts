@@ -3,6 +3,7 @@ import { TriggerEngine as T } from "trigger-engine/types";
 import { StartNodeOptions } from "./nodes";
 import { dev, devLog, log } from "$lib/utils";
 import { type BlueprintApplication } from "triggers-menu";
+import { BUILTIN_TEMPLATES, type TriggerTemplate } from "./templateButton/templates";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
 if (import.meta.hot) {
@@ -53,6 +54,13 @@ export class API {
 	constructor() {
 		globalThis.triggerAnimations = { api: this };
 	}
+
+	ready = false;
+	setReady() {
+		this.ready = true;
+		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api)
+	}
+
 	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args) as Promise<BlueprintApplication>;
 	}
@@ -72,6 +80,16 @@ export class API {
 	get db() { return this._db }
 	set db(db) { this._db = db }
 	get setting() { return API.setting }
+
+	_templates: Record<string, TriggerTemplate> = { ...BUILTIN_TEMPLATES };
+	get templates() { return this._templates }
+	set templates(value: Record<string, TriggerTemplate>) { this._templates = value }
+
+	/** Register (or overwrite) a template other modules can use in the dialog. */
+	registerTemplate(template: TriggerTemplate) {
+		this._templates[template.id] = template;
+		return template;
+	}
 
 	_triggerCache: CachedTrigger[] = [];
 

@@ -1,6 +1,8 @@
-# Unreleased
+# 0.5.0
 - Improved the template tool styling and by actually having more than one template to choose from.
 - Template tool now opens the blueprint menu and creates a new trigger without saving.
+- Added a "ready" property to the API which becomes true once Trigger Animations is registered. You can listen for it with a `Hooks.once("triggerAnimations.ready", (api) => {})` hook.
+- Added a "templates" and "registerTemplate" function to the API, allowing modules to register their own templates.
 
 # 0.4.0
 - Added a basic animation template tool for items. Opening an item sheet will show a new button (disable-able in settings) to create a new Trigger Animations trigger using a suggested name.

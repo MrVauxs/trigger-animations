@@ -47,6 +47,7 @@ Hooks.on(
 				builtins,
 			})!;
 			API.prepareTriggers = prepareTriggers;
+			triggerAnimations.api.setReady()
 		} catch (e) {
 			ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
 			console.error(e);
