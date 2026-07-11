@@ -2,6 +2,7 @@ import { id } from "moduleJSON";
 import { TriggerEngine as T } from "trigger-engine/types";
 import { StartNodeOptions } from "./nodes";
 import { dev, devLog, log } from "$lib/utils";
+import { type BlueprintApplication } from "triggers-menu";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
 if (import.meta.hot) {
@@ -53,7 +54,7 @@ export class API {
 		globalThis.triggerAnimations = { api: this };
 	}
 	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
-		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args)
+		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args) as Promise<BlueprintApplication>;
 	}
 	async endAnimation(opts: Parameters<typeof Sequencer.EffectManager.endEffects>[0]) {
 		return Sequencer.EffectManager.endEffects(opts)

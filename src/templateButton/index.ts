@@ -102,17 +102,12 @@ async function openTemplateDialog(item: Item) {
 		folder: game.user.name,
 	});
 
-	const setting = triggerAnimations.api.setting;
-	const current = setting.get();
-	await setting.set({
-		disabled: current.disabled ?? [],
-		enabled: current.enabled ?? [],
-		folders: current.folders ?? {},
-		sources: [...(current.sources ?? []), trigger],
-	}, () => { });
+	const app = await triggerAnimations.api.openBlueprint();
+	if (!app) return ui.notifications.error("Trigger Animations | Could not open blueprint menu.")
+
+	app.blueprint.addTrigger(trigger, true, true);
 
 	devLog("Created blueprint", trigger);
-	ui.notifications.info(`Created trigger animation "${trigger.name}".`);
 }
 
 if (import.meta.hot) {
@@ -126,6 +121,7 @@ if (import.meta.hot) {
 /*
 import { type ApplicationHeaderControlsEntry } from "@7h3laughingman/foundry-types/client/applications/_types.mjs";
 import type ItemSheetV2 from "@7h3laughingman/foundry-types/client/applications/sheets/item-sheet.mjs";
+import { API } from '../api';
 
 // ApplicationV2
 const getHeaderControlsItemId = Hooks.on("getHeaderControlsItemSheetV2", (
