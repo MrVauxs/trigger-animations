@@ -53,12 +53,14 @@ function patternMatches(pattern: string, name: string, givenNames: string[]): bo
 export class API {
 	constructor() {
 		globalThis.triggerAnimations = { api: this };
+		this.ready = true;
 	}
 
 	ready = false;
 	setReady() {
 		this.ready = true;
 		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api)
+		devLog("API is ready.", this.ready)
 	}
 
 	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {

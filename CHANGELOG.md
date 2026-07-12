@@ -1,3 +1,6 @@
+# 0.5.1
+- Fixed ready hook being triggered in the wrong place, effectively doing nothing.
+
 # 0.5.0
 - Improved the template tool styling and by actually having more than one template to choose from.
 - Template tool now opens the blueprint menu and creates a new trigger without saving.

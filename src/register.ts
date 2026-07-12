@@ -12,6 +12,7 @@ type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApp
 Hooks.once("ready", async () => {
 	const api = new API();
 	await api.createJournalDatabase()
+	triggerAnimations.api.setReady();
 
 	if (dev) setTimeout(() => api.openBlueprint(), 1000);
 });
@@ -47,7 +48,6 @@ Hooks.on(
 				builtins,
 			})!;
 			API.prepareTriggers = prepareTriggers;
-			triggerAnimations.api.setReady()
 		} catch (e) {
 			ui.notifications.error(`Failed to register ${title} application.`, { permanent: true });
 			console.error(e);
