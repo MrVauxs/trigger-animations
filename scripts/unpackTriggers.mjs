@@ -112,7 +112,7 @@ await fs.mkdir(outDir, { recursive: true });
 /**
  * Turn a trigger's name into a filesystem-friendly slug.
  * @param {string} name
- * @returns {string}
+ * @returns {string} slugified name
  */
 function slugify(name) {
 	return (

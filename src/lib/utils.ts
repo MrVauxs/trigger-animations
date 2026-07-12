@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type Document from "@7h3laughingman/foundry-types/common/abstract/document.mjs";
 import type BaseUser from "@7h3laughingman/foundry-types/common/documents/user.mjs";
 

@@ -16,7 +16,7 @@ abstract class AnimationModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { animation?: AnimationSection },
-	{},
+	object,
 	string,
 	string,
 	TState

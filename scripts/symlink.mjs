@@ -1,7 +1,6 @@
 import { lstatSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
-import process from "node:process";
 import * as p from "@clack/prompts";
 import { yellow } from "kolorist";
 import moduleJSON from "../module.json" with { type: "json" };
@@ -21,9 +20,9 @@ try {
 }
 
 const windowsInstructions = process.platform === "win32" ? " Start with a drive letter (\"C:\\\")." : "";
-const lastFolder = lastPath ? `(last: ${lastPath})` : "";
+const lastFolder = lastPath ? ` (last: ${lastPath})` : "";
 const promptPath = await p.text({
-	message: `Enter the full path to your Foundry data folder.${windowsInstructions}`,
+	message: `Enter the full path to your Foundry data folder.${windowsInstructions}${lastFolder}`,
 	placeholder: lastPath,
 	initialValue: lastPath,
 	validate(val) {

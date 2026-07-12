@@ -9,4 +9,8 @@ export default antfu({
 		braceStyle: "1tbs", // '1tbs', or 'allman'
 		semi: true,
 	},
+	rules: {
+		"node/prefer-global/process": ["error", "always"],
+		"unused-imports/no-unused-vars": ["off"], // ["error", { argsIgnorePattern: "^_|^.{3}" }]
+	},
 });

@@ -285,7 +285,7 @@ class CrosshairPickNode extends TriggerNode<
 	// TODO: Ask Wasp to make Crosshairs dismissable
 	private dismissCrosshair(): void {
 		try {
-			// @ts-expect-error
+			// @ts-expect-error Correct but missing unneeded props
 			canvas?.stage?.emit("pointerup", { nativeEvent: { which: 3 } });
 		} catch (e) {
 			devLog(`[${this.type}] could not auto-dismiss crosshair`, e);

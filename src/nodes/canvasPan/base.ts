@@ -15,7 +15,7 @@ abstract class CanvasPanModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { canvasPan?: CanvasPanSection },
-	{},
+	object,
 	string,
 	string,
 	TState

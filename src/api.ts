@@ -201,6 +201,7 @@ export class API {
 
 	#updateHook: number | undefined;
 	async createJournalDatabase() {
+		let database = game.journal.getName("Trigger Animations DB");
 		const end = () => {
 			this._db = database!;
 			this.databaseMount();
@@ -212,7 +213,6 @@ export class API {
 			}
 			return database;
 		};
-		let database = game.journal.getName("Trigger Animations DB");
 		if (!JournalEntry.canUserCreate(game.user))
 			return end();
 		if (!database) {

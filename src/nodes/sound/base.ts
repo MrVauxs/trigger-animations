@@ -16,7 +16,7 @@ abstract class SoundModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { sound?: SoundSection },
-	{},
+	object,
 	string,
 	string,
 	TState

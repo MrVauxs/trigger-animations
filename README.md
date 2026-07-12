@@ -42,14 +42,16 @@ npm install github:mrvauxs/trigger-animations
 Then import the types either directly in the code or tsconfig.json:
 
 ```ts
-# Import types directly
+// Import types directly
 import "trigger-animations/types";
+```
 
-# Or add to tsconfig.json
+```json
+// Or add to tsconfig.json
 {
-  "compilerOptions": {
-    "types": ["trigger-animations/types"]
-  }
+	"compilerOptions": {
+		"types": ["trigger-animations/types"]
+	}
 }
 ```
 
@@ -65,9 +67,9 @@ To add triggers, you can use the [Trigger Engine's registerTriggers](https://git
 ```json
 {
 	"flags": {
-		  "trigger-animations": {
-		  	"triggers": "modules/your-module/yourTriggersFile.json"
-	  	}
+		"trigger-animations": {
+			"triggers": "modules/your-module/yourTriggersFile.json"
+		}
 	}
 }
 ```

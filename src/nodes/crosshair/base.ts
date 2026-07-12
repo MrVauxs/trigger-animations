@@ -15,7 +15,7 @@ abstract class CrosshairModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { crosshair?: CrosshairSection },
-	{},
+	object,
 	string,
 	string,
 	TState

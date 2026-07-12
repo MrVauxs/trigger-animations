@@ -15,7 +15,7 @@ abstract class ScrollingTextModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { scrollingText?: ScrollingTextSection },
-	{},
+	object,
 	string,
 	string,
 	TState

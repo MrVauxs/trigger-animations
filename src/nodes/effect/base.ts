@@ -16,7 +16,7 @@ abstract class EffectModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { effect?: EffectSection },
-	{},
+	object,
 	string,
 	string,
 	TState

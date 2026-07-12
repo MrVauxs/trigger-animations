@@ -68,7 +68,9 @@ class ScrollingTextTextNode extends ScrollingTextModifierNode<TInputs> {
 			let style: object | undefined;
 			const raw = await this.getInputValue("textStyle");
 			if (raw?.trim()) {
-				try { style = JSON.parse(raw); } catch { /* ignore bad json */ }
+				try {
+					style = JSON.parse(raw);
+				} catch { /* ignore bad json */ }
 			}
 			section.text(text, style);
 		}

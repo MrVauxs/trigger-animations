@@ -6,4 +6,4 @@ declare global {
 	}
 }
 
-export type { API };
+export type { realAPI as API };
