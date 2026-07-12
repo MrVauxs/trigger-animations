@@ -12,7 +12,7 @@ class FileNode extends EffectModifierNode<TInputs> {
 		return "file";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["baseFolder", "file", "setMustache"];
 	}
 

@@ -19,7 +19,7 @@ class CanvasPanControlNode extends CanvasPanModifierNode<TInputs> {
 		return "pan-control";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["speed", "scale", "lockView", "shake"];
 	}
 

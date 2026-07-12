@@ -27,7 +27,7 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 		return "content";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["text", "shape", "copySprite", "tilingTexture", "template"];
 	}
 

@@ -15,7 +15,7 @@ class SoundPersistNode extends SoundModifierNode<TInputs> {
 		return "snd-persist";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["persist", "extraEndDuration", "loopOptions"];
 	}
 

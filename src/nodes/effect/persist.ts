@@ -18,7 +18,7 @@ class PersistNode extends EffectModifierNode<TInputs> {
 		return "persist";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["persist", "temporary", "extraEndDuration", "loopOptions", "tieToDocuments"];
 	}
 

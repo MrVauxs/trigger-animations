@@ -16,7 +16,7 @@ class AnimationAudioNode extends AnimationModifierNode<TInputs> {
 		return "anim-audio";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["volume", "fadeInAudio", "fadeOutAudio"];
 	}
 

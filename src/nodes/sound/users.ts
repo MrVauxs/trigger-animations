@@ -11,7 +11,7 @@ class SoundUsersNode extends SoundModifierNode<TInputs> {
 		return "snd-users";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["locally", "forUsers"];
 	}
 

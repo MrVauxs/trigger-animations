@@ -16,7 +16,7 @@ class SoundVolumeNode extends SoundModifierNode<TInputs> {
 		return "snd-volume";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["volume", "fadeInAudio", "fadeOutAudio"];
 	}
 

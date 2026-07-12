@@ -16,7 +16,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 		return "advanced";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["addOverride", "syncGroup", "preset", "isometric"];
 	}
 

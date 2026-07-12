@@ -23,7 +23,7 @@ class VisibilityNode extends EffectModifierNode<TInputs> {
 		return "visibility";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["locally", "private", "xray", "constrainedByWalls", "forUsers",
 			"mask", "opacity", "fadeIn", "fadeOut"];
 	}

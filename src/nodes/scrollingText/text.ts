@@ -16,7 +16,7 @@ class ScrollingTextTextNode extends ScrollingTextModifierNode<TInputs> {
 		return "scroll-text";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["text", "anchor", "direction", "jitter", "duration"];
 	}
 

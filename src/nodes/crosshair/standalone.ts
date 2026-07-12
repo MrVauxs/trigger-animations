@@ -37,7 +37,7 @@ class CrosshairPickNode extends TriggerNode<
 		return "crosshair-pick";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["crosshair"];
 	}
 

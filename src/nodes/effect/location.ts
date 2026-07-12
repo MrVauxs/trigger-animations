@@ -38,7 +38,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 		return "location";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["atLocation", "attachTo", "snapToGrid", "screenSpace", "screenSpaceAboveUI",
 			"screenSpacePosition", "screenSpaceAnchor", "screenSpaceScale"];
 	}

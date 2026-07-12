@@ -16,7 +16,7 @@ class SoundTimingNode extends SoundModifierNode<TInputs, TState> {
 		return "snd-timing";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["duration", "startTimePerc", "endTimePerc",
 			"timeRange", "startTime", "endTime"];
 	}

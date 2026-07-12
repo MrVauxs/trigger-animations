@@ -20,7 +20,7 @@ class LayerNode extends EffectModifierNode<TInputs> {
 		return "layer";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["belowTokens", "belowTiles", "aboveLighting", "aboveInterface",
 			"zIndex", "sortLayer", "elevation", "onLevels"];
 	}

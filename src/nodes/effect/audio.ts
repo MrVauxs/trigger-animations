@@ -16,7 +16,7 @@ class AudioNode extends EffectModifierNode<TInputs> {
 		return "audio";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["volume", "fadeInAudio", "fadeOutAudio"];
 	}
 

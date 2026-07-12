@@ -78,8 +78,8 @@ async function openTemplateDialog(item: Item) {
 
 	const result = await DialogV2.prompt({
 		window: { title: "Trigger Animations – New Template", icon: "fas fa-film" },
-		// Cast: `content` accepts HTMLDivElement at runtime, but typing it as such makes
-		// DeepPartial<DialogV2Configuration> recurse over the DOM type (TS2589).
+		// `content` accepts HTMLDivElement, but typing it as such makes
+		// DeepPartial<DialogV2Configuration> recurse infinitely (TS2589).
 		content: content as unknown as string,
 		ok: {
 			label: "Create Blueprint",

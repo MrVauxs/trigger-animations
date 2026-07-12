@@ -26,7 +26,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 		return "anim-rotation";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["rotate", "randomRotation", "rotateTowards", "rotateIn", "rotateOut"];
 	}
 

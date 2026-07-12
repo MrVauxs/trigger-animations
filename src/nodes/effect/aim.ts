@@ -29,7 +29,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 		return "aim";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["missed", "moveTowards", "moveSpeed", "stretchTo", "rotateTowards", "offset"];
 	}
 

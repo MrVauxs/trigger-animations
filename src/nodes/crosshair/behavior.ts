@@ -21,7 +21,7 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 		return "cross-behavior";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["location", "lockDrag", "lockManualRotation", "persist"];
 	}
 

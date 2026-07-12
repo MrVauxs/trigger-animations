@@ -25,7 +25,7 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 		return "snd-spatial";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["radius",
 			"constrainedByWalls",
 			"distanceEasing",

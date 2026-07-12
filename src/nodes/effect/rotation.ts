@@ -22,7 +22,7 @@ class RotationNode extends EffectModifierNode<TInputs> {
 		return "rotation";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["rotate", "randomRotation", "spriteRotation", "randomSpriteRotation",
 			"zeroSpriteRotation", "rotateIn", "rotateOut"];
 	}

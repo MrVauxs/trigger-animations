@@ -15,7 +15,7 @@ class StyleNode extends EffectModifierNode<TInputs> {
 		return "style";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["tint", "blendMode", "filter"];
 	}
 

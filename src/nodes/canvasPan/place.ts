@@ -12,7 +12,7 @@ class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 		return "pan-place";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["atLocation", "locally", "forUsers"];
 	}
 

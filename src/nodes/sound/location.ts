@@ -20,7 +20,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 		return "snd-location";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["atLocation", "attachTo", "toLocation",
 			"moveTowards", "moveSpeed"];
 	}

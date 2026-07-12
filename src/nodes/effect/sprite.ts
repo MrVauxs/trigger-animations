@@ -24,7 +24,7 @@ class SpriteNode extends EffectModifierNode<TInputs> {
 		return "sprite";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["anchor", "spriteAnchor", "center", "mirrorX", "mirrorY",
 			"randomizeMirrorX", "randomizeMirrorY", "spriteOffset"];
 	}

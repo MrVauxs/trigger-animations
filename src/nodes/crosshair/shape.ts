@@ -18,7 +18,7 @@ class CrosshairShapeNode extends CrosshairModifierNode<TInputs> {
 		return "cross-shape";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["type", "distance", "angle", "direction", "width", "snapPosition", "snapDirection"];
 	}
 

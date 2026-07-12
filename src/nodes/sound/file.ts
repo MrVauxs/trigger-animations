@@ -14,7 +14,7 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 		return "snd-file";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["file", "baseFolder", "setMustache", "addOverride"];
 	}
 

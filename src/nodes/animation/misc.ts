@@ -12,7 +12,7 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 		return "anim-misc";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["duration", "tint", "preset"];
 	}
 

@@ -25,7 +25,7 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 		return "cross-appearance";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["label", "icon", "borderColor", "fillColor", "texture", "gridHighlight"];
 	}
 

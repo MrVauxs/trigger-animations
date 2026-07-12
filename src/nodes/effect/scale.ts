@@ -29,7 +29,7 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 		return "scale";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["scale", "scaleToObject", "size", "spriteScale", "scaleIn", "scaleOut"];
 	}
 

@@ -17,7 +17,7 @@ class TimingNode extends EffectModifierNode<TInputs, TState> {
 		return "timing";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["duration", "playbackRate", "startTimePerc", "endTimePerc",
 			"timeRange", "startTime", "endTime"];
 	}

@@ -12,7 +12,7 @@ class ScrollingTextPlaceNode extends ScrollingTextModifierNode<TInputs> {
 		return "scroll-place";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["atLocation", "locally", "forUsers"];
 	}
 

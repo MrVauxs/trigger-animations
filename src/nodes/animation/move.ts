@@ -22,7 +22,7 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 		return "anim-move";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["offset", "closestSquare", "snapToGrid", "teleportTo", "moveTowards", "moveSpeed"];
 	}
 

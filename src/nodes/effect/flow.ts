@@ -19,7 +19,7 @@ class FlowNode extends EffectModifierNode<TInputs> {
 		return "flow";
 	}
 
-	static get aliases(): string[] {
+	static override get aliases(): string[] {
 		return ["waitUntilFinished", "async", "delay", "repeats", "playIf"];
 	}
 
