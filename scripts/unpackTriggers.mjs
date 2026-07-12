@@ -27,8 +27,8 @@ if (!bundlePath) {
 		? await fs.readdir(distDir, { withFileTypes: true })
 		: [];
 	const bundles = entries
-		.filter((e) => e.isFile() && e.name.endsWith(".json"))
-		.map((e) => e.name);
+		.filter(e => e.isFile() && e.name.endsWith(".json"))
+		.map(e => e.name);
 
 	if (bundles.length === 0) {
 		p.cancel("No .json bundles found in static/.");
@@ -37,7 +37,7 @@ if (!bundlePath) {
 
 	const picked = await p.select({
 		message: "Which bundle do you want to unpack?",
-		options: bundles.map((name) => ({ value: path.join(distDir, name), label: name })),
+		options: bundles.map(name => ({ value: path.join(distDir, name), label: name })),
 	});
 
 	if (p.isCancel(picked)) {
@@ -95,7 +95,7 @@ outDir = path.resolve(process.cwd(), outDir);
 
 // Guard against silently overwriting an existing, non-empty folder.
 if (existsSync(outDir)) {
-	const existing = (await fs.readdir(outDir)).filter((f) => f.endsWith(".json"));
+	const existing = (await fs.readdir(outDir)).filter(f => f.endsWith(".json"));
 	if (existing.length > 0) {
 		const proceed = await p.confirm({
 			message: `${yellow(path.relative(process.cwd(), outDir))} already has ${existing.length} .json file(s). Continue?`,
@@ -131,7 +131,8 @@ await p.tasks(
 	triggers.map((trigger, index) => {
 		let base = slugify(trigger?.name);
 		// Disambiguate collisions with the trigger id, then a running index.
-		if (used.has(base)) base = `${base}-${trigger?.id ?? index}`;
+		if (used.has(base))
+			base = `${base}-${trigger?.id ?? index}`;
 		while (used.has(base)) base = `${base}-${index}`;
 		used.add(base);
 

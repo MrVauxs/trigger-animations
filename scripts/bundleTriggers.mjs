@@ -47,8 +47,8 @@ async function getTriggerFiles(dir) {
 // Skip those prefixed with "_" (e.g. _deleted), which hold non-bundled files.
 const rootEntries = await fs.readdir(rootDir, { withFileTypes: true });
 const subdirs = rootEntries
-	.filter((e) => e.isDirectory() && !e.name.startsWith("_"))
-	.map((e) => e.name);
+	.filter(e => e.isDirectory() && !e.name.startsWith("_"))
+	.map(e => e.name);
 
 if (subdirs.length === 0) {
 	p.cancel(`No subdirectories found in ${yellow(sourceRoot)} to bundle.`);
@@ -58,7 +58,7 @@ if (subdirs.length === 0) {
 let bundled = 0;
 
 await p.tasks(
-	subdirs.map((subdir) => ({
+	subdirs.map(subdir => ({
 		title: `Bundling ${subdir}...`,
 		task: async () => {
 			const subdirPath = path.join(rootDir, subdir);

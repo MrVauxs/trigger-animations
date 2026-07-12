@@ -1,8 +1,8 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	towards: PositionSource;
 	missed: boolean;
 	rotationOffset: number;
@@ -20,7 +20,7 @@ type TInputs = {
 	delay: number;
 	rotate: boolean;
 	moveSpeed: number;
-};
+}
 
 type TState = "rotateTowards" | "stretchTo" | "moveTowards";
 
@@ -39,7 +39,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf05b" }
+		return { unicode: "\uF05B" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -53,7 +53,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("rotationOffset"),
 				state: "rotateTowards",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{ key: "attachTo", type: "boolean", ...this.sharedIo("attachTo"), state: "rotateTowards" },
 			{ key: "attachTo", type: "boolean", ...this.sharedIo("attachTo"), state: "stretchTo" },
@@ -64,14 +64,14 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.sharedIo("randomOffset"),
 				state: "rotateTowards",
-				field: { default: 0, min: 0, step: 0.05 }
+				field: { default: 0, min: 0, step: 0.05 },
 			},
 			{
 				key: "randomOffset",
 				type: "number",
 				...this.sharedIo("randomOffset"),
 				state: "stretchTo",
-				field: { default: 0, min: 0, step: 0.05 }
+				field: { default: 0, min: 0, step: 0.05 },
 			},
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits"), state: "rotateTowards" },
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits"), state: "stretchTo" },
@@ -83,13 +83,13 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				key: "requiresLineOfSight",
 				type: "boolean",
 				...this.io("requiresLineOfSight"),
-				state: "stretchTo"
+				state: "stretchTo",
 			},
 			{
 				key: "hideLineOfSight",
 				type: "boolean",
 				...this.io("hideLineOfSight"),
-				state: "stretchTo"
+				state: "stretchTo",
 			},
 			this.easeInput("ease", { state: "moveTowards" }),
 			{
@@ -97,22 +97,22 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.sharedIo("delay"),
 				state: "moveTowards",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "rotate",
 				type: "boolean",
 				...this.io("rotate"),
 				state: "moveTowards",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "moveSpeed",
 				type: "number",
 				...this.io("moveSpeed"),
 				state: "moveTowards",
-				field: { default: 0, min: 0 }
-			}
+				field: { default: 0, min: 0 },
+			},
 		];
 	}
 
@@ -123,7 +123,8 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 			return;
 		}
 
-		if (await this.getInputValue("missed")) effect.missed(true);
+		if (await this.getInputValue("missed"))
+			effect.missed(true);
 
 		const cacheLocation = await this.getInputValue("cacheLocation");
 
@@ -133,11 +134,12 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				delay: await this.getInputValue("delay"),
 				// @ts-expect-error TODO: Fix Sequencer Types
 				rotate: await this.getInputValue("rotate"),
-				cacheLocation
+				cacheLocation,
 			});
 
 			const moveSpeed = await this.getInputValue("moveSpeed");
-			if (moveSpeed > 0) effect.moveSpeed(moveSpeed);
+			if (moveSpeed > 0)
+				effect.moveSpeed(moveSpeed);
 			return;
 		}
 
@@ -145,14 +147,16 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 			cacheLocation,
 			attachTo: await this.getInputValue("attachTo"),
 			gridUnits: await this.getInputValue("gridUnits"),
-			local: await this.getInputValue("local")
+			local: await this.getInputValue("local"),
 		};
 
 		const offset = await this.getInputValue("offset");
-		if (offset && (offset.x !== 0 || offset.y !== 0)) opts.offset = offset;
+		if (offset && (offset.x !== 0 || offset.y !== 0))
+			opts.offset = offset;
 
 		const randomOffset = await this.getInputValue("randomOffset");
-		if (randomOffset > 0) opts.randomOffset = randomOffset;
+		if (randomOffset > 0)
+			opts.randomOffset = randomOffset;
 
 		if (this.state === "stretchTo") {
 			opts.onlyX = await this.getInputValue("onlyX");

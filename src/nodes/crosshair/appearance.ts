@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { CrosshairModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	label: string;
 	labelDx: number;
 	labelDy: number;
@@ -15,7 +15,7 @@ type TInputs = {
 	textureAlpha: number;
 	textureScale: number;
 	gridHighlight: boolean;
-};
+}
 
 // -1 means "leave unset" since 0 is a meaningful alpha.
 const ALPHA_FIELD = { default: -1, min: -1, max: 1, step: 0.05 };
@@ -31,7 +31,7 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf53f" }
+		return { unicode: "\uF53F" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -49,7 +49,7 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 			{ key: "texture", type: "text", ...this.io("texture"), group: "texture" },
 			{ key: "textureAlpha", type: "number", ...this.io("textureAlpha"), group: "texture", field: { ...ALPHA_FIELD } },
 			{ key: "textureScale", type: "number", ...this.io("textureScale"), group: "texture", field: { default: 0, min: 0, step: 0.05 } },
-			{ key: "gridHighlight", type: "boolean", ...this.io("gridHighlight"), field: { default: true } }
+			{ key: "gridHighlight", type: "boolean", ...this.io("gridHighlight"), field: { default: true } },
 		];
 	}
 
@@ -58,7 +58,7 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 		if (label) {
 			section.label(label, {
 				dx: await this.getInputValue("labelDx"),
-				dy: await this.getInputValue("labelDy")
+				dy: await this.getInputValue("labelDy"),
 			});
 		}
 
@@ -86,8 +86,10 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 			const alpha = await this.getInputValue("textureAlpha");
 			const scale = await this.getInputValue("textureScale");
 			const opts: { alpha?: number; scale?: number } = {};
-			if (alpha >= 0) opts.alpha = alpha;
-			if (scale > 0) opts.scale = scale;
+			if (alpha >= 0)
+				opts.alpha = alpha;
+			if (scale > 0)
+				opts.scale = scale;
 			// @ts-expect-error Sequencer types require a stricter options shape
 			section.texture(texture, opts);
 		}

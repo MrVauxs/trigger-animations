@@ -1,14 +1,14 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	target?: TargetDocuments | { x: number; y: number };
 	text?: string;
 	textStyle?: string;
 }
-type TOutputs = {
+interface TOutputs {
 	scrollingText?: ScrollingTextSection;
 }
 
@@ -22,11 +22,11 @@ class ScrollingTextNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -35,7 +35,7 @@ class ScrollingTextNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf035" }
+		return { unicode: "\uF035" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -46,8 +46,8 @@ class ScrollingTextNode extends TriggerNode<
 				key: "textStyle",
 				type: "text",
 				...this.io("textStyle"),
-				field: { type: "json" }
-			}
+				field: { type: "json" },
+			},
 		];
 	}
 
@@ -64,13 +64,13 @@ class ScrollingTextNode extends TriggerNode<
 				key: "scrollingText",
 				type: "scrollingText",
 				label: this.localize("io.scrollingText.title"),
-				tooltip: this.localize("io.scrollingText.tooltip")
-			}
+				tooltip: this.localize("io.scrollingText.tooltip"),
+			},
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Scrolling Text Node", "no Sequence in context");
@@ -83,7 +83,8 @@ class ScrollingTextNode extends TriggerNode<
 
 		const targetInput = await this.getInputValue("target");
 		const target = targetInput ? this.getLocation(targetInput) : undefined;
-		if (target) scrollingText.atLocation(target as any);
+		if (target)
+			scrollingText.atLocation(target as any);
 
 		const text = await this.getInputValue("text");
 		if (text) {
@@ -103,9 +104,9 @@ class ScrollingTextNode extends TriggerNode<
 
 	getLocation(loc: TargetDocuments | Point): TokenDocument | Point | undefined {
 		if (typeof loc === "object" && "x" in loc && "y" in loc) {
-			return { x: (loc as Point).x, y: (loc as Point).y };
+			return { x: (loc).x, y: (loc).y };
 		}
-		return this.getTargetToken(loc as TargetDocuments);
+		return this.getTargetToken(loc);
 	}
 }
 

@@ -1,49 +1,50 @@
 {
-  "name": "trigger-animations",
-  "type": "module",
-  "private": true,
-  "license": "MIT",
-  "scripts": {
-    "build": "vite build && bun run triggers:bundle",
-    "dev": "vite",
-    "triggers:bundle": "node scripts/bundleTriggers.mjs",
-    "triggers:unpack": "node scripts/unpackTriggers.mjs",
-    "packs:extract": "node scripts/extractPacks.mjs",
-    "symlink": "node scripts/symlink.mjs"
-  },
-  "devDependencies": {
-    "@7h3laughingman/foundry-types": "14",
-    "@clack/prompts": "^1.0.0-alpha.9",
-    "@foundryvtt/foundryvtt-cli": "^3.0.2",
-    "dotenv": "^17.2.3",
-    "foundryvtt-sync": "^3",
-    "gsap": "^3.15.0",
-    "kolorist": "^1.8.0",
-    "postcss-preset-env": "^10.6.0",
-    "sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
-    "terser": "^5.46.0",
-    "trigger-engine": "https://github.com/reonZ/trigger-engine#1.17.0",
-    "typescript": "^6.0.3",
-    "vite": "^7.3.0",
-    "@antfu/eslint-config": "^9.1.0",
-    "eslint": "^10.5.0",
-    "eslint-plugin-format": "^2.0.1"
-  },
-  "browserslist": [
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Edge versions"
-  ],
-  "exports": {
-    "./types": {
-      "types": "./src/types.d.ts"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "types": [
-        "./src/types.d.ts"
-      ]
-    }
-  }
+	"name": "trigger-animations",
+	"type": "module",
+	"private": true,
+	"license": "MIT",
+	"browserslist": [
+		"last 2 Chrome versions",
+		"last 2 Firefox versions",
+		"last 2 Edge versions"
+	],
+	"exports": {
+		"./types": {
+			"types": "./src/types.d.ts"
+		}
+	},
+	"typesVersions": {
+		"*": {
+			"types": [
+				"./src/types.d.ts"
+			]
+		}
+	},
+	"scripts": {
+		"build": "vite build && bun run triggers:bundle",
+		"dev": "vite",
+		"lint:fix": "eslint --fix",
+		"triggers:bundle": "node scripts/bundleTriggers.mjs",
+		"triggers:unpack": "node scripts/unpackTriggers.mjs",
+		"packs:extract": "node scripts/extractPacks.mjs",
+		"symlink": "node scripts/symlink.mjs"
+	},
+	"devDependencies": {
+		"@7h3laughingman/foundry-types": "14",
+		"@antfu/eslint-config": "^9.1.0",
+		"@clack/prompts": "^1.0.0-alpha.9",
+		"@foundryvtt/foundryvtt-cli": "^3.0.2",
+		"dotenv": "^17.2.3",
+		"eslint": "^10.5.0",
+		"eslint-plugin-format": "^2.0.1",
+		"foundryvtt-sync": "^3",
+		"gsap": "^3.15.0",
+		"kolorist": "^1.8.0",
+		"postcss-preset-env": "^10.6.0",
+		"sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.2",
+		"terser": "^5.46.0",
+		"trigger-engine": "https://github.com/reonZ/trigger-engine#1.17.0",
+		"typescript": "^6.0.3",
+		"vite": "^7.3.0"
+	}
 }

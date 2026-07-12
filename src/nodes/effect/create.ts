@@ -1,14 +1,14 @@
-import { devGroup, devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	name?: string;
 	// TODO: Create Item+Actor+Token UUID entry and converter from Item and Target to UUID entry
 	origin?: string;
 }
-type TOutputs = {
+interface TOutputs {
 	effect?: EffectSection;
 }
 
@@ -22,11 +22,11 @@ class EffectNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -35,7 +35,7 @@ class EffectNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\ue5d6" }
+		return { unicode: "\uE5D6" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -44,14 +44,14 @@ class EffectNode extends TriggerNode<
 				key: "name",
 				type: "text",
 				label: this.localize("io.name.title"),
-				tooltip: this.localize("io.name.tooltip")
+				tooltip: this.localize("io.name.tooltip"),
 			},
 			{
 				key: "origin",
 				type: "text",
 				label: this.localize("io.origin.title"),
-				tooltip: this.localize("io.origin.tooltip")
-			}
+				tooltip: this.localize("io.origin.tooltip"),
+			},
 		];
 	}
 
@@ -61,13 +61,13 @@ class EffectNode extends TriggerNode<
 				key: "effect",
 				type: "effect",
 				label: this.localize("io.effect.title"),
-				tooltip: this.localize("io.effect.tooltip")
-			}
+				tooltip: this.localize("io.effect.tooltip"),
+			},
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Effect Node", "no Sequence in context");
@@ -78,10 +78,12 @@ class EffectNode extends TriggerNode<
 		this.setOutputValue("effect", effect);
 
 		const name = await this.getInputValue("name");
-		if (name) effect.name(name);
+		if (name)
+			effect.name(name);
 
 		const origin = await this.getInputValue("origin");
-		if (origin) effect.origin(origin);
+		if (origin)
+			effect.origin(origin);
 
 		g.log("Effect Node", { sequence, name, effect });
 		g.end();

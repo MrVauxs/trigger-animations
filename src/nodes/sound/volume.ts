@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	volume: number;
 	fadeInDuration: number;
 	fadeInEase: string;
@@ -9,7 +9,7 @@ type TInputs = {
 	fadeOutDuration: number;
 	fadeOutEase: string;
 	fadeOutDelay: number;
-};
+}
 
 class SoundVolumeNode extends SoundModifierNode<TInputs> {
 	static override get type() {
@@ -22,7 +22,7 @@ class SoundVolumeNode extends SoundModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf027" };
+		return { unicode: "\uF027" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -70,7 +70,8 @@ class SoundVolumeNode extends SoundModifierNode<TInputs> {
 
 	protected override async apply(section: SoundSection): Promise<void> {
 		const volume = await this.getInputValue("volume");
-		if (volume >= 0) section.volume(volume);
+		if (volume >= 0)
+			section.volume(volume);
 
 		const fadeInDuration = await this.getInputValue("fadeInDuration");
 		if (fadeInDuration > 0) {

@@ -1,28 +1,20 @@
 {
 	"compilerOptions": {
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"target": "esnext",
-		"module": "esnext",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"moduleDetection": "force",
-		"moduleResolution": "bundler",
-		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
-		"outDir": "./dist",
 		"rootDir": "./src",
-		"allowJs": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"paths": {
+			"$lib/*": ["./src/lib/*"],
+			"moduleJSON": ["./module.json"],
+			"engine": ["./node_modules/trigger-engine/src/engine/index.ts"],
+			"queries": ["./node_modules/trigger-engine/src/queries.ts"],
+			"triggers-menu": ["./node_modules/trigger-engine/src/triggers-menu/index.ts"]
+		},
 		"resolveJsonModule": true,
-		"strict": true,
-		"skipLibCheck": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-		"noUnusedLocals": false,
-		"noUnusedParameters": false,
-		"noPropertyAccessFromIndexSignature": false,
-		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
-        "types": [
+		"types": [
 			"@7h3laughingman/foundry-types",
 			"jquery",
 			"vite/client",
@@ -30,14 +22,22 @@
 			"trigger-engine/types",
 			"sequencer"
 		],
-		"paths": {
-			"$lib/*": ["./src/lib/*"],
-			"moduleJSON": ["./module.json"],
-			"engine": ["./node_modules/trigger-engine/src/engine/index.ts"],
-			"queries": ["./node_modules/trigger-engine/src/queries.ts"],
-			"triggers-menu": ["./node_modules/trigger-engine/src/triggers-menu/index.ts"]
-		}
+		"allowJs": true,
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"declaration": true,
+		"declarationMap": true,
+		"outDir": "./dist",
+		"sourceMap": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist"],
+	"exclude": ["node_modules", "dist"]
 }

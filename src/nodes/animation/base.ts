@@ -1,7 +1,7 @@
-import { devGroup, devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
-import { EASE_OPTIONS } from "../effect/constants";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
+import { devGroup } from "$lib/utils";
+import { EASE_OPTIONS } from "../effect/constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -14,15 +14,13 @@ abstract class AnimationModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { animation?: AnimationSection },
 	{},
 	string,
 	string,
 	TState
-> {
-
-
+	> {
 	static override get category() {
 		return "animation";
 	}
@@ -80,9 +78,12 @@ abstract class AnimationModifierNode<
 	 * `target` entries ({ actor, token }) are unwrapped to their token.
 	 */
 	protected resolveObject(value: unknown): object | string | undefined {
-		if (!value) return undefined;
-		if (typeof value === "string") return value.trim() || undefined;
-		if (typeof value !== "object") return undefined;
+		if (!value)
+			return undefined;
+		if (typeof value === "string")
+			return value.trim() || undefined;
+		if (typeof value !== "object")
+			return undefined;
 		const obj = value as Record<string, any>;
 		// A target entry wrapper, as opposed to a raw document (which has x/y).
 		if ("actor" in obj && !("x" in obj)) {
@@ -92,9 +93,11 @@ abstract class AnimationModifierNode<
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
-		if (!loc) return loc;
+		if (!loc)
+			return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
-		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+		if (!("kind" in loc))
+			return { x: loc.x, y: loc.y };
 
 		switch (loc.kind) {
 			case "point":
@@ -115,7 +118,7 @@ abstract class AnimationModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const animation = await this.getInputValue("animation");
 		if (animation) {
-			await this.apply(animation as AnimationSection);
+			await this.apply(animation);
 			g.log("applied", { animation });
 		} else {
 			g.log("no animation connected; skipping");

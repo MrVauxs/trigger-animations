@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	file: string;
 	baseFolder: string;
 	mustache: string;
@@ -18,7 +18,7 @@ class FileNode extends EffectModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf1c8" }
+		return { unicode: "\uF1C8" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -30,20 +30,23 @@ class FileNode extends EffectModifierNode<TInputs> {
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
-				field: { type: "json" }
-			}
+				field: { type: "json" },
+			},
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const baseFolder = await this.getInputValue("baseFolder");
-		if (baseFolder) effect.baseFolder(baseFolder);
+		if (baseFolder)
+			effect.baseFolder(baseFolder);
 
 		const file = await this.getInputValue("file");
-		if (file) effect.file(file);
+		if (file)
+			effect.file(file);
 
 		const mustache = this.parseJson(await this.getInputValue("mustache"), "mustache");
-		if (mustache) effect.setMustache(mustache);
+		if (mustache)
+			effect.setMustache(mustache);
 	}
 }
 

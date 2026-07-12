@@ -1,11 +1,11 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { CanvasPanModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	location: PositionSource;
 	locally: boolean;
 	users: User[];
-};
+}
 
 class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 	static override get type() {
@@ -18,7 +18,7 @@ class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf3c5" }
+		return { unicode: "\uF3C5" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -26,20 +26,23 @@ class CanvasPanPlaceNode extends CanvasPanModifierNode<TInputs> {
 			this.canvasPanInput,
 			{ key: "location", type: "position", ...this.io("location") },
 			{ key: "locally", type: "boolean", ...this.io("locally") },
-			{ key: "users", type: "user", isArray: true, ...this.io("users") }
+			{ key: "users", type: "user", isArray: true, ...this.io("users") },
 		];
 	}
 
 	protected override async apply(section: CanvasPanSection): Promise<void> {
 		const location = this.getLocation(await this.getInputValue("location"));
-		if (location) section.atLocation(location as any);
+		if (location)
+			section.atLocation(location as any);
 
-		if (await this.getInputValue("locally")) section.locally(true);
+		if (await this.getInputValue("locally"))
+			section.locally(true);
 
 		const users = await this.getInputValue("users");
 		if (users?.length) {
-			const ids = users.map((u) => u?.id).filter((id): id is string => !!id);
-			if (ids.length) section.forUsers(ids);
+			const ids = users.map(u => u?.id).filter((id): id is string => !!id);
+			if (ids.length)
+				section.forUsers(ids);
 		}
 	}
 }

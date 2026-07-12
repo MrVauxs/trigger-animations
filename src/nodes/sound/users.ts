@@ -1,10 +1,10 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	locally: boolean;
 	users: User[];
-};
+}
 
 class SoundUsersNode extends SoundModifierNode<TInputs> {
 	static override get type() {
@@ -17,7 +17,7 @@ class SoundUsersNode extends SoundModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf0c0" };
+		return { unicode: "\uF0C0" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -30,13 +30,15 @@ class SoundUsersNode extends SoundModifierNode<TInputs> {
 
 	protected override async apply(section: SoundSection): Promise<void> {
 		// @ts-expect-error Sequencer types
-		if (await this.getInputValue("locally")) section.locally(true);
+		if (await this.getInputValue("locally"))
+			section.locally(true);
 
 		const users = await this.getInputValue("users");
 		if (users?.length) {
-			const ids = users.map((u) => u?.id).filter((id): id is string => !!id);
+			const ids = users.map(u => u?.id).filter((id): id is string => !!id);
 			// @ts-expect-error Sequencer types
-			if (ids.length) section.forUsers(ids);
+			if (ids.length)
+				section.forUsers(ids);
 		}
 	}
 }

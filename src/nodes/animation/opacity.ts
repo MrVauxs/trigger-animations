@@ -1,9 +1,9 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { AnimationModifierNode } from "./base";
 
 type Visibility = "" | "hide" | "show";
 
-type TInputs = {
+interface TInputs {
 	opacity: number;
 	fadeInDuration: number;
 	fadeInEase: string;
@@ -12,7 +12,7 @@ type TInputs = {
 	fadeOutEase: string;
 	fadeOutDelay: number;
 	visibility: Visibility;
-};
+}
 
 class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 	static override get type() {
@@ -25,7 +25,7 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf042" }
+		return { unicode: "\uF042" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -36,14 +36,14 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.io("opacity"),
 				// -1 means "leave unset" since 0 is a meaningful opacity.
-				field: { default: -1, min: -1, max: 1, step: 0.05 }
+				field: { default: -1, min: -1, max: 1, step: 0.05 },
 			},
 			{
 				key: "fadeInDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "fadeIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("fadeInEase", { group: "fadeIn" }),
 			{
@@ -51,14 +51,14 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "fadeIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "fadeOutDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "fadeOut",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("fadeOutEase", { group: "fadeOut" }),
 			{
@@ -66,7 +66,7 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "fadeOut",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "visibility",
@@ -78,22 +78,23 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 					options: [
 						{ value: "", label: "Unchanged" },
 						{ value: "hide", label: "Hide" },
-						{ value: "show", label: "Show" }
-					]
-				}
-			}
+						{ value: "show", label: "Show" },
+					],
+				},
+			},
 		];
 	}
 
 	protected override async apply(section: AnimationSection): Promise<void> {
 		const opacity = await this.getInputValue("opacity");
-		if (opacity >= 0) section.opacity(opacity);
+		if (opacity >= 0)
+			section.opacity(opacity);
 
 		const fadeInDuration = await this.getInputValue("fadeInDuration");
 		if (fadeInDuration > 0) {
 			section.fadeIn(fadeInDuration, {
 				ease: await this.getInputValue("fadeInEase"),
-				delay: await this.getInputValue("fadeInDelay")
+				delay: await this.getInputValue("fadeInDelay"),
 			});
 		}
 
@@ -101,13 +102,15 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 		if (fadeOutDuration > 0) {
 			section.fadeOut(fadeOutDuration, {
 				ease: await this.getInputValue("fadeOutEase"),
-				delay: await this.getInputValue("fadeOutDelay")
+				delay: await this.getInputValue("fadeOutDelay"),
 			});
 		}
 
 		const visibility = await this.getInputValue("visibility");
-		if (visibility === "hide") section.hide(true);
-		else if (visibility === "show") section.show(true);
+		if (visibility === "hide")
+			section.hide(true);
+		else if (visibility === "show")
+			section.show(true);
 	}
 }
 

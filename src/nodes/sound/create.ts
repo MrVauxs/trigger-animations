@@ -1,13 +1,13 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	file?: string;
 	name?: string;
 }
-type TOutputs = {
+interface TOutputs {
 	sound?: SoundSection;
 }
 
@@ -21,11 +21,11 @@ class SoundNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -34,7 +34,7 @@ class SoundNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf001" }
+		return { unicode: "\uF001" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -43,14 +43,14 @@ class SoundNode extends TriggerNode<
 				key: "file",
 				type: "text",
 				label: this.localize("io.file.title"),
-				tooltip: this.localize("io.file.tooltip")
+				tooltip: this.localize("io.file.tooltip"),
 			},
 			{
 				key: "name",
 				type: "text",
 				label: this.localize("io.name.title"),
-				tooltip: this.localize("io.name.tooltip")
-			}
+				tooltip: this.localize("io.name.tooltip"),
+			},
 		];
 	}
 
@@ -60,13 +60,13 @@ class SoundNode extends TriggerNode<
 				key: "sound",
 				type: "sound",
 				label: this.localize("io.sound.title"),
-				tooltip: this.localize("io.sound.tooltip")
-			}
+				tooltip: this.localize("io.sound.tooltip"),
+			},
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Sound Node", "no Sequence in context");
@@ -79,7 +79,8 @@ class SoundNode extends TriggerNode<
 		this.setOutputValue("sound", sound);
 
 		const name = await this.getInputValue("name");
-		if (name) sound.name(name);
+		if (name)
+			sound.name(name);
 
 		g.log("Sound Node", { sequence, file, name, sound });
 		g.end();

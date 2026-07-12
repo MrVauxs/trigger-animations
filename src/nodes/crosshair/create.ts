@@ -1,12 +1,12 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	name?: string;
 }
-type TOutputs = {
+interface TOutputs {
 	crosshair?: CrosshairSection;
 }
 
@@ -20,11 +20,11 @@ class CrosshairNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -33,7 +33,7 @@ class CrosshairNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf140" }
+		return { unicode: "\uF140" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -42,8 +42,8 @@ class CrosshairNode extends TriggerNode<
 				key: "name",
 				type: "text",
 				label: this.localize("io.name.title"),
-				tooltip: this.localize("io.name.tooltip")
-			}
+				tooltip: this.localize("io.name.tooltip"),
+			},
 		];
 	}
 
@@ -53,13 +53,13 @@ class CrosshairNode extends TriggerNode<
 				key: "crosshair",
 				type: "crosshair",
 				label: this.localize("io.crosshair.title"),
-				tooltip: this.localize("io.crosshair.tooltip")
-			}
+				tooltip: this.localize("io.crosshair.tooltip"),
+			},
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Crosshair Node", "no Sequence in context");

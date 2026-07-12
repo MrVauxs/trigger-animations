@@ -1,15 +1,15 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	target?: PositionSource;
 	duration: number;
 	scale: number;
 }
-type TOutputs = {
+interface TOutputs {
 	canvasPan?: CanvasPanSection;
 }
 
@@ -23,11 +23,11 @@ class CanvasPanNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	static io(key: string) {
@@ -43,7 +43,7 @@ class CanvasPanNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf065" }
+		return { unicode: "\uF065" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -53,14 +53,14 @@ class CanvasPanNode extends TriggerNode<
 				key: "duration",
 				type: "number",
 				...this.io("duration"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "scale",
 				type: "number",
 				...this.io("scale"),
-				field: { default: 0, min: 0, step: 0.05 }
-			}
+				field: { default: 0, min: 0, step: 0.05 },
+			},
 		];
 	}
 
@@ -70,13 +70,13 @@ class CanvasPanNode extends TriggerNode<
 				key: "canvasPan",
 				type: "canvasPan",
 				label: this.localize("io.canvasPan.title"),
-				tooltip: this.localize("io.canvasPan.tooltip")
-			}
+				tooltip: this.localize("io.canvasPan.tooltip"),
+			},
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Canvas Pan Node", "no Sequence in context");
@@ -89,13 +89,16 @@ class CanvasPanNode extends TriggerNode<
 
 		const targetInput = await this.getInputValue("target");
 		const target = targetInput ? this.getLocation(targetInput) : undefined;
-		if (target) canvasPan.atLocation(target);
+		if (target)
+			canvasPan.atLocation(target);
 
 		const duration = await this.getInputValue("duration");
-		if (duration > 0) canvasPan.duration(duration);
+		if (duration > 0)
+			canvasPan.duration(duration);
 
 		const scale = await this.getInputValue("scale");
-		if (scale > 0) canvasPan.scale(scale);
+		if (scale > 0)
+			canvasPan.scale(scale);
 
 		g.log("Canvas Pan Node", { sequence, target, duration, scale, canvasPan });
 		g.end();
@@ -104,9 +107,11 @@ class CanvasPanNode extends TriggerNode<
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
-		if (!loc) return loc;
+		if (!loc)
+			return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
-		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+		if (!("kind" in loc))
+			return { x: loc.x, y: loc.y };
 
 		switch (loc.kind) {
 			case "point":

@@ -1,11 +1,11 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { AnimationModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	duration: number;
 	tint: `#${string}`;
 	preset: string;
-};
+}
 
 class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 	static override get type() {
@@ -18,7 +18,7 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf0ad" }
+		return { unicode: "\uF0AD" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -28,7 +28,7 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 				key: "duration",
 				type: "number",
 				...this.sharedIo("duration"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{ key: "tint", type: "text", ...this.io("tint") },
 			{
@@ -38,21 +38,24 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 				field: {
 					type: "select",
 					default: Sequencer.Presets.getAll().keys().toArray()[0],
-					options: Sequencer.Presets.getAll().keys().toArray()
-				}
-			}
+					options: Sequencer.Presets.getAll().keys().toArray(),
+				},
+			},
 		];
 	}
 
 	protected override async apply(section: AnimationSection): Promise<void> {
 		const duration = await this.getInputValue("duration");
-		if (duration > 0) section.duration(duration);
+		if (duration > 0)
+			section.duration(duration);
 
 		const tint = await this.getInputValue("tint");
-		if (tint) section.tint(tint);
+		if (tint)
+			section.tint(tint);
 
 		const preset = await this.getInputValue("preset");
-		if (preset) section.preset(preset);
+		if (preset)
+			section.preset(preset);
 	}
 }
 

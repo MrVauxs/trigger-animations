@@ -1,1 +1,1 @@
-export * from './animation-event';
+export * from "./animation-event";

@@ -1,14 +1,13 @@
-import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 import { ALIGN_OPTIONS, EDGE_OPTIONS } from "./constants";
 
-type LocationKind = {
+interface LocationKind {
 	points: Point;
 	targets: PositionSource;
-};
+}
 
-type TInputs = {
+interface TInputs {
 	location: LocationKind[keyof LocationKind];
 	gridUnits: boolean;
 	attachTo: boolean;
@@ -29,7 +28,7 @@ type TInputs = {
 	anchorX: number;
 	anchorY: number;
 	scale: string;
-};
+}
 
 type TState = "points" | "targets" | "screenSpace";
 
@@ -39,8 +38,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 	}
 
 	static override get aliases(): string[] {
-		return ["atLocation", "attachTo", "snapToGrid", "screenSpace", "screenSpaceAboveUI",
-			"screenSpacePosition", "screenSpaceAnchor", "screenSpaceScale"];
+		return ["atLocation", "attachTo", "snapToGrid", "screenSpace", "screenSpaceAboveUI", "screenSpacePosition", "screenSpaceAnchor", "screenSpaceScale"];
 	}
 
 	// World location and screen space are mutually exclusive, so screen space
@@ -51,7 +49,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf3c5" }
+		return { unicode: "\uF3C5" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -75,14 +73,14 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.sharedIo("randomOffset"),
 				state: "targets",
-				field: { default: 0, min: 0, step: 0.05 }
+				field: { default: 0, min: 0, step: 0.05 },
 			},
 			{
 				key: "randomOffset",
 				type: "number",
 				...this.sharedIo("randomOffset"),
 				state: "points",
-				field: { default: 0, min: 0, step: 0.05 }
+				field: { default: 0, min: 0, step: 0.05 },
 			},
 			{ key: "local", type: "boolean", ...this.sharedIo("local"), state: "targets" },
 			{ key: "local", type: "boolean", ...this.sharedIo("local"), state: "points" },
@@ -92,7 +90,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("align"),
 				state: "targets",
 				group: "attach",
-				field: { type: "select", default: "center", options: ALIGN_OPTIONS }
+				field: { type: "select", default: "center", options: ALIGN_OPTIONS },
 			},
 			{
 				key: "edge",
@@ -100,7 +98,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("edge"),
 				state: "targets",
 				group: "attach",
-				field: { type: "select", default: "on", options: EDGE_OPTIONS }
+				field: { type: "select", default: "on", options: EDGE_OPTIONS },
 			},
 			{
 				key: "bindVisibility",
@@ -108,7 +106,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("bindVisibility"),
 				state: "targets",
 				group: "attach",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "bindAlpha",
@@ -116,7 +114,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("bindAlpha"),
 				state: "targets",
 				group: "attach",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "bindScale",
@@ -124,7 +122,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("bindScale"),
 				state: "targets",
 				group: "attach",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "bindRotation",
@@ -132,7 +130,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("bindRotation"),
 				state: "targets",
 				group: "attach",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "bindElevation",
@@ -140,36 +138,37 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				...this.io("bindElevation"),
 				state: "targets",
 				group: "attach",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "anchorX",
 				type: "number",
 				...this.io("anchorX"),
 				state: "screenSpace",
-				field: { default: -1, min: -1, max: 1, step: 0.05 }
+				field: { default: -1, min: -1, max: 1, step: 0.05 },
 			},
 			{
 				key: "anchorY",
 				type: "number",
 				...this.io("anchorY"),
 				state: "screenSpace",
-				field: { default: -1, min: -1, max: 1, step: 0.05 }
+				field: { default: -1, min: -1, max: 1, step: 0.05 },
 			},
 			{
 				key: "scale",
 				type: "text",
 				...this.io("scale"),
 				state: "screenSpace",
-				field: { type: "json" }
-			}
+				field: { type: "json" },
+			},
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		if (this.state === "screenSpace") {
 			effect.screenSpace();
-			if (await this.getInputValue("aboveUI")) effect.screenSpaceAboveUI();
+			if (await this.getInputValue("aboveUI"))
+				effect.screenSpaceAboveUI();
 
 			const position = await this.getInputValue("position");
 			if (position && (position.x !== 0 || position.y !== 0)) {
@@ -181,12 +180,13 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 			if (anchorX >= 0 || anchorY >= 0) {
 				effect.screenSpaceAnchor({
 					x: anchorX >= 0 ? anchorX : 0.5,
-					y: anchorY >= 0 ? anchorY : 0.5
+					y: anchorY >= 0 ? anchorY : 0.5,
 				});
 			}
 
 			const scale = this.parseJson(await this.getInputValue("scale"), "scale");
-			if (scale) effect.screenSpaceScale(scale);
+			if (scale)
+				effect.screenSpaceScale(scale);
 			return;
 		}
 
@@ -195,14 +195,16 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 			const opts: Record<string, unknown> = {
 				cacheLocation: await this.getInputValue("cacheLocation"),
 				gridUnits: await this.getInputValue("gridUnits"),
-				local: await this.getInputValue("local")
+				local: await this.getInputValue("local"),
 			};
 
 			const offset = await this.getInputValue("offset");
-			if (offset && (offset.x !== 0 || offset.y !== 0)) opts.offset = offset;
+			if (offset && (offset.x !== 0 || offset.y !== 0))
+				opts.offset = offset;
 
 			const randomOffset = await this.getInputValue("randomOffset");
-			if (randomOffset > 0) opts.randomOffset = randomOffset;
+			if (randomOffset > 0)
+				opts.randomOffset = randomOffset;
 
 			if (this.state === "targets") {
 				if (await this.getInputValue("attachTo")) {
@@ -223,7 +225,8 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 			}
 		}
 
-		if (await this.getInputValue("snapToGrid")) effect.snapToGrid();
+		if (await this.getInputValue("snapToGrid"))
+			effect.snapToGrid();
 	}
 }
 

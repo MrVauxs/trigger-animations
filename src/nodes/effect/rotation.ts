@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	rotate: number;
 	randomRotation: boolean;
 	spriteRotation: number;
@@ -15,7 +15,7 @@ type TInputs = {
 	rotateOutDuration: number;
 	rotateOutEase: string;
 	rotateOutDelay: number;
-};
+}
 
 class RotationNode extends EffectModifierNode<TInputs> {
 	static override get type() {
@@ -23,13 +23,12 @@ class RotationNode extends EffectModifierNode<TInputs> {
 	}
 
 	static override get aliases(): string[] {
-		return ["rotate", "randomRotation", "spriteRotation", "randomSpriteRotation",
-			"zeroSpriteRotation", "rotateIn", "rotateOut"];
+		return ["rotate", "randomRotation", "spriteRotation", "randomSpriteRotation", "zeroSpriteRotation", "rotateIn", "rotateOut"];
 	}
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf2f1" }
+		return { unicode: "\uF2F1" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -41,7 +40,7 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				key: "spriteRotation",
 				type: "number",
 				...this.io("spriteRotation"),
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{ key: "randomSpriteRotation", type: "boolean", ...this.io("randomSpriteRotation") },
 			{ key: "zeroSpriteRotation", type: "boolean", ...this.io("zeroSpriteRotation") },
@@ -50,14 +49,14 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.io("degrees"),
 				group: "rotateIn",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "rotateInDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "rotateIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("rotateInEase", { group: "rotateIn" }),
 			{
@@ -65,21 +64,21 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "rotateIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "rotateOutDegrees",
 				type: "number",
 				...this.io("degrees"),
 				group: "rotateOut",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "rotateOutDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "rotateOut",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("rotateOutEase", { group: "rotateOut" }),
 			{
@@ -87,26 +86,30 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "rotateOut",
-				field: { default: 0, min: 0 }
-			}
+				field: { default: 0, min: 0 },
+			},
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const rotate = await this.getInputValue("rotate");
-		if (rotate !== 0) effect.rotate(rotate);
+		if (rotate !== 0)
+			effect.rotate(rotate);
 
-		if (await this.getInputValue("randomRotation")) effect.randomRotation(true);
+		if (await this.getInputValue("randomRotation"))
+			effect.randomRotation(true);
 
 		const spriteRotation = await this.getInputValue("spriteRotation");
-		if (spriteRotation !== 0) effect.spriteRotation(spriteRotation);
+		if (spriteRotation !== 0)
+			effect.spriteRotation(spriteRotation);
 
 		if (await this.getInputValue("randomSpriteRotation")) {
 			// @ts-expect-error TODO: Fix Sequencer Types
 			effect.randomSpriteRotation(true);
 		}
 
-		if (await this.getInputValue("zeroSpriteRotation")) effect.zeroSpriteRotation(true);
+		if (await this.getInputValue("zeroSpriteRotation"))
+			effect.zeroSpriteRotation(true);
 
 		const rotateInDuration = await this.getInputValue("rotateInDuration");
 		if (rotateInDuration > 0) {
@@ -115,8 +118,8 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				rotateInDuration,
 				{
 					ease: await this.getInputValue("rotateInEase"),
-					delay: await this.getInputValue("rotateInDelay")
-				}
+					delay: await this.getInputValue("rotateInDelay"),
+				},
 			);
 		}
 
@@ -127,8 +130,8 @@ class RotationNode extends EffectModifierNode<TInputs> {
 				rotateOutDuration,
 				{
 					ease: await this.getInputValue("rotateOutEase"),
-					delay: await this.getInputValue("rotateOutDelay")
-				}
+					delay: await this.getInputValue("rotateOutDelay"),
+				},
 			);
 		}
 	}

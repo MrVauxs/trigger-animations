@@ -1,13 +1,13 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
 import { devGroup, devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	target?: PositionSource;
 }
-type TOutputs = {
+interface TOutputs {
 	animation?: AnimationSection;
 }
 
@@ -21,11 +21,11 @@ class AnimationNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -34,7 +34,7 @@ class AnimationNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf70c" }
+		return { unicode: "\uF70C" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -43,8 +43,8 @@ class AnimationNode extends TriggerNode<
 				key: "target",
 				type: "position",
 				label: this.localize("io.target.title"),
-				tooltip: this.localize("io.target.tooltip")
-			}
+				tooltip: this.localize("io.target.tooltip"),
+			},
 		];
 	}
 
@@ -54,15 +54,17 @@ class AnimationNode extends TriggerNode<
 				key: "animation",
 				type: "animation",
 				label: this.localize("io.animation.title"),
-				tooltip: this.localize("io.animation.tooltip")
-			}
+				tooltip: this.localize("io.animation.tooltip"),
+			},
 		];
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
-		if (!loc) return loc;
+		if (!loc)
+			return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
-		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+		if (!("kind" in loc))
+			return { x: loc.x, y: loc.y };
 
 		switch (loc.kind) {
 			case "point":
@@ -78,7 +80,7 @@ class AnimationNode extends TriggerNode<
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
 			g.log("Animation Node", "no Sequence in context");
@@ -90,8 +92,10 @@ class AnimationNode extends TriggerNode<
 
 		const targetInput = await this.getInputValue("target");
 		const target = this.getLocation(targetInput);
-		if (target) animation.on(target);
-		else if (target) devLog(`[${this.type}] target has no token; nothing to animate`);
+		if (target)
+			animation.on(target);
+		else if (target)
+			devLog(`[${this.type}] target has no token; nothing to animate`);
 
 		g.log("Animation Node", { sequence, target, animation });
 		g.end();

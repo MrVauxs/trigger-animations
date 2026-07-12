@@ -1,6 +1,6 @@
-import { devGroup } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -13,13 +13,13 @@ abstract class ScrollingTextModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { scrollingText?: ScrollingTextSection },
 	{},
 	string,
 	string,
 	TState
-> {
+	> {
 	static override get category() {
 		return "scrollingText";
 	}
@@ -77,7 +77,7 @@ abstract class ScrollingTextModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const scrollingText = await this.getInputValue("scrollingText");
 		if (scrollingText) {
-			await this.apply(scrollingText as ScrollingTextSection);
+			await this.apply(scrollingText);
 			g.log("applied", { scrollingText });
 		} else {
 			g.log("no scrolling text connected; skipping");

@@ -1,10 +1,9 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
-import type { StartNodeOptions } from "./animation-event";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	sequence?: Sequence;
 	name: string;
 	actor?: TargetDocuments;
@@ -13,11 +12,11 @@ type TInputs = {
 	item?: Item;
 	options: string[];
 	await: boolean;
-};
+}
 
-type TOutputs = {
+interface TOutputs {
 	sequence?: Sequence;
-};
+}
 
 class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"> {
 	static override get type() {
@@ -50,7 +49,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 
 	override get icon() {
 		// Font Awesome Pro unicode (film), top right corner.
-		return { unicode: "\uf03d" };
+		return { unicode: "\uF03D" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -79,15 +78,15 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = (await this.getInputValue("sequence"))
+		const sequence = (await this.getInputValue("sequence"));
 		if (sequence) {
 			this.setOutputValue("sequence", sequence);
 		}
 
-		const stopRecursionFor = this.getContext<string[]>("stopRecursionFor")!
-		const recursionGuard = this.getContext<string>("recursionGuard")!
+		const stopRecursionFor = this.getContext<string[]>("stopRecursionFor")!;
+		const recursionGuard = this.getContext<string>("recursionGuard")!;
 
-		const run = globalThis.triggerAnimations.api.runFromTrigger!
+		const run = globalThis.triggerAnimations.api.runFromTrigger;
 		const payload = {
 			name: await this.getInputValue("name"),
 			actor: await this.getInputValue("actor"),
@@ -98,7 +97,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			userInputs: await this.getCustomInputs("input"),
 			// addons
 			sequence,
-			stopRecursionFor: [recursionGuard, ...stopRecursionFor]
+			stopRecursionFor: [recursionGuard, ...stopRecursionFor],
 		};
 
 		const animationCall = run(payload);

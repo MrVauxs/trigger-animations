@@ -1,8 +1,8 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	target: string;
 	property: string;
 	duration: number;
@@ -17,7 +17,7 @@ type TInputs = {
 	values: string;
 	loops: number;
 	pingPong: boolean;
-};
+}
 
 type TState = "animate" | "loop";
 
@@ -36,7 +36,7 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\ue2ca" }
+		return { unicode: "\uE2CA" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -46,14 +46,14 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				key: "target",
 				type: "text",
 				...this.io("target"),
-				field: { default: "sprite" }
+				field: { default: "sprite" },
 			},
 			{ key: "property", type: "text", ...this.io("property") },
 			{
 				key: "duration",
 				type: "number",
 				...this.sharedIo("duration"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{ key: "from", type: "number", ...this.io("from"), field: { default: 0 } },
 			{ key: "to", type: "number", ...this.io("to"), field: { default: 0 } },
@@ -61,7 +61,7 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				key: "delay",
 				type: "number",
 				...this.sharedIo("delay"),
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			this.easeInput("ease"),
 			{ key: "fromEnd", type: "boolean", ...this.io("fromEnd"), state: "animate" },
@@ -73,16 +73,16 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				type: "text",
 				...this.io("values"),
 				state: "loop",
-				field: { type: "json" }
+				field: { type: "json" },
 			},
 			{
 				key: "loops",
 				type: "number",
 				...this.io("loops"),
 				state: "loop",
-				field: { default: 0, min: 0, step: 1 }
+				field: { default: 0, min: 0, step: 1 },
 			},
-			{ key: "pingPong", type: "boolean", ...this.io("pingPong"), state: "loop" }
+			{ key: "pingPong", type: "boolean", ...this.io("pingPong"), state: "loop" },
 		];
 	}
 
@@ -101,7 +101,7 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 			ease: await this.getInputValue("ease"),
 			gridUnits: await this.getInputValue("gridUnits"),
 			screenSpace: await this.getInputValue("screenSpace"),
-			absolute: await this.getInputValue("absolute")
+			absolute: await this.getInputValue("absolute"),
 		};
 
 		if (this.state === "loop") {
@@ -114,16 +114,16 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				...(Array.isArray(values) && values.length
 					? { values }
 					: {
-						from: await this.getInputValue("from"),
-						to: await this.getInputValue("to")
-					})
+							from: await this.getInputValue("from"),
+							to: await this.getInputValue("to"),
+						}),
 			});
 		} else {
 			effect.animateProperty(target, property, {
 				...base,
 				from: await this.getInputValue("from"),
 				to: await this.getInputValue("to"),
-				fromEnd: await this.getInputValue("fromEnd")
+				fromEnd: await this.getInputValue("fromEnd"),
 			});
 		}
 	}

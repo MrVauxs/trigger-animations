@@ -1,14 +1,14 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 import { BLEND_MODE_OPTIONS, FILTER_OPTIONS } from "./constants";
 
-type TInputs = {
+interface TInputs {
 	tint: `#${string}`;
 	blendMode: string;
 	filterType: string;
 	filterData: string;
 	filterName: string;
-};
+}
 
 class StyleNode extends EffectModifierNode<TInputs> {
 	static override get type() {
@@ -21,7 +21,7 @@ class StyleNode extends EffectModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf53f" }
+		return { unicode: "\uF53F" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -32,32 +32,34 @@ class StyleNode extends EffectModifierNode<TInputs> {
 				key: "blendMode",
 				type: "text",
 				...this.io("blendMode"),
-				field: { type: "select", default: "normal", options: BLEND_MODE_OPTIONS }
+				field: { type: "select", default: "normal", options: BLEND_MODE_OPTIONS },
 			},
 			{
 				key: "filterType",
 				type: "text",
 				...this.io("filterType"),
 				group: "filter",
-				field: { type: "select", default: "", options: FILTER_OPTIONS }
+				field: { type: "select", default: "", options: FILTER_OPTIONS },
 			},
 			{
 				key: "filterData",
 				type: "text",
 				...this.io("filterData"),
 				group: "filter",
-				field: { type: "json" }
+				field: { type: "json" },
 			},
-			{ key: "filterName", type: "text", ...this.io("filterName"), group: "filter" }
+			{ key: "filterName", type: "text", ...this.io("filterName"), group: "filter" },
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const tint = await this.getInputValue("tint");
-		if (tint) effect.tint(tint);
+		if (tint)
+			effect.tint(tint);
 
 		const blendMode = await this.getInputValue("blendMode");
-		if (blendMode && blendMode !== "normal") effect.blendMode(blendMode);
+		if (blendMode && blendMode !== "normal")
+			effect.blendMode(blendMode);
 
 		const filterType = await this.getInputValue("filterType");
 		if (filterType) {

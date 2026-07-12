@@ -1,11 +1,11 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	module: string;
-};
+}
 
 class ModuleEnabledNode extends TriggerNode<"true" | "false", TInputs, never> {
 	static override get type() {
@@ -36,7 +36,7 @@ class ModuleEnabledNode extends TriggerNode<"true" | "false", TInputs, never> {
 
 	override get icon() {
 		// Font Awesome Pro unicode (puzzle-piece), top right corner.
-		return { unicode: "\uf12e" };
+		return { unicode: "\uF12E" };
 	}
 
 	static localize(str: string) {

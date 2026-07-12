@@ -1,5 +1,3 @@
-import { devLog } from "$lib/utils";
-
 const { NodeEntry } = globalThis.triggerEngine;
 
 class EffectEntry extends NodeEntry<EffectSection> {

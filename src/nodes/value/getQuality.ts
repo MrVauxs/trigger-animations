@@ -1,5 +1,5 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -26,7 +26,7 @@ class GetQualityNode extends TriggerNode<
 			{ key: "minimal", ...this.io("output.minimal") },
 			{ key: "low", ...this.io("output.low") },
 			{ key: "medium", ...this.io("output.medium") },
-			{ key: "high", ...this.io("output.high") }
+			{ key: "high", ...this.io("output.high") },
 		];
 	}
 
@@ -36,7 +36,7 @@ class GetQualityNode extends TriggerNode<
 
 	override get icon() {
 		// Font Awesome Pro unicode (gear), top right corner.
-		return { unicode: "\uf013" };
+		return { unicode: "\uF013" };
 	}
 
 	static localize(str: string) {
@@ -55,7 +55,7 @@ class GetQualityNode extends TriggerNode<
 
 		const setting = this.#getSetting(
 			"trigger-animations",
-			"quality"
+			"quality",
 		) as "minimal" | "low" | "medium" | "high";
 
 		g.log("Get Quality Node", { setting });
@@ -65,7 +65,8 @@ class GetQualityNode extends TriggerNode<
 	}
 
 	#getSetting(module: string, key: string): unknown {
-		if (!module || !key) return undefined;
+		if (!module || !key)
+			return undefined;
 		try {
 			return game.settings.get(module, key);
 		} catch {

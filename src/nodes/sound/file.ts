@@ -1,13 +1,13 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	file: string;
 	baseFolder: string;
 	mustache: string;
 	override: string;
-};
+}
 
 class SoundFileNode extends SoundModifierNode<TInputs> {
 	static override get type() {
@@ -20,7 +20,7 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf15b" };
+		return { unicode: "\uF15B" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -30,26 +30,26 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 				key: "baseFolder",
 				type: "text",
 				...this.io("baseFolder"),
-				field: { default: "" }
+				field: { default: "" },
 			},
 			{
 				key: "file",
 				type: "text",
 				...this.io("file"),
-				field: { default: "" }
+				field: { default: "" },
 			},
 			{
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
-				field: { type: "json" }
+				field: { type: "json" },
 			},
 			{
 				key: "override",
 				type: "text",
 				...this.io("override"),
-				field: { type: "javascript" }
-			}
+				field: { type: "javascript" },
+			},
 		];
 	}
 

@@ -1,19 +1,19 @@
-import { id } from "moduleJSON";
-import { TriggerEngine as T } from "trigger-engine/types";
-import { StartNodeOptions } from "./nodes";
+import type { TriggerEngine as T } from "trigger-engine/types";
+import type { BlueprintApplication } from "triggers-menu";
+import type { StartNodeOptions } from "./nodes";
+import type { TriggerTemplate } from "./templateButton/templates";
 import { dev, devLog, log } from "$lib/utils";
-import { type BlueprintApplication } from "triggers-menu";
-import { BUILTIN_TEMPLATES, type TriggerTemplate } from "./templateButton/templates";
+import { id } from "moduleJSON";
+import { BUILTIN_TEMPLATES } from "./templateButton/templates";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
 if (import.meta.hot) {
 	import.meta.hot.on("trigger-animations:saved", (result) => {
 		if (result?.error) {
-			ui.notifications.error("Failed to save triggers to static/. See console.")
+			ui.notifications.error("Failed to save triggers to static/. See console.");
 			log("Failed to save triggers to static/", result.error);
-		}
-		else {
-			ui.notifications.info(`Saved ${result?.written ?? "?"} trigger(s) to static/${result?.subdir ?? "anim-trigger"}`)
+		} else {
+			ui.notifications.info(`Saved ${result?.written ?? "?"} trigger(s) to static/${result?.subdir ?? "anim-trigger"}`);
 			devLog(`Saved ${result?.written ?? "?"} trigger(s) to static/${result?.subdir ?? "anim-trigger"}`);
 		}
 	});
@@ -27,16 +27,17 @@ type CustomSetting = Extract<
 	}
 >;
 
-type CachedTrigger = {
+interface CachedTrigger {
 	id: string;
 	patterns: string[] | null;
 	priority: number;
 	specificity: number;
 	local: boolean;
-};
+}
 
 function patternSpecificity(pattern: string): number {
-	if (pattern === "*") return 0;
+	if (pattern === "*")
+		return 0;
 	// Score by the number of non-wildcard characters. A wildcard is less worth than a full string so `bow` beats `bow*`
 	const literalLength = pattern.replace(/\*/g, "").length;
 	return pattern.includes("*") ? literalLength - 0.5 : literalLength;
@@ -44,9 +45,11 @@ function patternSpecificity(pattern: string): number {
 
 function patternMatches(pattern: string, name: string, givenNames: string[]): boolean {
 	// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
-	if (pattern === "*") return true;
-	if (!pattern.includes("*")) return givenNames.includes(pattern);
-	const regex = new RegExp("^" + pattern.split("*").map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*") + "$");
+	if (pattern === "*")
+		return true;
+	if (!pattern.includes("*"))
+		return givenNames.includes(pattern);
+	const regex = new RegExp(`^${pattern.split("*").map(s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join(".*")}$`);
 	return regex.test(name);
 }
 
@@ -59,33 +62,36 @@ export class API {
 	ready = false;
 	setReady() {
 		this.ready = true;
-		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api)
-		devLog("API is ready.", this.ready)
+		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api);
+		devLog("API is ready.", this.ready);
 	}
 
-	openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
+	async openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args) as Promise<BlueprintApplication>;
 	}
+
 	async endAnimation(opts: Parameters<typeof Sequencer.EffectManager.endEffects>[0]) {
-		return Sequencer.EffectManager.endEffects(opts)
+		return Sequencer.EffectManager.endEffects(opts);
 	}
+
 	async endAllAnimation(scene: string) {
-		return Sequencer.EffectManager.endAllEffects(scene)
+		return Sequencer.EffectManager.endAllEffects(scene);
 	}
+
 	async runFromTrigger(data: StartNodeOptions): Promise<void> { };
 
 	saveTriggers(data: T.TriggerDataInput[]): void {
 		import.meta.hot?.send("trigger-animations:save", { triggers: data });
 	};
 
-	_db!: JournalEntry
-	get db() { return this._db }
-	set db(db) { this._db = db }
-	get setting() { return API.setting }
+	_db!: JournalEntry;
+	get db() { return this._db; }
+	set db(db) { this._db = db; }
+	get setting() { return API.setting; }
 
 	_templates: Record<string, TriggerTemplate> = { ...BUILTIN_TEMPLATES };
-	get templates() { return this._templates }
-	set templates(value: Record<string, TriggerTemplate>) { this._templates = value }
+	get templates() { return this._templates; }
+	set templates(value: Record<string, TriggerTemplate>) { this._templates = value; }
 
 	/** Register (or overwrite) a template other modules can use in the dialog. */
 	registerTemplate(template: TriggerTemplate) {
@@ -100,12 +106,13 @@ export class API {
 		this._triggerCache = triggerData
 			.flatMap((trigger) => {
 				const id = trigger.id;
-				if (!id) return [];
+				if (!id)
+					return [];
 				const nodes = trigger.nodes ?? [];
 				// A trigger plays locally if any of its `play` nodes has `local: true`.
-				const local = nodes.some((node) => node.type === "play" && node.inputs?.local?.value === true);
+				const local = nodes.some(node => node.type === "play" && node.inputs?.local?.value === true);
 				return nodes
-					.filter((node) => node.type === "animation-event")
+					.filter(node => node.type === "animation-event")
 					.map((node): CachedTrigger => {
 						const input = node.inputs?.name;
 						// A wired input is only resolved at runtime, so it can always match.
@@ -114,7 +121,7 @@ export class API {
 							: null;
 						const patterns = raw === null
 							? null
-							: raw.split(",").map((p) => p.trim()).filter(Boolean);
+							: raw.split(",").map(p => p.trim()).filter(Boolean);
 						const specificity = patterns === null
 							? Infinity // dynamic patterns are treated as maximally specific
 							: Math.max(0, ...patterns.map(patternSpecificity));
@@ -126,17 +133,19 @@ export class API {
 	}
 
 	matchTrigger(name: string): CachedTrigger | undefined {
-		if (!name) return undefined;
-		const givenNames = name.split(",").map((x) => x.trim());
+		if (!name)
+			return undefined;
+		const givenNames = name.split(",").map(x => x.trim());
 		return this._triggerCache.find(({ patterns }) => {
-			if (patterns === null) return true;
-			return patterns.some((pattern) => patternMatches(pattern, name, givenNames));
+			if (patterns === null)
+				return true;
+			return patterns.some(pattern => patternMatches(pattern, name, givenNames));
 		});
 	}
 
-	static prepareTriggers = () => { log("Prepare Triggers not set") }
+	static prepareTriggers = () => { log("Prepare Triggers not set"); };
 	prepare() {
-		devLog("Running prepareTriggers", API.prepareTriggers)
+		devLog("Running prepareTriggers", API.prepareTriggers);
 		API.prepareTriggers();
 	};
 
@@ -152,35 +161,42 @@ export class API {
 				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
 			},
 			afterPrepared: async (triggerData) => {
-				devLog("afterPrepared", triggerData)
-				if (dev) globalThis.triggerAnimations.api.saveTriggers(triggerData);
+				devLog("afterPrepared", triggerData);
+				if (dev)
+					globalThis.triggerAnimations.api.saveTriggers(triggerData);
 				globalThis.triggerAnimations.api.cacheTriggers(triggerData);
 				globalThis.triggerAnimations.api.databaseMount();
-			}
-		}
+			},
+		};
 	}
 
 	#hooks: Record<string, number> = {};
 	databaseMount() {
-		devLog("DB Mount Hook", this.db)
-		if (!this.db) return;
-		if (this.#hooks.renderJournalDirectory) Hooks.off("renderJournalDirectory", this.#hooks.renderJournalDirectory)
+		devLog("DB Mount Hook", this.db);
+		if (!this.db)
+			return;
+		if (this.#hooks.renderJournalDirectory)
+			Hooks.off("renderJournalDirectory", this.#hooks.renderJournalDirectory);
 		this.#hooks.renderJournalDirectory = Hooks.on("renderJournalDirectory", (app) => {
-			if (!this.db) return;
+			if (!this.db)
+				return;
 			const element = app.element.querySelector(`[data-entry-id="${this.db.id}"]`);
-			if (element) element.remove();
-		})
+			if (element)
+				element.remove();
+		});
 
 		const style = document.createElement("style");
 		style.id = `trigger-animations-${this.db.id}`;
 		style.textContent = `[data-entry-id="${this.db.id}"] { display: none !important; }`;
 		document.head.appendChild(style);
 
-		if (this.#hooks.preDeleteJournalEntry) Hooks.off("preDeleteJournalEntry", this.#hooks.preDeleteJournalEntry)
+		if (this.#hooks.preDeleteJournalEntry)
+			Hooks.off("preDeleteJournalEntry", this.#hooks.preDeleteJournalEntry);
 		this.#hooks.preDeleteJournalEntry = Hooks.on("preDeleteJournalEntry", (doc) => {
-			if (!this.db) return;
+			if (!this.db)
+				return;
 			return doc !== this.db;
-		})
+		});
 	}
 
 	#updateHook: number | undefined;
@@ -188,17 +204,21 @@ export class API {
 		const end = () => {
 			this._db = database!;
 			this.databaseMount();
-			if (!this.#updateHook) this.#updateHook = Hooks.on("updateJournalEntry", (journal, data, log) => {
-				if (journal.id === this.db.id) this.prepare();
-			})
+			if (!this.#updateHook) {
+				this.#updateHook = Hooks.on("updateJournalEntry", (journal, data, log) => {
+					if (journal.id === this.db.id)
+						this.prepare();
+				});
+			}
 			return database;
-		}
+		};
 		let database = game.journal.getName("Trigger Animations DB");
-		if (!JournalEntry.canUserCreate(game.user)) return end()
+		if (!JournalEntry.canUserCreate(game.user))
+			return end();
 		if (!database) {
 			database = await JournalEntry.create({
 				name: "Trigger Animations DB",
-				ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+				ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER },
 			});
 		}
 		return end();

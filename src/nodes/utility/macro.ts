@@ -1,5 +1,5 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup, devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -7,11 +7,11 @@ const DEFAULT_ARGS = `{
 
 }`;
 
-type TInputs = {
+interface TInputs {
 	macro: string;
 	args: string;
 }
-type TOutputs = {}
+interface TOutputs {}
 
 class MacroNode extends TriggerNode<
 	"out",
@@ -24,11 +24,11 @@ class MacroNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	static io(key: string) {
@@ -44,7 +44,7 @@ class MacroNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf0e7" }
+		return { unicode: "\uF0E7" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -54,8 +54,8 @@ class MacroNode extends TriggerNode<
 				key: "args",
 				type: "text",
 				...this.io("args"),
-				field: { type: "json", default: DEFAULT_ARGS }
-			}
+				field: { type: "json", default: DEFAULT_ARGS },
+			},
 		];
 	}
 
@@ -64,7 +64,7 @@ class MacroNode extends TriggerNode<
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		const macro = await this.getInputValue("macro");
 		if (sequence && macro) {
@@ -76,14 +76,16 @@ class MacroNode extends TriggerNode<
 			if (raw?.trim()) {
 				try {
 					const parsed = JSON.parse(raw);
-					if (parsed && typeof parsed === "object") Object.assign(scope, parsed);
+					if (parsed && typeof parsed === "object")
+						Object.assign(scope, parsed);
 				} catch (e) {
 					devLog(`[${this.type}] invalid args JSON; ignoring`, e);
 				}
 			}
 
 			for (const { label, value } of await this.getCustomInputs("input")) {
-				if (label) scope[label] = value;
+				if (label)
+					scope[label] = value;
 			}
 
 			sequence.macro(macro, scope);

@@ -1,8 +1,8 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 import { AnimationModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	towards: PositionSource;
 	offset: { x: number; y: number };
 	closestSquare: boolean;
@@ -13,7 +13,7 @@ type TInputs = {
 	cacheLocation: boolean;
 	moveSpeed: number;
 	relativeToCenter: boolean;
-};
+}
 
 type TState = "moveTowards" | "teleportTo";
 
@@ -36,7 +36,7 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf0b2" }
+		return { unicode: "\uF0B2" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -51,34 +51,34 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 				key: "delay",
 				type: "number",
 				...this.sharedIo("delay"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "rotate",
 				type: "boolean",
 				...this.io("rotate"),
 				state: "moveTowards",
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "cacheLocation",
 				type: "boolean",
 				...this.sharedIo("cacheLocation"),
-				state: "moveTowards"
+				state: "moveTowards",
 			},
 			{
 				key: "moveSpeed",
 				type: "number",
 				...this.io("moveSpeed"),
 				state: "moveTowards",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "relativeToCenter",
 				type: "boolean",
 				...this.io("relativeToCenter"),
-				state: "teleportTo"
-			}
+				state: "teleportTo",
+			},
 		];
 	}
 
@@ -90,14 +90,17 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 		}
 
 		const offset = await this.getInputValue("offset");
-		if (offset && (offset.x !== 0 || offset.y !== 0)) section.offset(offset);
-		if (await this.getInputValue("closestSquare")) section.closestSquare(true);
-		if (await this.getInputValue("snapToGrid")) section.snapToGrid(true);
+		if (offset && (offset.x !== 0 || offset.y !== 0))
+			section.offset(offset);
+		if (await this.getInputValue("closestSquare"))
+			section.closestSquare(true);
+		if (await this.getInputValue("snapToGrid"))
+			section.snapToGrid(true);
 
 		if (this.state === "teleportTo") {
 			section.teleportTo(towards, {
 				delay: await this.getInputValue("delay"),
-				relativeToCenter: await this.getInputValue("relativeToCenter")
+				relativeToCenter: await this.getInputValue("relativeToCenter"),
 			});
 		} else {
 			section.moveTowards(towards, {
@@ -105,11 +108,12 @@ class AnimationMoveNode extends AnimationModifierNode<TInputs, TState> {
 				delay: await this.getInputValue("delay"),
 				// @ts-expect-error Sequencer types
 				rotate: await this.getInputValue("rotate"),
-				cacheLocation: await this.getInputValue("cacheLocation")
+				cacheLocation: await this.getInputValue("cacheLocation"),
 			});
 
 			const moveSpeed = await this.getInputValue("moveSpeed");
-			if (moveSpeed > 0) section.moveSpeed(moveSpeed);
+			if (moveSpeed > 0)
+				section.moveSpeed(moveSpeed);
 		}
 	}
 }

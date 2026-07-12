@@ -1,5 +1,5 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { moduleError } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const DEFAULT_CALLBACK = `/**
  * @param {{actor: Actor; token: TokenDocument}} target
@@ -54,13 +54,13 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 				key: "isFinal",
 				type: "boolean",
 				label: this.localize("io.isFinal.title"),
-				tooltip: this.localize("io.isFinal.tooltip")
+				tooltip: this.localize("io.isFinal.tooltip"),
 			},
 			{
 				key: "index",
 				type: "number",
 				label: this.localize("io.index.title"),
-				tooltip: this.localize("io.index.tooltip")
+				tooltip: this.localize("io.index.tooltip"),
 			},
 		];
 	}
@@ -74,13 +74,13 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	static override get defineOuts(): T.BridgeSchemaInput[] | null {
 		return [
 			{ key: "out" },
-			{ key: "outAfter", label: this.localize("io.outAfter.title") }
+			{ key: "outAfter", label: this.localize("io.outAfter.title") },
 		];
 	}
 
@@ -98,7 +98,8 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 				const isFinal = i === targets.length - 1;
 				for (const source of sources) {
 					const validTarget = callback(target, inputs, i, isFinal);
-					if (!validTarget) continue;
+					if (!validTarget)
+						continue;
 
 					this.setOutputValue("target", target);
 					this.setOutputValue("source", source);
@@ -106,7 +107,8 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 					this.setOutputValue("index", i);
 
 					const keepExecuting = await this.executeNext("out");
-					if (!keepExecuting) break;
+					if (!keepExecuting)
+						break;
 				}
 			}
 
@@ -122,21 +124,21 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 	}
 }
 
-type SyncFunction = {
+interface SyncFunction {
 	new(...args: any[]): (target: TargetDocuments, inputs: unknown[], index: number, isFinal: boolean) => boolean;
-};
+}
 
-type Inputs = {
+interface Inputs {
 	targets: TargetDocuments[];
 	sources: TargetDocuments[];
 	callback: string;
-};
+}
 
-type Outputs = {
+interface Outputs {
 	target?: TargetDocuments;
 	source?: TargetDocuments;
 	isFinal: boolean;
 	index: number;
-};
+}
 
 export { MassLoopNode };

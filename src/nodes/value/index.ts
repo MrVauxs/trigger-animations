@@ -1,3 +1,3 @@
-export * from "./randomList";
-export * from "./getSetting";
 export * from "./getQuality";
+export * from "./getSetting";
+export * from "./randomList";

@@ -1,15 +1,15 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	override: string;
 	syncGroup: string;
 	preset: string;
 	presetArgs: string;
 	isometric: boolean;
 	isometricOverlay: boolean;
-};
+}
 
 class AdvancedNode extends EffectModifierNode<TInputs> {
 	static override get type() {
@@ -22,7 +22,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf085" }
+		return { unicode: "\uF085" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -32,7 +32,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				key: "override",
 				type: "text",
 				...this.io("override"),
-				field: { type: "javascript" }
+				field: { type: "javascript" },
 			},
 			{ key: "syncGroup", type: "text", ...this.io("syncGroup") },
 			{ key: "preset", type: "text", ...this.io("preset"), group: "preset" },
@@ -41,15 +41,15 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				type: "text",
 				...this.io("presetArgs"),
 				group: "preset",
-				field: { type: "json" }
+				field: { type: "json" },
 			},
 			{ key: "isometric", type: "boolean", ...this.io("isometric"), group: "isometric" },
 			{
 				key: "isometricOverlay",
 				type: "boolean",
 				...this.io("isometricOverlay"),
-				group: "isometric"
-			}
+				group: "isometric",
+			},
 		];
 	}
 
@@ -66,7 +66,8 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 		}
 
 		const syncGroup = await this.getInputValue("syncGroup");
-		if (syncGroup) effect.syncGroup(syncGroup);
+		if (syncGroup)
+			effect.syncGroup(syncGroup);
 
 		const preset = await this.getInputValue("preset");
 		if (preset) {
@@ -77,7 +78,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 		if (await this.getInputValue("isometric")) {
 			// @ts-expect-error Sequencer types
 			effect.isometric({
-				overlay: await this.getInputValue("isometricOverlay")
+				overlay: await this.getInputValue("isometricOverlay"),
 			});
 		}
 	}

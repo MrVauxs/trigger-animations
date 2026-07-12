@@ -1,6 +1,6 @@
-import { devGroup } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -13,13 +13,13 @@ abstract class CanvasPanModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { canvasPan?: CanvasPanSection },
 	{},
 	string,
 	string,
 	TState
-> {
+	> {
 	static override get category() {
 		return "canvasPan";
 	}
@@ -58,9 +58,11 @@ abstract class CanvasPanModifierNode<
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
-		if (!loc) return loc;
+		if (!loc)
+			return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
-		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+		if (!("kind" in loc))
+			return { x: loc.x, y: loc.y };
 
 		switch (loc.kind) {
 			case "point":
@@ -81,7 +83,7 @@ abstract class CanvasPanModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const canvasPan = await this.getInputValue("canvasPan");
 		if (canvasPan) {
-			await this.apply(canvasPan as CanvasPanSection);
+			await this.apply(canvasPan);
 			g.log("applied", { canvasPan });
 		} else {
 			g.log("no canvas pan connected; skipping");

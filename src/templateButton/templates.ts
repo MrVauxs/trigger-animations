@@ -1,21 +1,21 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 
-export type TemplateContext = {
+export interface TemplateContext {
 	triggerNames: string[];
 	label: string;
 	uuid: string;
 	folder?: string;
 	tags?: string[];
 	priority?: number;
-};
+}
 
-export type TriggerTemplate = {
+export interface TriggerTemplate {
 	id: string;
 	label: string;
 	hint: string;
 	prefixes: string[];
 	build: (ctx: TemplateContext) => T.TriggerDataInput;
-};
+}
 
 const rid = () => foundry.utils.randomID();
 const at = (col: number, row = 0) => ({ x: col * 280, y: row * 160 });
@@ -209,6 +209,6 @@ export const BUILTIN_TEMPLATES: Record<string, TriggerTemplate> = {
 
 /** Is this template a fit for the given suggested trigger names? */
 export function isRecommended(template: TriggerTemplate, suggestedNames: string[]): boolean {
-	const prefixes = suggestedNames.map((n) => n.split(":")[0]);
-	return template.prefixes.some((p) => prefixes.includes(p));
+	const prefixes = suggestedNames.map(n => n.split(":")[0]);
+	return template.prefixes.some(p => prefixes.includes(p));
 }

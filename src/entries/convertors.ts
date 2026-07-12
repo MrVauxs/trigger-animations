@@ -1,5 +1,5 @@
-import type { TriggerEngine as T } from "trigger-engine/types";
 import type { ActorPF2e } from "@7h3laughingman/pf2e-types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 
 const positionConvertors = [
 	// #region Input Position

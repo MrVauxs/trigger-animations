@@ -1,6 +1,6 @@
-import { devGroup } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup } from "$lib/utils";
 import { EASE_OPTIONS } from "../effect/constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -14,13 +14,13 @@ abstract class SoundModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { sound?: SoundSection },
 	{},
 	string,
 	string,
 	TState
-> {
+	> {
 	static override get category() {
 		return "sound";
 	}
@@ -92,7 +92,7 @@ abstract class SoundModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const sound = await this.getInputValue("sound");
 		if (sound) {
-			await this.apply(sound as SoundSection);
+			await this.apply(sound);
 			g.log("applied", { sound });
 		} else {
 			g.log("no sound connected; skipping");

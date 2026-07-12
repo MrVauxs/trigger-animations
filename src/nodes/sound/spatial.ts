@@ -1,8 +1,8 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 import { audioChannelOptions } from "./constants";
 
-type TInputs = {
+interface TInputs {
 	radius: number;
 	constrainedByWalls: boolean;
 	distanceEasing: boolean;
@@ -18,7 +18,7 @@ type TInputs = {
 	elevation: number;
 	absolute: boolean;
 	levels: string;
-};
+}
 
 class SoundSpatialNode extends SoundModifierNode<TInputs> {
 	static override get type() {
@@ -26,22 +26,12 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 	}
 
 	static override get aliases(): string[] {
-		return ["radius",
-			"constrainedByWalls",
-			"distanceEasing",
-			"audioChannel",
-			"alwaysForGMs",
-			"globalSound",
-			"panSound",
-			"baseEffect",
-			"muffledEffect",
-			"elevation",
-			"onLevels"];
+		return ["radius", "constrainedByWalls", "distanceEasing", "audioChannel", "alwaysForGMs", "globalSound", "panSound", "baseEffect", "muffledEffect", "elevation", "onLevels"];
 	}
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf1e0" };
+		return { unicode: "\uF1E0" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -51,51 +41,51 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 				key: "radius",
 				type: "number",
 				...this.io("radius"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "constrainedByWalls",
 				type: "boolean",
 				...this.io("constrainedByWalls"),
-				field: { default: false }
+				field: { default: false },
 			},
 			{
 				key: "distanceEasing",
 				type: "boolean",
 				...this.io("distanceEasing"),
-				field: { default: true }
+				field: { default: true },
 			},
 			{
 				key: "audioChannel",
 				type: "text",
 				...this.io("audioChannel"),
-				field: { type: "select", default: "", options: audioChannelOptions() }
+				field: { type: "select", default: "", options: audioChannelOptions() },
 			},
 			{
 				key: "alwaysForGMs",
 				type: "boolean",
 				...this.io("alwaysForGMs"),
-				field: { default: false }
+				field: { default: false },
 			},
 			{
 				key: "globalSound",
 				type: "boolean",
 				...this.io("globalSound"),
-				field: { default: false }
+				field: { default: false },
 			},
 			{
 				key: "panSound",
 				type: "boolean",
 				...this.io("panSound"),
 				group: "pan",
-				field: { default: false }
+				field: { default: false },
 			},
 			{
 				key: "panDistanceToEase",
 				type: "number",
 				...this.io("panDistanceToEase"),
 				group: "pan",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "baseEffectType",
@@ -105,15 +95,15 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 				field: {
 					type: "select",
 					default: "",
-					options: [{ value: "", label: "None" }, ...Object.keys((CONFIG as any).soundEffects ?? {})]
-				}
+					options: [{ value: "", label: "None" }, ...Object.keys((CONFIG as any).soundEffects ?? {})],
+				},
 			},
 			{
 				key: "baseEffectIntensity",
 				type: "number",
 				...this.io("baseEffectIntensity"),
 				group: "baseEffect",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "muffledEffectType",
@@ -123,57 +113,62 @@ class SoundSpatialNode extends SoundModifierNode<TInputs> {
 				field: {
 					type: "select",
 					default: "",
-					options: [{ value: "", label: "None" }, ...Object.keys((CONFIG as any).soundEffects ?? {})]
-				}
+					options: [{ value: "", label: "None" }, ...Object.keys((CONFIG as any).soundEffects ?? {})],
+				},
 			},
 			{
 				key: "muffledEffectIntensity",
 				type: "number",
 				...this.io("muffledEffectIntensity"),
 				group: "muffledEffect",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "elevation",
 				type: "number",
 				...this.io("elevation"),
 				group: "elevation",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "absolute",
 				type: "boolean",
 				...this.io("absolute"),
 				group: "elevation",
-				field: { default: false }
+				field: { default: false },
 			},
 			{
 				key: "levels",
 				type: "text",
 				...this.io("levels"),
-				field: { type: "text" }
-			}
+				field: { type: "text" },
+			},
 		];
 	}
 
 	protected override async apply(section: SoundSection): Promise<void> {
 		const radius = await this.getInputValue("radius");
-		if (radius > 0) section.radius(radius);
+		if (radius > 0)
+			section.radius(radius);
 
 		const constrainedByWalls = await this.getInputValue("constrainedByWalls");
-		if (constrainedByWalls) section.constrainedByWalls(true);
+		if (constrainedByWalls)
+			section.constrainedByWalls(true);
 
 		const distanceEasing = await this.getInputValue("distanceEasing");
 		section.distanceEasing(distanceEasing);
 
 		const audioChannel = await this.getInputValue("audioChannel");
-		if (audioChannel) section.audioChannel(audioChannel);
+		if (audioChannel)
+			section.audioChannel(audioChannel);
 
 		const alwaysForGMs = await this.getInputValue("alwaysForGMs");
-		if (alwaysForGMs) section.alwaysForGMs(true);
+		if (alwaysForGMs)
+			section.alwaysForGMs(true);
 
 		const globalSound = await this.getInputValue("globalSound");
-		if (globalSound) section.globalSound(true);
+		if (globalSound)
+			section.globalSound(true);
 
 		const panSound = await this.getInputValue("panSound");
 		if (panSound) {

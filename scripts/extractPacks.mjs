@@ -11,17 +11,18 @@ import { yellow } from "kolorist";
 const foundryDataDir = "packs/";
 const jsonDataDir = "data/";
 
-p.intro(`Extracting ${foundryDataDir} into ${jsonDataDir}...`)
+p.intro(`Extracting ${foundryDataDir} into ${jsonDataDir}...`);
 
 const outDir = path.resolve(process.cwd());
 const packsCompiled = path.resolve(outDir, foundryDataDir);
 if (!existsSync(packsCompiled)) {
-	p.log.warn("Packs directory does not exist in the build!")
+	p.log.warn("Packs directory does not exist in the build!");
 }
 
 const packFolders = await fs.readdir(packsCompiled);
 
-if (packFolders.length === 0) p.log.info("No packs to extract!")
+if (packFolders.length === 0)
+	p.log.info("No packs to extract!");
 
 await p.tasks(
 	packFolders.map(pack => ({
@@ -42,14 +43,14 @@ await p.tasks(
 					transformEntry: (e, ctx) => void 0,
 					jsonOptions: {
 						replacer: null,
-						space: "\t"
-					}
+						space: "\t",
+					},
 				},
 			);
-			return `Extracted ${yellow(pack)}!`
-		}
+			return `Extracted ${yellow(pack)}!`;
+		},
 	})),
-	{}
+	{},
 );
 
 p.outro("Finished!");

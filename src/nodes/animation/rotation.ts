@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { AnimationModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	rotate: number;
 	randomRotation: boolean;
 	towards: PositionSource;
@@ -19,7 +19,7 @@ type TInputs = {
 	rotateOutDuration: number;
 	rotateOutEase: string;
 	rotateOutDelay: number;
-};
+}
 
 class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 	static override get type() {
@@ -32,7 +32,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf2f1" }
+		return { unicode: "\uF2F1" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -46,7 +46,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "towards",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("towardsEase", { group: "towards" }),
 			{
@@ -54,14 +54,14 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "towards",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "rotationOffset",
 				type: "number",
 				...this.io("rotationOffset"),
 				group: "towards",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{ key: "towardsCenter", type: "boolean", ...this.io("towardsCenter"), group: "towards", field: { default: true } },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation"), group: "towards" },
@@ -70,14 +70,14 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.io("degrees"),
 				group: "rotateIn",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "rotateInDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "rotateIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("rotateInEase", { group: "rotateIn" }),
 			{
@@ -85,21 +85,21 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "rotateIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "rotateOutDegrees",
 				type: "number",
 				...this.io("degrees"),
 				group: "rotateOut",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "rotateOutDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "rotateOut",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("rotateOutEase", { group: "rotateOut" }),
 			{
@@ -107,16 +107,18 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "rotateOut",
-				field: { default: 0, min: 0 }
-			}
+				field: { default: 0, min: 0 },
+			},
 		];
 	}
 
 	protected override async apply(section: AnimationSection): Promise<void> {
 		const rotate = await this.getInputValue("rotate");
-		if (rotate !== 0) section.rotate(rotate);
+		if (rotate !== 0)
+			section.rotate(rotate);
 
-		if (await this.getInputValue("randomRotation")) section.randomRotation(true);
+		if (await this.getInputValue("randomRotation"))
+			section.randomRotation(true);
 
 		const towards = this.getLocation(await this.getInputValue("towards"));
 		if (towards) {
@@ -127,7 +129,7 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				delay: await this.getInputValue("towardsDelay"),
 				rotationOffset: await this.getInputValue("rotationOffset"),
 				towardsCenter: await this.getInputValue("towardsCenter"),
-				cacheLocation: await this.getInputValue("cacheLocation")
+				cacheLocation: await this.getInputValue("cacheLocation"),
 			});
 		}
 
@@ -138,8 +140,8 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				rotateInDuration,
 				{
 					ease: await this.getInputValue("rotateInEase"),
-					delay: await this.getInputValue("rotateInDelay")
-				}
+					delay: await this.getInputValue("rotateInDelay"),
+				},
 			);
 		}
 
@@ -150,8 +152,8 @@ class AnimationRotationNode extends AnimationModifierNode<TInputs> {
 				rotateOutDuration,
 				{
 					ease: await this.getInputValue("rotateOutEase"),
-					delay: await this.getInputValue("rotateOutDelay")
-				}
+					delay: await this.getInputValue("rotateOutDelay"),
+				},
 			);
 		}
 	}

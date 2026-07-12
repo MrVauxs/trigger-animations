@@ -1,5 +1,5 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup, devLog } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -17,10 +17,10 @@ const DEFAULT_SCRIPT = `/**
  */
 `;
 
-type TInputs = {
+interface TInputs {
 	code: string;
 }
-type TOutputs = {}
+interface TOutputs {}
 
 class ThenDoNode extends TriggerNode<
 	"out",
@@ -32,14 +32,12 @@ class ThenDoNode extends TriggerNode<
 		return "then-do";
 	}
 
-
-
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	static io(key: string) {
@@ -55,7 +53,7 @@ class ThenDoNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf121" }
+		return { unicode: "\uF121" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -64,8 +62,8 @@ class ThenDoNode extends TriggerNode<
 				key: "code",
 				type: "text",
 				...this.io("code"),
-				field: { type: "javascript", default: DEFAULT_SCRIPT }
-			}
+				field: { type: "javascript", default: DEFAULT_SCRIPT },
+			},
 		];
 	}
 
@@ -74,7 +72,7 @@ class ThenDoNode extends TriggerNode<
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		const code = await this.getInputValue("code");
 		if (sequence && code?.trim()) {

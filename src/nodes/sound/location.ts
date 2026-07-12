@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	location: PositionSource;
 	gridUnits: boolean;
 	bindVisibility: boolean;
@@ -11,7 +11,7 @@ type TInputs = {
 	moveSpeed: number;
 	moveEase: string;
 	moveDelay: number;
-};
+}
 
 type TState = "atLocation" | "attachTo";
 
@@ -21,8 +21,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 	}
 
 	static override get aliases(): string[] {
-		return ["atLocation", "attachTo", "toLocation",
-			"moveTowards", "moveSpeed"];
+		return ["atLocation", "attachTo", "toLocation", "moveTowards", "moveSpeed"];
 	}
 
 	static override get states(): string[] | null {
@@ -35,7 +34,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf3c5" };
+		return { unicode: "\uF3C5" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -52,7 +51,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("moveSpeed"),
 				group: "move",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("moveEase", { group: "move" }),
 			{
@@ -60,8 +59,8 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "move",
-				field: { default: 0, min: 0 }
-			}
+				field: { default: 0, min: 0 },
+			},
 		];
 	}
 
@@ -99,7 +98,8 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 		}
 
 		const moveSpeed = await this.getInputValue("moveSpeed");
-		if (moveSpeed > 0) section.moveSpeed(moveSpeed);
+		if (moveSpeed > 0)
+			section.moveSpeed(moveSpeed);
 	}
 }
 

@@ -1,4 +1,4 @@
-import { renameSync, readFileSync, writeFileSync, unlinkSync, existsSync } from "fs";
+import { existsSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 
 const mod = JSON.parse(readFileSync("../module.json", "utf8"));
 const pack = JSON.parse(readFileSync("../package.json", "utf8"));
@@ -15,20 +15,20 @@ mod.esmodules = [`dist/${mod.id}.js`];
 mod.styles = [`dist/${mod.id}.css`];
 mod.media = [
 	{
-		"type": "setup",
-		"url": `modules/${mod.id}/assets/setup.webp`,
-		"thumbnail": `modules/${mod.id}/assets/setup.webp`
-	}
+		type: "setup",
+		url: `modules/${mod.id}/assets/setup.webp`,
+		thumbnail: `modules/${mod.id}/assets/setup.webp`,
+	},
 ];
 
 // Final writes and global renames
 
 const modString = JSON.stringify(mod, null, "\t")
-	// .replaceAll("AUTHOR", data.author)
+// .replaceAll("AUTHOR", data.author)
 	.replaceAll("REPO", mod.id);
 
 const packString = JSON.stringify(pack, null, "\t")
-	// .replaceAll("AUTHOR", data.author)
+// .replaceAll("AUTHOR", data.author)
 	.replaceAll("REPO", mod.id);
 
 writeFileSync("../module.json", modString);

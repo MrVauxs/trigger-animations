@@ -27,30 +27,30 @@
 		"systems": [],
 		"required": [
 			{
-                "id": "trigger-engine",
-                "type": "module",
+				"id": "trigger-engine",
+				"type": "module",
 				"compatibility": {
 					"minimum": "1.17.0"
 				}
-            },
+			},
 			{
-                "id": "sequencer",
-                "type": "module",
+				"id": "sequencer",
+				"type": "module",
 				"compatibility": {
 					"minimum": "4.2"
 				}
-            }
+			}
 		]
 	},
 	"packs": [],
 	"packFolders": [],
 	"languages": [
-        {
-            "lang": "en",
-            "name": "English",
-            "path": "lang/en.json"
-        }
-    ],
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		}
+	],
 	"library": false,
 	"socket": true,
 	"flags": {

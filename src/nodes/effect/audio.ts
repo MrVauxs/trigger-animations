@@ -1,7 +1,7 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	volume: number;
 	fadeInDuration: number;
 	fadeInEase: string;
@@ -9,7 +9,7 @@ type TInputs = {
 	fadeOutDuration: number;
 	fadeOutEase: string;
 	fadeOutDelay: number;
-};
+}
 
 class AudioNode extends EffectModifierNode<TInputs> {
 	static override get type() {
@@ -22,7 +22,7 @@ class AudioNode extends EffectModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf028" }
+		return { unicode: "\uF028" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -33,14 +33,14 @@ class AudioNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.io("volume"),
 				// -1 means "leave unset" since 0 is a meaningful volume.
-				field: { default: -1, min: -1, max: 1, step: 0.05 }
+				field: { default: -1, min: -1, max: 1, step: 0.05 },
 			},
 			{
 				key: "fadeInDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "fadeIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("fadeInEase", { group: "fadeIn" }),
 			{
@@ -48,14 +48,14 @@ class AudioNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "fadeIn",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "fadeOutDuration",
 				type: "number",
 				...this.sharedIo("duration"),
 				group: "fadeOut",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			this.easeInput("fadeOutEase", { group: "fadeOut" }),
 			{
@@ -63,20 +63,21 @@ class AudioNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.sharedIo("delay"),
 				group: "fadeOut",
-				field: { default: 0, min: 0 }
-			}
+				field: { default: 0, min: 0 },
+			},
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const volume = await this.getInputValue("volume");
-		if (volume >= 0) effect.volume(volume);
+		if (volume >= 0)
+			effect.volume(volume);
 
 		const fadeInDuration = await this.getInputValue("fadeInDuration");
 		if (fadeInDuration > 0) {
 			effect.fadeInAudio(fadeInDuration, {
 				ease: await this.getInputValue("fadeInEase"),
-				delay: await this.getInputValue("fadeInDelay")
+				delay: await this.getInputValue("fadeInDelay"),
 			});
 		}
 
@@ -84,7 +85,7 @@ class AudioNode extends EffectModifierNode<TInputs> {
 		if (fadeOutDuration > 0) {
 			effect.fadeOutAudio(fadeOutDuration, {
 				ease: await this.getInputValue("fadeOutEase"),
-				delay: await this.getInputValue("fadeOutDelay")
+				delay: await this.getInputValue("fadeOutDelay"),
 			});
 		}
 	}

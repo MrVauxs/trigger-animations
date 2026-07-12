@@ -1,14 +1,14 @@
-import { TriggerEngine as T } from "trigger-engine/types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { SoundModifierNode } from "./base";
 
-type TInputs = {
+interface TInputs {
 	persist: boolean;
 	persistTokenPrototype: boolean;
 	extraEndDuration: number;
 	loops: number;
 	loopDelay: number;
 	endOnLastLoop: boolean;
-};
+}
 
 class SoundPersistNode extends SoundModifierNode<TInputs> {
 	static override get type() {
@@ -21,7 +21,7 @@ class SoundPersistNode extends SoundModifierNode<TInputs> {
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf021" }
+		return { unicode: "\uF021" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -32,46 +32,47 @@ class SoundPersistNode extends SoundModifierNode<TInputs> {
 				key: "persistTokenPrototype",
 				type: "boolean",
 				...this.io("persistTokenPrototype"),
-				group: "persist"
+				group: "persist",
 			},
 			{
 				key: "extraEndDuration",
 				type: "number",
 				...this.io("extraEndDuration"),
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "loops",
 				type: "number",
 				...this.io("loops"),
 				group: "loop",
-				field: { default: 0, min: 0, step: 1 }
+				field: { default: 0, min: 0, step: 1 },
 			},
 			{
 				key: "loopDelay",
 				type: "number",
 				...this.io("loopDelay"),
 				group: "loop",
-				field: { default: 0, min: 0 }
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "endOnLastLoop",
 				type: "boolean",
 				...this.io("endOnLastLoop"),
-				group: "loop"
-			}
+				group: "loop",
+			},
 		];
 	}
 
 	protected override async apply(section: SoundSection): Promise<void> {
 		if (await this.getInputValue("persist")) {
 			section.persist(true, {
-				persistTokenPrototype: await this.getInputValue("persistTokenPrototype")
+				persistTokenPrototype: await this.getInputValue("persistTokenPrototype"),
 			});
 		}
 
 		const extraEndDuration = await this.getInputValue("extraEndDuration");
-		if (extraEndDuration > 0) section.extraEndDuration(extraEndDuration);
+		if (extraEndDuration > 0)
+			section.extraEndDuration(extraEndDuration);
 
 		const loops = await this.getInputValue("loops");
 		const loopDelay = await this.getInputValue("loopDelay");

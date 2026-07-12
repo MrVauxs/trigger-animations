@@ -64,11 +64,11 @@ To add triggers, you can use the [Trigger Engine's registerTriggers](https://git
 
 ```json
 {
-  "flags": {
+	"flags": {
 		  "trigger-animations": {
 		  	"triggers": "modules/your-module/yourTriggersFile.json"
-	  	},
-  }
+	  	}
+	}
 }
 ```
 
@@ -84,21 +84,19 @@ Reasoning behind not including a trigger is most often due to the trigger being 
 | -------- | ------------------- | ------------------------------------------------------ |
 | ✓        | Action Sent to Chat | `item-slug`                                            |
 | ✓        | Attack Rolled       | `item-slug, weapon group, base-item`                   |
-| ✗        | Aura Entered        | *Too Specific*                                         |
-| ✗        | Aura Left           | *Too Specific*                                         |
+| ✗        | Aura Entered        | _Too Specific_                                         |
+| ✗        | Aura Left           | _Too Specific_                                         |
 | ✓        | Check Rolled        | `item-slug`                                            |
-| ✗        | Combatant Created   | *Too Specific*                                         |
-| ✗        | Combatant Removed   | *Too Specific*                                         |
+| ✗        | Combatant Created   | _Too Specific_                                         |
+| ✗        | Combatant Removed   | _Too Specific_                                         |
 | ✓        | Damage Taken        | `(damage\|healing\|persistent\|negated):item-slug`     |
-| ✗        | Execute Event       | ***Not Applicable***                                   |
-| !        | Item Added to Actor | `item-slug` (*only applies to Effects and Conditions*) |
-| ✗        | On Hook Called      | ***Not Applicable***                                   |
-| ✗        | Region Triggered    | *Too Specific*                                         |
-| ✗        | Test Event          | ***Not Applicable***                                   |
-| ✗        | Token Created       | *Too Specific*                                         |
-| ✗        | Token Moved         | *Too Specific*                                         |
-| ✗        | Token Removed       | *Too Specific*                                         |
-| ✗        | Turn End            | *Too Specific*                                         |
-| ✗        | Turn Start          | *Too Specific*                                         |
-
-
+| ✗        | Execute Event       | _**Not Applicable**_                                   |
+| !        | Item Added to Actor | `item-slug` (_only applies to Effects and Conditions_) |
+| ✗        | On Hook Called      | _**Not Applicable**_                                   |
+| ✗        | Region Triggered    | _Too Specific_                                         |
+| ✗        | Test Event          | _**Not Applicable**_                                   |
+| ✗        | Token Created       | _Too Specific_                                         |
+| ✗        | Token Moved         | _Too Specific_                                         |
+| ✗        | Token Removed       | _Too Specific_                                         |
+| ✗        | Turn End            | _Too Specific_                                         |
+| ✗        | Turn Start          | _Too Specific_                                         |

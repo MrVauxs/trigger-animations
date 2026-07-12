@@ -2,13 +2,14 @@ const DEFINED_KEY = "namedLocations:defined";
 const REQUESTED_KEY = "namedLocations:requested";
 
 interface ContextNode {
-	getContext<T>(key: string): T | undefined;
-	setContext<T>(key: string, value: T): T;
+	getContext: <T>(key: string) => T | undefined;
+	setContext: <T>(key: string, value: T) => T;
 }
 
 function getOrCreateSet(node: ContextNode, key: string): Set<string> {
 	const existing = node.getContext<Set<string>>(key);
-	if (existing) return existing;
+	if (existing)
+		return existing;
 	return node.setContext(key, new Set<string>());
 }
 
@@ -26,5 +27,5 @@ export function requestNamedLocation(node: ContextNode, name: string): void {
 export function unresolvedNamedLocations(node: ContextNode): string[] {
 	const defined = node.getContext<Set<string>>(DEFINED_KEY) ?? new Set<string>();
 	const requested = node.getContext<Set<string>>(REQUESTED_KEY) ?? new Set<string>();
-	return [...requested].filter((name) => !defined.has(name));
+	return [...requested].filter(name => !defined.has(name));
 }

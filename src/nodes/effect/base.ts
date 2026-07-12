@@ -1,6 +1,6 @@
-import { dev, devGroup, devLog, log } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { dev, devGroup, devLog, log } from "$lib/utils";
 import { EASE_OPTIONS } from "./constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -14,13 +14,13 @@ abstract class EffectModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { effect?: EffectSection },
 	{},
 	string,
 	string,
 	TState
-> {
+	> {
 	static override get category() {
 		return "effect";
 	}
@@ -80,13 +80,14 @@ abstract class EffectModifierNode<
 		raw: string | undefined,
 		what: string,
 	): TVal | undefined {
-		if (!raw?.trim()) return undefined;
+		if (!raw?.trim())
+			return undefined;
 		try {
 			const parsed = JSON.parse(raw);
 			if (
-				parsed &&
-				typeof parsed === "object" &&
-				Object.keys(parsed).length === 0
+				parsed
+				&& typeof parsed === "object"
+				&& Object.keys(parsed).length === 0
 			) {
 				return undefined;
 			}
@@ -98,9 +99,11 @@ abstract class EffectModifierNode<
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
-		if (!loc) return loc;
+		if (!loc)
+			return loc;
 		// Points state feeds a raw Point (type: "point"); targets state feeds a PositionSource (type: "position").
-		if (!("kind" in loc)) return { x: loc.x, y: loc.y };
+		if (!("kind" in loc))
+			return { x: loc.x, y: loc.y };
 
 		switch (loc.kind) {
 			case "point":
@@ -121,13 +124,17 @@ abstract class EffectModifierNode<
 	 * `target` entries ({ actor, token }) are unwrapped to their token.
 	 */
 	protected resolveObject(value: unknown): object | string | undefined {
-		if (!value) return undefined;
-		if (typeof value === "string") return value.trim() || undefined;
-		if (typeof value !== "object") return undefined;
+		if (!value)
+			return undefined;
+		if (typeof value === "string")
+			return value.trim() || undefined;
+		if (typeof value !== "object")
+			return undefined;
 		const obj = value as Record<string, unknown>;
 		// A target entry wrapper, as opposed to a raw document (which has x/y).
 		if ("actor" in obj && !("x" in obj)) {
-			if ("token" in obj) return obj.token as object;
+			if ("token" in obj)
+				return obj.token as object;
 		}
 		return obj;
 	}
@@ -142,7 +149,7 @@ abstract class EffectModifierNode<
 				const definedInputs = (this.constructor as typeof TriggerNode).defineInputs;
 				const inputs = Object.fromEntries(
 					await Promise.all(
-						(definedInputs ?? []).map(async (x) => [
+						(definedInputs ?? []).map(async x => [
 							x.key,
 							await this.getInputValue(x.key),
 						] as const),
@@ -151,10 +158,10 @@ abstract class EffectModifierNode<
 				g.log("applied", { effect, inputs });
 			}
 			try {
-				await this.apply(effect as EffectSection);
+				await this.apply(effect);
 			} catch (e) {
 				g.end();
-				log(`[${this.type}] error applying effect`, e)
+				log(`[${this.type}] error applying effect`, e);
 				return false;
 			}
 		} else {

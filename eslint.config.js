@@ -1,8 +1,12 @@
-import antfu from '@antfu/eslint-config'
+import antfu from "@antfu/eslint-config";
 
 export default antfu({
-  formatters: true,
-  typescript: {
-    tsconfigPath: 'tsconfig.json',
-  },
-})
+	formatters: true,
+	typescript: true,
+	stylistic: {
+		indent: "tab", // 4, or 'tab'
+		quotes: "double", // or 'double'
+		braceStyle: "1tbs", // '1tbs', or 'allman'
+		semi: true,
+	},
+});

@@ -1,14 +1,14 @@
-import { devGroup, devLog } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { defineNamedLocation, requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup, devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	name: string;
 	location: PositionSource;
 }
-type TOutputs = {}
+interface TOutputs {}
 
 class NamedLocationNode extends TriggerNode<
 	"out",
@@ -19,14 +19,12 @@ class NamedLocationNode extends TriggerNode<
 		return "named-location";
 	}
 
-
-
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	static io(key: string) {
@@ -42,18 +40,18 @@ class NamedLocationNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf02b" }
+		return { unicode: "\uF02B" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{ key: "name", type: "text", ...this.io("name") },
-			{ key: "location", type: "position", ...this.io("location") }
+			{ key: "location", type: "position", ...this.io("location") },
 		];
 	}
 
 	override async _execute(...args: any[]): Promise<boolean> {
-		const g = devGroup(`[Execute] ${this.type}`)
+		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = this.getContext<Sequence>("sequence");
 		const name = await this.getInputValue("name");
 		if (sequence && name) {
@@ -61,8 +59,9 @@ class NamedLocationNode extends TriggerNode<
 			if (location) {
 				sequence.addNamedLocation(name, location as any);
 				defineNamedLocation(this, name);
+			} else {
+				devLog(`[${this.type}] no location to name`);
 			}
-			else devLog(`[${this.type}] no location to name`);
 		}
 
 		g.log("Named Location Node", { name });

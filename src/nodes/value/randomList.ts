@@ -1,20 +1,20 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	list: string;
 	min: number;
 	max: number;
 	type: "integer" | "float";
 	any: any[];
 	recurse: boolean;
-};
+}
 
-type TOutputs = {
+interface TOutputs {
 	value: string | number | any;
-};
+}
 
 type TState = "list" | "between" | "any";
 
@@ -50,7 +50,7 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 
 	override get icon() {
 		// Font Awesome Pro unicode (dice), top right corner.
-		return { unicode: "\uf522" };
+		return { unicode: "\uF522" };
 	}
 
 	static localize(str: string) {
@@ -74,14 +74,14 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 				type: "number",
 				...this.io("min"),
 				state: "between",
-				field: { default: 0 }
+				field: { default: 0 },
 			},
 			{
 				key: "max",
 				type: "number",
 				...this.io("max"),
 				state: "between",
-				field: { default: 5 }
+				field: { default: 5 },
 			},
 			{
 				key: "type",
@@ -93,7 +93,7 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 					default: "integer",
 					options: ["integer", "float"],
 				},
-			}
+			},
 		];
 	}
 
@@ -101,7 +101,7 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 		return [
 			{ key: "value", type: "text", ...this.io("value"), state: "list" },
 			{ key: "value", type: "any", ...this.io("value"), state: "any" },
-			{ key: "value", type: "number", ...this.io("value"), state: "between" }
+			{ key: "value", type: "number", ...this.io("value"), state: "between" },
 		];
 	}
 
@@ -116,13 +116,15 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 		if (this.state === "any") {
 			const array = await this.getInputValue("any");
 			const recurse = await this.getInputValue("recurse");
-			result = Sequencer.Helpers.random_array_element(array, { recurse })
+			result = Sequencer.Helpers.random_array_element(array, { recurse });
 		} else if (this.state === "between") {
 			const min = await this.getInputValue("min");
 			const max = await this.getInputValue("max");
 			const type = await this.getInputValue("type");
-			if (type === "integer") result = Sequencer.Helpers.random_int_between(Math.min(min, max), Math.max(min, max));
-			if (type === "float") result = Sequencer.Helpers.random_float_between(Math.min(min, max), Math.max(min, max));
+			if (type === "integer")
+				result = Sequencer.Helpers.random_int_between(Math.min(min, max), Math.max(min, max));
+			if (type === "float")
+				result = Sequencer.Helpers.random_float_between(Math.min(min, max), Math.max(min, max));
 		} else {
 			const list = await this.getInputValue("list");
 			const candidates = (list ?? "")

@@ -1,6 +1,6 @@
-import { devGroup } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -13,15 +13,13 @@ abstract class CrosshairModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
-	"out",
+		"out",
 	TInputs & { crosshair?: CrosshairSection },
 	{},
 	string,
 	string,
 	TState
-> {
-
-
+	> {
 	static override get category() {
 		return "crosshair";
 	}
@@ -79,7 +77,7 @@ abstract class CrosshairModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const crosshair = await this.getInputValue("crosshair");
 		if (crosshair) {
-			await this.apply(crosshair as CrosshairSection);
+			await this.apply(crosshair);
 			g.log("applied", { crosshair });
 		} else {
 			g.log("no crosshair connected; skipping");

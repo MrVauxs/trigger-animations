@@ -1,18 +1,18 @@
-import { id as moduleId } from "moduleJSON";
 import { devLog } from "$lib/utils";
+import { id as moduleId } from "moduleJSON";
 
 const VOLUME_KEY = "volume";
 const SLIDER_ID = "trigger-animations-volume-slider";
 /** Marks the authored (pre-multiplier) volume on a sound/effect data object. */
 const BASE = "_taBaseVolume" as const;
 
-type ScalableData = {
+interface ScalableData {
 	volume?: number;
 	[BASE]?: number;
 	/** Present on placed/spatial sounds, absent on global ones. */
 	source?: unknown;
 	global?: boolean;
-};
+}
 
 const settingString = (property: string) => `trigger-animations.settings.${VOLUME_KEY}.${property}`;
 
@@ -33,27 +33,33 @@ export function getVolume(): number {
  * remembering the authored value the first time so re-application stays exact.
  */
 function scaleData(data: ScalableData | undefined): void {
-	if (!data || typeof data.volume !== "number") return;
-	if (data[BASE] === undefined) data[BASE] = data.volume;
+	if (!data || typeof data.volume !== "number")
+		return;
+	if (data[BASE] === undefined)
+		data[BASE] = data.volume;
 	data.volume = data[BASE] * currentVolume;
 }
 
 /** Re-apply the current volume to everything already playing, live. */
 function reapplyToRunning(): void {
-	for (const sound of (Sequencer.SoundManager.sounds ?? []) as any[]) {
+	for (const sound of (Sequencer.SoundManager.sounds ?? [])) {
 		const data = sound?.data as ScalableData | undefined;
-		if (!data || data[BASE] === undefined) continue;
-		data.volume = (data[BASE] as number) * currentVolume;
+		if (!data || data[BASE] === undefined)
+			continue;
+		data.volume = (data[BASE]) * currentVolume;
 		const placed = !!(data.source && !data.global);
-		if (!placed && sound.sound) sound.sound.volume = data.volume;
+		if (!placed && sound.sound)
+			sound.sound.volume = data.volume;
 	}
 
 	const coreVolume = sanitize(game.settings.get("core", "globalInterfaceVolume"));
-	for (const effect of (Sequencer.EffectManager.effects ?? []) as any[]) {
+	for (const effect of (Sequencer.EffectManager.effects ?? [])) {
 		const data = effect?.data as ScalableData | undefined;
-		if (!data || data[BASE] === undefined) continue;
-		data.volume = (data[BASE] as number) * currentVolume;
-		if (effect.sprite) effect.sprite.volume = data.volume * coreVolume;
+		if (!data || data[BASE] === undefined)
+			continue;
+		data.volume = (data[BASE]) * currentVolume;
+		if (effect.sprite)
+			effect.sprite.volume = data.volume * coreVolume;
 	}
 
 	syncSlider();
@@ -62,7 +68,8 @@ function reapplyToRunning(): void {
 /** Reflect the current volume in the injected playlist slider (unless the user is dragging it). */
 function syncSlider(): void {
 	const input = document.getElementById(SLIDER_ID) as HTMLInputElement | null;
-	if (input && document.activeElement !== input) input.value = String(currentVolume);
+	if (input && document.activeElement !== input)
+		input.value = String(currentVolume);
 }
 
 /**
@@ -85,10 +92,12 @@ let persist: (value: number) => void = () => { };
 /** Inject the "Animation Volume" slider into Foundry's User Volume Controls. */
 function injectSlider(root: HTMLElement | JQuery<HTMLElement>): void {
 	const html = root instanceof HTMLElement ? root : root?.[0];
-	if (!html) return devLog("No html found for volume slider.");
+	if (!html)
+		return devLog("No html found for volume slider.");
 
 	const list = html.querySelector(".global-volume ol");
-	if (!list || list.querySelector(`#${SLIDER_ID}`)) return;
+	if (!list || list.querySelector(`#${SLIDER_ID}`))
+		return;
 
 	const li = document.createElement("li");
 	li.className = "flexrow trigger-animations-volume";

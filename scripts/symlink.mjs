@@ -1,12 +1,12 @@
-import { lstatSync, rmSync, symlinkSync, unlinkSync, readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { lstatSync, readFileSync, rmSync, symlinkSync, unlinkSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
+import { resolve } from "node:path";
 import process from "node:process";
 import * as p from "@clack/prompts";
-import moduleJSON from "../module.json" with { type: "json" };
 import { yellow } from "kolorist";
+import moduleJSON from "../module.json" with { type: "json" };
 
-p.intro(`${moduleJSON.id} symlink script`)
+p.intro(`${moduleJSON.id} symlink script`);
 
 // Store config in user's home directory
 const configPath = resolve(homedir(), ".foundry-symlink-config.json");
@@ -29,12 +29,12 @@ const promptPath = await p.text({
 	validate(val) {
 		const value = val.replace(/\W*$/, "").trim();
 		if (!value || !/\bData$/.test(value)) {
-			return (`"${value}" does not contain ${yellow('/Data')}`);
+			return (`"${value}" does not contain ${yellow("/Data")}`);
 		}
-	}
+	},
 });
 
-let dataPath = promptPath.replace(/\W*$/, "").trim();
+const dataPath = promptPath.replace(/\W*$/, "").trim();
 
 if (dataPath !== lastPath) {
 	// Ask if user wants to save the path

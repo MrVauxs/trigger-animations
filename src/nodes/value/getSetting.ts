@@ -1,12 +1,12 @@
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { devGroup } from "$lib/utils";
-import { TriggerEngine as T } from "trigger-engine/types";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	module: string;
 	key: string;
-};
+}
 
 class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output"> {
 	static override get type() {
@@ -32,7 +32,7 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 
 	override get icon() {
 		// Font Awesome Pro unicode (gear), top right corner.
-		return { unicode: "\uf013" };
+		return { unicode: "\uF013" };
 	}
 
 	static localize(str: string) {
@@ -49,7 +49,7 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			{ key: "module", type: "text", ...this.io("module") },
-			{ key: "key", type: "text", ...this.io("key") }
+			{ key: "key", type: "text", ...this.io("key") },
 		];
 	}
 
@@ -62,8 +62,8 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 				types: ["boolean", "number", "text", "any"],
 				array: true,
 				label: this.localize("io.output.title"),
-				tooltip: this.localize("io.output.tooltip")
-			}
+				tooltip: this.localize("io.output.tooltip"),
+			},
 		];
 	}
 
@@ -72,7 +72,7 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 
 		const setting = this.#getSetting(
 			await this.getInputValue("module"),
-			await this.getInputValue("key")
+			await this.getInputValue("key"),
 		);
 
 		g.log("Get Setting Node", { key, setting });
@@ -82,7 +82,8 @@ class GetSettingNode extends TriggerNode<never, TInputs, never, never, "output">
 	}
 
 	#getSetting(module: string, key: string): unknown {
-		if (!module || !key) return undefined;
+		if (!module || !key)
+			return undefined;
 		try {
 			return game.settings.get(module, key);
 		} catch {

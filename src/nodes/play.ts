@@ -1,15 +1,15 @@
-import { devGroup, devLog, log } from "$lib/utils";
+import type { TriggerEngine as T } from "trigger-engine/types";
 import { unresolvedNamedLocations } from "$lib/namedLocations";
-import { TriggerEngine as T } from "trigger-engine/types";
+import { devLog, log } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
-type TInputs = {
+interface TInputs {
 	remote: boolean;
 	preload: boolean;
 	local: boolean;
 }
-type TOutputs = {}
+interface TOutputs {}
 
 class PlayNode extends TriggerNode<
 	"out",
@@ -21,11 +21,11 @@ class PlayNode extends TriggerNode<
 	}
 
 	static override get category() {
-		return "sequence"
+		return "sequence";
 	}
 
 	static localize(str: string) {
-		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`
+		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}
 
 	override get headerColor() {
@@ -34,7 +34,7 @@ class PlayNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "\uf04b" }
+		return { unicode: "\uF04B" };
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
@@ -43,21 +43,21 @@ class PlayNode extends TriggerNode<
 				key: "remote",
 				type: "boolean",
 				label: this.localize("io.remote.title"),
-				tooltip: this.localize("io.remote.tooltip")
+				tooltip: this.localize("io.remote.tooltip"),
 			},
 			{
 				key: "preload",
 				type: "boolean",
 				field: { default: true },
 				label: this.localize("io.preload.title"),
-				tooltip: this.localize("io.preload.tooltip")
+				tooltip: this.localize("io.preload.tooltip"),
 			},
 			{
 				key: "local",
 				type: "boolean",
 				label: this.localize("io.local.title"),
-				tooltip: this.localize("io.local.tooltip")
-			}
+				tooltip: this.localize("io.local.tooltip"),
+			},
 		];
 	}
 
@@ -79,9 +79,9 @@ class PlayNode extends TriggerNode<
 		const seq = await sequence.play({
 			remote: await this.getInputValue("remote"),
 			preload: await this.getInputValue("preload"),
-			local: await this.getInputValue("local")
+			local: await this.getInputValue("local"),
 		});
-		devLog("Playing Sequence", sequence)
+		devLog("Playing Sequence", sequence);
 
 		return this.executeNext("out");
 	}
