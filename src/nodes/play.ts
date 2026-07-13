@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { unresolvedNamedLocations } from "$lib/namedLocations";
+import { getNamedLocations, unresolvedNamedLocations } from "$lib/namedLocations";
 import { devLog, log } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -74,9 +74,11 @@ class PlayNode extends TriggerNode<
 			const list = unresolved.join(", ");
 			log(`[${this.type}] named location(s) never defined; effects using them will not play: ${list}`);
 			ui.notifications.warn(`Trigger Animations: named location(s) not found: ${list}`);
+		} else {
+			devLog(`[${this.type}] Named Locations`, getNamedLocations(this));
 		}
 
-		const seq = await sequence.play({
+		await sequence.play({
 			remote: await this.getInputValue("remote"),
 			preload: await this.getInputValue("preload"),
 			local: await this.getInputValue("local"),

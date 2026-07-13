@@ -23,6 +23,11 @@ export function requestNamedLocation(node: ContextNode, name: string): void {
 	getOrCreateSet(node, REQUESTED_KEY).add(name);
 }
 
+/** Get all named locations */
+export function getNamedLocations(node: ContextNode): string[] {
+	return Array.from(node.getContext<Set<string>>(DEFINED_KEY) ?? new Set<string>());
+}
+
 /** Requested names that no Named Location node defined; empty when all resolve. */
 export function unresolvedNamedLocations(node: ContextNode): string[] {
 	const defined = node.getContext<Set<string>>(DEFINED_KEY) ?? new Set<string>();

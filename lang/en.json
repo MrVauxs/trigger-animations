@@ -298,6 +298,10 @@
 							"crosshair": {
 								"title": "Crosshair",
 								"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
+							},
+							"positionName": {
+								"title": "Position Name",
+								"tooltip": "Simply outputs the name of the Crosshair as you've input it."
 							}
 						}
 					},

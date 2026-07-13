@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { defineNamedLocation } from "$lib/namedLocations";
 import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -8,6 +9,7 @@ interface TInputs {
 }
 interface TOutputs {
 	crosshair?: CrosshairSection;
+	positionName?: string;
 }
 
 class CrosshairNode extends TriggerNode<
@@ -55,6 +57,12 @@ class CrosshairNode extends TriggerNode<
 				label: this.localize("io.crosshair.title"),
 				tooltip: this.localize("io.crosshair.tooltip"),
 			},
+			{
+				key: "positionName",
+				type: "text",
+				label: this.localize("io.positionName.title"),
+				tooltip: this.localize("io.positionName.tooltip"),
+			},
 		];
 	}
 
@@ -68,11 +76,18 @@ class CrosshairNode extends TriggerNode<
 		}
 
 		const name = await this.getInputValue("name");
-		const crosshair = sequence.crosshair(name || undefined);
-		this.setOutputValue("crosshair", crosshair);
+		if (name) {
+			const crosshair = sequence.crosshair(name);
+			defineNamedLocation(this, name);
+			this.setOutputValue("crosshair", crosshair);
+			this.setOutputValue("positionName", name);
 
-		g.log("Crosshair Node", { sequence, name, crosshair });
-		g.end();
+			g.log("Crosshair Node", { sequence, name, crosshair });
+			g.end();
+		} else {
+			g.log("Crosshair Node", "no Name provided to Crosshair node!");
+			g.end();
+		}
 
 		return this.executeNext("out");
 	}

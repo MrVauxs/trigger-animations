@@ -1,5 +1,7 @@
-# Unreleased
-- Changed Sound Location node toLocation and moveTowards to use Position entries instead of Target.
+# 0.5.2
+- (Nodes) Changed Sound Location node toLocation and moveTowards to use Position entries instead of Target.
+- (Nodes) Added a "Position Name" output to the Crosshair node, allowing you to connect it to other nodes without having to create a separate text variable.
+- (Nodes) Fixed Crosshair node not adding a named location to the trigger context, causing erroneous warnings about a request name not being added.
 
 # 0.5.1
 - Fixed ready hook being triggered in the wrong place, effectively doing nothing.
