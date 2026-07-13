@@ -142,7 +142,7 @@ export default defineConfig(({ command }) => {
 								const fileName = `${base}.json`;
 								fs.writeFileSync(
 									path.join(outDir, fileName),
-									JSON.stringify(purgeObject(trigger) ?? {}, null, "\t"),
+									`${JSON.stringify(purgeObject(trigger) ?? {}, null, "\t")}\n`,
 								);
 								writtenNames.add(fileName);
 							}
