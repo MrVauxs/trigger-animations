@@ -73,7 +73,8 @@ async function injectEnableButton(element: HTMLElement) {
 	if (game.system.id !== "pf2e" && game.system.id !== "sf2e")
 		return;
 
-	const { default: triggers } = await import("../dist/pf2e-trigger.json");
+	const triggers = await fetch("modules/trigger-animations/dist/pf2e-trigger.json")
+		.then(r => r.json()) as { id: string }[];
 	const triggerSettings = game.settings.get("trigger-engine", "pf2e-trigger-triggers") as { enabled: string[] };
 	const containsAll = triggers.map(t => t.id).every(x => triggerSettings.enabled.includes(x));
 	devLog("Is every pf2e-trigger enabled?", containsAll);
