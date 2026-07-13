@@ -1,3 +1,6 @@
+# 0.5.3
+- Added a "Enable Required Triggers" button to the welcome message. Automatically opens the Trigger Engine sheet, enables the triggers from the module, and saves.
+
 # 0.5.2
 - (Nodes) Changed Sound Location node toLocation and moveTowards to use Position entries instead of Target.
 - (Nodes) Added a "Position Name" output to the Crosshair node, allowing you to connect it to other nodes without having to create a separate text variable.

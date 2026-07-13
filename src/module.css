@@ -339,5 +339,31 @@
 				cursor: pointer;
 			}
 		}
+
+		& .welcome-enable {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			width: 100%;
+			margin-top: 0.6rem;
+			padding: 0.55rem 0.9rem;
+			border: 1px solid rgba(46, 204, 142, 0.85);
+			border-radius: 6px;
+			font-weight: bold;
+			color: #06281c;
+			background: #2ecc8e;
+			cursor: pointer;
+			transition: filter 150ms ease;
+
+			&:hover:not(:disabled) {
+				filter: brightness(1.1);
+			}
+
+			&:disabled {
+				cursor: default;
+				opacity: 0.6;
+			}
+		}
 	}
 }
