@@ -84,7 +84,7 @@ class ScrollingTextNode extends TriggerNode<
 		const targetInput = await this.getInputValue("target");
 		const target = targetInput ? this.getLocation(targetInput) : undefined;
 		if (target)
-			scrollingText.atLocation(target as any);
+			scrollingText.atLocation(target);
 
 		const text = await this.getInputValue("text");
 		if (text) {

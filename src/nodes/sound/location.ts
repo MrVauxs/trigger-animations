@@ -71,9 +71,9 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 			if (this.state === "attachTo") {
 				const bindVisibility = await this.getInputValue("bindVisibility");
 				const bindElevation = await this.getInputValue("bindElevation");
-				section.attachTo(location as any, { bindVisibility, bindElevation });
+				section.attachTo(location, { bindVisibility, bindElevation });
 			} else {
-				section.atLocation(location as any, { gridUnits });
+				section.atLocation(location, { gridUnits });
 			}
 		}
 
@@ -82,7 +82,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 			const toLocation = this.getLocation({ kind: "target", actor: toTargetValue.actor, token: toTargetValue.token ?? undefined });
 			if (toLocation) {
 				const gridUnits = await this.getInputValue("gridUnits");
-				section.toLocation(toLocation as any, { gridUnits });
+				section.toLocation(toLocation, { gridUnits });
 			}
 		}
 
@@ -93,7 +93,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 				const moveEase = await this.getInputValue("moveEase");
 				const moveDelay = await this.getInputValue("moveDelay");
 				// @ts-expect-error Sequencer types require a target field in options
-				section.moveTowards(moveTowards as any, { ease: moveEase, delay: moveDelay });
+				section.moveTowards(moveTowards, { ease: moveEase, delay: moveDelay });
 			}
 		}
 

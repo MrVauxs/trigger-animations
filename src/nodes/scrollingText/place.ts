@@ -33,7 +33,7 @@ class ScrollingTextPlaceNode extends ScrollingTextModifierNode<TInputs> {
 	protected override async apply(section: ScrollingTextSection): Promise<void> {
 		const location = this.getLocation(await this.getInputValue("location"));
 		if (location)
-			section.atLocation(location as any);
+			section.atLocation(location);
 
 		if (await this.getInputValue("locally"))
 			section.locally(true);

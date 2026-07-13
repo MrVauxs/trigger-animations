@@ -84,7 +84,7 @@ async function openTemplateDialog(item: Item) {
 		window: { title: "Trigger Animations – New Template", icon: "fas fa-film" },
 		// `content` accepts HTMLDivElement, but typing it as such makes
 		// DeepPartial<DialogV2Configuration> recurse infinitely (TS2589).
-		content,
+		content: content as any,
 		ok: {
 			label: "Create Blueprint",
 			icon: "fas fa-check",

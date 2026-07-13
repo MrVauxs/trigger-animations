@@ -57,7 +57,7 @@ class NamedLocationNode extends TriggerNode<
 		if (sequence && name) {
 			const location = this.getLocation(await this.getInputValue("location"));
 			if (location) {
-				sequence.addNamedLocation(name, location as any);
+				sequence.addNamedLocation(name, location);
 				defineNamedLocation(this, name);
 			} else {
 				devLog(`[${this.type}] no location to name`);
