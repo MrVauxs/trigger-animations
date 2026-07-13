@@ -1,3 +1,6 @@
+# 0.5.4
+- (Node) Increase (decrease?) the "From" and "To" number inputs step for Animate Property node to `0.01`.
+
 # 0.5.3
 - Added a "Enable Required Triggers" button to the welcome message. Automatically opens the Trigger Engine sheet, enables the triggers from the module, and saves.
 
