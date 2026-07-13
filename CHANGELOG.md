@@ -1,3 +1,6 @@
+# Unreleased
+- Changed Sound Location node toLocation and moveTowards to use Position entries instead of Target.
+
 # 0.5.1
 - Fixed ready hook being triggered in the wrong place, effectively doing nothing.
 

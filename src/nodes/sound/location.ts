@@ -6,8 +6,8 @@ interface TInputs {
 	gridUnits: boolean;
 	bindVisibility: boolean;
 	bindElevation: boolean;
-	toTarget: TargetDocuments;
-	moveTowards: TargetDocuments;
+	toTarget: PositionSource;
+	moveTowards: PositionSource;
 	moveSpeed: number;
 	moveEase: string;
 	moveDelay: number;
@@ -44,8 +44,8 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits") },
 			{ key: "bindVisibility", type: "boolean", ...this.io("bindVisibility"), state: "attachTo", field: { default: true } },
 			{ key: "bindElevation", type: "boolean", ...this.io("bindElevation"), state: "attachTo", field: { default: true } },
-			{ key: "toTarget", type: "target", ...this.io("toTarget"), group: "toLocation" },
-			{ key: "moveTowards", type: "target", ...this.io("moveTowards"), group: "move" },
+			{ key: "toTarget", type: "position", ...this.io("toTarget"), group: "toLocation" },
+			{ key: "moveTowards", type: "position", ...this.io("moveTowards"), group: "move" },
 			{
 				key: "moveSpeed",
 				type: "number",
@@ -77,24 +77,18 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 			}
 		}
 
-		const toTargetValue = await this.getInputValue("toTarget");
-		if (toTargetValue) {
-			const toLocation = this.getLocation({ kind: "target", actor: toTargetValue.actor, token: toTargetValue.token ?? undefined });
-			if (toLocation) {
-				const gridUnits = await this.getInputValue("gridUnits");
-				section.toLocation(toLocation, { gridUnits });
-			}
+		const toLocation = this.getLocation(await this.getInputValue("toTarget"));
+		if (toLocation) {
+			const gridUnits = await this.getInputValue("gridUnits");
+			section.toLocation(toLocation, { gridUnits });
 		}
 
-		const moveTowardsValue = await this.getInputValue("moveTowards");
-		if (moveTowardsValue) {
-			const moveTowards = this.getLocation({ kind: "target", actor: moveTowardsValue.actor, token: moveTowardsValue.token ?? undefined });
-			if (moveTowards) {
-				const moveEase = await this.getInputValue("moveEase");
-				const moveDelay = await this.getInputValue("moveDelay");
-				// @ts-expect-error Sequencer types require a target field in options
-				section.moveTowards(moveTowards, { ease: moveEase, delay: moveDelay });
-			}
+		const moveTowards = this.getLocation(await this.getInputValue("moveTowards"));
+		if (moveTowards) {
+			const moveEase = await this.getInputValue("moveEase");
+			const moveDelay = await this.getInputValue("moveDelay");
+			// @ts-expect-error Sequencer types require a target field in options
+			section.moveTowards(moveTowards, { ease: moveEase, delay: moveDelay });
 		}
 
 		const moveSpeed = await this.getInputValue("moveSpeed");
