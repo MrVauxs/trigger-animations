@@ -22,6 +22,7 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
+		const options = ["", ...Sequencer.Presets.getAll().keys().toArray()];
 		return [
 			this.animationInput,
 			{
@@ -37,8 +38,8 @@ class AnimationMiscNode extends AnimationModifierNode<TInputs> {
 				...this.io("preset"),
 				field: {
 					type: "select",
-					default: Sequencer.Presets.getAll().keys().toArray()[0],
-					options: Sequencer.Presets.getAll().keys().toArray(),
+					default: options[0],
+					options,
 				},
 			},
 		];

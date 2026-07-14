@@ -30,6 +30,7 @@ class ScrollingTextFlowNode extends ScrollingTextModifierNode<TInputs> {
 	}
 
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
+		const options = ["", ...Sequencer.Presets.getAll().keys().toArray()];
 		return [
 			this.scrollingTextInput,
 			{ key: "playIf", type: "boolean", ...this.io("playIf"), field: { default: true } },
@@ -48,8 +49,8 @@ class ScrollingTextFlowNode extends ScrollingTextModifierNode<TInputs> {
 				...this.io("preset"),
 				field: {
 					type: "select",
-					default: Sequencer.Presets.getAll().keys().toArray()[0],
-					options: Sequencer.Presets.getAll().keys().toArray(),
+					default: options[0],
+					options,
 				},
 			},
 		];

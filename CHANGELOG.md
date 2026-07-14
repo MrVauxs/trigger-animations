@@ -1,5 +1,7 @@
 # 0.6.0
 - TODO: Added a user input to Crosshair and Pick Location nodes to set who should be making the selection.
+- (Node) Added a user input to Execute Animation.
+- Fixed various preset inputs not having a "none" option.
 
 # 0.5.4
 - (Node) Increase (decrease?) the "From" and "To" number inputs step for Animate Property node to `0.01`.
