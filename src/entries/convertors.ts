@@ -47,29 +47,29 @@ const positionConvertors = [
 	{
 		output: "position",
 		input: "target",
-		convertToInput: (value: PositionSource): TargetDocuments | undefined => {
-			return value.kind === "target" ? { actor: value.actor, token: value.token } : undefined;
+		convertToInput: (value?: PositionSource): TargetDocuments | undefined => {
+			return value?.kind === "target" ? { actor: value.actor, token: value.token } : undefined;
 		},
 	},
 	{
 		output: "position",
 		input: "region",
-		convertToInput: (value: PositionSource): RegionDocument | undefined => {
-			return value.kind === "region" ? value.region : undefined;
+		convertToInput: (value?: PositionSource): RegionDocument | undefined => {
+			return value?.kind === "region" ? value.region : undefined;
 		},
 	},
 	{
 		output: "position",
 		input: "point",
-		convertToInput: (value: PositionSource): Point | undefined => {
-			return value.kind === "point" ? { x: value.x, y: value.y } : undefined;
+		convertToInput: (value?: PositionSource): Point | undefined => {
+			return value?.kind === "point" ? { x: value.x, y: value.y } : undefined;
 		},
 	},
 	{
 		output: "position",
 		input: "text",
-		convertToInput: (value: PositionSource): string | undefined => {
-			return value.kind === "name" ? value.name : undefined;
+		convertToInput: (value?: PositionSource): string | undefined => {
+			return value?.kind === "name" ? value.name : undefined;
 		},
 	},
 	// #endregion

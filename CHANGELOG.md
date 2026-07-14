@@ -1,5 +1,9 @@
+# 0.6.0
+- TODO: Added a user input to Crosshair and Pick Location nodes to set who should be making the selection.
+
 # 0.5.4
 - (Node) Increase (decrease?) the "From" and "To" number inputs step for Animate Property node to `0.01`.
+- Fixed various nodes breaking when passed undefined Positions.
 
 # 0.5.3
 - Added a "Enable Required Triggers" button to the welcome message. Automatically opens the Trigger Engine sheet, enables the triggers from the module, and saves.

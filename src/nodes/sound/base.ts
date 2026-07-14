@@ -72,8 +72,8 @@ abstract class SoundModifierNode<
 		return null;
 	}
 
-	getLocation(loc: PositionSource): TokenDocument | Point | RegionDocument | string | undefined {
-		switch (loc.kind) {
+	getLocation(loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | string | undefined {
+		switch (loc?.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
 			case "region":

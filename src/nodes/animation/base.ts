@@ -99,7 +99,7 @@ abstract class AnimationModifierNode<
 		if (!("kind" in loc))
 			return { x: loc.x, y: loc.y };
 
-		switch (loc.kind) {
+		switch (loc?.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
 			case "region":
