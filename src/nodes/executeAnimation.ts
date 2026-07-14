@@ -12,6 +12,7 @@ interface TInputs {
 	item?: Item;
 	options: string[];
 	await: boolean;
+	user: User;
 }
 
 interface TOutputs {
@@ -63,6 +64,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			{ key: "item", type: "item", ...this.io("item") },
 			{ key: "options", type: "text", isArray: true, ...this.io("options") },
 			{ key: "await", type: "boolean", ...this.io("await") },
+			{ key: "user", type: "user" },
 		];
 	}
 
@@ -95,6 +97,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			sources: await this.getInputValue("sources"),
 			targets: await this.getInputValue("targets"),
 			userInputs: await this.getCustomInputs("input"),
+			user: await this.getInputValue("user"),
 			// addons
 			sequence,
 			stopRecursionFor: [recursionGuard, ...stopRecursionFor],

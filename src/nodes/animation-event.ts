@@ -22,7 +22,8 @@ interface StartNodeOptions {
 	targets?: TargetDocuments[];
 	sources?: TargetDocuments[];
 	options?: string[];
-	userInputs: T.EmitableValue[];
+	userInputs: { type: string; value: any }[];
+	user?: User;
 	// addons
 	sequence?: Sequence;
 	stopRecursionFor?: string[];
@@ -128,6 +129,7 @@ class StartNode extends TriggerNode<
 				item: "item",
 				targets: "target",
 				sources: "target",
+				user: "user",
 			},
 			["userInputs"],
 		);
@@ -139,7 +141,7 @@ class StartNode extends TriggerNode<
 	override async _execute(emitable: any): Promise<boolean> {
 		const convertedData = await this.convertStartObjectFromEmitable(emitable);
 		devLog("Running animation-event", convertedData);
-		const { name, item, targets, sources, actor, options, userInputs, sequence: passedSequence, stopRecursionFor } = convertedData;
+		const { name, item, targets, sources, actor, options, userInputs, user, sequence: passedSequence, stopRecursionFor } = convertedData;
 		if (!name)
 			return true;
 
@@ -150,6 +152,8 @@ class StartNode extends TriggerNode<
 			this.setContext("recursionGuard", name);
 			this.setContext("stopRecursionFor", stopRecursionFor || []);
 		}
+
+		this.setContext("user", user);
 
 		/**
 		 * The name the animation-event node has.

@@ -22,6 +22,9 @@ class StartHook extends TriggerHook {
 		const { id, local } = trigger;
 		const { sequence, ...rest } = data;
 
+		if (!rest.user)
+			rest.user = game.user;
+
 		const emitable = socket
 			? rest
 			: this.convertObjectToEmitable(
@@ -31,6 +34,7 @@ class StartHook extends TriggerHook {
 						item: "item",
 						targets: "target",
 						sources: "target",
+						user: "user",
 					},
 					["userInputs"],
 				);
