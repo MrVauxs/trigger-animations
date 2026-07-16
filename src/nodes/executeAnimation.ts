@@ -97,7 +97,7 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			sources: await this.getInputValue("sources"),
 			targets: await this.getInputValue("targets"),
 			userInputs: await this.getCustomInputs("input"),
-			user: await this.getInputValue("user"),
+			user: await this.getInputValue("user") ?? this.userContext,
 			// addons
 			sequence,
 			stopRecursionFor: [recursionGuard, ...stopRecursionFor],

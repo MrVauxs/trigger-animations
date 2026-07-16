@@ -153,7 +153,9 @@ class StartNode extends TriggerNode<
 			this.setContext("stopRecursionFor", stopRecursionFor || []);
 		}
 
-		this.setContext("user", user);
+		if (user && user instanceof User)
+			// @ts-expect-error userContext exects UserPF2e which is a wrong error
+			this.userContext = user;
 
 		/**
 		 * The name the animation-event node has.

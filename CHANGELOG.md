@@ -1,5 +1,6 @@
 # 0.6.0
 - TODO: Added a user input to Crosshair and Pick Location nodes to set who should be making the selection.
+- Trigger Animation nodes now assume the userContext of the passed user input in Execute Animation.
 
 # 0.5.5
 - (Node) Added a user input to Execute Animation.
