@@ -70,19 +70,24 @@ export class API {
 		devLog("API is ready.", this.ready);
 	}
 
-	queries = {
-		showCrosshair: async (data: Record<any, any>) => {
-			const crosshairData = s.parse(data.serialized);
+	private queries = {
+		showCrosshair: async (data: { serialized: string }) => {
+			const crosshairData = s.parse(data.serialized) as Parameters<typeof Sequencer.Crosshair.show>[0];
 			devLog("Received query showCrosshair", crosshairData);
-			return crosshairData;
+
+			const template = await Sequencer.Crosshair.show(crosshairData);
+			return JSON.stringify(template);
 		},
 	} as const;
 
-	query<T extends keyof typeof this.queries>(user: User, type: T, data: Parameters<typeof this.queries[T]>, options: Record<string, any> = {}) {
+	async query<T extends keyof typeof this.queries>(user: User, type: T, data: Parameters<typeof this.queries[T]>, options: Record<string, any> = {}) {
 		options.timeout ??= 30 * 1000; // 30 second timeout
 		if (!CONFIG.queries[type])
 			type = `${id}.${type}` as T;
-		return user.query(type, { serialized: s.stringify(data) }, options);
+
+		devLog(`Running query ${type} for ${user.name}`, data);
+		const query = await user.query(type, { serialized: s.stringify(data) }, options) as string;
+		return JSON.parse(query);
 	}
 
 	async openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
