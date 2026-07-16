@@ -1,5 +1,6 @@
 # 0.6.0
-- TODO: Added a user input to Crosshair and Pick Location nodes to set who should be making the selection.
+- TODO: Added a user input to Crosshair and Pick Location nodes to set who should be making the selection. Default is the triggers userContext.
+- (Animations) Added wildcard options (attack:\*bow\*) in example weapon animations as there may be occurences where all you have to rely on is a slug, e.g. attack:shortbow, which does not match attack:bow.
 - Trigger Animation nodes now assume the userContext of the passed user input in Execute Animation.
 
 # 0.5.5

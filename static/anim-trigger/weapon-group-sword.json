@@ -15,7 +15,7 @@
 			"type": "animation-event",
 			"inputs": {
 				"name": {
-					"value": "attack:sword"
+					"value": "attack:sword, attack:*sword*"
 				}
 			},
 			"custom": {
