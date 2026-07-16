@@ -1,13 +1,13 @@
 {
 	"name": "trigger-animations",
-	"type": "module",
-	"private": true,
-	"license": "MIT",
 	"browserslist": [
 		"last 2 Chrome versions",
 		"last 2 Firefox versions",
 		"last 2 Edge versions"
 	],
+	"type": "module",
+	"private": true,
+	"license": "MIT",
 	"exports": {
 		"./types": {
 			"types": "./src/types.d.ts"
@@ -34,6 +34,7 @@
 		"@antfu/eslint-config": "^9.1.0",
 		"@clack/prompts": "^1.0.0-alpha.9",
 		"@foundryvtt/foundryvtt-cli": "^3.0.2",
+		"devalue": "^5.8.1",
 		"dotenv": "^17.2.3",
 		"eslint": "^10.5.0",
 		"eslint-plugin-format": "^2.0.1",

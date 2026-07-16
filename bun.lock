@@ -9,6 +9,7 @@
         "@antfu/eslint-config": "^9.1.0",
         "@clack/prompts": "^1.0.0-alpha.9",
         "@foundryvtt/foundryvtt-cli": "^3.0.2",
+        "devalue": "^5.8.1",
         "dotenv": "^17.2.3",
         "eslint": "^10.5.0",
         "eslint-plugin-format": "^2.0.1",

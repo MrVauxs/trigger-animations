@@ -4,6 +4,7 @@ import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
 import { dev, devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
+import { useQuery } from "./lib/queries";
 import { BUILTIN_TEMPLATES } from "./templateButton/templates";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
@@ -65,6 +66,8 @@ export class API {
 		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api);
 		devLog("API is ready.", this.ready);
 	}
+
+	query = (...args: Parameters<typeof useQuery>) => useQuery(args[0], `${id}.${args[1]}`, args[2], args[3]);
 
 	async openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args) as Promise<BlueprintApplication>;
