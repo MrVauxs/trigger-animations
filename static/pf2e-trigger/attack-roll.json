@@ -6,7 +6,7 @@
 		"pf2e",
 		"sf2e"
 	],
-	"id": "bKz9zdZjtWRQYnIj",
+	"id": "cW7E3Lbf6GSKlaUH",
 	"nodes": [
 		{
 			"type": "attack-roll-event",
@@ -17,15 +17,15 @@
 			"id": "vO6y3ku71G3HWGfP",
 			"outs": {
 				"out": {
-					"connection": "J4upselpWIkszsLI:ins:in"
+					"connection": "UxeLRtsefDAe93KG:ins:in"
 				}
 			}
 		},
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 876.4414848662253,
-				"y": 184.62226598527687
+				"x": 575.6081365520098,
+				"y": 192.95562448066747
 			},
 			"id": "zJiAEHL0uEXPz5FL",
 			"custom": {
@@ -69,100 +69,43 @@
 					"connection": "vO6y3ku71G3HWGfP:outputs:origin"
 				},
 				"name": {
-					"connection": "QoEt9czf1ZflFE45:outputs:result"
+					"connection": "UxeLRtsefDAe93KG:outputs:rSOPCaguCbXkZdeF"
 				}
 			}
 		},
 		{
-			"type": "extract-item",
+			"type": "execute-script",
 			"position": {
-				"x": 291.92596867388835,
-				"y": 116.51853377263234
+				"x": 275.0000057057621,
+				"y": 192.66664740789844
 			},
-			"id": "J4upselpWIkszsLI",
-			"custom": {
-				"outputs": {
-					"ORwOjJ9EF0ULW2b8": {
-						"id": "ORwOjJ9EF0ULW2b8",
-						"input": "slug",
-						"label": "Slug",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"0aDLtYahwjpAiYC0": {
-						"id": "0aDLtYahwjpAiYC0",
-						"input": "system.group",
-						"label": "Weapon Group",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"e5aCEeEjYRi1Dau5": {
-						"id": "e5aCEeEjYRi1Dau5",
-						"input": "system.baseItem",
-						"label": "Base Item",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"input": {
-					"connection": "vO6y3ku71G3HWGfP:outputs:item"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "QoEt9czf1ZflFE45:ins:in"
-				}
-			}
-		},
-		{
-			"type": "format-text",
-			"position": {
-				"x": 528.1482797529836,
-				"y": 91.62962145811292
-			},
-			"id": "QoEt9czf1ZflFE45",
+			"id": "UxeLRtsefDAe93KG",
 			"custom": {
 				"inputs": {
-					"aessLq9h6kaS3HjI": {
-						"id": "aessLq9h6kaS3HjI",
-						"input": "a",
-						"label": "a",
-						"slug": "variable",
-						"type": "text"
-					},
-					"pKouzzHfVABGrRtd": {
-						"id": "pKouzzHfVABGrRtd",
-						"input": "b",
-						"label": "b",
-						"slug": "variable",
-						"type": "text"
-					},
-					"qgMvFU3Q8VuKnd2H": {
-						"id": "qgMvFU3Q8VuKnd2H",
-						"input": "c",
-						"label": "c",
-						"slug": "variable",
+					"K9wHSvS61hJXaMY5": {
+						"id": "K9wHSvS61hJXaMY5",
+						"label": "Item",
+						"slug": "input",
+						"isArray": false,
+						"type": "item"
+					}
+				},
+				"outputs": {
+					"rSOPCaguCbXkZdeF": {
+						"id": "rSOPCaguCbXkZdeF",
+						"label": "Name",
+						"slug": "output",
+						"isArray": false,
 						"type": "text"
 					}
 				}
 			},
 			"inputs": {
-				"plain": {
-					"value": "attack:@a, attack:@b, attack:@c"
+				"script": {
+					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = number[0];\n\nconst strings = [];\nif (item?.slug) strings.push(`attack:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`attack:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`attack:${item.system.group}`);\n\nreturn [{type: \"text\", value: strings.join(\",\")}];"
 				},
-				"aessLq9h6kaS3HjI": {
-					"connection": "J4upselpWIkszsLI:outputs:ORwOjJ9EF0ULW2b8"
-				},
-				"pKouzzHfVABGrRtd": {
-					"connection": "J4upselpWIkszsLI:outputs:0aDLtYahwjpAiYC0"
-				},
-				"qgMvFU3Q8VuKnd2H": {
-					"connection": "J4upselpWIkszsLI:outputs:e5aCEeEjYRi1Dau5"
+				"K9wHSvS61hJXaMY5": {
+					"connection": "vO6y3ku71G3HWGfP:outputs:item"
 				}
 			},
 			"outs": {
