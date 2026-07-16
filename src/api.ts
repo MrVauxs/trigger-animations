@@ -80,7 +80,7 @@ export class API {
 		},
 	} as const;
 
-	async query<T extends keyof typeof this.queries>(user: User, type: T, data: Parameters<typeof this.queries[T]>, options: Record<string, any> = {}) {
+	async query<T extends keyof typeof this.queries>(user: User, type: T, data: any, options: Record<string, any> = {}) {
 		options.timeout ??= 30 * 1000; // 30 second timeout
 		if (!CONFIG.queries[type])
 			type = `${id}.${type}` as T;

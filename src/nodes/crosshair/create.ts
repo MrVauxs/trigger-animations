@@ -77,10 +77,14 @@ class CrosshairNode extends TriggerNode<
 
 		const name = await this.getInputValue("name");
 		if (name) {
-			const crosshair = sequence.crosshair(name);
+			const crosshair = new Sequence().crosshair(name);
 			defineNamedLocation(this, name);
 			this.setOutputValue("crosshair", crosshair);
 			this.setOutputValue("positionName", name);
+			sequence.thenDo(() => {
+				// TODO: ughhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+				triggerAnimations.api.query(this.userContext, "showCrosshair", {});
+			});
 
 			g.log("Crosshair Node", { sequence, name, crosshair });
 			g.end();
