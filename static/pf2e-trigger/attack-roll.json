@@ -102,7 +102,7 @@
 			},
 			"inputs": {
 				"script": {
-					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = number[0];\n\nconst strings = [];\nif (item?.slug) strings.push(`attack:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`attack:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`attack:${item.system.group}`);\n\nreturn [{type: \"text\", value: strings.join(\",\")}];"
+					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = inputs[0];\n\nconst strings = [];\nif (item?.slug) strings.push(`attack:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`attack:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`attack:${item.system.group}`);\n\nreturn [{type: \"text\", value: strings.join(\",\")}];"
 				},
 				"K9wHSvS61hJXaMY5": {
 					"connection": "vO6y3ku71G3HWGfP:outputs:item"
