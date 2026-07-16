@@ -7,7 +7,6 @@ import "./api";
 import "./settings";
 import "./volume";
 import "./templateButton";
-import "$lib/queries";
 
 Hooks.once("ready", async () => {
 	displayTriggersUpdateNotice();

@@ -2,9 +2,9 @@ import type { TriggerEngine as T } from "trigger-engine/types";
 import type { BlueprintApplication } from "triggers-menu";
 import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
+import * as s from "$lib/serialize";
 import { dev, devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
-import { useQuery } from "./lib/queries";
 import { BUILTIN_TEMPLATES } from "./templateButton/templates";
 
 // Dev-only: log the dev server's reply to a trigger save (see saveTriggers()).
@@ -57,6 +57,9 @@ function patternMatches(pattern: string, name: string, givenNames: string[]): bo
 export class API {
 	constructor() {
 		globalThis.triggerAnimations = { api: this };
+		for (const query in this.queries) {
+			CONFIG.queries[`${id}.${query}`] = this.queries[query as keyof typeof this.queries];
+		}
 		this.ready = true;
 	}
 
@@ -67,7 +70,20 @@ export class API {
 		devLog("API is ready.", this.ready);
 	}
 
-	query = (...args: Parameters<typeof useQuery>) => useQuery(args[0], `${id}.${args[1]}`, args[2], args[3]);
+	queries = {
+		showCrosshair: async (data: Record<any, any>) => {
+			const crosshairData = s.parse(data.serialized);
+			devLog("Received query showCrosshair", crosshairData);
+			return crosshairData;
+		},
+	} as const;
+
+	query<T extends keyof typeof this.queries>(user: User, type: T, data: Parameters<typeof this.queries[T]>, options: Record<string, any> = {}) {
+		options.timeout ??= 30 * 1000; // 30 second timeout
+		if (!CONFIG.queries[type])
+			type = `${id}.${type}` as T;
+		return user.query(type, { serialized: s.stringify(data) }, options);
+	}
 
 	async openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {
 		return game.triggerEngine?.api.openBlueprintMenu(id, "anim-trigger", data, ...args) as Promise<BlueprintApplication>;
