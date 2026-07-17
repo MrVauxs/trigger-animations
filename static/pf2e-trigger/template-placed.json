@@ -2,7 +2,7 @@
 	"name": "Template Placed",
 	"folder": "Animations",
 	"priority": 0,
-	"id": "iT8FJRItcrt2ZtiZ",
+	"id": "qNzYQ5kih2Vojxjk",
 	"nodes": [
 		{
 			"type": "template-placed-event",
@@ -13,15 +13,15 @@
 			"id": "sqXwYxJCnyViQuiI",
 			"outs": {
 				"out": {
-					"connection": "tvYccg3Tp4UMMwm2:ins:in"
+					"connection": "s4wfpwJAY28AQWoL:ins:in"
 				}
 			}
 		},
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 1095.9229901233516,
-				"y": 243.7333945029477
+				"x": 863.9229980606585,
+				"y": 276.40008045917875
 			},
 			"id": "ewGhQqm0NDvFzVuZ",
 			"inputs": {
@@ -47,7 +47,7 @@
 					"connection": "sqXwYxJCnyViQuiI:outputs:region"
 				},
 				"name": {
-					"connection": "IPyEvA5sTwKqD9jr:outputs:result"
+					"connection": "s4wfpwJAY28AQWoL:outputs:rSOPCaguCbXkZdeF"
 				}
 			},
 			"custom": {
@@ -63,59 +63,38 @@
 			}
 		},
 		{
-			"type": "extract-item",
+			"type": "execute-script",
 			"position": {
-				"x": 529.3333566722321,
-				"y": 256.6666460683448
+				"x": 556.6666679667429,
+				"y": 277.9999805271726
 			},
-			"id": "tvYccg3Tp4UMMwm2",
+			"id": "s4wfpwJAY28AQWoL",
 			"custom": {
+				"inputs": {
+					"K9wHSvS61hJXaMY5": {
+						"id": "K9wHSvS61hJXaMY5",
+						"label": "Item",
+						"slug": "input",
+						"isArray": false,
+						"type": "item"
+					}
+				},
 				"outputs": {
-					"ORwOjJ9EF0ULW2b8": {
-						"id": "ORwOjJ9EF0ULW2b8",
-						"input": "slug",
-						"label": "Slug",
-						"slug": "path",
+					"rSOPCaguCbXkZdeF": {
+						"id": "rSOPCaguCbXkZdeF",
+						"label": "Name",
+						"slug": "output",
 						"isArray": false,
 						"type": "text"
 					}
 				}
 			},
 			"inputs": {
-				"input": {
-					"connection": "sqXwYxJCnyViQuiI:outputs:item"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "IPyEvA5sTwKqD9jr:ins:in"
-				}
-			}
-		},
-		{
-			"type": "format-text",
-			"position": {
-				"x": 773.33335245034,
-				"y": 252.66660732227757
-			},
-			"id": "IPyEvA5sTwKqD9jr",
-			"custom": {
-				"inputs": {
-					"aessLq9h6kaS3HjI": {
-						"id": "aessLq9h6kaS3HjI",
-						"input": "a",
-						"label": "a",
-						"slug": "variable",
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"aessLq9h6kaS3HjI": {
-					"connection": "tvYccg3Tp4UMMwm2:outputs:ORwOjJ9EF0ULW2b8"
+				"script": {
+					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = inputs[0];\n\nconst strings = [];\nif (item?.slug) strings.push(`template:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`template:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`template:${item.system.group}`);\nif (item?.baseItem) strings.push(`template:${item.baseItem}`);\nif (item?.group) strings.push(`template:${item.group}`);\n\nreturn [{type: \"text\", value: strings.join(\",\")}];"
 				},
-				"plain": {
-					"value": "template:@a"
+				"K9wHSvS61hJXaMY5": {
+					"connection": "sqXwYxJCnyViQuiI:outputs:item"
 				}
 			},
 			"outs": {

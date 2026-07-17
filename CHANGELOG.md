@@ -1,14 +1,17 @@
+# 0.6.1
+- (Triggers) Updated Attack Roll and Template Placed triggers to include PC and NPC weapon groups and baseItems.
+
 # 0.6.0
 - (Nodes) Removed Crosshair section nodes and Pick Location node due to incompatibility with local animations and lack of use for the time being. These may come back when implementation of them becomes easier. For now, you can use Then Do or Execute Script nodes to do the same and more.
 - (Animations) Added wildcard options (attack:\*bow\*) in example weapon animations as there may be occurences where all you have to rely on is a slug, e.g. attack:shortbow, which does not match attack:bow.
 - Trigger Animation nodes now assume the userContext of the passed user input in Execute Animation.
 
 # 0.5.5
-- (Node) Added a user input to Execute Animation.
+- (Nodes) Added a user input to Execute Animation.
 - Fixed various preset inputs not having a "none" option.
 
 # 0.5.4
-- (Node) Increase (decrease?) the "From" and "To" number inputs step for Animate Property node to `0.01`.
+- (Nodes) Increase (decrease?) the "From" and "To" number inputs step for Animate Property node to `0.01`.
 - Fixed various nodes breaking when passed undefined Positions.
 
 # 0.5.3
