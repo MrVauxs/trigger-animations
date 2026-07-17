@@ -23,7 +23,7 @@
 	"scripts": {
 		"build": "vite build && bun run triggers:bundle",
 		"dev": "vite",
-		"lint:fix": "eslint --fix",
+		"lint:fix": "eslint --fix --cache",
 		"triggers:bundle": "node scripts/bundleTriggers.mjs",
 		"triggers:unpack": "node scripts/unpackTriggers.mjs",
 		"packs:extract": "node scripts/extractPacks.mjs",
