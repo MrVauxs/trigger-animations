@@ -23,6 +23,10 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 		return { unicode: "\uF15B" };
 	}
 
+	static override get states(): string[] {
+		return ["default", "advanced"];
+	}
+
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.soundInput,
@@ -39,10 +43,23 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 				field: { default: "" },
 			},
 			{
+				key: "file",
+				type: "text",
+				state: "advanced",
+				...this.io("fileAdv"),
+				field: { type: "json", default: "[\"\"]" },
+			},
+			{
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
 				field: { type: "json" },
+			},
+			{
+				key: "mustache",
+				type: "any",
+				state: "advanced",
+				...this.io("mustacheAdv"),
 			},
 			{
 				key: "override",
@@ -61,18 +78,29 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 
 		const file = await this.getInputValue("file");
 		if (file?.trim()) {
-			section.file(file);
+			if (this.state === "default") {
+				section.file(file);
+			} else {
+				try {
+					const parsed = JSON.parse(file);
+					if (parsed) {
+						section.file(parsed);
+					}
+				} catch (e) {
+					devLog(`[${this.type}] invalid JSON for file`, e);
+				}
+			}
 		}
 
 		const mustache = await this.getInputValue("mustache");
 		if (mustache?.trim()) {
 			try {
-				const parsed = JSON.parse(mustache);
+				const parsed = this.state === "default" ? JSON.parse(mustache) : mustache;
 				if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
 					section.setMustache(parsed);
 				}
 			} catch (e) {
-				devLog(`[${this.type}] invalid JSON for mustache`, e);
+				devLog(`[${this.type}] invalid object for mustache`, e, mustache);
 			}
 		}
 

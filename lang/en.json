@@ -454,6 +454,14 @@
 							"mustache": {
 								"title": "Mustache",
 								"tooltip": "A JSON object of values substituted into the file path using Handlebars/mustache syntax. Leave empty to skip."
+							},
+							"fileAdv": {
+								"title": "File",
+								"tooltip": "JSON array of Sequencer compatible file paths (either raw paths or Sequencer database paths)."
+							},
+							"mustacheAdv": {
+								"title": "Mustache",
+								"tooltip": "An object of values, static or functions, substituted into the file path using Handlebars/mustache syntax. Leave empty to skip."
 							}
 						}
 					},
@@ -1448,6 +1456,14 @@
 							"override": {
 								"title": "Override",
 								"tooltip": "JavaScript run before the sound plays. Receives (sound, data) and must return data. Leave empty to skip."
+							},
+							"fileAdv": {
+								"title": "File",
+								"tooltip": "JSON array of Sequencer compatible file paths (either raw paths or Sequencer database paths)."
+							},
+							"mustacheAdv": {
+								"title": "Mustache",
+								"tooltip": "An object of values, static or functions, substituted into the file path using Handlebars syntax. Leave empty to skip."
 							}
 						}
 					},

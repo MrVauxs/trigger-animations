@@ -1,3 +1,6 @@
+# 0.6.2
+- (Nodes) Added a new "advanced" state to Effect and Sound File nodes. Advanced state changes the File input and Mustache input. File from a plain string to JSON, allowing to put JSON arrays in place for randomized effects. Mustache from JSON to any, allowing the user to pass a custom object created in another node, like Execute Script, so for example Sequencer can run its getters at each repetition.
+
 # 0.6.1
 - (Triggers) Updated Attack Roll and Template Placed triggers to include PC and NPC weapon groups and baseItems.
 

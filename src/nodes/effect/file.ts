@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { devLog } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -21,32 +22,74 @@ class FileNode extends EffectModifierNode<TInputs> {
 		return { unicode: "\uF1C8" };
 	}
 
+	static override get states(): string[] {
+		return ["default", "advanced"];
+	}
+
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.effectInput,
-			{ key: "file", type: "text", ...this.io("file") },
-			{ key: "baseFolder", type: "text", ...this.io("baseFolder") },
+			{ key: "baseFolder", type: "text", ...this.io("baseFolder"), field: { default: "" } },
+			{
+				key: "file",
+				type: "text",
+				...this.io("file"),
+				field: { default: "" },
+			},
+			{
+				key: "file",
+				type: "text",
+				state: "advanced",
+				...this.io("fileAdv"),
+				field: { type: "json", default: "[\"\"]" },
+			},
 			{
 				key: "mustache",
 				type: "text",
 				...this.io("mustache"),
 				field: { type: "json" },
 			},
+			{
+				key: "mustache",
+				type: "any",
+				state: "advanced",
+				...this.io("mustacheAdv"),
+			},
 		];
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const baseFolder = await this.getInputValue("baseFolder");
-		if (baseFolder)
+		if (baseFolder.trim())
 			effect.baseFolder(baseFolder);
 
 		const file = await this.getInputValue("file");
-		if (file)
-			effect.file(file);
+		if (file?.trim()) {
+			if (this.state === "default") {
+				effect.file(file);
+			} else {
+				try {
+					const parsed = JSON.parse(file);
+					if (parsed) {
+						effect.file(parsed);
+					}
+				} catch (e) {
+					devLog(`[${this.type}] invalid JSON for file`, e);
+				}
+			}
+		}
 
-		const mustache = this.parseJson(await this.getInputValue("mustache"), "mustache");
-		if (mustache)
-			effect.setMustache(mustache);
+		const mustache = await this.getInputValue("mustache");
+		if (mustache?.trim()) {
+			try {
+				const parsed = this.state === "default" ? JSON.parse(mustache) : mustache;
+				if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+					effect.setMustache(parsed);
+				}
+			} catch (e) {
+				devLog(`[${this.type}] invalid object for mustache`, e, mustache);
+			}
+		}
 	}
 }
 
