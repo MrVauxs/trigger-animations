@@ -96,7 +96,7 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 		if (mustache) {
 			try {
 				const parsed = this.state === "default" ? JSON.parse(mustache) : mustache;
-				if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+				if (parsed && typeof parsed === "object") {
 					section.setMustache(parsed);
 				} else {
 					log(`[${this.type}] invalid object for mustache`, mustache);
