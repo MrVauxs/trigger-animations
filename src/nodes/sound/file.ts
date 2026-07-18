@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { log } from "$lib/utils";
 import { SoundModifierNode } from "./base";
 
 interface TInputs {
@@ -87,20 +87,22 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 						section.file(parsed);
 					}
 				} catch (e) {
-					devLog(`[${this.type}] invalid JSON for file`, e);
+					log(`[${this.type}] invalid JSON for file`, e);
 				}
 			}
 		}
 
 		const mustache = await this.getInputValue("mustache");
-		if (mustache?.trim()) {
+		if (mustache) {
 			try {
 				const parsed = this.state === "default" ? JSON.parse(mustache) : mustache;
 				if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
 					section.setMustache(parsed);
+				} else {
+					log(`[${this.type}] invalid object for mustache`, mustache);
 				}
 			} catch (e) {
-				devLog(`[${this.type}] invalid object for mustache`, e, mustache);
+				log(`[${this.type}] invalid object for mustache`, e, mustache);
 			}
 		}
 
@@ -110,7 +112,7 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 				const fn = new (foundry.utils as any).AsyncFunction("sound", "data", overrideCode);
 				section.addOverride(fn);
 			} catch (e) {
-				devLog(`[${this.type}] invalid override function`, e);
+				log(`[${this.type}] invalid override function`, e);
 			}
 		}
 	}

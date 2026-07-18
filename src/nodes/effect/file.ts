@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { devLog, log } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -80,14 +80,16 @@ class FileNode extends EffectModifierNode<TInputs> {
 		}
 
 		const mustache = await this.getInputValue("mustache");
-		if (mustache?.trim()) {
+		if (mustache) {
 			try {
 				const parsed = this.state === "default" ? JSON.parse(mustache) : mustache;
 				if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
 					effect.setMustache(parsed);
+				} else {
+					log(`[${this.type}] invalid object for mustache`, mustache);
 				}
 			} catch (e) {
-				devLog(`[${this.type}] invalid object for mustache`, e, mustache);
+				log(`[${this.type}] invalid object for mustache`, e, mustache);
 			}
 		}
 	}
