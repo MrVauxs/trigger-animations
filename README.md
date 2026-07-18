@@ -14,7 +14,7 @@ Trigger Engine but for animations.
 
 ### Module
 
-[Manifest URL](https://github.com/MrVauxs/trigger-animations/releases/latest/download/module.json), [Zip File Download](https://raw.githubusercontent.com/MrVauxs/trigger-animations/latest/releases/module.zip)
+[Manifest URL](https://github.com/MrVauxs/trigger-animations/releases/latest/download/module.json), [Zip File Download](https://github.com/MrVauxs/trigger-animations/releases/latest/download/module.zip)
 
 ### Repository
 
