@@ -63,7 +63,7 @@
 					"connection": "50gzfH4kHgcU06LU:outputs:entry"
 				},
 				"location": {
-					"connection": "gS22KfenHlBnGzgg:outputs:entry"
+					"connection": "8YV9BSdaxTaTUYyZ:outputs:source"
 				}
 			},
 			"outs": {
@@ -88,7 +88,7 @@
 					"value": 0.5
 				},
 				"towards": {
-					"connection": "9YiiWiMMQBISYcX8:outputs:entry"
+					"connection": "8YV9BSdaxTaTUYyZ:outputs:target"
 				}
 			},
 			"outs": {
@@ -223,8 +223,8 @@
 			},
 			"type": "__variable_getter__",
 			"position": {
-				"x": 415.9842997239307,
-				"y": 421.0635181417131
+				"x": 412.65097922678194,
+				"y": 401.8968777528439
 			},
 			"id": "50gzfH4kHgcU06LU"
 		},
@@ -328,32 +328,6 @@
 			"id": "suUh1fb8oYBSfglr"
 		},
 		{
-			"inputs": {
-				"entry": {
-					"connection": "8YV9BSdaxTaTUYyZ:outputs:source"
-				}
-			},
-			"type": "__variable_getter__",
-			"position": {
-				"x": 409.6667622840378,
-				"y": 353.4166951269528
-			},
-			"id": "gS22KfenHlBnGzgg"
-		},
-		{
-			"inputs": {
-				"entry": {
-					"connection": "8YV9BSdaxTaTUYyZ:outputs:target"
-				}
-			},
-			"type": "__variable_getter__",
-			"position": {
-				"x": 744.8334231193965,
-				"y": 340.2501300993828
-			},
-			"id": "9YiiWiMMQBISYcX8"
-		},
-		{
 			"type": "sprite",
 			"position": {
 				"x": 1167.1666973732501,
@@ -386,16 +360,6 @@
 			"isArray": false,
 			"label": "Index (V)",
 			"type": "number"
-		},
-		"8YV9BSdaxTaTUYyZ:outputs:target": {
-			"isArray": false,
-			"label": "Target (V)",
-			"type": "any"
-		},
-		"8YV9BSdaxTaTUYyZ:outputs:source": {
-			"isArray": false,
-			"label": "Source (V)",
-			"type": "any"
 		}
 	},
 	"description": "<p>Animates when damaged by Force Barrage, Magic Missile or Force Bolt.</p><p><strong>Keywords:</strong> damage:force-barrage, damage:magic-missile, damage:force-bolt</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>",

@@ -1,3 +1,6 @@
+# 0.6.4
+- (Animations) Fixed Force Barrage animation having wrongly typed variables leading to errors.
+
 # 0.6.3
 - Fixed mustache inputs logging an invalid object when nothing is passed to it.
 
