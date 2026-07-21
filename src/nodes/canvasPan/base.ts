@@ -15,7 +15,7 @@ abstract class CanvasPanModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { canvasPan?: CanvasPanSection },
-	object,
+	{ canvasPan?: CanvasPanSection },
 	string,
 	string,
 	TState
@@ -49,12 +49,17 @@ abstract class CanvasPanModifierNode<
 		return { key: "canvasPan", type: "canvasPan", ...this.sharedIo("canvasPan") };
 	}
 
+	/** The canvas pan section passed back out, mirroring {@link canvasPanInput}. */
+	static get canvasPanOutput(): T.OutputEntrySchemaSource {
+		return { key: "canvasPan", type: "canvasPan", ...this.sharedIo("canvasPan") };
+	}
+
 	override get headerColor() {
 		return "#4a90d9";
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.canvasPanOutput];
 	}
 
 	getLocation(loc: PositionSource | Point | undefined): TokenDocument | Point | RegionDocument | string | undefined {
@@ -84,6 +89,7 @@ abstract class CanvasPanModifierNode<
 		const canvasPan = await this.getInputValue("canvasPan");
 		if (canvasPan) {
 			await this.apply(canvasPan);
+			this.setOutputValue("canvasPan", canvasPan);
 			g.log("applied", { canvasPan });
 		} else {
 			g.log("no canvas pan connected; skipping");

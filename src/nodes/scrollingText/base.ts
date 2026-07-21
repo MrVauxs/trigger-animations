@@ -15,7 +15,7 @@ abstract class ScrollingTextModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { scrollingText?: ScrollingTextSection },
-	object,
+	{ scrollingText?: ScrollingTextSection },
 	string,
 	string,
 	TState
@@ -49,12 +49,17 @@ abstract class ScrollingTextModifierNode<
 		return { key: "scrollingText", type: "scrollingText", ...this.sharedIo("scrollingText") };
 	}
 
+	/** The scrolling text section passed back out, mirroring {@link scrollingTextInput}. */
+	static get scrollingTextOutput(): T.OutputEntrySchemaSource {
+		return { key: "scrollingText", type: "scrollingText", ...this.sharedIo("scrollingText") };
+	}
+
 	override get headerColor() {
 		return "#c97bd4";
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.scrollingTextOutput];
 	}
 
 	getLocation(loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | string | undefined {
@@ -78,6 +83,7 @@ abstract class ScrollingTextModifierNode<
 		const scrollingText = await this.getInputValue("scrollingText");
 		if (scrollingText) {
 			await this.apply(scrollingText);
+			this.setOutputValue("scrollingText", scrollingText);
 			g.log("applied", { scrollingText });
 		} else {
 			g.log("no scrolling text connected; skipping");

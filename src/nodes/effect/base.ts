@@ -16,7 +16,7 @@ abstract class EffectModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { effect?: EffectSection },
-	object,
+	{ effect?: EffectSection },
 	string,
 	string,
 	TState
@@ -50,6 +50,11 @@ abstract class EffectModifierNode<
 		return { key: "effect", type: "effect", ...this.sharedIo("effect") };
 	}
 
+	/** The effect section passed back out, mirroring {@link effectInput}. */
+	static get effectOutput(): T.OutputEntrySchemaSource {
+		return { key: "effect", type: "effect", ...this.sharedIo("effect") };
+	}
+
 	/** An easing select input. "linear" matches Sequencer's default, so the value is always safe to pass. */
 	static easeInput(
 		key: string,
@@ -69,7 +74,7 @@ abstract class EffectModifierNode<
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.effectOutput];
 	}
 
 	/**
@@ -159,6 +164,7 @@ abstract class EffectModifierNode<
 			}
 			try {
 				await this.apply(effect);
+				this.setOutputValue("effect", effect);
 			} catch (e) {
 				g.end();
 				log(`[${this.type}] error applying effect`, e);

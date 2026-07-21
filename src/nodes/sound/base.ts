@@ -16,7 +16,7 @@ abstract class SoundModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { sound?: SoundSection },
-	object,
+	{ sound?: SoundSection },
 	string,
 	string,
 	TState
@@ -50,6 +50,11 @@ abstract class SoundModifierNode<
 		return { key: "sound", type: "sound", ...this.sharedIo("sound") };
 	}
 
+	/** The sound section passed back out, mirroring {@link soundInput}. */
+	static get soundOutput(): T.OutputEntrySchemaSource {
+		return { key: "sound", type: "sound", ...this.sharedIo("sound") };
+	}
+
 	/** An easing select input. "linear" matches Sequencer's default, so the value is always safe to pass. */
 	static easeInput(
 		key: string,
@@ -69,7 +74,7 @@ abstract class SoundModifierNode<
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.soundOutput];
 	}
 
 	getLocation(loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | string | undefined {
@@ -93,6 +98,7 @@ abstract class SoundModifierNode<
 		const sound = await this.getInputValue("sound");
 		if (sound) {
 			await this.apply(sound);
+			this.setOutputValue("sound", sound);
 			g.log("applied", { sound });
 		} else {
 			g.log("no sound connected; skipping");

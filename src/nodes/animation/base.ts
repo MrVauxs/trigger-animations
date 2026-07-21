@@ -16,7 +16,7 @@ abstract class AnimationModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { animation?: AnimationSection },
-	object,
+	{ animation?: AnimationSection },
 	string,
 	string,
 	TState
@@ -50,6 +50,11 @@ abstract class AnimationModifierNode<
 		return { key: "animation", type: "animation", ...this.sharedIo("animation") };
 	}
 
+	/** The animation section passed back out, mirroring {@link animationInput}. */
+	static get animationOutput(): T.OutputEntrySchemaSource {
+		return { key: "animation", type: "animation", ...this.sharedIo("animation") };
+	}
+
 	/** An easing select input. "linear" matches Sequencer's default, so the value is always safe to pass. */
 	static easeInput(
 		key: string,
@@ -69,7 +74,7 @@ abstract class AnimationModifierNode<
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.animationOutput];
 	}
 
 	/**
@@ -119,6 +124,7 @@ abstract class AnimationModifierNode<
 		const animation = await this.getInputValue("animation");
 		if (animation) {
 			await this.apply(animation);
+			this.setOutputValue("animation", animation);
 			g.log("applied", { animation });
 		} else {
 			g.log("no animation connected; skipping");

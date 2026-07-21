@@ -15,7 +15,7 @@ abstract class CrosshairModifierNode<
 > extends TriggerNode<
 		"out",
 	TInputs & { crosshair?: CrosshairSection },
-	object,
+	{ crosshair?: CrosshairSection },
 	string,
 	string,
 	TState
@@ -49,12 +49,17 @@ abstract class CrosshairModifierNode<
 		return { key: "crosshair", type: "crosshair", ...this.sharedIo("crosshair") };
 	}
 
+	/** The crosshair section passed back out, mirroring {@link crosshairInput}. */
+	static get crosshairOutput(): T.OutputEntrySchemaSource {
+		return { key: "crosshair", type: "crosshair", ...this.sharedIo("crosshair") };
+	}
+
 	override get headerColor() {
 		return "#b8860b";
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return null;
+		return [this.crosshairOutput];
 	}
 
 	protected abstract apply(section: CrosshairSection): Promise<void> | void;
@@ -78,6 +83,7 @@ abstract class CrosshairModifierNode<
 		const crosshair = await this.getInputValue("crosshair");
 		if (crosshair) {
 			await this.apply(crosshair);
+			this.setOutputValue("crosshair", crosshair);
 			g.log("applied", { crosshair });
 		} else {
 			g.log("no crosshair connected; skipping");
