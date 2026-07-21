@@ -106,7 +106,7 @@
 						"io": {
 							"sequence": {
 								"title": "Sequence",
-								"tooltip": "The running Sequence to build onto. Leave unconnected to use this trigger's own; the same Sequence is passed out so the animation can continue mid-sequence."
+								"tooltip": "The running Sequence to build onto. Leave unconnected to generate a new Sequence that runs independently of the parent."
 							},
 							"name": {
 								"title": "Name",
@@ -217,10 +217,18 @@
 				"extractor": {
 					"massloop": {
 						"title": "Mass Loop",
+						"states": {
+							"callback": "Callback",
+							"repeat": "Repeat"
+						},
 						"io": {
 							"outAfter": {
 								"title": "Out After",
 								"tooltip": "Executes after the loop is finished."
+							},
+							"count": {
+								"title": "Count",
+								"tooltip": "How many times to repeat the loop."
 							},
 							"sources": {
 								"title": "Sources"

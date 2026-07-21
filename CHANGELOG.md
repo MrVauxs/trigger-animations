@@ -1,3 +1,7 @@
+# 0.6.5
+- (Nodes) Added a second state to Mass Loop node, allowing to loop over a predefined number.
+- Fixed typo in Execute Animation's sequence input. The node will create its own Sequence if not provided one.
+
 # 0.6.4
 - (Animations) Fixed Force Barrage animation having wrongly typed variables leading to errors.
 
