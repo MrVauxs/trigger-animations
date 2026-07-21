@@ -1,3 +1,6 @@
+# 0.6.6
+- (Nodes) Added section outputs to all Sequencer section nodes (i.e. all Effect nodes can now output their Effect entries).
+
 # 0.6.5
 - (Nodes) Added a second state to Mass Loop node, allowing to loop over a predefined number.
 - Fixed typo in Execute Animation's sequence input. The node will create its own Sequence if not provided one.
