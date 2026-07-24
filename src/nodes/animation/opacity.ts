@@ -36,7 +36,7 @@ class AnimationOpacityNode extends AnimationModifierNode<TInputs> {
 				type: "number",
 				...this.io("opacity"),
 				// -1 means "leave unset" since 0 is a meaningful opacity.
-				field: { default: -1, min: -1, max: 1, step: 0.05 },
+				field: { default: -1, min: -1, max: 1 },
 			},
 			{
 				key: "fadeInDuration",

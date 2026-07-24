@@ -59,7 +59,7 @@ class CanvasPanNode extends TriggerNode<
 				key: "scale",
 				type: "number",
 				...this.io("scale"),
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 		];
 	}

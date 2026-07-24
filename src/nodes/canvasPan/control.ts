@@ -32,7 +32,7 @@ class CanvasPanControlNode extends CanvasPanModifierNode<TInputs> {
 		return [
 			this.canvasPanInput,
 			{ key: "speed", type: "number", ...this.io("speed"), field: { default: 0, min: 0 } },
-			{ key: "scale", type: "number", ...this.io("scale"), field: { default: 0, min: 0, step: 0.05 } },
+			{ key: "scale", type: "number", ...this.io("scale"), field: { default: 0, min: 0 } },
 			{ key: "lockView", type: "number", ...this.io("lockView"), field: { default: 0, min: 0 } },
 			{ key: "shake", type: "boolean", ...this.io("shake"), group: "shake" },
 			{

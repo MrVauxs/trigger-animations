@@ -43,7 +43,7 @@ class TimingNode extends EffectModifierNode<TInputs, TState> {
 				key: "playbackRate",
 				type: "number",
 				...this.io("playbackRate"),
-				field: { default: 1, min: 0, step: 0.05 },
+				field: { default: 1, min: 0 },
 			},
 			{
 				key: "startTime",

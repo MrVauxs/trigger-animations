@@ -1,3 +1,6 @@
+# 0.6.7
+- (Nodes) Removed most of the enforced "steps" in number input fields. Only remaining are integers for repeats and zIndex, and 0.01 for percentages.
+
 # 0.6.6
 - (Nodes) Added section outputs to all Sequencer section nodes (i.e. all Effect nodes can now output their Effect entries).
 

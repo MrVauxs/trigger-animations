@@ -51,7 +51,7 @@ class ScrollingTextTextNode extends ScrollingTextModifierNode<TInputs> {
 				key: "jitter",
 				type: "number",
 				...this.io("jitter"),
-				field: { default: 0, min: 0, max: 1, step: 0.05 },
+				field: { default: 0, min: 0, max: 1 },
 			},
 			{
 				key: "duration",

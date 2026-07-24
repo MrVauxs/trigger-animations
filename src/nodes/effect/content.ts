@@ -84,7 +84,7 @@ class ContentNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.sharedIo("randomOffset"),
 				state: "copySprite",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{ key: "tilingScale", type: "point", ...this.io("tilingScale"), state: "tiling" },
 			{

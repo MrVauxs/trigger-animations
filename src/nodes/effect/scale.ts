@@ -50,21 +50,21 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("scale"),
 				state: "factor",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "scaleMax",
 				type: "number",
 				...this.io("scaleMax"),
 				state: "factor",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "objectScale",
 				type: "number",
 				...this.io("objectScale"),
 				state: "object",
-				field: { default: 1, min: 0, step: 0.05 },
+				field: { default: 1, min: 0 },
 			},
 			{ key: "uniform", type: "boolean", ...this.io("uniform"), state: "object" },
 			{
@@ -78,34 +78,34 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("width"),
 				state: "size",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "height",
 				type: "number",
 				...this.io("height"),
 				state: "size",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits"), state: "size" },
 			{
 				key: "spriteScale",
 				type: "number",
 				...this.io("spriteScale"),
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "spriteScaleMax",
 				type: "number",
 				...this.io("spriteScaleMax"),
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "scaleInScale",
 				type: "number",
 				...this.io("fadeScale"),
 				group: "scaleIn",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "scaleInDuration",
@@ -127,7 +127,7 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("fadeScale"),
 				group: "scaleOut",
-				field: { default: 0, min: 0, step: 0.05 },
+				field: { default: 0, min: 0 },
 			},
 			{
 				key: "scaleOutDuration",
@@ -172,11 +172,11 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 			// preserving aspect ratio; a bare number would make a square instead.
 			if (width > 0 && height > 0)
 				effect.size({ width, height }, { gridUnits });
-			// @ts-expect-error TODO: Fix Sequencer Types
 			else if (width > 0)
+				// @ts-expect-error TODO: Fix Sequencer Types
 				effect.size({ width }, { gridUnits });
-			// @ts-expect-error TODO: Fix Sequencer Types
 			else if (height > 0)
+			// @ts-expect-error TODO: Fix Sequencer Types
 				effect.size({ height }, { gridUnits });
 		}
 

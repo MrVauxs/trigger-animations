@@ -55,8 +55,8 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 				...this.sharedIo("duration"),
 				field: { default: 0, min: 0 },
 			},
-			{ key: "from", type: "number", ...this.io("from"), field: { default: 0, step: 0.01 } },
-			{ key: "to", type: "number", ...this.io("to"), field: { default: 0, step: 0.01 } },
+			{ key: "from", type: "number", ...this.io("from"), field: { default: 0 } },
+			{ key: "to", type: "number", ...this.io("to"), field: { default: 0 } },
 			{
 				key: "delay",
 				type: "number",

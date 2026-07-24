@@ -18,7 +18,7 @@ interface TInputs {
 }
 
 // -1 means "leave unset" since 0 is a meaningful alpha.
-const ALPHA_FIELD = { default: -1, min: -1, max: 1, step: 0.05 };
+const ALPHA_FIELD = { default: -1, min: -1, max: 1 };
 
 class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 	static override get type() {
@@ -48,7 +48,7 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 			{ key: "fillAlpha", type: "number", ...this.io("fillAlpha"), group: "fill", field: { ...ALPHA_FIELD } },
 			{ key: "texture", type: "text", ...this.io("texture"), group: "texture" },
 			{ key: "textureAlpha", type: "number", ...this.io("textureAlpha"), group: "texture", field: { ...ALPHA_FIELD } },
-			{ key: "textureScale", type: "number", ...this.io("textureScale"), group: "texture", field: { default: 0, min: 0, step: 0.05 } },
+			{ key: "textureScale", type: "number", ...this.io("textureScale"), group: "texture", field: { default: 0, min: 0 } },
 			{ key: "gridHighlight", type: "boolean", ...this.io("gridHighlight"), field: { default: true } },
 		];
 	}
