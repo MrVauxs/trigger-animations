@@ -1,5 +1,7 @@
 # 0.6.7
 - (Nodes) Removed most of the enforced "steps" in number input fields. Only remaining are integers for repeats and zIndex, and 0.01 for percentages.
+- (Triggers) Updated pf2e triggers to have a Trigger Animations tag and description.
+- (Triggers) Fixed Check Roll returning the wrong targets. It now returns the targets of the person that the actor belongs to.
 
 # 0.6.6
 - (Nodes) Added section outputs to all Sequencer section nodes (i.e. all Effect nodes can now output their Effect entries).

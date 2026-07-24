@@ -2,10 +2,6 @@
 	"name": "Check Roll",
 	"folder": "Animations",
 	"priority": 0,
-	"tags": [
-		"pf2e",
-		"sf2e"
-	],
 	"id": "P1XspLbVV9MJ4ayT",
 	"nodes": [
 		{
@@ -145,5 +141,9 @@
 				}
 			}
 		}
+	],
+	"description": "<p><em>Default pf2e-trigger from trigger-animations.</em></p>",
+	"tags": [
+		"trigger-animations"
 	]
 }

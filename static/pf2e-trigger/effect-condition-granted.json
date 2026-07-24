@@ -25,7 +25,7 @@
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 1027.256419016273,
+				"x": 1231.2564109832592,
 				"y": 295.73338224637354
 			},
 			"id": "PEXiYyM5Qoo77FZK",
@@ -39,11 +39,11 @@
 				"sources": {
 					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
 				},
-				"targets": {
-					"connection": "iLQqpDvy8aS7XhpM:outputs:targets"
-				},
 				"name": {
 					"connection": "8PHo7eVUOmXJjHXK:outputs:result"
+				},
+				"targets": {
+					"connection": "nH4j4XWYYGhvRzeZ:outputs:targets"
 				}
 			}
 		},
@@ -86,14 +86,6 @@
 			}
 		},
 		{
-			"type": "scene-targets",
-			"position": {
-				"x": 251.33330279547897,
-				"y": 425.3333803077239
-			},
-			"id": "iLQqpDvy8aS7XhpM"
-		},
-		{
 			"type": "format-text",
 			"position": {
 				"x": 719.9999389648438,
@@ -131,9 +123,31 @@
 			},
 			"outs": {
 				"out": {
+					"connection": "nH4j4XWYYGhvRzeZ:ins:in"
+				}
+			}
+		},
+		{
+			"type": "user-targets",
+			"position": {
+				"x": 1019.9999598349309,
+				"y": 300.6666362889348
+			},
+			"id": "nH4j4XWYYGhvRzeZ",
+			"inputs": {
+				"user": {
+					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
+				}
+			},
+			"outs": {
+				"out": {
 					"connection": "PEXiYyM5Qoo77FZK:ins:in"
 				}
 			}
 		}
+	],
+	"description": "<p><em>Default pf2e-trigger from trigger-animations.</em></p>",
+	"tags": [
+		"trigger-animations"
 	]
 }

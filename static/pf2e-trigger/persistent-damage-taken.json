@@ -126,5 +126,9 @@
 			}
 		}
 	],
-	"folder": "Animations"
+	"folder": "Animations",
+	"description": "<p><em>Default pf2e-trigger from trigger-animations.</em></p>",
+	"tags": [
+		"trigger-animations"
+	]
 }
