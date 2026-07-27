@@ -10,6 +10,11 @@ import "./templateButton";
 
 Hooks.once("ready", async () => {
 	displayTriggersUpdateNotice();
+
+	if (!game.modules.get("trigger-engine"))
+		ui.notifications.error("Trigger Animations requires Trigger Engine to be enabled, and you don't have it!", { permanent: true });
+	if (!game.modules.get("sequencer"))
+		ui.notifications.error("Trigger Animations requires Sequencer to be enabled, and you don't have it!", { permanent: true });
 });
 
 async function displayTriggersUpdateNotice() {
