@@ -30,15 +30,19 @@
 				"id": "trigger-engine",
 				"type": "module",
 				"compatibility": {
-					"minimum": "1.22.0"
-				}
+					"minimum": "1.22.0",
+					"verified": "1.22.0"
+				},
+                "manifest": "https://raw.githubusercontent.com/reonZ/trigger-engine/master/module.json"
 			},
 			{
 				"id": "sequencer",
 				"type": "module",
 				"compatibility": {
-					"minimum": "4.2"
-				}
+					"minimum": "4.2",
+					"verified": "4.2"
+				},
+                "manifest": "https://github.com/FantasyCalendar/FoundryVTT-Sequencer/releases/latest/download/module.json"
 			}
 		]
 	},
