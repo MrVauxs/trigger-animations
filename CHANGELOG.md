@@ -1,3 +1,6 @@
+# 0.6.8
+- Added CONFIG.debug["trigger-animations"] and CONFIG.debug.triggerAnimations handling.
+
 # 0.6.7
 - Made the module yell out that it requires Trigger Engine and Sequencer in an event they aren't enabled.
 - (Nodes) Removed most of the enforced "steps" in number input fields. Only remaining are integers for repeats and zIndex, and 0.01 for percentages.

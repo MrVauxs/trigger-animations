@@ -2,7 +2,7 @@
 import type Document from "@7h3laughingman/foundry-types/common/abstract/document.mjs";
 import type BaseUser from "@7h3laughingman/foundry-types/common/documents/user.mjs";
 
-export const dev = import.meta.env.DEV;
+export const dev = import.meta.env.DEV || !!(CONFIG.debug as any)["trigger-animations"] || !!(CONFIG.debug as any).triggerAnimations;
 
 export function isValidUpdater(data: Document, update?: Record<string, unknown>): boolean {
 	// V13 and earlier compatible

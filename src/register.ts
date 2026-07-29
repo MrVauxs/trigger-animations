@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { dev, devLog, log } from "$lib/utils";
+import { devLog, log } from "$lib/utils";
 import { id, title } from "moduleJSON";
 import { API } from "./api";
 import { positionConvertors, sequenceConvertors } from "./entries/convertors";
@@ -13,9 +13,6 @@ Hooks.once("ready", async () => {
 	const api = new API();
 	await api.createJournalDatabase();
 	triggerAnimations.api.setReady();
-
-	if (dev)
-		setTimeout(async () => api.openBlueprint(), 1000);
 });
 
 Hooks.on(

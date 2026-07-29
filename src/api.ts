@@ -3,7 +3,7 @@ import type { BlueprintApplication } from "triggers-menu";
 import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
 import * as s from "$lib/serialize";
-import { dev, devLog, log } from "$lib/utils";
+import { devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
 import { BUILTIN_TEMPLATES } from "./templateButton/templates";
 
@@ -105,7 +105,8 @@ export class API {
 	async runFromTrigger(data: StartNodeOptions): Promise<void> { };
 
 	saveTriggers(data: T.TriggerDataInput[]): void {
-		import.meta.hot?.send("trigger-animations:save", { triggers: data });
+		if (import.meta.hot)
+			import.meta.hot?.send("trigger-animations:save", { triggers: data });
 	};
 
 	_db!: JournalEntry;
@@ -186,8 +187,7 @@ export class API {
 			},
 			afterPrepared: async (triggerData) => {
 				devLog("afterPrepared", triggerData);
-				if (dev)
-					globalThis.triggerAnimations.api.saveTriggers(triggerData);
+				globalThis.triggerAnimations.api.saveTriggers(triggerData);
 				globalThis.triggerAnimations.api.cacheTriggers(triggerData);
 				globalThis.triggerAnimations.api.databaseMount();
 			},
