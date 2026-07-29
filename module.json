@@ -25,7 +25,7 @@
 	],
 	"relationships": {
 		"systems": [],
-		"required": [
+		"requires": [
 			{
 				"id": "trigger-engine",
 				"type": "module",
@@ -33,7 +33,7 @@
 					"minimum": "1.22.0",
 					"verified": "1.22.0"
 				},
-                "manifest": "https://raw.githubusercontent.com/reonZ/trigger-engine/master/module.json"
+				"manifest": "https://raw.githubusercontent.com/reonZ/trigger-engine/master/module.json"
 			},
 			{
 				"id": "sequencer",
@@ -42,7 +42,7 @@
 					"minimum": "4.2",
 					"verified": "4.2"
 				},
-                "manifest": "https://github.com/FantasyCalendar/FoundryVTT-Sequencer/releases/latest/download/module.json"
+				"manifest": "https://github.com/FantasyCalendar/FoundryVTT-Sequencer/releases/latest/download/module.json"
 			}
 		]
 	},

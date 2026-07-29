@@ -1,3 +1,7 @@
+# 0.7.0
+- Fixed typo in module.json preventing required modules from actually being required.
+- Bumped minor version because previous version can actually break some nodes.
+
 # 0.6.9
 - (Nodes) Added {x,y} effect scale options.
 - (Nodes) Moved Anchor inputs from two separate number inputs to a single Point input.
