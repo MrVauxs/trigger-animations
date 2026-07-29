@@ -69,6 +69,20 @@ abstract class EffectModifierNode<
 		};
 	}
 
+	/** An anchor point input, defaulting to Sequencer's own 0.5, 0.5. */
+	static anchorInput(
+		key: string,
+		extra?: { group?: string; state?: string },
+	): T.InputEntrySchemaSource {
+		return {
+			key,
+			type: "point",
+			...this.io(key),
+			...extra,
+			field: { x: 0.5, y: 0.5 },
+		};
+	}
+
 	override get headerColor() {
 		return "#009690";
 	}

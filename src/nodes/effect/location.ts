@@ -25,8 +25,7 @@ interface TInputs {
 	bindScale: boolean;
 	bindRotation: boolean;
 	bindElevation: boolean;
-	anchorX: number;
-	anchorY: number;
+	anchor: Point;
 	scale: string;
 }
 
@@ -140,20 +139,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				group: "attach",
 				field: { default: true },
 			},
-			{
-				key: "anchorX",
-				type: "number",
-				...this.io("anchorX"),
-				state: "screenSpace",
-				field: { default: -1, min: -1, max: 1 },
-			},
-			{
-				key: "anchorY",
-				type: "number",
-				...this.io("anchorY"),
-				state: "screenSpace",
-				field: { default: -1, min: -1, max: 1 },
-			},
+			this.anchorInput("anchor", { state: "screenSpace" }),
 			{
 				key: "scale",
 				type: "text",
@@ -175,14 +161,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 				effect.screenSpacePosition(position);
 			}
 
-			const anchorX = await this.getInputValue("anchorX");
-			const anchorY = await this.getInputValue("anchorY");
-			if (anchorX >= 0 || anchorY >= 0) {
-				effect.screenSpaceAnchor({
-					x: anchorX >= 0 ? anchorX : 0.5,
-					y: anchorY >= 0 ? anchorY : 0.5,
-				});
-			}
+			effect.screenSpaceAnchor(await this.getInputValue("anchor"));
 
 			const scale = this.parseJson(await this.getInputValue("scale"), "scale");
 			if (scale)

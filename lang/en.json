@@ -529,13 +529,9 @@
 								"title": "Position",
 								"tooltip": "Screen-space position offset from the anchor. Leave at 0,0 to skip."
 							},
-							"anchorX": {
-								"title": "Anchor X",
-								"tooltip": "Horizontal screen anchor (0 = left, 1 = right). Leave at -1 to use the default of 0.5."
-							},
-							"anchorY": {
-								"title": "Anchor Y",
-								"tooltip": "Vertical screen anchor (0 = top, 1 = bottom). Leave at -1 to use the default of 0.5."
+							"anchor": {
+								"title": "Anchor",
+								"tooltip": "Screen anchor. X is left/right. Y is up/down. Default is 0.5."
 							},
 							"scale": {
 								"title": "Screen Scale",
@@ -741,18 +737,17 @@
 						"subtitle": "Anchor, mirroring and offset",
 						"group": {
 							"anchor": "Anchor",
-							"spriteAnchor": "Sprite Anchor",
 							"mirror": "Mirror",
 							"offset": "Offset"
 						},
 						"io": {
-							"anchorX": {
-								"title": "Anchor X",
-								"tooltip": "Horizontal pivot (0 = left, 1 = right). Leave at -1 to use the default of 0.5."
+							"anchor": {
+								"title": "Anchor",
+								"tooltip": "The effect's pivot. X is left/right. Y is up/down. Default is 0.5."
 							},
-							"anchorY": {
-								"title": "Anchor Y",
-								"tooltip": "Vertical pivot (0 = top, 1 = bottom). Leave at -1 to use the default of 0.5."
+							"spriteAnchor": {
+								"title": "Sprite Anchor",
+								"tooltip": "The sprite's pivot within the effect. X is left/right. Y is up/down. Default is 0.5."
 							},
 							"center": {
 								"title": "Center",

@@ -2,10 +2,8 @@ import type { TriggerEngine as T } from "trigger-engine/types";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
-	anchorX: number;
-	anchorY: number;
-	spriteAnchorX: number;
-	spriteAnchorY: number;
+	anchor: Point;
+	spriteAnchor: Point;
 	center: boolean;
 	mirrorX: boolean;
 	mirrorY: boolean;
@@ -15,9 +13,6 @@ interface TInputs {
 	gridUnits: boolean;
 	local: boolean;
 }
-
-// -1 means "leave unset" since 0 is a meaningful anchor; 0.5 is Sequencer's default.
-const ANCHOR_FIELD = { default: -1 };
 
 class SpriteNode extends EffectModifierNode<TInputs> {
 	static override get type() {
@@ -36,34 +31,8 @@ class SpriteNode extends EffectModifierNode<TInputs> {
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.effectInput,
-			{
-				key: "anchorX",
-				type: "number",
-				...this.io("anchorX"),
-				group: "anchor",
-				field: { ...ANCHOR_FIELD },
-			},
-			{
-				key: "anchorY",
-				type: "number",
-				...this.io("anchorY"),
-				group: "anchor",
-				field: { ...ANCHOR_FIELD },
-			},
-			{
-				key: "spriteAnchorX",
-				type: "number",
-				...this.io("anchorX"),
-				group: "spriteAnchor",
-				field: { ...ANCHOR_FIELD },
-			},
-			{
-				key: "spriteAnchorY",
-				type: "number",
-				...this.io("anchorY"),
-				group: "spriteAnchor",
-				field: { ...ANCHOR_FIELD },
-			},
+			this.anchorInput("anchor", { group: "anchor" }),
+			this.anchorInput("spriteAnchor", { group: "anchor" }),
 			{ key: "center", type: "boolean", ...this.io("center") },
 			{ key: "mirrorX", type: "boolean", ...this.io("mirrorX"), group: "mirror" },
 			{ key: "mirrorY", type: "boolean", ...this.io("mirrorY"), group: "mirror" },
@@ -86,23 +55,8 @@ class SpriteNode extends EffectModifierNode<TInputs> {
 	}
 
 	protected override async apply(effect: EffectSection): Promise<void> {
-		const anchorX = await this.getInputValue("anchorX");
-		const anchorY = await this.getInputValue("anchorY");
-		if (anchorX >= 0 || anchorY >= 0) {
-			effect.anchor({
-				x: anchorX >= 0 ? anchorX : 0.5,
-				y: anchorY >= 0 ? anchorY : 0.5,
-			});
-		}
-
-		const spriteAnchorX = await this.getInputValue("spriteAnchorX");
-		const spriteAnchorY = await this.getInputValue("spriteAnchorY");
-		if (spriteAnchorX >= 0 || spriteAnchorY >= 0) {
-			effect.spriteAnchor({
-				x: spriteAnchorX >= 0 ? spriteAnchorX : 0.5,
-				y: spriteAnchorY >= 0 ? spriteAnchorY : 0.5,
-			});
-		}
+		effect.anchor(await this.getInputValue("anchor"));
+		effect.spriteAnchor(await this.getInputValue("spriteAnchor"));
 
 		if (await this.getInputValue("center"))
 			effect.center();

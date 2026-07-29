@@ -1,5 +1,6 @@
 # 0.6.9
 - (Nodes) Added {x,y} effect scale options.
+- (Nodes) Moved Anchor inputs from two separate number inputs to a single Point input.
 
 # 0.6.8
 - Added CONFIG.debug["trigger-animations"] and CONFIG.debug.triggerAnimations handling.
