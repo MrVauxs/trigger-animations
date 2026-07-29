@@ -12,17 +12,23 @@ interface TInputs {
 	gridUnits: boolean;
 	spriteScale: number;
 	spriteScaleMax: number;
+	spriteScalePoint: { x: number; y: number };
 	scaleInScale: number;
+	scaleInScalePoint: { x: number; y: number };
 	scaleInDuration: number;
 	scaleInEase: string;
 	scaleInDelay: number;
 	scaleOutScale: number;
+	scaleOutScalePoint: { x: number; y: number };
 	scaleOutDuration: number;
 	scaleOutEase: string;
 	scaleOutDelay: number;
 }
 
-type TState = "factor" | "object" | "size";
+type TState = "factor" | "object" | "size" | "spritePoint";
+
+/** States where scale amounts are uniform numbers instead of Points. */
+const UNIFORM_SCALE_STATES = ["factor", "object", "size"];
 
 class ScaleNode extends EffectModifierNode<TInputs, TState> {
 	static override get type() {
@@ -34,7 +40,7 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 	}
 
 	static override get states(): string[] | null {
-		return ["factor", "object", "size"];
+		return ["factor", "object", "size", "spritePoint"];
 	}
 
 	override get icon() {
@@ -92,20 +98,38 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				key: "spriteScale",
 				type: "number",
 				...this.io("spriteScale"),
+				state: UNIFORM_SCALE_STATES,
 				field: { default: 0, min: 0 },
 			},
 			{
 				key: "spriteScaleMax",
 				type: "number",
 				...this.io("spriteScaleMax"),
+				state: UNIFORM_SCALE_STATES,
 				field: { default: 0, min: 0 },
+			},
+			{
+				key: "spriteScalePoint",
+				type: "point",
+				...this.io("spriteScalePoint"),
+				state: "spritePoint",
+				field: { x: 0, y: 0 },
 			},
 			{
 				key: "scaleInScale",
 				type: "number",
 				...this.io("fadeScale"),
 				group: "scaleIn",
+				state: UNIFORM_SCALE_STATES,
 				field: { default: 0, min: 0 },
+			},
+			{
+				key: "scaleInScalePoint",
+				type: "point",
+				...this.io("fadeScalePoint"),
+				group: "scaleIn",
+				state: "spritePoint",
+				field: { x: 0, y: 0 },
 			},
 			{
 				key: "scaleInDuration",
@@ -127,7 +151,16 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				type: "number",
 				...this.io("fadeScale"),
 				group: "scaleOut",
+				state: UNIFORM_SCALE_STATES,
 				field: { default: 0, min: 0 },
+			},
+			{
+				key: "scaleOutScalePoint",
+				type: "point",
+				...this.io("fadeScalePoint"),
+				group: "scaleOut",
+				state: "spritePoint",
+				field: { x: 0, y: 0 },
 			},
 			{
 				key: "scaleOutDuration",
@@ -180,18 +213,26 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 				effect.size({ height }, { gridUnits });
 		}
 
-		const spriteScale = await this.getInputValue("spriteScale");
-		if (spriteScale > 0) {
-			const spriteScaleMax = await this.getInputValue("spriteScaleMax");
-			if (spriteScaleMax > 0)
-				effect.spriteScale(spriteScale, spriteScaleMax);
-			else effect.spriteScale(spriteScale);
+		if (this.state === "spritePoint") {
+			const spriteScalePoint = await this.getInputValue("spriteScalePoint");
+			if (spriteScalePoint && (spriteScalePoint.x !== 0 || spriteScalePoint.y !== 0))
+				effect.spriteScale(spriteScalePoint);
+		} else {
+			const spriteScale = await this.getInputValue("spriteScale");
+			if (spriteScale > 0) {
+				const spriteScaleMax = await this.getInputValue("spriteScaleMax");
+				if (spriteScaleMax > 0)
+					effect.spriteScale(spriteScale, spriteScaleMax);
+				else effect.spriteScale(spriteScale);
+			}
 		}
 
 		const scaleInDuration = await this.getInputValue("scaleInDuration");
 		if (scaleInDuration > 0) {
 			effect.scaleIn(
-				await this.getInputValue("scaleInScale"),
+				this.state === "spritePoint"
+					? await this.getInputValue("scaleInScalePoint")
+					: await this.getInputValue("scaleInScale"),
 				scaleInDuration,
 				{
 					ease: await this.getInputValue("scaleInEase"),
@@ -203,7 +244,9 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 		const scaleOutDuration = await this.getInputValue("scaleOutDuration");
 		if (scaleOutDuration > 0) {
 			effect.scaleOut(
-				await this.getInputValue("scaleOutScale"),
+				this.state === "spritePoint"
+					? await this.getInputValue("scaleOutScalePoint")
+					: await this.getInputValue("scaleOutScale"),
 				scaleOutDuration,
 				{
 					ease: await this.getInputValue("scaleOutEase"),

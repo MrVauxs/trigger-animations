@@ -17,7 +17,7 @@ interface TInputs {
 }
 
 // -1 means "leave unset" since 0 is a meaningful anchor; 0.5 is Sequencer's default.
-const ANCHOR_FIELD = { default: -1, min: -1, max: 1 };
+const ANCHOR_FIELD = { default: -1 };
 
 class SpriteNode extends EffectModifierNode<TInputs> {
 	static override get type() {

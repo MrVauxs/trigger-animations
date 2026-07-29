@@ -678,7 +678,8 @@
 						"states": {
 							"factor": "Factor",
 							"object": "To Object",
-							"size": "Size"
+							"size": "Size",
+							"spritePoint": "Scale Point"
 						},
 						"group": {
 							"scaleIn": "Scale In",
@@ -721,9 +722,17 @@
 								"title": "Sprite Scale Max",
 								"tooltip": "When above 0, a random uniform sprite scale between Sprite Scale and this value is picked."
 							},
+							"spriteScalePoint": {
+								"title": "Sprite Scale",
+								"tooltip": "Scales the sprite per axis. Leave both at 0 to skip. No random range is available for per-axis scaling."
+							},
 							"fadeScale": {
 								"title": "Scale",
 								"tooltip": "The scale to animate from (in) or to (out)."
+							},
+							"fadeScalePoint": {
+								"title": "Scale",
+								"tooltip": "The per-axis scale to animate from (in) or to (out)."
 							}
 						}
 					},
