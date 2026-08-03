@@ -1,3 +1,6 @@
+# 0.7.1
+- Changed the default "no matches" trigger name in trigger generator to be `unknown-trigger:<item-slug>` instead of `<itemType>:<item-slug>`.
+
 # 0.7.0
 - Fixed typo in module.json preventing required modules from actually being required.
 - Bumped minor version because previous version can actually break some nodes.

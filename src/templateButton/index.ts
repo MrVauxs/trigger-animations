@@ -32,7 +32,7 @@ function suggestTriggerName(item: Item): string[] {
 		}
 	}
 
-	return [`${item.type}:${slug}`];
+	return [`unknown-trigger:${slug}`];
 }
 
 async function openTemplateDialog(item: Item) {
