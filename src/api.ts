@@ -29,6 +29,8 @@ type CustomSetting = Extract<
 	}
 >;
 
+type OwnershipLevel = (typeof CONST.DOCUMENT_OWNERSHIP_LEVELS)[keyof typeof CONST.DOCUMENT_OWNERSHIP_LEVELS];
+
 interface CachedTrigger {
 	id: string;
 	patterns: string[] | null;
@@ -209,6 +211,27 @@ export class API {
 		};
 	}
 
+	databaseOwnership(minRole?: number): Record<string, OwnershipLevel> {
+		const role = Number(minRole ?? game.settings.get(id, "database-edit-role"));
+		const { OWNER, OBSERVER } = CONST.DOCUMENT_OWNERSHIP_LEVELS;
+		const ownership: Record<string, OwnershipLevel> = { default: OBSERVER };
+		for (const user of game.users) {
+			if (!user.id || user.isGM)
+				continue;
+			ownership[user.id] = user.role >= role ? OWNER : OBSERVER;
+		}
+		return ownership;
+	}
+
+	/** Push {@link databaseOwnership} onto the database journal. Only the active GM writes. */
+	async applyDatabaseOwnership(minRole?: number) {
+		if (!this.db || !game.user.isActiveGM)
+			return;
+		const ownership = this.databaseOwnership(minRole);
+		devLog("Applying database ownership", ownership);
+		await this.db.update({ ownership });
+	}
+
 	#hooks: Record<string, number> = {};
 	databaseMount() {
 		devLog("DB Mount Hook", this.db);
@@ -257,7 +280,7 @@ export class API {
 		if (!database) {
 			database = await JournalEntry.create({
 				name: "Trigger Animations DB",
-				ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER },
+				ownership: this.databaseOwnership(),
 			});
 		}
 		return end();

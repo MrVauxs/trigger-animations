@@ -24,6 +24,16 @@
 			"autoanimations-override": {
 				"name": "Override Automated Animations",
 				"hint": "Stops A-A when Trigger Animations could run for a given animation. This may not always work."
+			},
+			"database-edit-role": {
+				"name": "Minimum Triggers Access Role",
+				"hint": "The minimum role required to edit the Trigger Animations database. Users below it can still see and run triggers, they just cannot update or delete them.",
+				"choices": {
+					"player": "Player",
+					"trusted": "Trusted Player",
+					"assistant": "Assistant GM",
+					"gamemaster": "Game Master"
+				}
 			}
 		},
 		"anim-trigger": {

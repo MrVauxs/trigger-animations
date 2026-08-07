@@ -45,6 +45,21 @@ Hooks.on("init", () => {
 		config: true,
 		scope: "user",
 	});
+	game.settings.register(moduleId, "database-edit-role", {
+		name: settingString("database-edit-role", "name"),
+		hint: settingString("database-edit-role", "hint"),
+		type: Number,
+		default: CONST.USER_ROLES.PLAYER,
+		choices: {
+			[CONST.USER_ROLES.PLAYER]: settingString("database-edit-role", "choices.player"),
+			[CONST.USER_ROLES.TRUSTED]: settingString("database-edit-role", "choices.trusted"),
+			[CONST.USER_ROLES.ASSISTANT]: settingString("database-edit-role", "choices.assistant"),
+			[CONST.USER_ROLES.GAMEMASTER]: settingString("database-edit-role", "choices.gamemaster"),
+		} as never,
+		config: true,
+		scope: "world",
+		onChange: value => triggerAnimations?.api?.applyDatabaseOwnership(Number(value)),
+	});
 	game.settings.register(moduleId, "update-notice-shown-version", {
 		type: String,
 		name: "update-notice-shown-version",
