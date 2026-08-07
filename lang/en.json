@@ -2013,6 +2013,10 @@
 								"title": "Options",
 								"tooltip": "A list of string options that can be used to modify the effect (e.g. pf2e roll options)."
 							},
+							"matchedName": {
+								"title": "Matched Name",
+								"tooltip": "Which of this node's names matched, useful when using a wildcard or several names. Wildcards report themselves (e.g. `attack:*bow*`) rather than the name they matched, and the first entry wins if several match."
+							},
 							"path": {
 								"title": "Path",
 								"tooltip": "Extracts whatever data you want from a given path of the provided data (e.g. outcome)."

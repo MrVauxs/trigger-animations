@@ -13,6 +13,7 @@ type TOutputs = {
 	sources?: TargetDocuments[];
 	item?: Item;
 	options?: string[];
+	matchedName?: string;
 } & Record<string, unknown>;
 
 interface StartNodeOptions {
@@ -106,6 +107,12 @@ class StartNode extends TriggerNode<
 				label: this.localize("io.options.title"),
 				tooltip: this.localize("io.options.tooltip"),
 			},
+			{
+				key: "matchedName",
+				type: "text",
+				label: this.localize("io.matchedName.title"),
+				tooltip: this.localize("io.matchedName.tooltip"),
+			},
 		];
 	}
 
@@ -161,7 +168,7 @@ class StartNode extends TriggerNode<
 		 * The name the animation-event node has.
 		 * ["bow", "shortbow", "longbow"]
 		 */
-		const animationNames = (await this.getInputValue("name")).split(",");
+		const animationNames = (await this.getInputValue("name")).split(",").map(x => x.trim());
 		/**
 		 * The name provided by the function.
 		 * "bow"
@@ -169,7 +176,6 @@ class StartNode extends TriggerNode<
 		const givenNames = name.split(",").map(x => x.trim());
 		const softFail = await this.getInputValue("softFail");
 		const matchesPattern = (animationName: string) => {
-			animationName = animationName.trim();
 			// `*` matches everything; otherwise `*` is a wildcard segment (e.g. `weapon-*`).
 			if (animationName === "*")
 				return true;
@@ -196,6 +202,7 @@ class StartNode extends TriggerNode<
 		this.setOutputValue("sources", sources);
 		this.setOutputValue("actor", actor);
 		this.setOutputValue("item", item);
+		this.setOutputValue("matchedName", foundNames[0]);
 
 		if (options)
 			this.setOutputValue("options", options.concat(`animation-name:${name}`));

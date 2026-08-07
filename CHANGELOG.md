@@ -1,4 +1,6 @@
 # 0.8.1
+- (Nodes) Added a "Matched Name" output to the Start Animation node, telling you which of the node's own names matched. Wildcards are returned as the wildcard than the thing they matched (`attack:*bow*` rather than `attack:longbow-fire`), and the first matched wildcard is listed.
+- (Nodes) Reverted default "Hide Behind Walls" change in 0.8.0.
 - Actually make the `CONFIG.debug.triggerAnimations` work.
 
 # 0.8.0
