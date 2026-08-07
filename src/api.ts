@@ -273,6 +273,7 @@ export class API {
 						this.prepare();
 				});
 			}
+			this.applyDatabaseOwnership(game.settings.get(id, "database-edit-role") as number);
 			return database;
 		};
 		if (!JournalEntry.canUserCreate(game.user))
