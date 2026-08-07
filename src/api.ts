@@ -2,6 +2,7 @@ import type { TriggerEngine as T } from "trigger-engine/types";
 import type { BlueprintApplication } from "triggers-menu";
 import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
+import { competes, handleItem, overrideEnabled } from "$lib/autoAnimations";
 import * as s from "$lib/serialize";
 import { devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
@@ -104,6 +105,12 @@ export class API {
 
 	async runFromTrigger(data: StartNodeOptions): Promise<void> { };
 
+	autoAnimations = {
+		competes,
+		handleItem,
+		get override() { return overrideEnabled(); },
+	};
+
 	saveTriggers(data: T.TriggerDataInput[]): void {
 		if (import.meta.hot)
 			import.meta.hot?.send("trigger-animations:save", { triggers: data });
@@ -157,14 +164,18 @@ export class API {
 		devLog("Cached animation-event triggers", this._triggerCache);
 	}
 
-	matchTrigger(name: string): CachedTrigger | undefined {
+	/**
+	 * `literalOnly` counts only triggers that name this event outright and not wildcards. Exists because Trigger Animations Trove has its damn "damage:*" triggers.
+	 */
+	matchTrigger(name: string, { literalOnly = false }: { literalOnly?: boolean } = {}): CachedTrigger | undefined {
 		if (!name)
 			return undefined;
 		const givenNames = name.split(",").map(x => x.trim());
 		return this._triggerCache.find(({ patterns }) => {
 			if (patterns === null)
-				return true;
-			return patterns.some(pattern => patternMatches(pattern, name, givenNames));
+				return !literalOnly;
+			return patterns.some(pattern => (!literalOnly || !pattern.includes("*"))
+				&& patternMatches(pattern, name, givenNames));
 		});
 	}
 

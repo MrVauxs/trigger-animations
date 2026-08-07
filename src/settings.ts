@@ -1,9 +1,18 @@
+import { isAutoAnimationsActive } from "$lib/autoAnimations";
 import { id as moduleId } from "moduleJSON";
 import { onVolumeChanged } from "./volume";
 
 const settingString = (id: string, property: string) => `trigger-animations.settings.${id}.${property}`;
 
 Hooks.on("init", () => {
+	game.settings.register(moduleId, "autoanimations-override", {
+		name: settingString("autoanimations-override", "name"),
+		hint: settingString("autoanimations-override", "hint"),
+		type: Boolean,
+		default: true,
+		config: isAutoAnimationsActive(),
+		scope: "world",
+	});
 	game.settings.register(moduleId, "volume", {
 		name: settingString("volume", "name"),
 		hint: settingString("volume", "hint"),

@@ -20,6 +20,10 @@
 			"show-template-button": {
 				"name": "Show Template Button",
 				"hint": "Shows the Trigger Animations button in item sheet headers for quickly creating a template animation."
+			},
+			"autoanimations-override": {
+				"name": "Override Automated Animations",
+				"hint": "Stops A-A when Trigger Animations could run for a given animation. This may not always work."
 			}
 		},
 		"anim-trigger": {
