@@ -21,11 +21,11 @@ async function displayTriggersUpdateNotice() {
 	if (!game.user.isGM)
 		return;
 
-	const currentVersion = dev ? "0.1.1" : game.modules.get(id)?.version;
+	const currentVersion = dev() ? "0.1.1" : game.modules.get(id)?.version;
 	if (!currentVersion)
 		return;
 
-	const lastShown = dev ? "0.0.0" : game.settings.get(id, "update-notice-shown-version") as string ?? "0.0.0";
+	const lastShown = dev() ? "0.0.0" : game.settings.get(id, "update-notice-shown-version") as string ?? "0.0.0";
 
 	const currentMM = getMajorMinor(currentVersion);
 	const lastMM = getMajorMinor(lastShown);

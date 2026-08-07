@@ -1,3 +1,6 @@
+# 0.8.1
+- Actually make the `CONFIG.debug.triggerAnimations` work.
+
 # 0.8.0
 - (Nodes) Added an "EZ Ranged" node. Takes a Source, Target, File, Item, Attach To and Outcome and outputs a ready to go projectile effect.
 - (Templates) The Attack template now uses the EZ Ranged node.

@@ -4,7 +4,7 @@ import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
 import { competes, handleItem, overrideEnabled } from "$lib/autoAnimations";
 import * as s from "$lib/serialize";
-import { devLog, log } from "$lib/utils";
+import { dev, devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
 import { BUILTIN_TEMPLATES } from "./templateButton/templates";
 
@@ -69,6 +69,10 @@ export class API {
 		this.ready = true;
 		Hooks.callAll("triggerAnimations.ready", triggerAnimations.api);
 		devLog("API is ready.", this.ready);
+	}
+
+	get dev() {
+		return dev();
 	}
 
 	private queries = {

@@ -2,7 +2,11 @@
 import type Document from "@7h3laughingman/foundry-types/common/abstract/document.mjs";
 import type BaseUser from "@7h3laughingman/foundry-types/common/documents/user.mjs";
 
-export const dev = import.meta.env.DEV || !!(CONFIG.debug as any)["trigger-animations"] || !!(CONFIG.debug as any).triggerAnimations;
+export function dev() {
+	return import.meta.env.DEV
+		|| !!(CONFIG.debug as any)["trigger-animations"]
+		|| !!(CONFIG.debug as any).triggerAnimations;
+}
 
 export function isValidUpdater(data: Document, update?: Record<string, unknown>): boolean {
 	// V13 and earlier compatible
@@ -21,7 +25,7 @@ export function log(...args: unknown[]): void {
 }
 
 export function devLog(...args: unknown[]): void {
-	if (dev)
+	if (dev())
 		log(...args);
 }
 
@@ -30,13 +34,13 @@ export function moduleError(...args: unknown[]): void {
 }
 
 export function devGroup(s: string) {
-	if (dev) {
+	if (dev()) {
 		console.groupCollapsed("\x1B[1;31mTrigger-Animations", s);
 	}
 
 	return {
-		log: dev ? console.log : () => { },
-		end: dev ? console.groupEnd : () => { },
+		log: dev() ? console.log : () => { },
+		end: dev() ? console.groupEnd : () => { },
 	};
 }
 

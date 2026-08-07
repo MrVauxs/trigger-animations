@@ -164,7 +164,7 @@ abstract class EffectModifierNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const effect = await this.getInputValue("effect");
 		if (effect) {
-			if (dev) {
+			if (dev()) {
 				const definedInputs = (this.constructor as typeof TriggerNode).defineInputs;
 				const inputs = Object.fromEntries(
 					await Promise.all(

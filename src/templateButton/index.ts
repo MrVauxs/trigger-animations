@@ -26,6 +26,16 @@ export function suggestTriggerName(item: Item): string[] {
 			switch (item.type) {
 				// TODO: map item types to their suggested trigger-name prefix.
 				// e.g. case "action": return `action:${slug}`;
+				case "action": return [
+					`template:${slug}`,
+					`attack:${slug}`,
+					`damage:${slug}`,
+					`check:${slug}`,
+					`template:${item.uuid}`,
+					`attack:${item.uuid}`,
+					`damage:${item.uuid}`,
+					`check:${item.uuid}`,
+				];
 				case "spell": return [
 					`template:${slug}`,
 					`attack:${slug}`,
@@ -34,6 +44,7 @@ export function suggestTriggerName(item: Item): string[] {
 					`attack:${item.uuid}`,
 					`damage:${item.uuid}`,
 				];
+				case "melee":
 				case "weapon": {
 					const i = item as any;
 					const strings = [`attack:${slug}`, `damage:${slug}`, `attack:${item.uuid}`, `damage:${item.uuid}`];
