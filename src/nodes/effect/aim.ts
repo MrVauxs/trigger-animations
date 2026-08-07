@@ -89,7 +89,6 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 				key: "hideLineOfSight",
 				type: "boolean",
 				...this.io("hideLineOfSight"),
-				field: { default: true },
 				state: "stretchTo",
 			},
 			this.easeInput("ease", { state: "moveTowards" }),
