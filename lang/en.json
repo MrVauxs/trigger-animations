@@ -2056,6 +2056,47 @@
 							}
 						}
 					},
+					"module-file": {
+						"title": "Module File",
+						"subtitle": {
+							"jb2a": "Get Patreon/Free JB2A files",
+							"custom": "Get files between two modules"
+						},
+						"states": {
+							"jb2a": "JB2A",
+							"custom": "Custom"
+						},
+						"io": {
+							"patreon": {
+								"title": "Patreon Path",
+								"tooltip": "The file path (or database path) to use when the JB2A Patreon module (jb2a_patreon) is active."
+							},
+							"free": {
+								"title": "Free Path",
+								"tooltip": "The file path (or database path) to use when the free JB2A module (JB2A_DnD5e) is active."
+							},
+							"module1": {
+								"title": "Module 1",
+								"tooltip": "The id of the first module to check (as it appears in its manifest). If it is installed and enabled, File 1 is returned."
+							},
+							"file1": {
+								"title": "File 1",
+								"tooltip": "The file path (or database path) to use when Module 1 is active."
+							},
+							"module2": {
+								"title": "Module 2",
+								"tooltip": "The id of the second module to check. It is only used when Module 1 is not active."
+							},
+							"file2": {
+								"title": "File 2",
+								"tooltip": "The file path (or database path) to use when Module 2 is active."
+							},
+							"value": {
+								"title": "Path",
+								"tooltip": "The path belonging to the first active module. Empty when neither module is installed and enabled."
+							}
+						}
+					},
 					"get-quality": {
 						"title": "Get Quality",
 						"subtitle": "Reads TA's quality setting",
