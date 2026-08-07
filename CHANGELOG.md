@@ -1,6 +1,7 @@
 # 0.7.2
 - Added an **Override Automated Animations** setting, on by default. When A-A is about to run for an item Trigger Animations also has a trigger for it will kill A-A's animation. Best effort though, until A-A implements PR#78 its not gonna be 100% accurate. Especially with Trigger Animation's Trove.
 - Exposed `autoAnimations` utility functions in triggerAnimations.api. Most notably `triggerAnimations.api.autoAnimations.competes(item)`, for use in triggers, returning whether A-A would play for a given item.
+- Expanded suggested trigger names in template creator to include weapon groups, effects, and conditions.
 
 # 0.7.1
 - Changed the default "no matches" trigger name in trigger generator to be `unknown-trigger:<item-slug>` instead of `<itemType>:<item-slug>`.
