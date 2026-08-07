@@ -38,6 +38,14 @@
 						"slug": "path",
 						"isArray": false,
 						"type": "text"
+					},
+					"b6ed2qRow85Xxbw5": {
+						"id": "b6ed2qRow85Xxbw5",
+						"input": "uuid",
+						"label": "UUID",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
 					}
 				}
 			},
@@ -90,15 +98,25 @@
 						"label": "a",
 						"slug": "variable",
 						"type": "text"
+					},
+					"mMkD5MUVA5mwTMV3": {
+						"id": "mMkD5MUVA5mwTMV3",
+						"input": "uuid",
+						"label": "uuid",
+						"slug": "variable",
+						"type": "text"
 					}
 				}
 			},
 			"inputs": {
 				"plain": {
-					"value": "action:@a"
+					"value": "action:@a, action:@uuid"
 				},
 				"aessLq9h6kaS3HjI": {
 					"connection": "IDQTw5JJD4UBtg2T:outputs:oYiZvjkJXmEWqmzA"
+				},
+				"mMkD5MUVA5mwTMV3": {
+					"connection": "IDQTw5JJD4UBtg2T:outputs:b6ed2qRow85Xxbw5"
 				}
 			},
 			"outs": {

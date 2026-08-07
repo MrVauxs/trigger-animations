@@ -91,7 +91,7 @@
 			},
 			"inputs": {
 				"script": {
-					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = inputs[0];\n\nconst strings = [];\nif (item?.slug) strings.push(`template:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`template:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`template:${item.system.group}`);\nif (item?.baseItem) strings.push(`template:${item.baseItem}`);\nif (item?.group) strings.push(`template:${item.group}`);\n\nconst result = strings.join(\",\");\nreturn result ? [{type: \"text\", value: result}] : false;"
+					"value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = inputs[0];\n\nconst strings = [];\nstrings.push(`template:${item.uuid}`);\nif (item?.slug) strings.push(`template:${item.slug}`);\nif (item?.system?.baseItem) strings.push(`template:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`template:${item.system.group}`);\nif (item?.baseItem) strings.push(`template:${item.baseItem}`);\nif (item?.group) strings.push(`template:${item.group}`);\n\nconst result = strings.join(\",\");\nreturn result ? [{type: \"text\", value: result}] : false;"
 				},
 				"K9wHSvS61hJXaMY5": {
 					"connection": "sqXwYxJCnyViQuiI:outputs:item"

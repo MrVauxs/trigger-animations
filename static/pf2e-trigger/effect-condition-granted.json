@@ -71,6 +71,14 @@
 						"slug": "path",
 						"isArray": false,
 						"type": "text"
+					},
+					"r3gZjLFZiqzJoWvP": {
+						"id": "r3gZjLFZiqzJoWvP",
+						"input": "uuid",
+						"label": "UUID",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
 					}
 				}
 			},
@@ -107,18 +115,28 @@
 						"label": "b",
 						"slug": "variable",
 						"type": "text"
+					},
+					"ptPjOjGVgRE7YQv2": {
+						"id": "ptPjOjGVgRE7YQv2",
+						"input": "uuid",
+						"label": "uuid",
+						"slug": "variable",
+						"type": "text"
 					}
 				}
 			},
 			"inputs": {
 				"plain": {
-					"value": "@a:@b"
+					"value": "@a:@b, @a:@uuid"
 				},
 				"aessLq9h6kaS3HjI": {
 					"connection": "mosxx1pPt8nuHzjX:outputs:AQuEoVK4OXKt5CBl"
 				},
 				"KJ2Dao3zd2aGkzMh": {
 					"connection": "mosxx1pPt8nuHzjX:outputs:E85qTXVg1K7pfp77"
+				},
+				"ptPjOjGVgRE7YQv2": {
+					"connection": "mosxx1pPt8nuHzjX:outputs:r3gZjLFZiqzJoWvP"
 				}
 			},
 			"outs": {

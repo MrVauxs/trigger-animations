@@ -41,6 +41,14 @@
 						"slug": "path",
 						"isArray": false,
 						"type": "text"
+					},
+					"gj7use4pdy30TY9p": {
+						"id": "gj7use4pdy30TY9p",
+						"input": "uuid",
+						"label": "UUID",
+						"slug": "path",
+						"isArray": false,
+						"type": "text"
 					}
 				}
 			},
@@ -105,18 +113,28 @@
 						"label": "type",
 						"slug": "variable",
 						"type": "text"
+					},
+					"qfk9oXj6jbZxhXIX": {
+						"id": "qfk9oXj6jbZxhXIX",
+						"input": "uuid",
+						"label": "uuid",
+						"slug": "variable",
+						"type": "text"
 					}
 				}
 			},
 			"inputs": {
 				"plain": {
-					"value": "@type:@slug"
+					"value": "@type:@slug,@type:@uuid"
 				},
 				"5YEY3kuRaXjzEXq8": {
 					"connection": "Jo0VrfJDLW7Mvt6d:outputs:RNE8lD7qDcKIiDni"
 				},
 				"wzRgUtsTgpqgizLY": {
 					"value": "negated"
+				},
+				"qfk9oXj6jbZxhXIX": {
+					"connection": "Jo0VrfJDLW7Mvt6d:outputs:gj7use4pdy30TY9p"
 				}
 			},
 			"outs": {

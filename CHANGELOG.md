@@ -3,6 +3,7 @@
 - (Templates) The Attack template now uses the EZ Ranged node.
 - (Nodes) Added a Module File query node, allowing you to quickly get files between the two versions of JB2A, or two modules in general.
 - (Nodes) Made "Hide Behind Walls" on by default in the Aim node.
+- (Triggers) Added an UUID name variant for animating specific items (e.g. `attack:Actor.X91A5Exe4cnwaJ68.Item.9EKkgR05PZUQzM20`)
 
 # 0.7.2
 - Added an **Override Automated Animations** setting, on by default. When A-A is about to run for an item Trigger Animations also has a trigger for it will kill A-A's animation. Best effort though, until A-A implements PR#78 its not gonna be 100% accurate. Especially with Trigger Animation's Trove.
