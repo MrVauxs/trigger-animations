@@ -29,15 +29,15 @@ class SoundUsersNode extends SoundModifierNode<TInputs> {
 	}
 
 	protected override async apply(section: SoundSection): Promise<void> {
-		// @ts-expect-error Sequencer types
 		if (await this.getInputValue("locally"))
+			// @ts-expect-error Sequencer types
 			section.locally(true);
 
 		const users = await this.getInputValue("users");
 		if (users?.length) {
 			const ids = users.map(u => u?.id).filter((id): id is string => !!id);
-			// @ts-expect-error Sequencer types
 			if (ids.length)
+				// @ts-expect-error Sequencer types
 				section.forUsers(ids);
 		}
 	}
