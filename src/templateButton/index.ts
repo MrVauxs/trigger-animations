@@ -16,8 +16,8 @@ const getItemSheetHeaderButtonsId = Hooks.on("getItemSheetHeaderButtons", (
 	buttons.unshift({ label: "TA", class: "trigger-anims", icon: "fas fa-film", onclick: async () => openTemplateDialog(sheet.item) });
 });
 
-/** Turn an item into its suggested trigger name. Fill the switch as you go. */
-function suggestTriggerName(item: Item): string[] {
+/** Turn an item into its suggested trigger name. */
+export function suggestTriggerName(item: Item): string[] {
 	const slug = (item as any).slug ?? (item as any).system?.slug ?? item.name?.slugify?.() ?? "item-slug";
 
 	switch (game.system.id) {
@@ -44,7 +44,6 @@ async function openTemplateDialog(item: Item) {
 	const fallback = templates[0];
 	if (!fallback)
 		return devLog("No templates registered.");
-	// Prefer a template that fits the suggested names; fall back to the first.
 	const recommended = templates.filter(t => isRecommended(t, suggested));
 	const preselected = (recommended[0] ?? fallback).id;
 
@@ -58,9 +57,6 @@ async function openTemplateDialog(item: Item) {
 		</option>`;
 	}).join("");
 
-	// Build the content as a real element: DialogV2 only sanitizes string content
-	// (foundry.utils.cleanHTML), which strips the customizable-select markup
-	// (<button>/<selectedcontent>). An HTMLDivElement is passed through untouched.
 	const content = document.createElement("div");
 	content.innerHTML = `
 <section class="trigger-anims-template">
