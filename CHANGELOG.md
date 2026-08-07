@@ -4,6 +4,7 @@
 - (Nodes) Added a Module File query node, allowing you to quickly get files between the two versions of JB2A, or two modules in general.
 - (Nodes) Made "Hide Behind Walls" on by default in the Aim node.
 - (Triggers) Added an UUID name variant for animating specific items (e.g. `attack:Actor.X91A5Exe4cnwaJ68.Item.9EKkgR05PZUQzM20`)
+- (Triggers) Added a user target fallback to Action Posted and Check Roll triggers.
 - Expanded suggested trigger names in template creator to include item UUIDs.
 - Significantly improved the addition of trigger names in the template creator.
 

@@ -7,13 +7,13 @@
 		{
 			"type": "action-chat-event",
 			"position": {
-				"x": 297.999989718216,
-				"y": 410.6666327347437
+				"x": -99.77780711138303,
+				"y": 399.5554880990381
 			},
 			"id": "ZREUrMbreHUDuemk",
 			"outs": {
 				"out": {
-					"connection": "IDQTw5JJD4UBtg2T:ins:in"
+					"connection": "0k4xo4eczZ3D95uT:ins:in"
 				}
 			}
 		},
@@ -25,8 +25,8 @@
 				}
 			},
 			"position": {
-				"x": 540.0000406786016,
-				"y": 412.81669118503174
+				"x": 646.6666653991006,
+				"y": 419.4833779664552
 			},
 			"id": "IDQTw5JJD4UBtg2T",
 			"custom": {
@@ -58,8 +58,8 @@
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 1077.2564218952994,
-				"y": 405.7333786921825
+				"x": 1188.367505739453,
+				"y": 396.84449369247335
 			},
 			"id": "jAzKMfwdadNuNIBA",
 			"inputs": {
@@ -69,9 +69,6 @@
 				"sources": {
 					"connection": "ZREUrMbreHUDuemk:outputs:origin"
 				},
-				"targets": {
-					"connection": "ZREUrMbreHUDuemk:outputs:targets"
-				},
 				"options": {
 					"connection": "ZREUrMbreHUDuemk:outputs:options"
 				},
@@ -80,14 +77,17 @@
 				},
 				"name": {
 					"connection": "72SF1i5HZYkUs8un:outputs:result"
+				},
+				"targets": {
+					"connection": "zr6SBhKqMAh0tkeU:outputs:Sbr2R59Xqy6M1xoH"
 				}
 			}
 		},
 		{
 			"type": "format-text",
 			"position": {
-				"x": 760.6666870117188,
-				"y": 407.33335037174174
+				"x": 867.3333117322177,
+				"y": 414.0000371531652
 			},
 			"id": "72SF1i5HZYkUs8un",
 			"custom": {
@@ -122,6 +122,70 @@
 			"outs": {
 				"out": {
 					"connection": "jAzKMfwdadNuNIBA:ins:in"
+				}
+			}
+		},
+		{
+			"type": "user-targets",
+			"position": {
+				"x": 141.11126175021627,
+				"y": 405.00002386845796
+			},
+			"id": "0k4xo4eczZ3D95uT",
+			"outs": {
+				"out": {
+					"connection": "zr6SBhKqMAh0tkeU:ins:in"
+				}
+			}
+		},
+		{
+			"type": "execute-script",
+			"position": {
+				"x": 356.66659789769255,
+				"y": 402.7778325530473
+			},
+			"id": "zr6SBhKqMAh0tkeU",
+			"custom": {
+				"inputs": {
+					"NIKAA9jUeaImruZ0": {
+						"id": "NIKAA9jUeaImruZ0",
+						"label": "Targets 1",
+						"slug": "input",
+						"isArray": true,
+						"type": "target"
+					},
+					"a34J7p1ogqz85a7K": {
+						"id": "a34J7p1ogqz85a7K",
+						"label": "Targets 2",
+						"slug": "input",
+						"isArray": true,
+						"type": "target"
+					}
+				},
+				"outputs": {
+					"Sbr2R59Xqy6M1xoH": {
+						"id": "Sbr2R59Xqy6M1xoH",
+						"label": "Targets",
+						"slug": "output",
+						"isArray": true,
+						"type": "target"
+					}
+				}
+			},
+			"inputs": {
+				"NIKAA9jUeaImruZ0": {
+					"connection": "ZREUrMbreHUDuemk:outputs:targets"
+				},
+				"a34J7p1ogqz85a7K": {
+					"connection": "0k4xo4eczZ3D95uT:outputs:targets"
+				},
+				"script": {
+					"value": "const t1 = inputs[0];\nconst t2 = inputs[1];\nreturn [{type: \"targets\", value: t1?.length ? t1 : t2 }];"
+				}
+			},
+			"outs": {
+				"out": {
+					"connection": "IDQTw5JJD4UBtg2T:ins:in"
 				}
 			}
 		}
