@@ -103,6 +103,34 @@
 				}
 			},
 			"node": {
+				"ez": {
+					"ez-ranged": {
+						"title": "EZ Ranged",
+						"subtitle": "Premade projectile effect",
+						"io": {
+							"source": {
+								"title": "Source",
+								"tooltip": "Where the projectile starts from. Usually the attacker."
+							},
+							"target": {
+								"title": "Target",
+								"tooltip": "What the projectile is stretched towards. Usually the token being attacked."
+							},
+							"file": {
+								"title": "File",
+								"tooltip": "The effect file to play (a raw path or a Sequencer database path)."
+							},
+							"item": {
+								"title": "Item",
+								"tooltip": "The item that caused the shot. Fills in the effect's name and origin so other nodes can find or end it later."
+							},
+							"outcome": {
+								"title": "Outcome",
+								"tooltip": "The degree of success of the attack. Failures and critical failures make the projectile miss."
+							}
+						}
+					}
+				},
 				"action": {
 					"execute-animation": {
 						"title": "Execute Animation",
@@ -2124,6 +2152,9 @@
 				}
 			},
 			"category": {
+				"ez": {
+					"title": "EZ Presets"
+				},
 				"action": {
 					"title": "Action"
 				},

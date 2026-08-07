@@ -32,65 +32,6 @@
 			},
 			"outs": {
 				"out": {
-					"connection": "mpa5CCtLfa7bjI71:ins:in"
-				}
-			}
-		},
-		{
-			"type": "effect",
-			"position": {
-				"x": 981.7776878222768,
-				"y": -11.629621659793969
-			},
-			"id": "9Ny9laSD1AJY2y4E",
-			"inputs": {
-				"name": {
-					"connection": "mpa5CCtLfa7bjI71:outputs:sR6Cy5NKJKuZpmQg"
-				},
-				"origin": {
-					"connection": "mpa5CCtLfa7bjI71:outputs:qHvhdFqXb77u8E8o"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "e9lcLUsF8nmzdJg7:ins:in"
-				}
-			}
-		},
-		{
-			"type": "extract-item",
-			"position": {
-				"x": 575.3332973328681,
-				"y": 266.0000107216416
-			},
-			"id": "mpa5CCtLfa7bjI71",
-			"custom": {
-				"outputs": {
-					"qHvhdFqXb77u8E8o": {
-						"id": "qHvhdFqXb77u8E8o",
-						"input": "uuid",
-						"label": "UUID",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"sR6Cy5NKJKuZpmQg": {
-						"id": "sR6Cy5NKJKuZpmQg",
-						"input": "name",
-						"label": "Name",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"input": {
-					"connection": "zwvWO50CXI44ObmF:outputs:item"
-				}
-			},
-			"outs": {
-				"out": {
 					"connection": "4gZJ8Gm9UjlhMc4G:ins:in"
 				}
 			}
@@ -98,8 +39,8 @@
 		{
 			"type": "play",
 			"position": {
-				"x": 982.2964527266994,
-				"y": 129.6296985915386
+				"x": 1171.0590736839486,
+				"y": 225.58929793674054
 			},
 			"id": "kkkNTCli7BCyXs18",
 			"inputs": {
@@ -109,73 +50,10 @@
 			}
 		},
 		{
-			"type": "location",
-			"state": "targets",
-			"inputs": {
-				"effect": {
-					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
-				},
-				"location": {
-					"connection": "4gZJ8Gm9UjlhMc4G:outputs:source"
-				}
-			},
-			"position": {
-				"x": 1267.5555584358076,
-				"y": -163.99815750230124
-			},
-			"id": "e9lcLUsF8nmzdJg7",
-			"outs": {
-				"out": {
-					"connection": "HrjxmdV9fn6KEOE0:ins:in"
-				}
-			}
-		},
-		{
-			"type": "file",
-			"inputs": {
-				"effect": {
-					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
-				},
-				"file": {
-					"value": "jb2a.arrow.physical.white.01"
-				}
-			},
-			"position": {
-				"x": 1496.5926746274013,
-				"y": -168.26844370296433
-			},
-			"id": "HrjxmdV9fn6KEOE0",
-			"outs": {
-				"out": {
-					"connection": "2bt2cdnyg4ntLfaK:ins:in"
-				}
-			}
-		},
-		{
-			"type": "aim",
-			"state": "stretchTo",
-			"inputs": {
-				"effect": {
-					"connection": "9Ny9laSD1AJY2y4E:outputs:effect"
-				},
-				"towards": {
-					"connection": "4gZJ8Gm9UjlhMc4G:outputs:target"
-				},
-				"missed": {
-					"connection": "2bt2cdnyg4ntLfaK:outputs:boolean"
-				}
-			},
-			"position": {
-				"x": 1998.465668183612,
-				"y": 47.45157051876333
-			},
-			"id": "mzztRWLWfGStDgf8"
-		},
-		{
 			"type": "massloop",
 			"position": {
-				"x": 670.0002040592956,
-				"y": 54.888896970017754
+				"x": 612.2982061148365,
+				"y": 208.92932807399603
 			},
 			"id": "4gZJ8Gm9UjlhMc4G",
 			"inputs": {
@@ -187,50 +65,40 @@
 				}
 			},
 			"outs": {
-				"out": {
-					"connection": "9Ny9laSD1AJY2y4E:ins:in"
-				},
 				"outAfter": {
 					"connection": "kkkNTCli7BCyXs18:ins:in"
+				},
+				"out": {
+					"connection": "D4opaa8AoUHFkPc3:ins:in"
 				}
 			}
 		},
 		{
-			"type": "list-contains",
+			"type": "ez-ranged",
 			"position": {
-				"x": 1749.2806329087025,
-				"y": -6.137475745046345
+				"x": 925.4544305195639,
+				"y": 197.61361717610617
 			},
-			"id": "2bt2cdnyg4ntLfaK",
+			"id": "D4opaa8AoUHFkPc3",
 			"inputs": {
-				"entry": {
+				"file": {
+					"value": "jb2a.arrow.physical.white.01"
+				},
+				"target": {
+					"connection": "4gZJ8Gm9UjlhMc4G:outputs:target"
+				},
+				"source": {
+					"connection": "4gZJ8Gm9UjlhMc4G:outputs:source"
+				},
+				"outcome": {
 					"connection": "zwvWO50CXI44ObmF:outputs:9GG5oGEm2a9RAiZ5"
 				},
-				"list": {
-					"connection": "Kfd0h5Nepcqvhmyb:outputs:list"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "mzztRWLWfGStDgf8:ins:in"
-				}
-			},
-			"state": "boolean"
-		},
-		{
-			"type": "list-value",
-			"position": {
-				"x": 1505.9046807058999,
-				"y": 18.95236015319847
-			},
-			"id": "Kfd0h5Nepcqvhmyb",
-			"inputs": {
-				"entry": {
-					"value": "failure,criticalFailure"
+				"item": {
+					"connection": "zwvWO50CXI44ObmF:outputs:item"
 				}
 			}
 		}
 	],
-	"id": "qLo0Xc1y1TQoctDo",
+	"id": "pgkx2VNlK16IPC07",
 	"description": "<p>Animates on attac rolls from all weapons from the bow weapon group.</p><p><strong>Keywords:</strong> bow</p><p><em>Example Animation from Trigger Animations by @MrVauxs.</em></p>"
 }

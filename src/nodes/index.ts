@@ -4,6 +4,7 @@ export * from "./canvasPan/index";
 // export * from "./crosshair/index";
 export * from "./effect/index";
 export * from "./executeAnimation";
+export * from "./ez/index";
 export * from "./logic/index";
 export * from "./play";
 export * from "./scrollingText/index";

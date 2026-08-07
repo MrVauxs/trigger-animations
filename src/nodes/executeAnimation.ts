@@ -28,10 +28,6 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 		return "action";
 	}
 
-	static override get tags(): string[] {
-		return ["animation"];
-	}
-
 	static localize(str: string) {
 		return `trigger-animations.anim-trigger.node.${this.category}.${this.type}.${str}`;
 	}

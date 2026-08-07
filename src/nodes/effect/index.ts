@@ -1,10 +1,10 @@
+// Only concrete node classes may be exported here: src/register.ts registers
+// Object.values() of the node barrel, so ./base and ./constants must not leak.
 export * from "./advanced";
 export * from "./aim";
 export * from "./animate";
 export * from "./audio";
 export * from "./content";
-// Only concrete node classes may be exported here: src/register.ts registers
-// Object.values() of the node barrel, so ./base and ./constants must not leak.
 export * from "./create";
 export * from "./file";
 export * from "./flow";

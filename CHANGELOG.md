@@ -1,4 +1,6 @@
 # 0.8.0
+- (Nodes) Added an "EZ Ranged" node. Takes a Source, Target, File, Item, Attach To and Outcome and outputs a ready to go projectile effect.
+- (Templates) The Attack template now uses the EZ Ranged node.
 - (Nodes) Added a Module File query node, allowing you to quickly get files between the two versions of JB2A, or two modules in general.
 - (Nodes) Made "Hide Behind Walls" on by default in the Aim node.
 

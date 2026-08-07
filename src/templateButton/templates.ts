@@ -84,62 +84,56 @@ function baseTrigger(ctx: TemplateContext, nodes: T.NodeDataInput[]): T.TriggerD
 }
 
 /**
- * Attack projectile: animation-event => extract-item => effect => file => location(source) => aim(stretchTo target) => play.
+ * Attack projectile: animation-event => massloop(source/target pairs) => ez-ranged, then play once the loop is done.
+ * Mirrors the example weapon triggers (static/anim-trigger/weapon-group-bow.json).
  */
 const attack: TriggerTemplate = {
 	id: "attack",
 	label: "Attack",
-	hint: "Effect on the source, stretched to the target.",
+	hint: "Effect on the source, stretched to the target. Misses on a failed outcome.",
 	prefixes: ["attack", "damage"],
 	build: (ctx) => {
 		const eventId = rid();
-		const extractId = rid();
-		const effectId = rid();
-		const fileId = rid();
-		const locationId = rid();
-		const aimId = rid();
+		const loopId = rid();
+		const rangedId = rid();
 		const playId = rid();
 
-		const effect = { connection: `${effectId}:outputs:effect` };
-		const extract = extractItem(eventId, extractId, effectId, 1);
+		const outcomeOutId = rid();
 
 		return baseTrigger(ctx, [
-			animationEvent(ctx.triggerNames, extractId, eventId),
-			extract.node,
-			effectNode(extractId, extract.nameOutId, extract.uuidOutId, effectId, fileId, 2),
+			animationEvent(ctx.triggerNames, loopId, eventId, {
+				[outcomeOutId]: pathOut(outcomeOutId, "outcome", "Outcome"),
+			}),
 			{
-				id: fileId,
-				type: "file",
-				position: at(3),
-				inputs: { effect, file: { value: "jb2a.fire_bolt.orange" } },
-				outs: { out: { connection: `${locationId}:ins:in` } },
+				id: loopId,
+				type: "massloop",
+				position: at(1),
+				inputs: {
+					targets: { connection: `${eventId}:outputs:targets` },
+					sources: { connection: `${eventId}:outputs:sources` },
+				},
+				outs: {
+					out: { connection: `${rangedId}:ins:in` },
+					// Preloading and playing happens once, after every pair was set up.
+					outAfter: { connection: `${playId}:ins:in` },
+				},
 			},
 			{
-				id: locationId,
-				type: "location",
-				state: "targets",
-				position: at(4),
+				id: rangedId,
+				type: "ez-ranged",
+				position: at(2),
 				inputs: {
-					effect,
-					location: { connection: `${eventId}:outputs:sources` },
+					file: { value: "jb2a.fire_bolt.orange" },
+					item: { connection: `${eventId}:outputs:item` },
+					outcome: { connection: `${eventId}:outputs:${outcomeOutId}` },
+					source: { connection: `${loopId}:outputs:source` },
+					target: { connection: `${loopId}:outputs:target` },
 				},
-				outs: { out: { connection: `${aimId}:ins:in` } },
-			},
-			{
-				id: aimId,
-				type: "aim",
-				state: "stretchTo",
-				position: at(5),
-				inputs: {
-					effect,
-					towards: { connection: `${eventId}:outputs:targets` },
-				},
-				outs: { out: { connection: `${playId}:ins:in` } },
 			},
 			{
 				id: playId,
 				type: "play",
-				position: at(6),
+				position: at(3),
 				inputs: { preload: { value: true } },
 			},
 		]);
