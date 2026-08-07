@@ -26,8 +26,26 @@ export function suggestTriggerName(item: Item): string[] {
 			switch (item.type) {
 				// TODO: map item types to their suggested trigger-name prefix.
 				// e.g. case "action": return `action:${slug}`;
-				case "spell": return [`template:${slug}`, `attack:${slug}`, `damage:${slug}`];
-				case "weapon": return [`attack:${slug}`, `damage:${slug}`];
+				case "spell": return [
+					`template:${slug}`,
+					`attack:${slug}`,
+					`damage:${slug}`,
+				];
+				case "weapon": {
+					const i = item as any;
+					const strings = [`attack:${slug}`, `damage:${slug}`];
+					if (i?.system?.baseItem)
+						strings.push(`attack:${i.system.baseItem}`);
+					if (i?.system?.group)
+						strings.push(`attack:${i.system.group}`);
+					if (i?.baseItem)
+						strings.push(`attack:${i.baseItem}`);
+					if (i?.group)
+						strings.push(`attack:${i.group}`);
+					return [...new Set(strings)];
+				};
+				case "effect": return [`effect:${slug}`];
+				case "condition": return [`condition:${slug}`];
 			}
 		}
 	}
@@ -72,7 +90,10 @@ async function openTemplateDialog(item: Item) {
 	</p>
 	<p>
 		<label>Suggested trigger name</label>
-		<input type="text" name="triggerName" value="${foundry.utils.escapeHTML(suggested[0])}" autofocus>
+		<input type="text" name="triggerName" list="triggerNameExamples" value="${foundry.utils.escapeHTML(suggested[0])}" autofocus>
+		<datalist id="triggerNameExamples">
+			${suggested.map(i => `<option value="${i}"></option>`).join("")}
+		</datalist>
 	</p>
 </section>`;
 
