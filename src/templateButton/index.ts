@@ -30,10 +30,13 @@ export function suggestTriggerName(item: Item): string[] {
 					`template:${slug}`,
 					`attack:${slug}`,
 					`damage:${slug}`,
+					`template:${item.uuid}`,
+					`attack:${item.uuid}`,
+					`damage:${item.uuid}`,
 				];
 				case "weapon": {
 					const i = item as any;
-					const strings = [`attack:${slug}`, `damage:${slug}`];
+					const strings = [`attack:${slug}`, `damage:${slug}`, `attack:${item.uuid}`, `damage:${item.uuid}`];
 					if (i?.system?.baseItem)
 						strings.push(`attack:${i.system.baseItem}`);
 					if (i?.system?.group)
@@ -44,8 +47,8 @@ export function suggestTriggerName(item: Item): string[] {
 						strings.push(`attack:${i.group}`);
 					return [...new Set(strings)];
 				};
-				case "effect": return [`effect:${slug}`];
-				case "condition": return [`condition:${slug}`];
+				case "effect": return [`effect:${slug}`, `effect:${item.uuid}`];
+				case "condition": return [`condition:${slug}`, `condition:${item.uuid}`];
 			}
 		}
 	}
