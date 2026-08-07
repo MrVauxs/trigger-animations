@@ -56,6 +56,41 @@ export function suggestTriggerName(item: Item): string[] {
 	return [`unknown-trigger:${slug}`];
 }
 
+function wireTriggerNameChips(root: HTMLElement) {
+	const section = root.querySelector<HTMLElement>(".trigger-anims-template");
+	const input = root.querySelector<HTMLInputElement>("input[name='triggerName']");
+	const chips = [...root.querySelectorAll<HTMLButtonElement>(".ta-chip")];
+	if (!section || !input || section.dataset.taWired)
+		return;
+	section.dataset.taWired = "true";
+
+	const tokens = () => input.value.split(",").map(t => t.trim()).filter(Boolean);
+
+	function sync() {
+		const active = new Set(tokens());
+		for (const chip of chips) {
+			const on = active.has(chip.dataset.name ?? "");
+			chip.classList.toggle("active", on);
+			const icon = chip.querySelector("i");
+			if (icon)
+				icon.className = on ? "fas fa-check" : "fas fa-plus";
+		}
+	}
+
+	for (const chip of chips) {
+		chip.addEventListener("click", () => {
+			const name = chip.dataset.name ?? "";
+			const current = tokens();
+			const next = current.includes(name) ? current.filter(t => t !== name) : [...current, name];
+			input.value = next.join(", ");
+			sync();
+		});
+	}
+
+	input.addEventListener("input", sync);
+	sync();
+}
+
 async function openTemplateDialog(item: Item) {
 	const DialogV2 = foundry.applications.api.DialogV2;
 	const suggested = suggestTriggerName(item);
@@ -78,32 +113,40 @@ async function openTemplateDialog(item: Item) {
 		</option>`;
 	}).join("");
 
+	const escape = foundry.utils.escapeHTML;
+	// UUIDs are too long so we cut 'em
+	const chipLabel = (name: string) => name.endsWith(item.uuid) ? `${name.slice(0, -item.uuid.length)}UUID` : name;
+
+	const chips = suggested.map(name => `<button type="button" class="ta-chip" data-name="${escape(name)}" title="${escape(name)}">
+		<i class="fas fa-plus"></i><span>${escape(chipLabel(name))}</span>
+	</button>`).join("");
+
 	const content = document.createElement("div");
 	content.innerHTML = `
 <section class="trigger-anims-template">
-	<p>Creating a template animation for <strong>${foundry.utils.escapeHTML(item.name ?? "Unnamed Item")}</strong>.</p>
-	<p>Item type: <code>${foundry.utils.escapeHTML(item.type)}</code></p>
-	${suggested[1] ? `<p class="ta-suggestions">Additional Suggestions: ${suggested.map(s => `<code>${foundry.utils.escapeHTML(s)}</code>`).join(" ")}</p>` : ""}
-	<p>
+	<p class="ta-intro">Template animation for <strong>${escape(item.name ?? "Unnamed Item")}</strong> <code>${escape(item.type)}</code></p>
+	<div class="ta-field">
 		<label>Template</label>
 		<select name="template" class="ta-select">
 			<button type="button"><selectedcontent></selectedcontent></button>
 			${options}
 		</select>
-	</p>
-	<p>
-		<label>Suggested trigger name</label>
-		<input type="text" name="triggerName" list="triggerNameExamples" value="${foundry.utils.escapeHTML(suggested[0])}" autofocus>
-		<datalist id="triggerNameExamples">
-			${suggested.map(i => `<option value="${i}"></option>`).join("")}
-		</datalist>
-	</p>
+	</div>
+	<div class="ta-field">
+		<label>Trigger names</label>
+		<div class="ta-chips">${chips}</div>
+		<input type="text" name="triggerName" value="${escape(suggested[0])}" spellcheck="false" autocomplete="off" autofocus>
+		<small class="ta-help">Click a suggestion to add or remove it. Comma-separated.</small>
+	</div>
 </section>`;
 
 	const result = await DialogV2.prompt({
 		window: { title: "Trigger Animations – New Template", icon: "fas fa-film" },
+		position: { width: 480 },
+		render: (_event: Event, dialog: any) => wireTriggerNameChips(dialog?.element ?? dialog),
 		// `content` accepts HTMLDivElement, but typing it as such makes
 		// DeepPartial<DialogV2Configuration> recurse infinitely (TS2589).
+		// Might compute right the first time and then you save it and fucks up :augh:
 		content: content as any,
 		ok: {
 			label: "Create Blueprint",

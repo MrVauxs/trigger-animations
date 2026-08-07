@@ -39,13 +39,82 @@
 		line-height: 1.4;
 	}
 
-	& p.ta-suggestions {
-		line-height: 1.4;
+	& .ta-field {
+		display: flex;
+		flex-direction: column;
+	}
 
-		& code {
-			display: inline-block;
-			margin-block: 2px;
-		}
+	& .ta-intro {
+		display: flex;
+		align-items: baseline;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 0.35rem;
+	}
+
+	& .ta-help {
+		margin-top: 0.3rem;
+		font-size: 0.8em;
+		color: var(--color-text-subtle, #999);
+	}
+
+	& .ta-chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		margin-bottom: 0.4rem;
+	}
+
+	& .ta-chip {
+		all: unset; /* curse you foundry styles */
+		box-sizing: border-box;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		max-width: 100%;
+		padding: 0.2rem 0.55rem;
+		border-radius: 3px;
+		border: 1px solid var(--ta-input-border);
+		background: var(--ta-input-bg);
+		color: var(--ta-input-fg);
+		font-family: var(--font-mono, monospace);
+		font-size: var(--font-size-13, 0.8125rem);
+		line-height: 1.4;
+		cursor: pointer;
+		transition:
+			border-color 120ms ease,
+			background 120ms ease,
+			color 120ms ease;
+	}
+
+	& .ta-chip > span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	& .ta-chip > i {
+		font-size: 0.7em;
+		opacity: 0.9;
+	}
+
+	& .ta-chip:hover {
+		border-color: var(--ta-accent);
+	}
+
+	& .ta-chip:focus-visible {
+		border-color: var(--ta-accent);
+		box-shadow: 0 0 0 2px rgba(46, 204, 142, 0.3);
+	}
+
+	& .ta-chip.active {
+		background: var(--ta-accent);
+		border-color: var(--ta-accent);
+		color: #06281c;
+	}
+
+	& .ta-chip.active > i {
+		opacity: 1;
 	}
 
 	& strong {
@@ -71,6 +140,8 @@
 
 	& input[type="text"] {
 		width: 100%;
+		/* Chromium draws a drooping datalist caret over the field otherwise. */
+		appearance: none;
 		padding: 0.5rem 0.6rem;
 		border-radius: 4px;
 		font-family: var(--font-mono, monospace);
