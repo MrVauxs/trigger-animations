@@ -19,7 +19,7 @@
         "postcss-preset-env": "^10.6.0",
         "sequencer": "https://github.com/fantasycalendar/FoundryVTT-Sequencer#4.2.3",
         "terser": "^5.46.0",
-        "trigger-engine": "https://github.com/reonZ/trigger-engine#1.26.0",
+        "trigger-engine": "https://github.com/reonZ/trigger-engine#3493de0",
         "typescript": "^6.0.3",
         "vite": "^7.3.0",
       },
@@ -1360,7 +1360,7 @@
 
     "toml-eslint-parser": ["toml-eslint-parser@1.0.3", "", { "dependencies": { "eslint-visitor-keys": "^5.0.0" } }, "sha512-A5F0cM6+mDleacLIEUkmfpkBbnHJFV1d2rprHU2MXNk7mlxHq2zGojA+SRvQD1RoMo9gqjZPWEaKG4v1BQ48lw=="],
 
-    "trigger-engine": ["trigger-engine@github:reonZ/trigger-engine#a97a4c2", { "dependencies": { "foundry-helpers": "github:reonZ/foundry-helpers" } }, "reonZ-trigger-engine-a97a4c2", "sha512-EZBDuNGD/hmVn/jiiYc9NSbQw1RtH2EsWuy/tlRsbQmCFgR1zE8ozELs8FgntNzlo26M/OUGmrG+4eevze1o+w=="],
+    "trigger-engine": ["trigger-engine@github:reonZ/trigger-engine#3493de0", { "dependencies": { "foundry-helpers": "github:reonZ/foundry-helpers" } }, "reonZ-trigger-engine-3493de0", "sha512-9rSQ04QbkGuG4nTq41nzURIWueEMgpsGVW1pYVsloLO8KAmTMKDpUnaIYUKn85yK/+ztMxXsjGexHwMQtXjxeg=="],
 
     "ts-api-utils": ["ts-api-utils@2.5.0", "", { "peerDependencies": { "typescript": ">=4.8.4" } }, "sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA=="],
 
