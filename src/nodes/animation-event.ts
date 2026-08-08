@@ -161,7 +161,6 @@ class StartNode extends TriggerNode<
 		}
 
 		if (user && user instanceof User)
-			// @ts-expect-error userContext exects UserPF2e which is a wrong error
 			this.userContext = user;
 
 		/**

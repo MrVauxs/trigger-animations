@@ -264,9 +264,13 @@
 							"repeat": "Repeat"
 						},
 						"io": {
+							"out": {
+								"title": "Looped Out",
+								"tooltip": "Executes once per loop."
+							},
 							"outAfter": {
-								"title": "Out After",
-								"tooltip": "Executes after the loop is finished."
+								"title": "Ending Out",
+								"tooltip": "Executes after all loops are finished."
 							},
 							"count": {
 								"title": "Count",

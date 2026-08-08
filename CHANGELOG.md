@@ -1,3 +1,7 @@
+# 0.8.4
+- (Nodes) Renamed Mass Loop outputs to "Looped Out" and "Ending Out."
+- (Nodes) Fixed out connections not having tooltips.
+
 # 0.8.3
 - Added a "Minimum Triggers Access Role" setting. Players at or above the set role will be able to edit Trigger Animations triggers, below they won't.
 

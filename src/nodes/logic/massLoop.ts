@@ -100,8 +100,8 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 
 	static override get defineOuts(): T.BridgeSchemaInput[] | null {
 		return [
-			{ key: "out" },
-			{ key: "outAfter", label: this.localize("io.outAfter.title") },
+			{ key: "out", label: this.localize("io.out.title"), tooltip: this.localize("io.out.tooltip") },
+			{ key: "outAfter", label: this.localize("io.outAfter.title"), tooltip: this.localize("io.outAfter.tooltip") },
 		];
 	}
 
