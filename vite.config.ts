@@ -12,6 +12,8 @@ const foundryPort = Number(process.env.FOUNDRY_PORT || 30000); // Which port you
 const devPort = Number(process.env.DEV_PORT || 30001); // Which port you want to use for development.
 const libEntry = "index.ts"; // The main entry file to begin crawling from (root being `src/`).
 
+const enableSavePlugin = false;
+
 const postcss = {
 	inject: false,
 	sourceMap: true,
@@ -112,65 +114,67 @@ export default defineConfig(({ command }) => {
 					});
 				},
 			},
-			{
-				name: "save-triggers", // Saves triggers live from server in dev mode
-				apply: "serve",
-				configureServer(server) {
-					server.ws.on("trigger-animations:save", (payload, client) => {
-						const triggers = (payload as { triggers?: unknown })?.triggers;
-						const subdir = (payload as { subdir?: string })?.subdir || "anim-trigger";
+			enableSavePlugin
+				? {
+						name: "save-triggers", // Saves triggers live from server in dev mode
+						apply: "serve",
+						configureServer(server) {
+							server.ws.on("trigger-animations:save", (payload, client) => {
+								const triggers = (payload as { triggers?: unknown })?.triggers;
+								const subdir = (payload as { subdir?: string })?.subdir || "anim-trigger";
 
-						if (!Array.isArray(triggers)) {
-							client.send("trigger-animations:saved", { error: "Expected an array of triggers." });
-							return;
-						}
+								if (!Array.isArray(triggers)) {
+									client.send("trigger-animations:saved", { error: "Expected an array of triggers." });
+									return;
+								}
 
-						const outDir = path.resolve(__dirname, "static", subdir);
-						try {
-							fs.mkdirSync(outDir, { recursive: true });
+								const outDir = path.resolve(__dirname, "static", subdir);
+								try {
+									fs.mkdirSync(outDir, { recursive: true });
 
-							const used = new Set<string>();
-							const writtenNames = new Set<string>();
-							for (const [index, trigger] of triggers.entries()) {
-								let base = slugify((trigger as { name?: unknown })?.name);
-								// Disambiguate collisions with the trigger id, then a running index.
-								if (used.has(base))
-									base = `${base}-${(trigger as { id?: unknown })?.id ?? index}`;
-								while (used.has(base)) base = `${base}-${index}`;
-								used.add(base);
+									const used = new Set<string>();
+									const writtenNames = new Set<string>();
+									for (const [index, trigger] of triggers.entries()) {
+										let base = slugify((trigger as { name?: unknown })?.name);
+										// Disambiguate collisions with the trigger id, then a running index.
+										if (used.has(base))
+											base = `${base}-${(trigger as { id?: unknown })?.id ?? index}`;
+										while (used.has(base)) base = `${base}-${index}`;
+										used.add(base);
 
-								const fileName = `${base}.json`;
-								fs.writeFileSync(
-									path.join(outDir, fileName),
-									`${JSON.stringify(purgeObject(trigger) ?? {}, null, "\t")}\n`,
-								);
-								writtenNames.add(fileName);
-							}
+										const fileName = `${base}.json`;
+										fs.writeFileSync(
+											path.join(outDir, fileName),
+											`${JSON.stringify(purgeObject(trigger) ?? {}, null, "\t")}\n`,
+										);
+										writtenNames.add(fileName);
+									}
 
-							let deleted = 0;
-							const trashDir = path.resolve(__dirname, "static", "_deleted", subdir);
-							for (const name of fs.readdirSync(outDir)) {
-								if (!name.endsWith(".json") || writtenNames.has(name))
-									continue;
-								fs.mkdirSync(trashDir, { recursive: true });
-								const dest = path.join(trashDir, name);
-								// rename can't clobber on Windows; let the latest deletion win.
-								fs.rmSync(dest, { force: true });
-								fs.renameSync(path.join(outDir, name), dest);
-								deleted++;
-							}
+									let deleted = 0;
+									const trashDir = path.resolve(__dirname, "static", "_deleted", subdir);
+									for (const name of fs.readdirSync(outDir)) {
+										if (!name.endsWith(".json") || writtenNames.has(name))
+											continue;
+										fs.mkdirSync(trashDir, { recursive: true });
+										const dest = path.join(trashDir, name);
+										// rename can't clobber on Windows; let the latest deletion win.
+										fs.rmSync(dest, { force: true });
+										fs.renameSync(path.join(outDir, name), dest);
+										deleted++;
+									}
 
-							const written = writtenNames.size;
-							const tail = deleted ? `, moved ${deleted} to _deleted` : "";
-							console.log(`[save-triggers] Wrote ${written} trigger(s) to static/${subdir}${tail}.`);
-							client.send("trigger-animations:saved", { written, deleted, subdir });
-						} catch (error) {
-							console.error("[save-triggers]", error);
-							client.send("trigger-animations:saved", { error: (error as Error).message });
-						}
-					});
-				},
-			},
+									const written = writtenNames.size;
+									const tail = deleted ? `, moved ${deleted} to _deleted` : "";
+									console.log(`[save-triggers] Wrote ${written} trigger(s) to static/${subdir}${tail}.`);
+									client.send("trigger-animations:saved", { written, deleted, subdir });
+								} catch (error) {
+									console.error("[save-triggers]", error);
+									client.send("trigger-animations:saved", { error: (error as Error).message });
+								}
+							});
+						},
+					}
+				: undefined,
 		],
 	} satisfies UserConfig;
 });
