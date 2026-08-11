@@ -180,7 +180,7 @@
 					"connection": "0k4xo4eczZ3D95uT:outputs:targets"
 				},
 				"script": {
-					"value": "const t1 = inputs[0];\nconst t2 = inputs[1];\nreturn [{type: \"targets\", value: t1?.length ? t1 : t2 }];"
+					"value": "const t1 = inputs[0];\nconst t2 = inputs[1];\nreturn [{type: \"target\", value: t1?.length ? t1 : t2 }];"
 				}
 			},
 			"outs": {
