@@ -1,5 +1,8 @@
 # Unreleased
 
+# 0.8.5
+- (Triggers) Fix Attack Roll and Check Roll using any instead of string and boolean for "Outcome" and "Is Reroll" inputs respectively.
+
 # 0.8.4
 - (Nodes) Renamed Mass Loop outputs to "Looped Out" and "Ending Out."
 - (Nodes) Fixed out connections not having tooltips.

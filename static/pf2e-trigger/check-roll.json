@@ -18,14 +18,14 @@
 						"label": "Outcome",
 						"slug": "input",
 						"isArray": false,
-						"type": "any"
+						"type": "text"
 					},
 					"1NXZ8AH8e79Nfdaq": {
 						"id": "1NXZ8AH8e79Nfdaq",
 						"label": "Is Reroll",
 						"slug": "input",
 						"isArray": false,
-						"type": "any"
+						"type": "boolean"
 					}
 				}
 			},
