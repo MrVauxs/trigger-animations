@@ -76,7 +76,7 @@ function baseTrigger(ctx: TemplateContext, nodes: T.NodeDataInput[]): T.TriggerD
 		id: rid(),
 		name: ctx.label,
 		folder: ctx.folder ?? "",
-		priority: ctx.priority ?? 0,
+		priority: ctx.priority ?? 10,
 		tags: ctx.tags ?? [],
 		description: `Generated from ${ctx.label} (${ctx.uuid}). Trigger: ${ctx.triggerNames.join(",")}`,
 		nodes,

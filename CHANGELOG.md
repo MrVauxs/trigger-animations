@@ -1,4 +1,5 @@
 # Unreleased
+- (Templates) Updated the default priority of templated triggers to 10.
 
 # 0.8.5
 - (Triggers) Fix Attack Roll and Check Roll using any instead of string and boolean for "Outcome" and "Is Reroll" inputs respectively.
