@@ -58,7 +58,7 @@ class PersistNode extends EffectModifierNode<TInputs> {
 				type: "number",
 				...this.io("loopDelay"),
 				group: "loop",
-				field: { default: 0, min: 0 },
+				field: { default: 0 },
 			},
 			{
 				key: "endOnLastLoop",
