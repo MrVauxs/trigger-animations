@@ -35,6 +35,15 @@ export function overrideEnabled(): boolean {
 	}
 }
 
+/** How long a pending A-A workflow waits for one of our triggers to claim it, in milliseconds. */
+export function overrideTimeout(): number {
+	try {
+		return Number(game.settings.get(moduleId, "autoanimations-override-timeout")) || 0;
+	} catch {
+		return 500;
+	}
+}
+
 /**
  * Copy of `AAAutorecFunctions.allMenuSearch`, changed to return the source menu.
  */
@@ -110,12 +119,118 @@ export function competes(item: any, options: CompetesOptions = {}): boolean {
 	return true;
 }
 
+// #region Claims
+
+/**
+ * A claim says "one of our triggers took this item, A-A can stand down".
+ *
+ * It has to be broadcast: A-A only runs its workflow on the acting user's client, while our triggers run wherever the trigger-engine hook fired.
+ */
+interface Claim {
+	uuid: string;
+	at: number;
+}
+
+interface ClaimWaiter {
+	uuid: string;
+	resolve: (claimed: boolean) => void;
+}
+
+/** Marks a socket payload as a claim instead of an `animation-event`. */
+export const CLAIM_FLAG = "triggerAnimationsClaim";
+const SOCKET_PATH = `module.${moduleId}`;
+const DEFERRAL_VERSION = "7.0.22";
+
+const claims: Claim[] = [];
+const waiters = new Set<ClaimWaiter>();
+
+function claimUuid(item: any): string | null {
+	if (!item)
+		return null;
+	// Socket payloads carry the item as a UUID string.
+	if (typeof item === "string")
+		return item;
+	return item.uuid ?? null;
+}
+
+function pruneClaims(now: number): void {
+	const ttl = Math.max(overrideTimeout(), 1000);
+	while (claims.length && now - claims[0]!.at > ttl)
+		claims.shift();
+}
+
+function recordClaim(uuid: string): void {
+	const now = Date.now();
+	pruneClaims(now);
+	claims.push({ uuid, at: now });
+
+	for (const waiter of [...waiters]) {
+		if (waiter.uuid !== uuid)
+			continue;
+		waiters.delete(waiter);
+		waiter.resolve(true);
+	}
+}
+
+/**
+ * Announce that one of our triggers matched this item, so A-A workflows waiting on it stand down.
+ */
+export function announceTriggerClaim(item: any, broadcast = true): void {
+	const uuid = claimUuid(item);
+	if (!uuid)
+		return;
+
+	devLog("Claiming Automated Animations workflow for", uuid);
+	recordClaim(uuid);
+	if (broadcast)
+		game.socket.emit(SOCKET_PATH, { [CLAIM_FLAG]: true, uuid });
+}
+
+/** Handle a claim broadcast by another client. */
+export function receiveTriggerClaim(payload: any): void {
+	if (typeof payload?.uuid !== "string")
+		return;
+	recordClaim(payload.uuid);
+}
+
+/** Resolves true as soon as a trigger claims `item`, false once `timeout` elapses without one. */
+function waitForClaim(item: any, timeout: number): Promise<boolean> {
+	const uuid = claimUuid(item);
+	if (!uuid)
+		return Promise.resolve(false);
+
+	// The claim can beat the workflow, e.g. a template placed a while after the trigger ran.
+	pruneClaims(Date.now());
+	if (claims.some(claim => claim.uuid === uuid))
+		return Promise.resolve(true);
+
+	return new Promise((resolve) => {
+		const waiter: ClaimWaiter = { uuid, resolve };
+		waiters.add(waiter);
+		window.setTimeout(() => {
+			if (waiters.delete(waiter))
+				resolve(false);
+		}, timeout);
+	});
+}
+
+/* -------------------------------------------- */
+/*  Override                                    */
+/* -------------------------------------------- */
+
+/** Does the installed A-A await `clonedData.deferrals`? */
+function supportsDeferrals(): boolean {
+	const version = game.modules.get("autoanimations")?.version;
+	return !!version && !foundry.utils.isNewerVersion(DEFERRAL_VERSION, version);
+}
+
+/**
+ * Pre-#78 fallback: A-A cannot wait for us, so all we can do is guess trigger names from the item.
+ */
 function hasCompetingTrigger(item: any): boolean {
 	if (!item)
 		return false;
 	try {
-		// TODO: Replace this if below comes through
-		// https://github.com/theripper93/autoanimations/pull/78
 		return suggestTriggerName(item).some(name => !!triggerAnimations.api.matchTrigger(name, { literalOnly: true }));
 	} catch (error) {
 		devLog("Failed to guess trigger names for", item, error);
@@ -138,11 +253,38 @@ function registerAutoAnimationsHooks(): void {
 			return;
 		if (!animationData || !clonedData)
 			return;
-		if (!hasCompetingTrigger(clonedData.item))
+
+		const item = clonedData.item;
+
+		if (!supportsDeferrals()) {
+			devLog("Automated Animations is older than", DEFERRAL_VERSION, "- falling back to guessing trigger names.");
+			if (!hasCompetingTrigger(item))
+				return;
+			devLog("Overriding Automated Animations (guessed) for", item?.name);
+			clonedData.stopWorkflow = true;
 			return;
-		devLog("Overriding Automated Animations for", clonedData.item?.name);
-		clonedData.stopWorkflow = true;
+		}
+
+		const timeout = overrideTimeout();
+		if (timeout <= 0)
+			return;
+		// Nothing could ever claim the workflow, so do not hold A-A up for nothing.
+		if (!triggerAnimations.api.triggerCache.length)
+			return;
+
+		(clonedData.deferrals ??= []).push(
+			waitForClaim(item, timeout).then((claimed) => {
+				if (!claimed) {
+					devLog("No trigger claimed", item?.name, "- letting Automated Animations through.");
+					return;
+				}
+				devLog("Overriding Automated Animations for", item?.name);
+				clonedData.stopWorkflow = true;
+			}),
+		);
 	});
 }
+
+// #endregion
 
 Hooks.once("ready", () => registerAutoAnimationsHooks());

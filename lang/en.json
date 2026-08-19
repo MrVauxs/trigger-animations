@@ -23,7 +23,11 @@
 			},
 			"autoanimations-override": {
 				"name": "Override Automated Animations",
-				"hint": "Stops A-A when Trigger Animations could run for a given animation. This may not always work."
+				"hint": "Stops A-A when Trigger Animations runs its own animation for the same item."
+			},
+			"autoanimations-override-timeout": {
+				"name": "Override Grace Period (ms)",
+				"hint": "How long A-A is stopped for until Trigger Animations confirms its own animation. Raise it if A-A sometimes animates on top of Trigger Animations, lower it if A-A animations feel delayed. Set to 0 to disable the override."
 			},
 			"database-edit-role": {
 				"name": "Minimum Triggers Access Role",

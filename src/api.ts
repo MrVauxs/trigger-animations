@@ -139,6 +139,9 @@ export class API {
 
 	_triggerCache: CachedTrigger[] = [];
 
+	/** Cached `animation-event` triggers, highest priority first. */
+	get triggerCache(): CachedTrigger[] { return this._triggerCache; }
+
 	/** Build {@link _triggerCache} from prepared trigger data. */
 	cacheTriggers(triggerData: T.TriggerDataInput[]) {
 		this._triggerCache = triggerData

@@ -1,3 +1,6 @@
+# 0.9.0 (u)
+- Improved compatibility with A-A, requires A-A 7.0.22.
+
 # 0.8.6
 - (Templates) Updated the default priority of templated triggers to 10.
 - (Nodes) Allowed negative numbers for Loop Delay inputs in Persistence nodes.

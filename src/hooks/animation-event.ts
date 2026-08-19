@@ -1,4 +1,5 @@
 import type { StartNodeOptions } from "../nodes";
+import { announceTriggerClaim, CLAIM_FLAG, receiveTriggerClaim } from "$lib/autoAnimations";
 import { devLog } from "$lib/utils";
 import { id } from "moduleJSON";
 
@@ -18,6 +19,10 @@ class StartHook extends TriggerHook {
 			devLog("No animation-event trigger matched", data.name);
 			return;
 		}
+
+		// Automated Animations workflows for this item are waiting on this, so tell them before
+		// we start doing anything asynchronous.
+		announceTriggerClaim(data.item, !socket);
 
 		const { id, local } = trigger;
 		const { sequence, ...rest } = data;
@@ -57,13 +62,20 @@ class StartHook extends TriggerHook {
 		}
 	}
 
+	/** Both animation-events and A-A claims share the one module socket, so they get told apart here. */
+	#onSocket(data: any, socket = false) {
+		if (data?.[CLAIM_FLAG])
+			return receiveTriggerClaim(data);
+		return this.#execute(data, socket);
+	}
+
 	override get gmOnly() {
 		return false;
 	}
 
 	override _enable(): void {
 		foundry.utils.setProperty(globalThis, StartHook.executePath, this.#execute.bind(this));
-		game.socket.on(StartHook.socketPath, this.#execute.bind(this));
+		game.socket.on(StartHook.socketPath, this.#onSocket.bind(this));
 	}
 
 	override _disable(): void {

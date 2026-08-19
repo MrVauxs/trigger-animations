@@ -13,6 +13,15 @@ Hooks.on("init", () => {
 		config: isAutoAnimationsActive(),
 		scope: "world",
 	});
+	game.settings.register(moduleId, "autoanimations-override-timeout", {
+		name: settingString("autoanimations-override-timeout", "name"),
+		hint: settingString("autoanimations-override-timeout", "hint"),
+		type: Number,
+		default: 500,
+		range: { min: 0, max: 3000, step: 50 } as never,
+		config: isAutoAnimationsActive(),
+		scope: "world",
+	});
 	game.settings.register(moduleId, "volume", {
 		name: settingString("volume", "name"),
 		hint: settingString("volume", "hint"),
