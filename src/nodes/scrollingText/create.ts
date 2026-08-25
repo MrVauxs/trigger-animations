@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { createQueuedSequence } from "$lib/sequenceQueue";
 import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -71,7 +72,7 @@ class ScrollingTextNode extends TriggerNode<
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = this.getContext<Sequence>("sequence");
+		const sequence = createQueuedSequence(this);
 		if (!sequence) {
 			g.log("Scrolling Text Node", "no Sequence in context");
 			g.end();

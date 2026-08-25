@@ -9,6 +9,7 @@ interface LocationKind {
 
 interface TInputs {
 	location: LocationKind[keyof LocationKind];
+	exitOnEmpty: boolean;
 	gridUnits: boolean;
 	attachTo: boolean;
 	cacheLocation: boolean;
@@ -60,6 +61,8 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 			this.effectInput,
 			{ key: "location", type: "point", ...this.io("location"), state: "points" },
 			{ key: "location", type: "position", ...this.io("location"), state: "targets" },
+			{ key: "exitOnEmpty", type: "boolean", ...this.io("exitOnEmpty"), state: "points", field: { default: true } },
+			{ key: "exitOnEmpty", type: "boolean", ...this.io("exitOnEmpty"), state: "targets", field: { default: true } },
 			{ key: "attachTo", type: "boolean", ...this.sharedIo("attachTo"), state: "targets" },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation"), state: "targets" },
 			{ key: "cacheLocation", type: "boolean", ...this.sharedIo("cacheLocation"), state: "points" },
@@ -154,7 +157,7 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 		];
 	}
 
-	protected override async apply(effect: EffectSection): Promise<void> {
+	protected override async apply(effect: EffectSection): Promise<void | boolean> {
 		if (this.state === "screenSpace") {
 			effect.screenSpace();
 			if (await this.getInputValue("aboveUI"))
@@ -174,6 +177,9 @@ class LocationNode extends EffectModifierNode<TInputs, TState> {
 		}
 
 		const location = this.getLocation(await this.getInputValue("location"));
+		if (!location && await this.getInputValue("exitOnEmpty"))
+			return false;
+
 		if (location) {
 			const opts: Record<string, unknown> = {
 				cacheLocation: await this.getInputValue("cacheLocation"),

@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { createQueuedSequence } from "$lib/sequenceQueue";
 import { devGroup, devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -65,7 +66,7 @@ class MacroNode extends TriggerNode<
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = this.getContext<Sequence>("sequence");
+		const sequence = createQueuedSequence(this);
 		const macro = await this.getInputValue("macro");
 		if (sequence && macro) {
 			// macro() takes the macro reference and a single scope object. Start

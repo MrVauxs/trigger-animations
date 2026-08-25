@@ -1,5 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
+import { abortQueuedSection, isQueuedSectionAborted } from "$lib/sequenceQueue";
 import { devGroup } from "$lib/utils";
 import { EASE_OPTIONS } from "../effect/constants";
 
@@ -91,13 +92,25 @@ abstract class SoundModifierNode<
 		}
 	}
 
-	protected abstract apply(section: SoundSection): Promise<void> | void;
+	/** Return false to abort only the connected sound while continuing execution. */
+	protected abstract apply(section: SoundSection): Promise<void | boolean> | void | boolean;
 
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 		const sound = await this.getInputValue("sound");
 		if (sound) {
-			await this.apply(sound);
+			if (isQueuedSectionAborted(this, sound)) {
+				this.setOutputValue("sound", sound);
+				g.log("connected sound already aborted; skipping");
+				g.end();
+				return this.executeNext("out");
+			}
+			const applied = await this.apply(sound);
+			if (applied === false) {
+				if (!abortQueuedSection(this, sound))
+					sound.playIf(false);
+				g.log("connected sound aborted");
+			}
 			this.setOutputValue("sound", sound);
 			g.log("applied", { sound });
 		} else {

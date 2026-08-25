@@ -539,6 +539,10 @@
 								"title": "Location",
 								"tooltip": "Where the effect will be played."
 							},
+							"exitOnEmpty": {
+								"title": "Exit on Empty",
+								"tooltip": "Abort the connected effect when no valid location is provided. On by default."
+							},
 							"align": {
 								"title": "Align",
 								"tooltip": "Which point on the attached object the effect snaps to. Defaults to center."
@@ -1638,7 +1642,15 @@
 						"io": {
 							"location": {
 								"title": "Location",
-								"tooltip": "The token or point the sound plays from. Leave unconnected to play globally."
+								"tooltip": "The token or point the sound plays from. When empty, the selected behavior determines whether this sound exits or plays globally."
+							},
+							"exitOnEmpty": {
+								"title": "On Empty Location",
+								"tooltip": "Exit aborts this sound when no valid location is provided. Play Globally skips only the primary location and keeps the rest of the sound section.",
+								"options": {
+									"exit": "Exit on Empty",
+									"global": "Play Globally on Empty"
+								}
 							},
 							"bindVisibility": {
 								"title": "Bind Visibility",

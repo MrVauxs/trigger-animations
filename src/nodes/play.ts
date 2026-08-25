@@ -1,5 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { getNamedLocations, unresolvedNamedLocations } from "$lib/namedLocations";
+import { flushSequenceQueue } from "$lib/sequenceQueue";
 import { devLog, log } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -67,6 +68,8 @@ class PlayNode extends TriggerNode<
 			devLog("No sequence found in context");
 			return Promise.resolve(false);
 		}
+
+		flushSequenceQueue(this, sequence);
 
 		// Sequencer silently no-ops if named location is invalid. So we warn here.
 		const unresolved = unresolvedNamedLocations(this);

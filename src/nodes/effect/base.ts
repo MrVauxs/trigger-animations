@@ -1,5 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
+import { abortQueuedSection, isQueuedSectionAborted } from "$lib/sequenceQueue";
 import { dev, devGroup, devLog, log } from "$lib/utils";
 import { EASE_OPTIONS } from "./constants";
 
@@ -158,12 +159,19 @@ abstract class EffectModifierNode<
 		return obj;
 	}
 
-	protected abstract apply(effect: EffectSection): Promise<void> | void;
+	/** Return false to abort only the connected effect while continuing execution. */
+	protected abstract apply(effect: EffectSection): Promise<void | boolean> | void | boolean;
 
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 		const effect = await this.getInputValue("effect");
 		if (effect) {
+			if (isQueuedSectionAborted(this, effect)) {
+				this.setOutputValue("effect", effect);
+				g.log("connected effect already aborted; skipping");
+				g.end();
+				return this.executeNext("out");
+			}
 			if (dev()) {
 				const definedInputs = (this.constructor as typeof TriggerNode).defineInputs;
 				const inputs = Object.fromEntries(
@@ -177,7 +185,12 @@ abstract class EffectModifierNode<
 				g.log("applied", { effect, inputs });
 			}
 			try {
-				await this.apply(effect);
+				const applied = await this.apply(effect);
+				if (applied === false) {
+					if (!abortQueuedSection(this, effect))
+						effect.playIf(false);
+					g.log("connected effect aborted");
+				}
 				this.setOutputValue("effect", effect);
 			} catch (e) {
 				g.end();

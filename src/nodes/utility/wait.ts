@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { createQueuedSequence } from "$lib/sequenceQueue";
 import { devGroup, devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -51,7 +52,7 @@ class WaitNode extends TriggerNode<
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = this.getContext<Sequence>("sequence");
+		const sequence = createQueuedSequence(this);
 		if (!sequence) {
 			devLog("Wait Node: no Sequence in context");
 			g.end();

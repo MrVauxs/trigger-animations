@@ -1,5 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { defineNamedLocation, requestNamedLocation } from "$lib/namedLocations";
+import { createQueuedSequence } from "$lib/sequenceQueue";
 import { devGroup, devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -52,7 +53,7 @@ class NamedLocationNode extends TriggerNode<
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = this.getContext<Sequence>("sequence");
+		const sequence = createQueuedSequence(this);
 		const name = await this.getInputValue("name");
 		if (sequence && name) {
 			const location = this.getLocation(await this.getInputValue("location"));

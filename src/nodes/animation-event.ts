@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { resetSequenceQueue } from "$lib/sequenceQueue";
 import { devLog } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -196,6 +197,7 @@ class StartNode extends TriggerNode<
 			? passedSequence
 			: new Sequence({ inModuleName: this.triggerName, softFail });
 		this.setContext("sequence", sequence);
+		resetSequenceQueue(this);
 
 		this.setOutputValue("targets", targets);
 		this.setOutputValue("sources", sources);

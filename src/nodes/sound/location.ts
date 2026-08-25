@@ -3,6 +3,7 @@ import { SoundModifierNode } from "./base";
 
 interface TInputs {
 	location: PositionSource;
+	exitOnEmpty: "exit" | "global" | boolean;
 	gridUnits: boolean;
 	bindVisibility: boolean;
 	bindElevation: boolean;
@@ -41,6 +42,19 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 		return [
 			this.soundInput,
 			{ key: "location", type: "position", ...this.io("location") },
+			{
+				key: "exitOnEmpty",
+				type: "text",
+				...this.io("exitOnEmpty"),
+				field: {
+					type: "select",
+					default: "exit",
+					options: [
+						{ value: "exit", label: this.localize("io.exitOnEmpty.options.exit") },
+						{ value: "global", label: this.localize("io.exitOnEmpty.options.global") },
+					],
+				},
+			},
 			{ key: "gridUnits", type: "boolean", ...this.sharedIo("gridUnits") },
 			{ key: "bindVisibility", type: "boolean", ...this.io("bindVisibility"), state: "attachTo", field: { default: true } },
 			{ key: "bindElevation", type: "boolean", ...this.io("bindElevation"), state: "attachTo", field: { default: true } },
@@ -64,8 +78,12 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 		];
 	}
 
-	protected override async apply(section: SoundSection): Promise<void> {
+	protected override async apply(section: SoundSection): Promise<void | boolean> {
 		const location = this.getLocation(await this.getInputValue("location"));
+		const emptyBehavior = await this.getInputValue("exitOnEmpty");
+		if (!location && (emptyBehavior === "exit" || emptyBehavior === true))
+			return false;
+
 		if (location) {
 			const gridUnits = await this.getInputValue("gridUnits");
 			if (this.state === "attachTo") {
