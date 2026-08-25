@@ -1,5 +1,9 @@
-# 0.9.0 (u)
+# Unreleased
+
+# 0.9.0
 - Improved compatibility with A-A, requires A-A 7.0.22.
+- (Nodes) Added a new input to Location nodes, "Exit if Empty," on by default. It makes the nodes disable an animation if they are not provided a valid (truthy) location.
+- (Nodes) All nodes now have their state stated in parenthesis, e.g. "Location (attachTo)"
 
 # 0.8.6
 - (Templates) Updated the default priority of templated triggers to 10.
