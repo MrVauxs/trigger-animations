@@ -31,6 +31,10 @@ class RandomListNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 		return ["list", "between", "any"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	// Query nodes have no incoming bridge nor outgoing bridges.
 	static override get hasIn(): boolean {
 		return false;

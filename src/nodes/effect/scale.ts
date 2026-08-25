@@ -43,6 +43,10 @@ class ScaleNode extends EffectModifierNode<TInputs, TState> {
 		return ["factor", "object", "size", "spritePoint"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uF424" };

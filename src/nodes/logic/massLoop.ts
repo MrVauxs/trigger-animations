@@ -25,6 +25,10 @@ class MassLoopNode extends TriggerNode<"out" | "outAfter", Inputs, Outputs, "inp
 		return ["callback", "repeat"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	override get headerColor(): ColorSource {
 		return "#86910d";
 	}

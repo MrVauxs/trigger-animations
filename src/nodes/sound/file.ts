@@ -27,6 +27,10 @@ class SoundFileNode extends SoundModifierNode<TInputs> {
 		return ["default", "advanced"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	static override get defineInputs(): T.InputEntrySchemaSource[] | null {
 		return [
 			this.soundInput,

@@ -34,6 +34,10 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 		return ["animate", "loop"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
 		return { unicode: "\uE2CA" };

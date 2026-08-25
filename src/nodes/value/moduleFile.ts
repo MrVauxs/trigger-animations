@@ -35,6 +35,10 @@ class ModuleFileNode extends TriggerNode<never, TInputs, TOutputs, never, never,
 		return ["jb2a", "custom"];
 	}
 
+	override get title(): string | null {
+		return `${this.localize("title")} (${this.state})`;
+	}
+
 	// Query node: no incoming bridge nor outgoing bridges, only outputs.
 	static override get hasIn(): boolean {
 		return false;
