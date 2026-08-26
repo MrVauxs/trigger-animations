@@ -48,7 +48,7 @@ class SoundLocationNode extends SoundModifierNode<TInputs, TState> {
 				...this.io("exitOnEmpty"),
 				field: {
 					type: "select",
-					default: "exit",
+					default: "global",
 					options: [
 						{ value: "exit", label: this.localize("io.exitOnEmpty.options.exit") },
 						{ value: "global", label: this.localize("io.exitOnEmpty.options.global") },

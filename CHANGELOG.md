@@ -1,4 +1,5 @@
-# Unreleased
+# 0.9.1
+- (Nodes) Made "Exit if Global" on sound location nodes the default.
 
 # 0.9.0
 - Improved compatibility with A-A, requires A-A 7.0.22.
