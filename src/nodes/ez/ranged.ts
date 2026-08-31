@@ -1,7 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -145,7 +145,7 @@ class EZRangedNode extends TriggerNode<
 				effect.atLocation(source);
 			}
 		} else {
-			devLog(`[${this.type}] no source; effect has no starting location`);
+			moduleWarn(`[${this.type}] no source; effect has no starting location`);
 		}
 
 		const target = this.getLocation(await this.getInputValue("target"));
@@ -155,7 +155,7 @@ class EZRangedNode extends TriggerNode<
 
 			effect.stretchTo(target);
 		} else {
-			devLog(`[${this.type}] no target; skipping stretchTo`);
+			moduleWarn(`[${this.type}] no target; skipping stretchTo`);
 		}
 
 		g.log("EZ Ranged Node", { sequence, effect, item, file });

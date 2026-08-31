@@ -1,6 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleError } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -80,7 +80,7 @@ class MacroNode extends TriggerNode<
 					if (parsed && typeof parsed === "object")
 						Object.assign(scope, parsed);
 				} catch (e) {
-					devLog(`[${this.type}] invalid args JSON; ignoring`, e);
+					moduleError(`[${this.type}] invalid args JSON; ignoring`, e);
 				}
 			}
 

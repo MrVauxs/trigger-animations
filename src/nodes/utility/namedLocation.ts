@@ -1,7 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { defineNamedLocation, requestNamedLocation } from "$lib/namedLocations";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -61,7 +61,7 @@ class NamedLocationNode extends TriggerNode<
 				sequence.addNamedLocation(name, location);
 				defineNamedLocation(this, name);
 			} else {
-				devLog(`[${this.type}] no location to name`);
+				moduleWarn(`[${this.type}] no location to name`);
 			}
 		}
 

@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleError } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -217,7 +217,7 @@ class CrosshairPickNode extends TriggerNode<
 					foundry.utils.mergeObject(config, parsed);
 				}
 			} catch (e) {
-				devLog(`[${this.type}] invalid config JSON; ignoring`, e);
+				moduleError(`[${this.type}] invalid config JSON; ignoring`, e);
 			}
 		}
 
@@ -229,7 +229,7 @@ class CrosshairPickNode extends TriggerNode<
 				? await this.showWithTimeout(config, timeout)
 				: await Sequencer.Crosshair.show(config);
 		} catch (e) {
-			devLog(`[${this.type}] crosshair show failed`, e);
+			moduleError(`[${this.type}] crosshair show failed`, e);
 			result = false;
 		}
 
@@ -288,7 +288,7 @@ class CrosshairPickNode extends TriggerNode<
 			// @ts-expect-error Correct but missing unneeded props
 			canvas?.stage?.emit("pointerup", { nativeEvent: { which: 3 } });
 		} catch (e) {
-			devLog(`[${this.type}] could not auto-dismiss crosshair`, e);
+			moduleError(`[${this.type}] could not auto-dismiss crosshair`, e);
 		}
 	}
 }

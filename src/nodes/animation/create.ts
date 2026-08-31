@@ -1,7 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -95,8 +95,8 @@ class AnimationNode extends TriggerNode<
 		const target = this.getLocation(targetInput);
 		if (target)
 			animation.on(target);
-		else if (target)
-			devLog(`[${this.type}] target has no token; nothing to animate`);
+		else if (targetInput)
+			moduleWarn(`[${this.type}] target has no token; nothing to animate`);
 
 		g.log("Animation Node", { sequence, target, animation });
 		g.end();

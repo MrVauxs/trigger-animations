@@ -1,6 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleError } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -84,7 +84,7 @@ class ThenDoNode extends TriggerNode<
 					return fn.call(this, inputs);
 				});
 			} catch (e) {
-				devLog(`[${this.type}] invalid function; skipping`, e);
+				moduleError(`[${this.type}] invalid function; skipping`, e);
 			}
 		}
 

@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { moduleWarn } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -94,7 +94,7 @@ class AnimateNode extends EffectModifierNode<TInputs, TState> {
 		const property = await this.getInputValue("property");
 		const duration = await this.getInputValue("duration");
 		if (!property || duration <= 0) {
-			devLog(`[${this.type}] needs a property and a duration > 0; skipping`);
+			moduleWarn(`[${this.type}] needs a property and a duration > 0; skipping`);
 			return;
 		}
 

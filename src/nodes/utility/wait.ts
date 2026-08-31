@@ -1,6 +1,6 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { createQueuedSequence } from "$lib/sequenceQueue";
-import { devGroup, devLog } from "$lib/utils";
+import { devGroup, moduleError } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -54,7 +54,7 @@ class WaitNode extends TriggerNode<
 		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = createQueuedSequence(this);
 		if (!sequence) {
-			devLog("Wait Node: no Sequence in context");
+			moduleError(`[${this.type}] no Sequence in context`);
 			g.end();
 			return this.executeNext("out");
 		}

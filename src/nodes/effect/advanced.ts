@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { moduleError } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -61,7 +61,7 @@ class AdvancedNode extends EffectModifierNode<TInputs> {
 				const fn = new (foundry.utils.AsyncFunction)("effect", "data", code);
 				effect.addOverride(fn);
 			} catch (e) {
-				devLog(`[${this.type}] invalid override function; skipping`, e);
+				moduleError(`[${this.type}] invalid override function; skipping`, e);
 			}
 		}
 

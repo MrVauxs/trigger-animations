@@ -1,7 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { getNamedLocations, unresolvedNamedLocations } from "$lib/namedLocations";
 import { flushSequenceQueue } from "$lib/sequenceQueue";
-import { devLog, log } from "$lib/utils";
+import { devLog, log, moduleError } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -65,7 +65,7 @@ class PlayNode extends TriggerNode<
 	override async _execute(...args: any[]): Promise<boolean> {
 		const sequence = this.getContext<Sequence>("sequence");
 		if (!sequence) {
-			devLog("No sequence found in context");
+			moduleError(`[${this.type}] no Sequence in context`);
 			return Promise.resolve(false);
 		}
 

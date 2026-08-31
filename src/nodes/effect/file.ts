@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog, log } from "$lib/utils";
+import { log, moduleError } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -78,7 +78,7 @@ class FileNode extends EffectModifierNode<TInputs> {
 						effect.file(parsed);
 					}
 				} catch (e) {
-					devLog(`[${this.type}] invalid JSON for file`, e);
+					moduleError(`[${this.type}] invalid JSON for file`, e);
 				}
 			}
 		}

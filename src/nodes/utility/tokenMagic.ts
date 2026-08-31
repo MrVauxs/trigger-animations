@@ -2,7 +2,7 @@ import type { AnyDocument, TMFXParams, TMFXPreset } from "$lib/tmfxRegistry";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { createQueuedSequence, createTailSequence } from "$lib/sequenceQueue";
 import { filterKey, getTokenMagic, PRESET_LIBRARIES, release } from "$lib/tmfxRegistry";
-import { devGroup, devLog, moduleError, moduleWarn } from "$lib/utils";
+import { devGroup, moduleError, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -215,7 +215,7 @@ class TokenMagicNode extends TriggerNode<
 
 		if (!sequence || !magic || typeof sequence.tokenMagic !== "function") {
 			if (!sequence) {
-				devLog(`[${this.type}] no Sequence in context`);
+				moduleError(`[${this.type}] no Sequence in context`);
 			} else if (!magic) {
 				// Either the module is off, or it predates `togglePreset`.
 				moduleWarn(`[${this.type}] Token Magic FX is not active, or is too old for this node`);

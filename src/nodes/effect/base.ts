@@ -1,7 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { requestNamedLocation } from "$lib/namedLocations";
 import { abortQueuedSection, isQueuedSectionAborted } from "$lib/sequenceQueue";
-import { dev, devGroup, devLog, log } from "$lib/utils";
+import { dev, devGroup, log, moduleError } from "$lib/utils";
 import { EASE_OPTIONS } from "./constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -113,7 +113,7 @@ abstract class EffectModifierNode<
 			}
 			return parsed as TVal;
 		} catch (e) {
-			devLog(`[${this.type}] invalid JSON for ${what}`, e);
+			moduleError(`[${this.type}] invalid JSON for ${what}`, e);
 			return undefined;
 		}
 	}

@@ -1,5 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
-import { devLog } from "$lib/utils";
+import { moduleWarn } from "$lib/utils";
 import { EffectModifierNode } from "./base";
 
 interface TInputs {
@@ -123,7 +123,7 @@ class AimNode extends EffectModifierNode<TInputs, TState> {
 	protected override async apply(effect: EffectSection): Promise<void> {
 		const towards = this.getLocation(await this.getInputValue("towards"));
 		if (!towards) {
-			devLog(`[${this.type}] no aim target; skipping`);
+			moduleWarn(`[${this.type}] no aim target; skipping`);
 			return;
 		}
 
