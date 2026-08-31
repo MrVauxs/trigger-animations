@@ -1,7 +1,7 @@
 # 0.9.3
 - (Nodes) Added "EZ Template" node.
 - (Nodes) Added "EZ Effect" node.
-- Added sound support to "EZ Ranged" node.
+- (Nodes) Improved "EZ Ranged" node with new options.
 
 # 0.9.2
 - (Nodes) Added an experimental "Token Magic" node, adding and removing Token Magic FX filters on tokens and regions.
