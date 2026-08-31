@@ -88,7 +88,7 @@ class TokenMagicNode extends TriggerNode<
 	}
 
 	override get headerColor() {
-		return this.isEvent ? "#C40000" : "#009690";
+		return this.isEvent ? "#C40000" : "#009607";
 	}
 
 	override get icon() {
