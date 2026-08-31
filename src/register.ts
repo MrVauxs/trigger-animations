@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { registerTokenMagicSection } from "$lib/tmfxSection";
 import { devLog, log } from "$lib/utils";
 import { id, title } from "moduleJSON";
 import { API } from "./api";
@@ -8,6 +9,9 @@ import * as tHooks from "./hooks/index";
 import * as tNodes from "./nodes/index";
 
 type BuiltInKeys = { [k in T.TriggerApplicationCollection]: (typeof T.BuiltInApplication)[k][number][0][] };
+
+// Sequencer puts its globals up on init, so setup is the safer.
+Hooks.once("setup", () => registerTokenMagicSection());
 
 Hooks.once("ready", async () => {
 	const api = new API();

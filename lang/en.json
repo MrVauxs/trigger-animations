@@ -477,6 +477,60 @@
 							}
 						}
 					},
+					"token-magic": {
+						"title": "Token Magic FX",
+						"subtitle": "Adds or removes a Token Magic FX filter",
+						"states": {
+							"add": "Add",
+							"remove": "Remove"
+						},
+						"group": {
+							"wait": "Wait Until Finished",
+							"lifetime": "Lifetime"
+						},
+						"io": {
+							"filter": {
+								"title": "Filter",
+								"tooltip": "The applied filter, passed straight from an Add node to a Remove node. Connected, it replaces Target, Preset, Params and Local. It only lives for one trigger run, so a persisted filter removed later has to be matched by Target and Preset instead."
+							},
+							"target": {
+								"title": "Target",
+								"tooltip": "The token or region to apply the filter to. Points and named locations are not supported, as Token Magic FX needs a placeable."
+							},
+							"preset": {
+								"title": "Preset",
+								"tooltip": "Name of a Token Magic FX preset, as listed in its preset library. Ignored when Params is filled in. Removing needs the same preset that was added."
+							},
+							"params": {
+								"title": "Params",
+								"tooltip": "A JSON array of raw Token Magic FX filter params, used instead of a preset. Each entry needs at least a filterType; a shared filterId is generated when missing."
+							},
+							"local": {
+								"title": "Local",
+								"tooltip": "Targets the client-only filter on the sprite rather than the placeable's flags. Forced on when the Sequence itself plays locally, and must match between the Add and Remove nodes."
+							},
+							"waitUntilFinished": {
+								"title": "Wait Until Finished",
+								"tooltip": "Pauses the whole sequence until the Token Magic FX operation finishes. For a filter with a Duration or Persist enabled, this waits until the filter is removed."
+							},
+							"persist": {
+								"title": "Persist",
+								"tooltip": "Keeps the filter after the Sequence ends, until a Duration or a tied document removes it. Local filters are not saved to the document, so they are lost on reload or when the token's image or size changes."
+							},
+							"duration": {
+								"title": "Duration",
+								"tooltip": "How long (ms) the filter lasts, counted from the moment it is applied. Setting this makes the filter outlive the Sequence. Leave at 0 to end with the Sequence instead."
+							},
+							"tieTo": {
+								"title": "Tie To UUIDs",
+								"tooltip": "Comma-separated document UUIDs; the filter is removed if any of them are deleted. Leave empty to skip."
+							},
+							"tieToDocs": {
+								"title": "Tie To Documents",
+								"tooltip": "Documents the filter is tied to; it is removed if any of them are deleted."
+							}
+						}
+					},
 					"play": {
 						"title": "Play",
 						"subtitle": "Plays the Sequencer Effect",

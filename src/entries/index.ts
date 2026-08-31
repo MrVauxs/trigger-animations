@@ -6,3 +6,4 @@ export * from "./position";
 export * from "./scrollingText";
 export * from "./sequence";
 export * from "./sound";
+export * from "./tokenMagic";

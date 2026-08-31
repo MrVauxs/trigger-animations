@@ -29,6 +29,10 @@ export function devLog(...args: unknown[]): void {
 		log(...args);
 }
 
+export function moduleWarn(...args: unknown[]): void {
+	console.warn("\x1B[1;31mTrigger-Animations:", ...args);
+}
+
 export function moduleError(...args: unknown[]): void {
 	console.error("\x1B[1;31mTrigger-Animations:", ...args);
 }
