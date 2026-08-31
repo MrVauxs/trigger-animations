@@ -20,13 +20,19 @@ interface TInputs {
 	source?: PositionSource;
 	target?: PositionSource;
 	file: string;
+	sourceSoundFile: string;
+	travelSoundFile: string;
+	moveSpeed: number;
 	item?: Item;
 	attachTo: boolean;
 	outcome: string;
+	waitUntilFinished: boolean;
 }
 
 interface TOutputs {
 	effect?: EffectSection;
+	sourceSound?: SoundSection;
+	travelSound?: SoundSection;
 }
 
 class EZRangedNode extends TriggerNode<
@@ -79,6 +85,14 @@ class EZRangedNode extends TriggerNode<
 			{ key: "source", type: "position", ...this.io("source") },
 			{ key: "target", type: "position", ...this.io("target") },
 			{ key: "file", type: "text", ...this.io("file"), field: { default: "" } },
+			{ key: "sourceSoundFile", type: "text", ...this.io("sourceSoundFile"), field: { default: "" } },
+			{ key: "travelSoundFile", type: "text", ...this.io("travelSoundFile"), field: { default: "" } },
+			{
+				key: "moveSpeed",
+				type: "number",
+				...this.io("moveSpeed"),
+				field: { default: 0, min: 0 },
+			},
 			{ key: "item", type: "item", ...this.io("item") },
 			{ key: "attachTo", type: "boolean", ...this.sharedIo("attachTo") },
 			{
@@ -87,12 +101,15 @@ class EZRangedNode extends TriggerNode<
 				...this.io("outcome"),
 				field: { type: "select", default: "", options: OUTCOME_OPTIONS },
 			},
+			{ key: "waitUntilFinished", type: "boolean", ...this.io("waitUntilFinished") },
 		];
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return [
 			{ key: "effect", type: "effect", ...this.sharedIo("effect") },
+			{ key: "sourceSound", type: "sound", ...this.io("sourceSound") },
+			{ key: "travelSound", type: "sound", ...this.io("travelSound") },
 		];
 	}
 
@@ -150,7 +167,8 @@ class EZRangedNode extends TriggerNode<
 
 		const target = this.getLocation(await this.getInputValue("target"));
 		if (target) {
-			if ((await this.getInputValue("outcome")).toLowerCase().includes("fail"))
+			const outcome = await this.getInputValue("outcome");
+			if (outcome.toLowerCase().includes("fail"))
 				effect.missed(true);
 
 			effect.stretchTo(target);
@@ -158,7 +176,43 @@ class EZRangedNode extends TriggerNode<
 			moduleWarn(`[${this.type}] no target; skipping stretchTo`);
 		}
 
-		g.log("EZ Ranged Node", { sequence, effect, item, file });
+		const sourceSoundFile = await this.getInputValue("sourceSoundFile");
+		let sourceSound: SoundSection | undefined;
+		if (sourceSoundFile?.trim()) {
+			sourceSound = sequence.sound(sourceSoundFile);
+			this.setOutputValue("sourceSound", sourceSound);
+			if (source)
+				sourceSound.atLocation(source);
+		}
+
+		const travelSoundFile = await this.getInputValue("travelSoundFile");
+		let travelSound: SoundSection | undefined;
+		if (travelSoundFile?.trim()) {
+			travelSound = sequence.sound(travelSoundFile);
+			this.setOutputValue("travelSound", travelSound);
+			if (source)
+				travelSound.atLocation(source);
+			if (target)
+				travelSound.moveTowards(target);
+
+			const moveSpeed = await this.getInputValue("moveSpeed");
+			if (moveSpeed > 0)
+				travelSound.moveSpeed(moveSpeed);
+		}
+
+		if (await this.getInputValue("waitUntilFinished"))
+			effect.waitUntilFinished();
+
+		g.log("EZ Ranged Node", {
+			sequence,
+			effect,
+			sourceSound,
+			travelSound,
+			item,
+			file,
+			sourceSoundFile,
+			travelSoundFile,
+		});
 		g.end();
 
 		return this.executeNext("out");

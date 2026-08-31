@@ -11,12 +11,15 @@ const RADIUS_SHAPE_TYPES = new Set(["circle", "ring", "emanation"]);
 interface TInputs {
 	template?: RegionDocument;
 	file: string;
+	soundFile: string;
 	item?: Item;
 	scale: number;
+	waitUntilFinished: boolean;
 }
 
 interface TOutputs {
 	effect?: EffectSection;
+	sound?: SoundSection;
 }
 
 /** Builds an effect fitted to a measured-template region. */
@@ -63,6 +66,7 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 		return [
 			{ key: "template", type: "region", ...this.io("template") },
 			{ key: "file", type: "text", ...this.io("file"), field: { default: "" } },
+			{ key: "soundFile", type: "text", ...this.io("soundFile"), field: { default: "" } },
 			{ key: "item", type: "item", ...this.io("item") },
 			{
 				key: "scale",
@@ -70,11 +74,15 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 				...this.io("scale"),
 				field: { default: 1, min: 0 },
 			},
+			{ key: "waitUntilFinished", type: "boolean", ...this.io("waitUntilFinished") },
 		];
 	}
 
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
-		return [{ key: "effect", type: "effect", ...this.sharedIo("effect") }];
+		return [
+			{ key: "effect", type: "effect", ...this.sharedIo("effect") },
+			{ key: "sound", type: "sound", ...this.sharedIo("sound") },
+		];
 	}
 
 	override async _execute(): Promise<boolean> {
@@ -117,7 +125,19 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 			effect.scaleToObject((await this.getInputValue("scale")) || 1);
 		}
 
-		g.log("EZ Template Node", { sequence, effect, item, file, template });
+		const soundFile = await this.getInputValue("soundFile");
+		let sound: SoundSection | undefined;
+		if (soundFile?.trim()) {
+			sound = sequence.sound(soundFile);
+			this.setOutputValue("sound", sound);
+			if (template)
+				sound.atLocation(template);
+		}
+
+		if (await this.getInputValue("waitUntilFinished"))
+			effect.waitUntilFinished();
+
+		g.log("EZ Template Node", { sequence, effect, sound, item, file, soundFile, template });
 		g.end();
 
 		return this.executeNext("out");
