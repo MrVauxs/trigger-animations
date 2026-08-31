@@ -2,11 +2,9 @@ import type { AnyDocument, TMFXPreset } from "$lib/tmfxRegistry";
 import { acquire, filterKey, hasFilter, leaseIds, owns, release, whenReleased } from "$lib/tmfxRegistry";
 import { devLog, moduleError, moduleWarn } from "$lib/utils";
 
-/**
- * The name the section is registered under. It is both the method added to every
- * `Sequence` and the `type` a serialized section is rebuilt from, so it has to
- * stay stable and must not collide with a `Sequence.prototype` method.
- */
+// This entire file could probably be moved to its own module somewhere in the future.
+// Who knows. Vauxs would probably sooner make his own version of TMFX.
+
 export const TMFX_SECTION = "tokenMagic";
 
 export type TokenMagicAction = "add" | "release";
