@@ -202,8 +202,11 @@ class EZRangedNode extends TriggerNode<
 				travelSound.moveSpeed(moveSpeed);
 		}
 
+		const waitDelay = await this.getInputValue("waitDelay");
 		if (await this.getInputValue("waitUntilFinished"))
-			effect.waitUntilFinished(await this.getInputValue("waitDelay"));
+			effect.waitUntilFinished(waitDelay);
+		else if (waitDelay > 0)
+			effect.delay(waitDelay);
 
 		g.log("EZ Ranged Node", {
 			sequence,

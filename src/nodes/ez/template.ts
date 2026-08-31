@@ -136,8 +136,11 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 				sound.atLocation(template);
 		}
 
+		const waitDelay = await this.getInputValue("waitDelay");
 		if (await this.getInputValue("waitUntilFinished"))
-			effect.waitUntilFinished(await this.getInputValue("waitDelay"));
+			effect.waitUntilFinished(waitDelay);
+		else if (waitDelay > 0)
+			effect.delay(waitDelay);
 
 		g.log("EZ Template Node", { sequence, effect, sound, item, file, soundFile, template });
 		g.end();

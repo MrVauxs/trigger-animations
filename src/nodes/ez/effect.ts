@@ -183,8 +183,11 @@ class EZEffectNode extends TriggerNode<"out", TInputs, TOutputs> {
 		else if (rawDocument)
 			moduleWarn(`[${this.type}] could not resolve the tied document`, rawDocument);
 
+		const waitDelay = await this.getInputValue("waitDelay");
 		if (await this.getInputValue("waitUntilFinished"))
-			effect.waitUntilFinished(await this.getInputValue("waitDelay"));
+			effect.waitUntilFinished(waitDelay);
+		else if (waitDelay > 0)
+			effect.delay(waitDelay);
 
 		g.log("EZ Effect Node", { sequence, effect, item, file, target, rotateTowards, rotation, document });
 		g.end();

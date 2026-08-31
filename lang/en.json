@@ -164,7 +164,7 @@
 							},
 							"waitDelay": {
 								"title": "Wait Delay",
-								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes. If the Wait Until Finished option is disabled, this acts as a normal delay on this specific node."
+								"tooltip": "With Wait Until Finished enabled, adjusts the wait by this many milliseconds; negative values continue early. Otherwise, positive values delay the effect's start."
 							}
 						}
 					},
@@ -218,7 +218,7 @@
 							},
 							"waitDelay": {
 								"title": "Wait Delay",
-								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes."
+								"tooltip": "With Wait Until Finished enabled, adjusts the wait by this many milliseconds; negative values continue early. Otherwise, positive values delay the effect's start."
 							}
 						}
 					},
@@ -252,7 +252,7 @@
 							},
 							"waitDelay": {
 								"title": "Wait Delay",
-								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes."
+								"tooltip": "With Wait Until Finished enabled, adjusts the wait by this many milliseconds; negative values continue early. Otherwise, positive values delay the effect's start."
 							}
 						}
 					}
