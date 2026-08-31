@@ -15,6 +15,7 @@ interface TInputs {
 	item?: Item;
 	scale: number;
 	waitUntilFinished: boolean;
+	waitDelay: number;
 }
 
 interface TOutputs {
@@ -75,6 +76,7 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 				field: { default: 1, min: 0 },
 			},
 			{ key: "waitUntilFinished", type: "boolean", ...this.io("waitUntilFinished") },
+			{ key: "waitDelay", type: "number", ...this.io("waitDelay"), field: { default: 0 } },
 		];
 	}
 
@@ -135,7 +137,7 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 		}
 
 		if (await this.getInputValue("waitUntilFinished"))
-			effect.waitUntilFinished();
+			effect.waitUntilFinished(await this.getInputValue("waitDelay"));
 
 		g.log("EZ Template Node", { sequence, effect, sound, item, file, soundFile, template });
 		g.end();

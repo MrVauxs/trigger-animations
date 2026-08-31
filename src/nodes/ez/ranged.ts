@@ -27,6 +27,7 @@ interface TInputs {
 	attachTo: boolean;
 	outcome: string;
 	waitUntilFinished: boolean;
+	waitDelay: number;
 }
 
 interface TOutputs {
@@ -102,6 +103,7 @@ class EZRangedNode extends TriggerNode<
 				field: { type: "select", default: "", options: OUTCOME_OPTIONS },
 			},
 			{ key: "waitUntilFinished", type: "boolean", ...this.io("waitUntilFinished") },
+			{ key: "waitDelay", type: "number", ...this.io("waitDelay"), field: { default: 0 } },
 		];
 	}
 
@@ -201,7 +203,7 @@ class EZRangedNode extends TriggerNode<
 		}
 
 		if (await this.getInputValue("waitUntilFinished"))
-			effect.waitUntilFinished();
+			effect.waitUntilFinished(await this.getInputValue("waitDelay"));
 
 		g.log("EZ Ranged Node", {
 			sequence,

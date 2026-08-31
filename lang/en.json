@@ -118,6 +118,56 @@
 			},
 			"node": {
 				"ez": {
+					"ez-effect": {
+						"title": "EZ Effect",
+						"subtitle": "Premade on-target effect",
+						"io": {
+							"target": {
+								"title": "Target",
+								"tooltip": "Where the effect is played. Usually the affected token."
+							},
+							"rotateTowards": {
+								"title": "Rotate Towards",
+								"tooltip": "Rotates the effect to face this position. Leave unconnected to keep its default direction."
+							},
+							"rotation": {
+								"title": "Rotation",
+								"tooltip": "Additional rotation in degrees. Most effects face left to right, so positive rotation turns them clockwise."
+							},
+							"file": {
+								"title": "File",
+								"tooltip": "The effect file to play (a raw path or a Sequencer database path)."
+							},
+							"item": {
+								"title": "Item",
+								"tooltip": "The item that caused the effect. Fills in the effect's name and origin."
+							},
+							"document": {
+								"title": "Document",
+								"tooltip": "The document the effect is tied to. Deleting it ends a persistent effect."
+							},
+							"scale": {
+								"title": "Scale",
+								"tooltip": "Scales the effect relative to the target object's size (1 = match)."
+							},
+							"persist": {
+								"title": "Persist",
+								"tooltip": "Keeps the effect until it is ended or its tied document is deleted."
+							},
+							"persistTokenPrototype": {
+								"title": "Persist Token Prototype",
+								"tooltip": "Stores the persistent effect on the token prototype so copies inherit it."
+							},
+							"waitUntilFinished": {
+								"title": "Wait Until Finished",
+								"tooltip": "Wait for the effect to finish before continuing the Sequence."
+							},
+							"waitDelay": {
+								"title": "Wait Delay",
+								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes. If the Wait Until Finished option is disabled, this acts as a normal delay on this specific node."
+							}
+						}
+					},
 					"ez-ranged": {
 						"title": "EZ Ranged",
 						"subtitle": "Premade projectile effect",
@@ -165,6 +215,10 @@
 							"waitUntilFinished": {
 								"title": "Wait Until Finished",
 								"tooltip": "Wait for the effect to finish before continuing the Sequence."
+							},
+							"waitDelay": {
+								"title": "Wait Delay",
+								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes."
 							}
 						}
 					},
@@ -195,6 +249,10 @@
 							"waitUntilFinished": {
 								"title": "Wait Until Finished",
 								"tooltip": "Wait for the effect to finish before continuing the Sequence."
+							},
+							"waitDelay": {
+								"title": "Wait Delay",
+								"tooltip": "Adjusts the wait by this many milliseconds. Negative values continue before the effect finishes."
 							}
 						}
 					}
