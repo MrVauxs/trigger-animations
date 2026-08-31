@@ -11,7 +11,6 @@ const RADIUS_SHAPE_TYPES = new Set(["circle", "ring", "emanation"]);
 interface TInputs {
 	template?: RegionDocument;
 	file: string;
-	soundFile: string;
 	item?: Item;
 	scale: number;
 	waitUntilFinished: boolean;
@@ -20,7 +19,6 @@ interface TInputs {
 
 interface TOutputs {
 	effect?: EffectSection;
-	sound?: SoundSection;
 }
 
 /** Builds an effect fitted to a measured-template region. */
@@ -67,7 +65,6 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 		return [
 			{ key: "template", type: "region", ...this.io("template") },
 			{ key: "file", type: "text", ...this.io("file"), field: { default: "" } },
-			{ key: "soundFile", type: "text", ...this.io("soundFile"), field: { default: "" } },
 			{ key: "item", type: "item", ...this.io("item") },
 			{
 				key: "scale",
@@ -83,7 +80,6 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
 		return [
 			{ key: "effect", type: "effect", ...this.sharedIo("effect") },
-			{ key: "sound", type: "sound", ...this.sharedIo("sound") },
 		];
 	}
 
@@ -96,20 +92,21 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 			return this.executeNext("out");
 		}
 
+		const item = await this.getInputValue("item");
+		const file = await this.getInputValue("file");
+		const template = await this.getInputValue("template");
+
 		const effect = sequence.effect();
 		this.setOutputValue("effect", effect);
 
-		const item = await this.getInputValue("item");
 		if (item) {
 			effect.name(item.name);
 			effect.origin(item.uuid);
 		}
 
-		const file = await this.getInputValue("file");
 		if (file?.trim())
 			effect.file(file);
 
-		const template = await this.getInputValue("template");
 		if (!template) {
 			moduleWarn(`[${this.type}] no template; effect has no location`);
 		} else if (
@@ -127,22 +124,13 @@ class EZTemplateNode extends TriggerNode<"out", TInputs, TOutputs> {
 			effect.scaleToObject((await this.getInputValue("scale")) || 1);
 		}
 
-		const soundFile = await this.getInputValue("soundFile");
-		let sound: SoundSection | undefined;
-		if (soundFile?.trim()) {
-			sound = sequence.sound(soundFile);
-			this.setOutputValue("sound", sound);
-			if (template)
-				sound.atLocation(template);
-		}
-
 		const waitDelay = await this.getInputValue("waitDelay");
 		if (await this.getInputValue("waitUntilFinished"))
 			effect.waitUntilFinished(waitDelay);
 		else if (waitDelay > 0)
 			effect.delay(waitDelay);
 
-		g.log("EZ Template Node", { sequence, effect, sound, item, file, soundFile, template });
+		g.log("EZ Template Node", { sequence, effect, item, file, template });
 		g.end();
 
 		return this.executeNext("out");

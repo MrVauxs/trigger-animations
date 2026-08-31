@@ -184,26 +184,6 @@
 								"title": "File",
 								"tooltip": "The effect file to play (a raw path or a Sequencer database path)."
 							},
-							"sourceSoundFile": {
-								"title": "Source Sound File",
-								"tooltip": "The sound played at the projectile's source."
-							},
-							"travelSoundFile": {
-								"title": "Travel Sound File",
-								"tooltip": "The sound that moves from the source toward the target."
-							},
-							"moveSpeed": {
-								"title": "Sound Move Speed",
-								"tooltip": "Movement speed of the traveling sound in pixels per frame. Leave at 0 to use Sequencer's default."
-							},
-							"sourceSound": {
-								"title": "Source Sound",
-								"tooltip": "The Sound section played at the source."
-							},
-							"travelSound": {
-								"title": "Travel Sound",
-								"tooltip": "The Sound section moving toward the target."
-							},
 							"item": {
 								"title": "Item",
 								"tooltip": "The item that caused the shot. Fills in the effect's name and origin so other nodes can find or end it later."
@@ -233,10 +213,6 @@
 							"file": {
 								"title": "File",
 								"tooltip": "The effect file to play (a raw path or a Sequencer database path)."
-							},
-							"soundFile": {
-								"title": "Sound File",
-								"tooltip": "The sound played at the template."
 							},
 							"item": {
 								"title": "Item",
