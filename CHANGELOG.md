@@ -1,6 +1,9 @@
+# 0.9.3
+- (Nodes) Added "EZ Template" node. Same pre-handled logic as with EZ Ranged, but for templates instead.
+
 # 0.9.2
 - (Nodes) Added an experimental "Token Magic" node, adding and removing Token Magic FX filters on tokens and regions.
-- Fixed many important logs being hidden behind a debug flag. 
+- Fixed many important logs being hidden behind a debug flag.
 
 # 0.9.1
 - (Nodes) Made "Exit if Global" on sound location nodes the default.

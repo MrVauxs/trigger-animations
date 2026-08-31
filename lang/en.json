@@ -143,6 +143,28 @@
 								"tooltip": "The degree of success of the attack. Failures and critical failures make the projectile miss."
 							}
 						}
+					},
+					"ez-template": {
+						"title": "EZ Template",
+						"subtitle": "Premade template effect",
+						"io": {
+							"template": {
+								"title": "Template",
+								"tooltip": "The measured-template region to fit the effect to."
+							},
+							"file": {
+								"title": "File",
+								"tooltip": "The effect file to play (a raw path or a Sequencer database path)."
+							},
+							"item": {
+								"title": "Item",
+								"tooltip": "The item that created the template. Fills in the effect's name and origin."
+							},
+							"scale": {
+								"title": "Radius Scale",
+								"tooltip": "Size multiplier for templates containing one circular shape."
+							}
+						}
 					}
 				},
 				"action": {
