@@ -89,6 +89,18 @@ export default defineConfig(({ command }) => {
 		},
 
 		plugins: [
+			{
+				name: "full-reload-foundry-source", // Reload everything on anything, HMR is kinda dead by now
+				apply: "serve",
+				handleHotUpdate({ file, server }) {
+					const sourceRoot = `${path.resolve(__dirname, "src")}${path.sep}`;
+
+					if (file.startsWith(sourceRoot) && /\.(?:ts|js)$/.test(file)) {
+						server.ws.send({ type: "full-reload" });
+						return [];
+					}
+				},
+			},
 			vttSync(moduleJSON, { ignoreAdventureHMR: true }), // Build the database from JSON files on build
 			{
 				name: "foundryvtt-stubs", // Create dummy files for Foundry's tests to pass
