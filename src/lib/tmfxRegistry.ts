@@ -86,19 +86,9 @@ export interface AcquireOptions {
 }
 
 /**
- * Every filter this module has applied on this client, in memory only.
- *
- * Nothing here is written to a document: a flag would reintroduce the permission
- * gate and the broadcast that transient filters exist to avoid, and would need
- * per-user keying to stop other clients acting on it.
+ * Every filter this module has applied is in memory only.
  */
 const records = new Map<string, FilterRecord>();
-
-/**
- * The in-flight Token Magic FX call for each filter. Every add and remove queues
- * behind the previous one, so an abort during an add cannot settle as
- * `add:start -> remove:end -> add:end` and leave an orphaned filter on screen.
- */
 const operations = new Map<string, Promise<void>>();
 
 /** Records whose placeable was deleted; their queued calls must not run. */
@@ -125,8 +115,7 @@ export function whenReleased(key: string, leaseId: string): Promise<void> {
 /**
  * Take `leaseId`'s claim on a filter, applying it if nobody else holds it yet.
  *
- * Leases rather than a plain count, so two nodes sharing a `filterId` cannot
- * release each other's claim.
+ * Leases rather than a plain count, so two nodes sharing a `filterId` cannot release each other's claim.
  */
 export async function acquire(leaseId: string, options: AcquireOptions): Promise<boolean> {
 	const { placeable, preset, filterId, transient } = options;

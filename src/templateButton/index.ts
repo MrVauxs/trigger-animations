@@ -108,11 +108,11 @@ async function openTemplateDialog(item: Item) {
 
 	const registered = triggerAnimations.api.templates;
 	const templates = Object.values(registered);
-	const fallback = templates[0];
+	const fallback = templates.at(-1);
 	if (!fallback)
 		return devLog("No templates registered.");
 	const recommended = templates.filter(t => isRecommended(t, suggested));
-	const preselected = (recommended[0] ?? fallback).id;
+	const preselected = (recommended.at(-1) ?? fallback).id;
 
 	const options = templates.map((t) => {
 		const fits = isRecommended(t, suggested);
@@ -137,7 +137,7 @@ async function openTemplateDialog(item: Item) {
 <section class="trigger-anims-template">
 	<p class="ta-intro">Template animation for <strong>${escape(item.name ?? "Unnamed Item")}</strong> <code>${escape(item.type)}</code></p>
 	<div class="ta-field">
-		<label>Template</label>
+		<label>Template (${recommended.length} recommended)</label>
 		<select name="template" class="ta-select">
 			<button type="button"><selectedcontent></selectedcontent></button>
 			${options}

@@ -106,16 +106,6 @@ function createTokenMagicSection(): SequencerBaseSectionConstructor {
 			this._syncWait();
 		}
 
-		/**
-		 * A filter with a lifetime of its own runs for that lifetime, so the rest of
-		 * Sequencer works on it the way it works on an effect: the section sits in the
-		 * manager until the filter comes down, `.waitUntilFinished()` and `.wait()`
-		 * order around it, and a persisting one parks the Sequence when it is last.
-		 *
-		 * A filter that ends with the Sequence cannot wait on itself, since the
-		 * section that releases it comes later in the same Sequence. It only waits
-		 * for the filter to land, matching the `thenDo` it replaced.
-		 */
 		get _awaitsLifetime(): boolean {
 			return this._options.action === "add" && (!!this._options.persist || (this._options.duration ?? 0) > 0);
 		}

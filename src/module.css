@@ -27,7 +27,7 @@
 }
 
 .trigger-anims-template {
-	--ta-accent: #2ecc8e;
+	--ta-accent: rgb(46, 204, 160);
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
@@ -274,14 +274,16 @@
 
 	& .ta-badge {
 		padding: 0.05em 0.35em;
-		border-radius: 3px;
-		font-size: 0.65em;
+		background-color: var(--color-bg-trait);
+		border: solid var(--color-border-trait) 1.5px;
+		border-radius: 0;
+		box-shadow: none;
+		margin: 0;
+		font-size: 0.75em;
 		font-weight: bold;
 		letter-spacing: 0.03em;
 		text-transform: uppercase;
 		white-space: nowrap;
-		background: var(--ta-accent);
-		color: #06281c;
 	}
 }
 
