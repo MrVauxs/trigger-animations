@@ -1,6 +1,18 @@
 {
 
 	"trigger-animations": {
+		"healthcheck": {
+			"active": "Active.",
+			"disabled": "Disabled!",
+			"all": "All are enabled.",
+			"none": "None are enabled!",
+			"part": "{in}/{max} are enabled.",
+			"unique": {
+				"tokenMagic": "Token Magic FX has Auto Template Effects enabled! This will cause visual conflicts.",
+				"seqVFX": "Sequencer has disabled visual effects!",
+				"seqSFX": "Sequencer has disabled sound effects!"
+			}
+		},
 		"settings": {
 			"quality": {
 				"name": "Animation Count",

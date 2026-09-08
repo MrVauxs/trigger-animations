@@ -1,4 +1,6 @@
 <script lang="ts">
+  	import { i18n } from "$lib/utils";
+
 	function checkModules(mod: string | string[]): boolean | number {
 		if (!Array.isArray(mod)) mod = [mod];
 		for (const [i,m] of mod.entries()) {
@@ -10,7 +12,9 @@
 	function checkTriggers(): string {
 		const {enabled, disabled} = triggerAnimations.api.setting.get()
 
-		return disabled.length === 0 ? "All are enabled." : enabled.length === 0 ? "None are enabled!" : `${enabled.length}/${enabled.length + disabled.length} are enabled.`
+		return disabled.length === 0 ? i18n("healthcheck.all")
+			: enabled.length === 0 ? i18n("healthcheck.none")
+			: i18n("healthcheck.part", { in: enabled.length, max: enabled.length + disabled.length})
 	}
 
 	function getRequiredTriggers(): object {
@@ -24,30 +28,37 @@
 		})
 		return result;
 	}
+
+	let problems: string[] = $state([]);
+
+	if (!game.settings.get("sequencer", "effectsEnabled")) problems.push(i18n("healthcheck.unique.seqVFX"))
+	if (!game.settings.get("sequencer", "soundsEnabled")) problems.push(i18n("healthcheck.unique.seqSFX"))
+	if (game.settings.get('tokenmagic', 'autoTemplateEnabled')) problems.push(i18n("healthcheck.unique.tokenMagic"))
 </script>
 
 <h3> Required Modules </h3>
 <ul>
 	<li class={[!checkModules("sequencer") && "error"]}>
-		Sequencer: {checkModules("sequencer") ? "Active" : "Missing!"}
+		<b>Sequencer:</b> {checkModules("sequencer") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
 	</li>
 	<li class={[!checkModules("trigger-engine") && "error"]}>
-		Trigger Engine: {checkModules("trigger-engine") ? "Active" : "Missing!"}
+		<b>Trigger Engine:</b> {checkModules("trigger-engine") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
 	</li>
 	<li class={[!checkModules(["jb2a_patreon", "JB2A_DnD5e"]) && "error"]}>
-		JB2A: {checkModules("jb2a_patreon") ? "JB2A (Patreon) is active" :
-		checkModules("JB2A_DnD5e") ? "JB2A (Free) is active, some animations may not play"
-		: "Missing!"}
+		<b>Jules & Ben Animated Assets:</b> {checkModules(["jb2a_patreon", "JB2A_DnD5e"]) ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
 	</li>
 </ul>
 
 <h3> Often Wanted Modules </h3>
 <ul>
 	<li class={[!checkModules("pf2e-trigger-animations-trove") && "error"]}>
-		Trigger Animation Trove: {checkModules("pf2e-trigger-animations-trove") ? "Active" : "Missing"}
+		<b>Trigger Animation Trove:</b> {checkModules("pf2e-trigger-animations-trove") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
 	</li>
 	<li class={[!checkModules("ggg") && "error"]}>
-		GGG: Sequencer Sound DB Collection: {checkModules("ggg") ? "Active" : "Missing"}
+		<b>GGG: Sequencer Sound DB Collection:</b> {checkModules("ggg") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+	</li>
+	<li class={[!checkModules("tokenmagic") && "error"]}>
+		<b>Token Magic FX:</b> {checkModules("tokenmagic") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
 	</li>
 </ul>
 
@@ -55,15 +66,29 @@
 <ul>
 	<svelte:boundary>
 			<li>
-				Required <i>Trigger Engine</i> Triggers from...
-				{#each Object.entries(getRequiredTriggers()) as [key, entry] (key)}
+				<b>Required <i>Trigger Engine</i> Triggers from...</b>
+				{#each Object.entries(getRequiredTriggers()) as [key, count] (key)}
 					<ul>
-						<li><i>{game.modules.get(key)!.title}:</i> {entry[0] === entry[1] ? "All" : `${entry[0]} out of ${entry[1]}`} triggers are enabled!</li>
+						<li><i>{game.modules.get(key)!.title}:</i>
+						{count[0] === count[1]
+							? i18n("healthcheck.all")
+							: i18n("healthcheck.part", { in: count[0], max: count[1] })}
+						</li>
 					</ul>
 				{/each}
 			</li>
 		<li>
-			Enabled <i>Trigger Animations</i> Triggers: {checkTriggers()}
+			<b>Enabled <i>Trigger Animations</i> Triggers:</b> {checkTriggers()}
+		</li>
+		<li>
+			<b>Settings:</b>
+			<ul>
+				{#each problems as problem}
+					<li>{problem}</li>
+				{:else}
+					<li>{i18n("healthcheck.all")}</li>
+				{/each}
+			</ul>
 		</li>
 
 		{#snippet pending()}

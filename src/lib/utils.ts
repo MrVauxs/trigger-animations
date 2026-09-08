@@ -8,6 +8,10 @@ export function dev() {
 		|| !!(CONFIG.debug as any).triggerAnimations;
 }
 
+export function i18n(str: string, format?: any) {
+	return game.i18n.format(`trigger-animations.${str}`, format);
+}
+
 export function isValidUpdater(data: Document, update?: Record<string, unknown>): boolean {
 	// V13 and earlier compatible
 	const isThereAnActiveGM = game.users.activeGM;
