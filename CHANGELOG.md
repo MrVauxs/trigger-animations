@@ -1,3 +1,7 @@
+# 0.9.4
+- Added a Healthcheck menu in Settings and Post-Update message.
+- Added `triggerAnimations.api.requiredTriggerEngineTriggers` path to the API. Modules can append their own required trigger IDs to make the healthchecker check for them being enabled too.
+
 # 0.9.3
 - (Nodes) Added "EZ Template" node.
 - (Nodes) Added "EZ Effect" node.

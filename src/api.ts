@@ -1,3 +1,4 @@
+import type { TriggersSetting } from "engine";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import type { BlueprintApplication } from "triggers-menu";
 import type { StartNodeOptions } from "./nodes";
@@ -206,7 +207,7 @@ export class API {
 				icon: "fas fa-video",
 				restricted: false,
 			},
-			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") || {}),
+			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") as TriggersSetting),
 			set: async (data, prepare) => {
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
