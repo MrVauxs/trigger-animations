@@ -3,8 +3,7 @@ import Root from "./app.svelte";
 
 const { ApplicationV2 } = foundry.applications.api;
 
-// Button to open is defined in settings.ts
-
+// Button to open is defined in settings.ts and index.ts
 class HealthcheckMenu extends SvelteApplicationMixin(ApplicationV2) {
 	static override DEFAULT_OPTIONS = {
 		id: "ta-healthcheck",
