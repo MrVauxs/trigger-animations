@@ -1,6 +1,7 @@
 import type { UserConfig } from "vite";
 import fs from "node:fs";
 import path from "node:path";
+import { svelte } from "@sveltejs/vite-plugin-svelte";
 import vttSync from "foundryvtt-sync/vite";
 import postcssPresetEnv from "postcss-preset-env";
 import { defineConfig } from "vite";
@@ -89,6 +90,13 @@ export default defineConfig(({ command }) => {
 		},
 
 		plugins: [
+			svelte({
+				compilerOptions: {
+					experimental: {
+						async: true,
+					},
+				},
+			}),
 			{
 				name: "full-reload-foundry-source", // Reload everything on anything, HMR is kinda dead by now
 				apply: "serve",

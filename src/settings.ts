@@ -1,5 +1,6 @@
 import { isAutoAnimationsActive } from "$lib/autoAnimations";
 import { id as moduleId } from "moduleJSON";
+import { HealthcheckMenu } from "./healthcheck/menu";
 import { onVolumeChanged } from "./volume";
 
 const settingString = (id: string, property: string) => `trigger-animations.settings.${id}.${property}`;
@@ -74,5 +75,13 @@ Hooks.on("init", () => {
 		name: "update-notice-shown-version",
 		config: false,
 		scope: "world",
+	});
+
+	game.settings.registerMenu(moduleId, "healthcheck", {
+		label: "Healthcheck",
+		name: "Healthcheck",
+		hint: "Check any issues regarding the module.",
+		icon: "fa-solid fa-user-nurse",
+		type: HealthcheckMenu,
 	});
 });

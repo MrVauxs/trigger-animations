@@ -1,6 +1,7 @@
 import type { BlueprintApplication } from "triggers-menu";
 import { dev, devLog, getMajorMinor } from "$lib/utils";
 import { id } from "moduleJSON";
+import { HealthcheckMenu } from "./healthcheck/menu";
 import "./module.css";
 import "./register";
 import "./api";
@@ -83,6 +84,16 @@ async function injectEnableButton(element: HTMLElement) {
 	const triggerSettings = game.settings.get("trigger-engine", "pf2e-trigger-triggers") as { enabled: string[] };
 	const containsAll = triggers.map(t => t.id).every(x => triggerSettings.enabled.includes(x));
 	devLog("Is every pf2e-trigger enabled?", containsAll);
+
+	const buttonhealth = document.createElement("button");
+	buttonhealth.type = "button";
+	buttonhealth.className = "welcome-health";
+	buttonhealth.innerHTML = `<i class="fa-solid fa-user-nurse"></i><span>Healthcheck</span>`;
+	buttonhealth.addEventListener("click", async () => {
+		new HealthcheckMenu().render(true);
+	});
+
+	card.append(buttonhealth);
 
 	// Re-check after the await in case a concurrent render already injected it.
 	if (containsAll || card.querySelector(".welcome-enable"))

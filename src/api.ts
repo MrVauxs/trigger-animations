@@ -64,6 +64,12 @@ export class API {
 			CONFIG.queries[`${id}.${query}`] = this.queries[query as keyof typeof this.queries];
 		}
 		this.ready = true;
+
+		fetch("modules/trigger-animations/dist/pf2e-trigger.json")
+			.then(r => r.json() as Promise<{ id: string }[]>)
+			.then((tr) => {
+				this.requiredTriggerEngineTriggers.push(...tr.map(x => ({ id: x.id, src: "trigger-animations" })));
+			});
 	}
 
 	ready = false;
@@ -289,4 +295,6 @@ export class API {
 		}
 		return end();
 	}
+
+	requiredTriggerEngineTriggers: { id: string; src: string }[] = [];
 }

@@ -413,7 +413,8 @@
 			}
 		}
 
-		& .welcome-enable {
+		& .welcome-enable,
+		& .welcome-health {
 			display: flex;
 			align-items: center;
 			justify-content: center;

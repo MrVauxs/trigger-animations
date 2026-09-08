@@ -32,6 +32,7 @@
 		"noUnusedParameters": false,
 		"declaration": true,
 		"declarationMap": true,
+		"noEmit": true,
 		"outDir": "./dist",
 		"sourceMap": true,
 		"allowSyntheticDefaultImports": true,
