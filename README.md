@@ -8,7 +8,7 @@
 Trigger Engine but for animations.
 
 > [!important]
-> If you want a library of premade animations, see [pf2e-trigger-animations-collection](https://github.com/ChasarooniZ/pf2e-trigger-animations-collection)!
+> If you want a library of premade animations, see [pf2e-trigger-animations-collection](https://github.com/ChasarooniZ/pf2e-trigger-animations-collection)! ([Copy Manifest URL](https://github.com/ChasarooniZ/pf2e-trigger-animations-collection/releases/latest/download/module.json))
 
 ## Installation
 
