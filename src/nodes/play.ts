@@ -81,11 +81,14 @@ class PlayNode extends TriggerNode<
 			devLog(`[${this.type}] Named Locations`, getNamedLocations(this));
 		}
 
-		await sequence.play({
+		const options = {
 			remote: await this.getInputValue("remote"),
 			preload: await this.getInputValue("preload"),
 			local: await this.getInputValue("local"),
-		});
+		};
+		devLog(`[${this.type}] applied`, options);
+
+		await sequence.play(options);
 		devLog("Playing Sequence", sequence);
 
 		return this.executeNext("out");
