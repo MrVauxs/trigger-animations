@@ -86,6 +86,15 @@ class PlayNode extends TriggerNode<
 			preload: await this.getInputValue("preload"),
 			local: await this.getInputValue("local"),
 		};
+		if (game.user.isGM) {
+			const playLocalStates = this.getContext<Map<string, boolean>>("playLocalStates")
+				?? this.setContext("playLocalStates", new Map<string, boolean>());
+			playLocalStates.set(this.id, options.local);
+			if (!this.getContext<boolean>("mixedLocalWarning") && new Set(playLocalStates.values()).size > 1) {
+				this.setContext("mixedLocalWarning", true);
+				ui.notifications.warn(`Trigger Animations | ${this.triggerName} has Play nodes with different Local states. Set their Local inputs to the same value.`);
+			}
+		}
 		devLog(`[${this.type}] applied`, options);
 
 		await sequence.play(options);
