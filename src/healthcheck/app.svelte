@@ -37,30 +37,31 @@
 </script>
 
 <h3> Required Modules </h3>
-<ul>
+<ul class="modules">
 	<li class={[!checkModules("sequencer") && "error"]}>
-		<b>Sequencer:</b> {checkModules("sequencer") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>Sequencer:</b> <span>{checkModules("sequencer") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 	<li class={[!checkModules("trigger-engine") && "error"]}>
-		<b>Trigger Engine:</b> {checkModules("trigger-engine") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>Trigger Engine:</b> <span>{checkModules("trigger-engine") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 	<li class={[!checkModules(["jb2a_patreon", "JB2A_DnD5e"]) && "error"]}>
-		<b>Jules & Ben Animated Assets:</b> {checkModules(["jb2a_patreon", "JB2A_DnD5e"]) ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>Jules & Ben Animated Assets:</b> <span>{checkModules(["jb2a_patreon", "JB2A_DnD5e"]) ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 </ul>
 
 <h3> Often Wanted Modules </h3>
-<ul>
+<ul class="modules">
 	<li class={[!checkModules("pf2e-trigger-animations-trove") && "error"]}>
-		<b>Trigger Animation Trove:</b> {checkModules("pf2e-trigger-animations-trove") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>Trigger Animation Trove:</b> <span>{checkModules("pf2e-trigger-animations-trove") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 	<li class={[!checkModules("ggg") && "error"]}>
-		<b>GGG: Sequencer Sound DB Collection:</b> {checkModules("ggg") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>GGG: Sequencer Sound DB Collection:</b> <span>{checkModules("ggg") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 	<li class={[!checkModules("tokenmagic") && "error"]}>
-		<b>Token Magic FX:</b> {checkModules("tokenmagic") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}
+		<b>Token Magic FX:</b> <span>{checkModules("tokenmagic") ? i18n("healthcheck.active") : i18n("healthcheck.disabled")}</span>
 	</li>
 </ul>
+
 
 <h3> Post-Install </h3>
 <ul>
@@ -103,9 +104,41 @@
 <style>
 	h3 {
 		margin: 0;
+		padding-bottom: 0.4em;
+		border-bottom: 1px solid var(--color-border-light-primary, #777);
+		font-family: inherit;
+		font-size: 1.15em;
+		font-weight: 600;
+	}
+
+	ul {
+		margin: 0.75em 0 1.5em;
+		padding-left: 1.5em;
+		line-height: 1.5;
+	}
+
+	ul ul {
+		margin: 0.25em 0 0;
+	}
+
+	li + li {
+		margin-top: 0.35em;
+	}
+
+	.modules {
+		padding-left: 0;
+		list-style: none;
+	}
+
+	.modules li {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.25em 1em;
+		padding: 0.25em 0;
 	}
 
 	.error {
-		background: rgba(116, 5, 5, 0.5)
+		background: rgba(116, 5, 5, 0.5);
 	}
 </style>
