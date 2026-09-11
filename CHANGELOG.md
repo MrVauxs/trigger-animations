@@ -1,7 +1,7 @@
-# 0.9.5 (u)
+# 0.9.5
 - Added a warning when running a trigger that has multiple play nodes with mismatching `local` states.
 - (Triggers) Made "Effect / Condition Granted" Trigger also allow for truncated names (`effect:effect-xyz -> effect:xyz`, `effect:spell-effect-shield -> effect:shield`.)
-- 
+- Made the healthchecker look a little more organized.
 
 # 0.9.4
 - Added a Healthcheck menu in Settings and Post-Update message.
