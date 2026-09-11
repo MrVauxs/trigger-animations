@@ -1,3 +1,8 @@
+# 0.9.5 (u)
+- Added a warning when running a trigger that has multiple play nodes with mismatching `local` states.
+- (Triggers) Made "Effect / Condition Granted" Trigger also allow for truncated names (`effect:effect-xyz -> effect:xyz`, `effect:spell-effect-shield -> effect:shield`.)
+- 
+
 # 0.9.4
 - Added a Healthcheck menu in Settings and Post-Update message.
 - Added `triggerAnimations.api.requiredTriggerEngineTriggers` property to the API. Modules can append their own required trigger IDs to make the healthchecker check for them being enabled too.

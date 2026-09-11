@@ -18,15 +18,15 @@
 			},
 			"outs": {
 				"out": {
-					"connection": "mosxx1pPt8nuHzjX:ins:in"
+					"connection": "3SPQQmWwAPHqohOO:ins:in"
 				}
 			}
 		},
 		{
 			"type": "execute-animation",
 			"position": {
-				"x": 1231.2564109832592,
-				"y": 295.73338224637354
+				"x": 1031.9230369598217,
+				"y": 273.7333832265001
 			},
 			"id": "PEXiYyM5Qoo77FZK",
 			"inputs": {
@@ -39,117 +39,19 @@
 				"sources": {
 					"connection": "NrSe7qkQAoAEuv9L:outputs:parent"
 				},
-				"name": {
-					"connection": "8PHo7eVUOmXJjHXK:outputs:result"
-				},
 				"targets": {
 					"connection": "nH4j4XWYYGhvRzeZ:outputs:targets"
-				}
-			}
-		},
-		{
-			"type": "extract-item",
-			"position": {
-				"x": 494.66666608537776,
-				"y": 308.66666654802543
-			},
-			"id": "mosxx1pPt8nuHzjX",
-			"custom": {
-				"outputs": {
-					"E85qTXVg1K7pfp77": {
-						"id": "E85qTXVg1K7pfp77",
-						"input": "slug",
-						"label": "Slug",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"AQuEoVK4OXKt5CBl": {
-						"id": "AQuEoVK4OXKt5CBl",
-						"input": "type",
-						"label": "Type",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"r3gZjLFZiqzJoWvP": {
-						"id": "r3gZjLFZiqzJoWvP",
-						"input": "uuid",
-						"label": "UUID",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"input": {
-					"connection": "NrSe7qkQAoAEuv9L:outputs:item"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "8PHo7eVUOmXJjHXK:ins:in"
-				}
-			}
-		},
-		{
-			"type": "format-text",
-			"position": {
-				"x": 719.9999389648438,
-				"y": 309.99997949322614
-			},
-			"id": "8PHo7eVUOmXJjHXK",
-			"custom": {
-				"inputs": {
-					"aessLq9h6kaS3HjI": {
-						"id": "aessLq9h6kaS3HjI",
-						"input": "a",
-						"label": "a",
-						"slug": "variable",
-						"type": "text"
-					},
-					"KJ2Dao3zd2aGkzMh": {
-						"id": "KJ2Dao3zd2aGkzMh",
-						"input": "b",
-						"label": "b",
-						"slug": "variable",
-						"type": "text"
-					},
-					"ptPjOjGVgRE7YQv2": {
-						"id": "ptPjOjGVgRE7YQv2",
-						"input": "uuid",
-						"label": "uuid",
-						"slug": "variable",
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"plain": {
-					"value": "@a:@b, @a:@uuid"
 				},
-				"aessLq9h6kaS3HjI": {
-					"connection": "mosxx1pPt8nuHzjX:outputs:AQuEoVK4OXKt5CBl"
-				},
-				"KJ2Dao3zd2aGkzMh": {
-					"connection": "mosxx1pPt8nuHzjX:outputs:E85qTXVg1K7pfp77"
-				},
-				"ptPjOjGVgRE7YQv2": {
-					"connection": "mosxx1pPt8nuHzjX:outputs:r3gZjLFZiqzJoWvP"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "nH4j4XWYYGhvRzeZ:ins:in"
+				"name": {
+					"connection": "3SPQQmWwAPHqohOO:outputs:XYL86FySyqsrK7oS"
 				}
 			}
 		},
 		{
 			"type": "user-targets",
 			"position": {
-				"x": 1019.9999598349309,
-				"y": 300.6666362889348
+				"x": 812.6665858114934,
+				"y": 287.9999498415322
 			},
 			"id": "nH4j4XWYYGhvRzeZ",
 			"inputs": {
@@ -161,6 +63,41 @@
 				"out": {
 					"connection": "PEXiYyM5Qoo77FZK:ins:in"
 				}
+			}
+		},
+		{
+			"type": "execute-script",
+			"position": {
+				"x": 504.6666259765625,
+				"y": 287.33335073197173
+			},
+			"id": "3SPQQmWwAPHqohOO",
+			"custom": {
+				"inputs": {
+					"xKOnZ7RKF3wXbTnp": {
+						"id": "xKOnZ7RKF3wXbTnp",
+						"label": "Item",
+						"slug": "input",
+						"isArray": false,
+						"type": "item"
+					}
+				},
+				"outputs": {
+					"XYL86FySyqsrK7oS": {
+						"id": "XYL86FySyqsrK7oS",
+						"label": "Formatted",
+						"slug": "output",
+						"isArray": false,
+						"type": "text"
+					}
+				}
+			},
+			"inputs": {
+				"script": { "value": "const item = inputs[0];\n\nconst strings = [];\nstrings.push(`${item.type}:${item.slug}`);\nstrings.push(`${item.type}:${item.uuid}`);\nstrings.push(`${item.type}:${item.slug}`.replace(\":effect-\", \":\"));\nstrings.push(`${item.type}:${item.slug}`.replace(\":spell-effect-\", \":\"));\n\nconst result = strings.join(\",\");\nreturn result ? [{type: \"text\", value: result}] : false;" },
+				"xKOnZ7RKF3wXbTnp": { "connection": "NrSe7qkQAoAEuv9L:outputs:item" }
+			},
+			"outs": {
+				"out": { "connection": "nH4j4XWYYGhvRzeZ:ins:in" }
 			}
 		}
 	],
