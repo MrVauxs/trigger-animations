@@ -1,3 +1,6 @@
+# 0.9.6
+- Hopefully fix errors relating to the animation database not existing yet on first load.
+
 # 0.9.5
 - Added a warning when running a trigger that has multiple play nodes with mismatching `local` states.
 - (Triggers) Made "Effect / Condition Granted" Trigger also allow for truncated names (`effect:effect-xyz -> effect:xyz`, `effect:spell-effect-shield -> effect:shield`.)
