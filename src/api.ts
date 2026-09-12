@@ -216,7 +216,7 @@ export class API {
 				devLog("afterPrepared", triggerData);
 				globalThis.triggerAnimations.api.saveTriggers(triggerData);
 				globalThis.triggerAnimations.api.cacheTriggers(triggerData);
-				globalThis.triggerAnimations.api.databaseUIMount();
+				globalThis.triggerAnimations.api.databaseMount();
 			},
 		};
 	}
@@ -234,17 +234,16 @@ export class API {
 	}
 
 	/** Push {@link databaseOwnership} onto the database journal. Only the active GM writes. */
-	async postProcessDB() {
+	async applyDatabaseOwnership(minRole?: number) {
 		if (!this.db || !game.user.isActiveGM)
 			return;
-		const ownership = this.databaseOwnership();
-		const flags = this.db.getFlag("trigger-animations", "data") || { disabled: [], enabled: [], folders: {}, sources: [] };
+		const ownership = this.databaseOwnership(minRole);
 		devLog("Applying database ownership", ownership);
 		await this.db.update({ ownership, flags });
 	}
 
 	#hooks: Record<string, number> = {};
-	databaseUIMount() {
+	databaseMount() {
 		devLog("DB Mount Hook", this.db);
 		if (!this.db)
 			return;
@@ -279,14 +278,14 @@ export class API {
 		let database = game.journal.getName("Trigger Animations DB");
 		const end = async () => {
 			this._db = database!;
-			this.databaseUIMount();
+			this.databaseMount();
 			if (!this.#updateHook) {
 				this.#updateHook = Hooks.on("updateJournalEntry", (journal, data, log) => {
 					if (journal.id === this.db.id)
 						this.prepare();
 				});
 			}
-			await this.postProcessDB();
+			this.applyDatabaseOwnership(game.settings.get(id, "database-edit-role") as number);
 			return database;
 		};
 		if (!JournalEntry.canUserCreate(game.user))

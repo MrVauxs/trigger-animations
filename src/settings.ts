@@ -68,7 +68,7 @@ Hooks.on("init", () => {
 		} as never,
 		config: true,
 		scope: "world",
-		onChange: value => triggerAnimations?.api?.postProcessDB(),
+		onChange: value => triggerAnimations?.api?.applyDatabaseOwnership(Number(value)),
 	});
 	game.settings.register(moduleId, "update-notice-shown-version", {
 		type: String,
