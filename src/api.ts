@@ -207,7 +207,7 @@ export class API {
 				icon: "fas fa-video",
 				restricted: false,
 			},
-			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") as TriggersSetting),
+			get: () => (globalThis.triggerAnimations.api.db?.getFlag(id, "data") as TriggersSetting || {}),
 			set: async (data, prepare) => {
 				await globalThis.triggerAnimations.api.db?.setFlag(id, "data", _replace(data));
 				// prepare(); // Do not prepare, the updateJournalEntry hook takes care of it
@@ -237,10 +237,10 @@ export class API {
 	async postProcessDB() {
 		if (!this.db || !game.user.isActiveGM)
 			return;
-		const ownership = this.databaseOwnership(game.settings.get(id, "database-edit-role") as number);
-		const flags = this.db.flags["trigger-animations"]?.data || { disabled: [], enabled: [], folders: {}, sources: [] };
+		const ownership = this.databaseOwnership();
+		const flags = this.db.getFlag("trigger-animations", "data") || { disabled: [], enabled: [], folders: {}, sources: [] };
 		devLog("Applying database ownership", ownership);
-		await this.db.update({ ownership });
+		await this.db.update({ ownership, flags });
 	}
 
 	#hooks: Record<string, number> = {};
@@ -250,6 +250,7 @@ export class API {
 			return;
 		if (this.#hooks.renderJournalDirectory)
 			Hooks.off("renderJournalDirectory", this.#hooks.renderJournalDirectory);
+
 		this.#hooks.renderJournalDirectory = Hooks.on("renderJournalDirectory", (app) => {
 			if (!this.db)
 				return;
@@ -265,6 +266,7 @@ export class API {
 
 		if (this.#hooks.preDeleteJournalEntry)
 			Hooks.off("preDeleteJournalEntry", this.#hooks.preDeleteJournalEntry);
+
 		this.#hooks.preDeleteJournalEntry = Hooks.on("preDeleteJournalEntry", (doc) => {
 			if (!this.db)
 				return;
@@ -275,7 +277,7 @@ export class API {
 	#updateHook: number | undefined;
 	async createJournalDatabase() {
 		let database = game.journal.getName("Trigger Animations DB");
-		const end = () => {
+		const end = async () => {
 			this._db = database!;
 			this.databaseUIMount();
 			if (!this.#updateHook) {
@@ -284,7 +286,7 @@ export class API {
 						this.prepare();
 				});
 			}
-			this.postProcessDB();
+			await this.postProcessDB();
 			return database;
 		};
 		if (!JournalEntry.canUserCreate(game.user))
