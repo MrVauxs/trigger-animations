@@ -361,6 +361,20 @@
 					}
 				},
 				"extractor": {
+					"extract-coordinates": {
+						"title": "Extract Coordinates",
+						"subtitle": "Captures a target's current position",
+						"io": {
+							"target": {
+								"title": "Target",
+								"tooltip": "The target whose current canvas coordinates should be captured."
+							},
+							"coordinates": {
+								"title": "Coordinates",
+								"tooltip": "The target's captured X/Y coordinates as a point."
+							}
+						}
+					},
 					"massloop": {
 						"title": "Mass Loop",
 						"states": {
