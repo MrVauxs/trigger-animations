@@ -1,6 +1,7 @@
 import type { ActorPF2e, TokenDocumentPF2e } from "@7h3laughingman/pf2e-types";
+import type { TriggerEngine as T } from "trigger-engine/types";
 
-const { NodeEntry } = globalThis.triggerEngine;
+const { NodeEntry, NodeField } = globalThis.triggerEngine;
 
 declare global {
 	type PositionSource
@@ -8,6 +9,109 @@ declare global {
 			| { kind: "target"; actor: ActorPF2e; token?: TokenDocumentPF2e }
 			| { kind: "point"; x: number; y: number }
 			| { kind: "name"; name: string };
+}
+
+interface PositionFieldSchema {
+	width?: number;
+}
+
+class PositionField extends NodeField<PositionSource | undefined, PositionFieldSchema> {
+	static override get defineSchema(): T.NodeFieldSchema {
+		return {
+			width: { type: "number", default: 140 },
+		};
+	}
+
+	override get width(): number {
+		return this.field.width ?? 140;
+	}
+
+	override get height(): number {
+		return this.maxHeight;
+	}
+
+	override get cursor(): PIXI.Cursor {
+		return "text";
+	}
+
+	get locationName(): string {
+		return this.value?.kind === "name" ? this.value.name : "";
+	}
+
+	override draw(): void {
+		const padding = 4;
+		if (this.isConnected) {
+			this.beginFill(0x3B3B3B);
+		} else {
+			const text = this.createPreciseText(this.locationName, {
+				fontSize: this.baseFontSize * 0.86,
+				lineHeight: this.height - 1,
+			});
+			text.x = padding;
+			text.alpha = this.locationName ? 1 : 0.5;
+
+			this.addRectangleMask(text, 0, 0, this.width - padding * 2, this.height);
+			this.addChild(text);
+		}
+
+		this.lineStyle({ color: 0xFFFFFF, width: 1 });
+		this.drawRect(0, 0, this.width, this.height);
+		this.endFill();
+
+		this.label.x = padding;
+		this.label.position.set(padding, 0);
+		this.label.style.fontSize = this.baseFontSize * 0.86;
+		this.label.style.lineHeight = this.height - 1;
+		this.addChild(this.label);
+	}
+
+	override onClick(): Promise<PositionSource | undefined> {
+		const bounds = this.getGlobalBounds();
+		const input = document.createElement("input");
+		input.id = "trigger-engine-field";
+		input.type = "text";
+		input.name = "field";
+		input.placeholder = "Named Location";
+		input.value = this.locationName;
+		Object.assign(input.style, {
+			"--origin-width": `${bounds.width}px`,
+			"--origin-height": `${bounds.height}px`,
+			"--origin-font-size": `${this.baseFontSize * 0.86}px`,
+			"--target-width": `${Math.max(bounds.width, 280)}px`,
+			"--target-height": `${Math.max(bounds.height, 40)}px`,
+			"--target-font-size": `${this.baseFontSize}px`,
+			"left": `${bounds.x + bounds.width / 2}px`,
+			"top": `${bounds.y + bounds.height / 2}px`,
+		});
+		document.body.appendChild(input);
+		input.focus();
+		input.select();
+
+		return new Promise((resolve) => {
+			let finished = false;
+			const finish = (value: PositionSource | undefined) => {
+				if (finished)
+					return;
+				finished = true;
+				input.remove();
+				resolve(value);
+			};
+
+			input.addEventListener("blur", () => {
+				const name = input.value.trim();
+				finish(name ? { kind: "name", name } : undefined);
+			}, { once: true });
+			input.addEventListener("keydown", (event) => {
+				if (event.key === "Enter") {
+					event.preventDefault();
+					input.blur();
+				} else if (event.key === "Escape") {
+					event.preventDefault();
+					finish(this.value);
+				}
+			});
+		});
+	}
 }
 
 class PositionEntry extends NodeEntry<PositionSource> {
@@ -21,6 +125,10 @@ class PositionEntry extends NodeEntry<PositionSource> {
 
 	static override get color(): ColorSource {
 		return "#e07b39";
+	}
+
+	static override get FieldClass(): typeof PositionField {
+		return PositionField;
 	}
 
 	// --- Type guards ---
@@ -74,7 +182,6 @@ class PositionEntry extends NodeEntry<PositionSource> {
 		);
 	}
 
-	// --- Casting from foreign entry types or raw values ---
 	static override castValue(value: unknown): PositionSource | undefined {
 		// Already valid
 		if (PositionEntry.isValidType(value))
@@ -161,7 +268,6 @@ class PositionEntry extends NodeEntry<PositionSource> {
 		return undefined;
 	}
 
-	// --- Serialization ---
 	static override toJSON(value: PositionSource): JSONValue {
 		switch (value.kind) {
 			case "point":

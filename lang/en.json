@@ -573,7 +573,11 @@
 							},
 							"location": {
 								"title": "Location",
-								"tooltip": "The token or point to store."
+								"tooltip": "The token, region, point, or named location to store."
+							},
+							"positionName": {
+								"title": "Position Name",
+								"tooltip": "Outputs the named location's name for use by other location inputs."
 							}
 						}
 					},

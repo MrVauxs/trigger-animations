@@ -1,3 +1,7 @@
+# 0.9.7
+- (Nodes) Added a text input to Location I/O for use with "Named Location" node.
+- (Nodes) Added a text output to "Named Location" node.
+
 # 0.9.6
 - Hopefully fix errors relating to the animation database not existing yet on first load.
 

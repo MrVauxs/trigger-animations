@@ -9,7 +9,9 @@ interface TInputs {
 	name: string;
 	location: PositionSource;
 }
-interface TOutputs {}
+interface TOutputs {
+	positionName?: string;
+}
 
 class NamedLocationNode extends TriggerNode<
 	"out",
@@ -51,6 +53,12 @@ class NamedLocationNode extends TriggerNode<
 		];
 	}
 
+	static override get defineOutputs(): T.OutputEntrySchemaSource[] | null {
+		return [
+			{ key: "positionName", type: "text", ...this.io("positionName") },
+		];
+	}
+
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 		const sequence = createQueuedSequence(this);
@@ -60,6 +68,7 @@ class NamedLocationNode extends TriggerNode<
 			if (location) {
 				sequence.addNamedLocation(name, location);
 				defineNamedLocation(this, name);
+				this.setOutputValue("positionName", name);
 			} else {
 				moduleWarn(`[${this.type}] no location to name`);
 			}
