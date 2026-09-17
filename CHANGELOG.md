@@ -1,3 +1,6 @@
+# 0.9.8
+- Fix trigger saving code.
+
 # 0.9.7
 - (Nodes) Added an Extract Coordinates node to capture a target's current position for later use.
 - (Nodes) Added a text input to Location I/O for use with "Named Location" node.
