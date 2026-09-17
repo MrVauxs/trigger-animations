@@ -239,7 +239,7 @@ export class API {
 			return;
 		const ownership = this.databaseOwnership(minRole);
 		devLog("Applying database ownership", ownership);
-		await this.db.update({ ownership, flags });
+		await this.db.update({ ownership });
 	}
 
 	#hooks: Record<string, number> = {};

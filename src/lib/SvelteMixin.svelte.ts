@@ -31,7 +31,7 @@ function SvelteApplicationMixin<
 >(Base: TBase) {
 	abstract class SvelteApplication extends Base {
 		static override DEFAULT_OPTIONS: DeepPartial<fa.ApplicationConfiguration> = {
-			classes: ["pf2e"],
+			classes: [],
 		};
 
 		protected abstract root: svelte.Component<any>;
