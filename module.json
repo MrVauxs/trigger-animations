@@ -76,8 +76,8 @@
 	"url": "https://github.com/MrVauxs/trigger-animations",
 	"bugs": "https://github.com/MrVauxs/trigger-animations/issues",
 	"changelog": "https://github.com/MrVauxs/trigger-animations/blob/main/CHANGELOG.md",
-	"manifest": "https://raw.githubusercontent.com/MrVauxs/trigger-animations/latest/releases/module.json",
-	"download": "https://raw.githubusercontent.com/MrVauxs/trigger-animations/latest/releases/module.zip",
+	"manifest": "https://github.com/MrVauxs/trigger-animations/releases/latest/download/module.json",
+	"download": "https://github.com/MrVauxs/trigger-animations/releases/latest/download/module.zip",
 	"media": [
 		{
 			"type": "setup",
