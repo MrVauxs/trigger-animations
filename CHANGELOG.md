@@ -1,3 +1,6 @@
+# 0.9.9
+- Fix manifest and download URLs.
+
 # 0.9.8
 - Fix trigger saving code.
 
