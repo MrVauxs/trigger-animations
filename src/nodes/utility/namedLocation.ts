@@ -1,6 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { defineNamedLocation, requestNamedLocation } from "$lib/namedLocations";
-import { createQueuedSequence } from "$lib/sequenceQueue";
 import { devGroup, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -11,6 +10,12 @@ interface TInputs {
 }
 interface TOutputs {
 	positionName?: string;
+}
+
+/** What `Sequence.addNamedLocation()` takes from another named location. */
+interface NamedLocationOffset {
+	source: unknown;
+	target?: unknown;
 }
 
 class NamedLocationNode extends TriggerNode<
@@ -61,10 +66,11 @@ class NamedLocationNode extends TriggerNode<
 
 	override async _execute(...args: any[]): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
-		const sequence = createQueuedSequence(this);
+		// Onto the Sequence that gets played: `addSequence` only carries sections over, not named locations.
+		const sequence = this.getContext<Sequence>("sequence");
 		const name = await this.getInputValue("name");
 		if (sequence && name) {
-			const location = this.getLocation(await this.getInputValue("location"));
+			const location = this.getLocation(sequence, await this.getInputValue("location"));
 			if (location) {
 				sequence.addNamedLocation(name, location);
 				defineNamedLocation(this, name);
@@ -80,7 +86,7 @@ class NamedLocationNode extends TriggerNode<
 		return this.executeNext("out");
 	}
 
-	getLocation(loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | string | undefined {
+	getLocation(sequence: Sequence, loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | NamedLocationOffset | undefined {
 		switch (loc?.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
@@ -88,10 +94,15 @@ class NamedLocationNode extends TriggerNode<
 				return loc.region;
 			case "target":
 				return this.getTargetToken({ actor: loc.actor, token: loc.token });
-			case "name":
-				// Aliasing one named location to another; Sequencer resolves it at play time.
+			case "name": {
+				// Aliasing another named location, so it has to be on the Sequence already.
 				requestNamedLocation(this, loc.name);
-				return loc.name;
+				const offsets = (sequence as { nameOffsetMap?: Record<string, NamedLocationOffset> | false }).nameOffsetMap;
+				const alias = offsets ? offsets[loc.name] : undefined;
+				if (!alias)
+					moduleWarn(`[${this.type}] "${loc.name}" is not a named location yet`);
+				return alias && { source: alias.source, target: alias.target ?? alias.source };
+			}
 		}
 	}
 }

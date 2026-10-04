@@ -7,6 +7,8 @@
   - Added a Timeout input to the Crosshair node. Timeouts now count down on the placing user's screen.
   - Persisted crosshair templates are created by the GM, so the placing user does not need permission to create templates.
   - Crosshairs work with Local Play nodes: only the GM asks for the crosshair, and every client uses the same placement.
+- (Nodes) Fixed the Named Location node's location never reaching the played Sequence, so later sections could not use it.
+- (Nodes) Fixed the Named Location node stopping the trigger when given another named location. It now copies a named location set earlier in the trigger.
 
 # 0.9.9
 - Fix manifest and download URLs.
