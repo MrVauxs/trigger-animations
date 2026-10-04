@@ -1,4 +1,6 @@
+import type { CrosshairRun } from "$lib/crosshairRelay";
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { setCrosshairRun } from "$lib/crosshairRelay";
 import { resetSequenceQueue } from "$lib/sequenceQueue";
 import { devLog } from "$lib/utils";
 
@@ -29,6 +31,8 @@ interface StartNodeOptions {
 	// addons
 	sequence?: Sequence;
 	stopRecursionFor?: string[];
+	/** Set when every client runs this trigger, see {@link CrosshairRun}. */
+	crosshairRun?: CrosshairRun;
 }
 
 class StartNode extends TriggerNode<
@@ -149,7 +153,7 @@ class StartNode extends TriggerNode<
 	override async _execute(emitable: any): Promise<boolean> {
 		const convertedData = await this.convertStartObjectFromEmitable(emitable);
 		devLog("Running animation-event", convertedData);
-		const { name, item, targets, sources, actor, options, userInputs, user, sequence: passedSequence, stopRecursionFor } = convertedData;
+		const { name, item, targets, sources, actor, options, userInputs, user, sequence: passedSequence, stopRecursionFor, crosshairRun } = convertedData;
 		if (!name)
 			return true;
 
@@ -163,6 +167,8 @@ class StartNode extends TriggerNode<
 
 		if (user && user instanceof User)
 			this.userContext = user;
+
+		setCrosshairRun(this, crosshairRun);
 
 		/**
 		 * The name the animation-event node has.

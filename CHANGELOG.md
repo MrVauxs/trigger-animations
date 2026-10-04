@@ -1,3 +1,13 @@
+# Unreleased
+- (Nodes) Brought back the Crosshair and Pick Location nodes, along with the Crosshair Shape, Appearance and Behavior nodes.
+  - The crosshair is now placed by the user who triggered the animation instead of the GM. Both nodes have a User input to pick someone else; if the user is offline, whoever runs the trigger places it.
+  - The crosshair is placed while the trigger runs, before the Sequence is played, so the nodes after it get the actual Location, Direction and Distance.
+  - The Crosshair node now has Configure, Placed and Cancelled outputs. Connect the Shape, Appearance and Behavior nodes to Configure; they are applied before the crosshair is shown.
+  - The Crosshair node's Name registers a named location on the Sequence, also usable as a later crosshair's Behavior location.
+  - Added a Timeout input to the Crosshair node. Timeouts now count down on the placing user's screen.
+  - Persisted crosshair templates are created by the GM, so the placing user does not need permission to create templates.
+  - Crosshairs work with Local Play nodes: only the GM asks for the crosshair, and every client uses the same placement.
+
 # 0.9.9
 - Fix manifest and download URLs.
 

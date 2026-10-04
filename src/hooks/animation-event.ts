@@ -1,5 +1,6 @@
 import type { StartNodeOptions } from "../nodes";
 import { announceTriggerClaim, CLAIM_FLAG, receiveTriggerClaim } from "$lib/autoAnimations";
+import { createCrosshairRun, CROSSHAIR_FLAG, receiveCrosshair } from "$lib/crosshairRelay";
 import { devLog } from "$lib/utils";
 import { id } from "moduleJSON";
 
@@ -48,6 +49,8 @@ class StartHook extends TriggerHook {
 		// Global:	Player -> GM
 		if (game.user.isActiveGM || socket) {
 			if (local && !socket) {
+				// Everyone runs this trigger; the shared run makes us the only one asking for crosshairs.
+				(emitable as Record<string, unknown>).crosshairRun = createCrosshairRun();
 				devLog("Emitting local animation-event", id, emitable);
 				game.socket.emit(StartHook.socketPath, emitable, true);
 			}
@@ -62,10 +65,12 @@ class StartHook extends TriggerHook {
 		}
 	}
 
-	/** Both animation-events and A-A claims share the one module socket, so they get told apart here. */
+	/** Animation-events, A-A claims and crosshair placements share the one module socket, so they get told apart here. */
 	#onSocket(data: any, socket = false) {
 		if (data?.[CLAIM_FLAG])
 			return receiveTriggerClaim(data);
+		if (data?.[CROSSHAIR_FLAG])
+			return receiveCrosshair(data);
 		return this.#execute(data, socket);
 	}
 

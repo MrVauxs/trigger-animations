@@ -1,9 +1,11 @@
+import type { CrosshairRequest } from "$lib/crosshairBuilder";
 import type { TriggersSetting } from "engine";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import type { BlueprintApplication } from "triggers-menu";
 import type { StartNodeOptions } from "./nodes";
 import type { TriggerTemplate } from "./templateButton/templates";
 import { competes, handleItem, overrideEnabled } from "$lib/autoAnimations";
+import { showCrosshairLocally } from "$lib/remoteCrosshair";
 import * as s from "$lib/serialize";
 import { dev, devLog, log } from "$lib/utils";
 import { id } from "moduleJSON";
@@ -86,22 +88,24 @@ export class API {
 
 	private queries = {
 		showCrosshair: async (data: { serialized: string }) => {
-			const crosshairData = s.parse(data.serialized) as Parameters<typeof Sequencer.Crosshair.show>[0];
-			devLog("Received query showCrosshair", crosshairData);
+			const request = s.parse(data.serialized) as CrosshairRequest;
+			devLog("Received query showCrosshair", request);
 
-			const template = await Sequencer.Crosshair.show(crosshairData);
-			return JSON.stringify(template);
+			return JSON.stringify(await showCrosshairLocally(request));
 		},
 	} as const;
 
-	async query<T extends keyof typeof this.queries>(user: User, type: T, data: any, options: Record<string, any> = {}) {
-		options.timeout ??= 30 * 1000; // 30 second timeout
-		if (!CONFIG.queries[type])
-			type = `${id}.${type}` as T;
+	/** `options.timeout` is in milliseconds, 30 seconds by default; 0 waits for as long as it takes. */
+	async query<T extends keyof typeof this.queries>(user: User, type: T, data: any, options: { timeout?: number } = {}) {
+		const timeout = options.timeout ?? 30 * 1000;
+		const payload = { serialized: s.stringify(data) };
 
 		devLog(`Running query ${type} for ${user.name}`, data);
-		const query = await user.query(type, { serialized: s.stringify(data) }, options) as string;
-		return JSON.parse(query);
+		// Like Trigger Engine's user queries, asking ourselves skips the socket.
+		const result = user.isSelf
+			? await this.queries[type](payload)
+			: await user.query(CONFIG.queries[type] ? type : `${id}.${type}`, payload, timeout > 0 ? { timeout } : {});
+		return typeof result === "string" ? JSON.parse(result) : result;
 	}
 
 	async openBlueprint(data?: T.TriggerDataInput, ...args: any[]) {

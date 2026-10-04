@@ -1,3 +1,4 @@
+import type { CrosshairBuilder, CrosshairLocationOptions } from "$lib/crosshairBuilder";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { CrosshairModifierNode } from "./base";
 import { WALL_BEHAVIOR_OPTIONS } from "./constants";
@@ -70,10 +71,10 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 		];
 	}
 
-	protected override async apply(section: CrosshairSection): Promise<void> {
+	protected override async apply(crosshair: CrosshairBuilder): Promise<void> {
 		const location = this.getLocation(await this.getInputValue("location"));
 		if (location) {
-			const opts: Record<string, unknown> = {
+			const opts: CrosshairLocationOptions = {
 				showRange: await this.getInputValue("showRange"),
 				lockToEdge: await this.getInputValue("lockToEdge"),
 				lockToEdgeDirection: await this.getInputValue("lockToEdgeDirection"),
@@ -88,16 +89,16 @@ class CrosshairBehaviorNode extends CrosshairModifierNode<TInputs> {
 			const offset = await this.getInputValue("offset");
 			if (offset && (offset.x !== 0 || offset.y !== 0))
 				opts.offset = offset;
-			section.location(location, opts);
+			crosshair.location(location, opts);
 		}
 
 		// lockDrag defaults true in Sequencer, let the user turn it off.
-		section.lockDrag(await this.getInputValue("lockDrag"));
+		crosshair.lockDrag(await this.getInputValue("lockDrag"));
 
 		if (await this.getInputValue("lockManualRotation"))
-			section.lockManualRotation(true);
+			crosshair.lockManualRotation(true);
 		if (await this.getInputValue("persist"))
-			section.persist(true);
+			crosshair.persist(true);
 	}
 }
 
