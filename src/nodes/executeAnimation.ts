@@ -1,4 +1,5 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { nestedCrosshairRun } from "$lib/crosshairRelay";
 import { devGroup } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
@@ -97,6 +98,8 @@ class ExecuteAnimationNode extends TriggerNode<"out", TInputs, TOutputs, "input"
 			// addons
 			sequence,
 			stopRecursionFor: [recursionGuard, ...stopRecursionFor],
+			// Every client gets here during a local run; this keeps the nested animation part of it.
+			crosshairRun: nestedCrosshairRun(this),
 		};
 
 		const animationCall = run(payload);

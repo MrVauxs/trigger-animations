@@ -58,6 +58,12 @@ export function crosshairRelayKey(node: ContextNode, run: CrosshairRun): string 
 	return `${run.id}:${node.triggerPath}:${node.id}:${count}`;
 }
 
+/** The run for an animation started from inside this one; one per call, so their crosshairs never mix. */
+export function nestedCrosshairRun(node: ContextNode): CrosshairRun | undefined {
+	const run = getCrosshairRun(node);
+	return run && { id: crosshairRelayKey(node, run), authority: run.authority };
+}
+
 export function publishCrosshair(key: string, result: CrosshairResult | null): void {
 	devLog("Relaying crosshair placement", key, result);
 	game.socket.emit(SOCKET_PATH, { [CROSSHAIR_FLAG]: true, key, result });

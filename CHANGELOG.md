@@ -9,6 +9,8 @@
   - Crosshairs work with Local Play nodes: only the GM asks for the crosshair, and every client uses the same placement.
 - (Nodes) Fixed the Named Location node's location never reaching the played Sequence, so later sections could not use it.
 - (Nodes) Fixed the Named Location node stopping the trigger when given another named location. It now copies a named location set earlier in the trigger.
+- Fixed local animations started by players only playing on the GM's screen. They now go to the GM, who sends them out to everyone, as GM-started ones already did.
+- Fixed Execute Animation inside a local animation starting the nested animation once per connected client. A local nested animation now runs on each client as part of the outer one; any other is started once, by the GM.
 
 # 0.9.9
 - Fix manifest and download URLs.
