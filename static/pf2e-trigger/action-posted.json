@@ -6,144 +6,26 @@
 	"nodes": [
 		{
 			"type": "action-chat-event",
-			"position": {
-				"x": -99.77780711138303,
-				"y": 399.5554880990381
-			},
+			"position": { "x": -99.77780711138303, "y": 399.5554880990381 },
 			"id": "ZREUrMbreHUDuemk",
-			"outs": {
-				"out": {
-					"connection": "0k4xo4eczZ3D95uT:ins:in"
-				}
-			}
-		},
-		{
-			"type": "extract-item",
-			"inputs": {
-				"input": {
-					"connection": "ZREUrMbreHUDuemk:outputs:item"
-				}
-			},
-			"position": {
-				"x": 646.6666653991006,
-				"y": 419.4833779664552
-			},
-			"id": "IDQTw5JJD4UBtg2T",
-			"custom": {
-				"outputs": {
-					"oYiZvjkJXmEWqmzA": {
-						"id": "oYiZvjkJXmEWqmzA",
-						"input": "slug",
-						"label": "Slug",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					},
-					"b6ed2qRow85Xxbw5": {
-						"id": "b6ed2qRow85Xxbw5",
-						"input": "uuid",
-						"label": "UUID",
-						"slug": "path",
-						"isArray": false,
-						"type": "text"
-					}
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "72SF1i5HZYkUs8un:ins:in"
-				}
-			}
+			"outs": { "out": { "connection": "0k4xo4eczZ3D95uT:ins:in" } }
 		},
 		{
 			"type": "execute-animation",
-			"position": {
-				"x": 1188.367505739453,
-				"y": 396.84449369247335
-			},
+			"position": { "x": 961.700757692578, "y": 398.8444936278517 },
 			"id": "jAzKMfwdadNuNIBA",
-			"inputs": {
-				"actor": {
-					"connection": "ZREUrMbreHUDuemk:outputs:origin"
-				},
-				"sources": {
-					"connection": "ZREUrMbreHUDuemk:outputs:origin"
-				},
-				"options": {
-					"connection": "ZREUrMbreHUDuemk:outputs:options"
-				},
-				"item": {
-					"connection": "ZREUrMbreHUDuemk:outputs:item"
-				},
-				"name": {
-					"connection": "72SF1i5HZYkUs8un:outputs:result"
-				},
-				"targets": {
-					"connection": "zr6SBhKqMAh0tkeU:outputs:Sbr2R59Xqy6M1xoH"
-				}
-			}
-		},
-		{
-			"type": "format-text",
-			"position": {
-				"x": 867.3333117322177,
-				"y": 414.0000371531652
-			},
-			"id": "72SF1i5HZYkUs8un",
-			"custom": {
-				"inputs": {
-					"aessLq9h6kaS3HjI": {
-						"id": "aessLq9h6kaS3HjI",
-						"input": "a",
-						"label": "a",
-						"slug": "variable",
-						"type": "text"
-					},
-					"mMkD5MUVA5mwTMV3": {
-						"id": "mMkD5MUVA5mwTMV3",
-						"input": "uuid",
-						"label": "uuid",
-						"slug": "variable",
-						"type": "text"
-					}
-				}
-			},
-			"inputs": {
-				"plain": {
-					"value": "action:@a, action:@uuid"
-				},
-				"aessLq9h6kaS3HjI": {
-					"connection": "IDQTw5JJD4UBtg2T:outputs:oYiZvjkJXmEWqmzA"
-				},
-				"mMkD5MUVA5mwTMV3": {
-					"connection": "IDQTw5JJD4UBtg2T:outputs:b6ed2qRow85Xxbw5"
-				}
-			},
-			"outs": {
-				"out": {
-					"connection": "jAzKMfwdadNuNIBA:ins:in"
-				}
-			}
+			"inputs": { "actor": { "connection": "ZREUrMbreHUDuemk:outputs:origin" }, "sources": { "connection": "ZREUrMbreHUDuemk:outputs:origin" }, "options": { "connection": "ZREUrMbreHUDuemk:outputs:options" }, "item": { "connection": "ZREUrMbreHUDuemk:outputs:item" }, "targets": { "connection": "zr6SBhKqMAh0tkeU:outputs:Sbr2R59Xqy6M1xoH" }, "name": { "connection": "ANkpgKkkQpBgDxm6:outputs:rSOPCaguCbXkZdeF" } }
 		},
 		{
 			"type": "user-targets",
-			"position": {
-				"x": 141.11126175021627,
-				"y": 405.00002386845796
-			},
+			"position": { "x": 141.11126175021627, "y": 405.00002386845796 },
 			"id": "0k4xo4eczZ3D95uT",
-			"outs": {
-				"out": {
-					"connection": "zr6SBhKqMAh0tkeU:ins:in"
-				}
-			}
+			"outs": { "out": { "connection": "zr6SBhKqMAh0tkeU:ins:in" } }
 		},
 		{
+
 			"type": "execute-script",
-			"position": {
-				"x": 356.66659789769255,
-				"y": 402.7778325530473
-			},
+			"position": { "x": 371.9999108859738, "y": 403.4445195432248 },
 			"id": "zr6SBhKqMAh0tkeU",
 			"custom": {
 				"inputs": {
@@ -152,6 +34,7 @@
 						"label": "Targets 1",
 						"slug": "input",
 						"isArray": true,
+
 						"type": "target"
 					},
 					"a34J7p1ogqz85a7K": {
@@ -159,6 +42,7 @@
 						"label": "Targets 2",
 						"slug": "input",
 						"isArray": true,
+
 						"type": "target"
 					}
 				},
@@ -172,22 +56,19 @@
 					}
 				}
 			},
+			"inputs": { "NIKAA9jUeaImruZ0": { "connection": "ZREUrMbreHUDuemk:outputs:targets" }, "a34J7p1ogqz85a7K": { "connection": "0k4xo4eczZ3D95uT:outputs:targets" }, "script": { "value": "const t1 = inputs[0];\nconst t2 = inputs[1];\nreturn [{type: \"target\", value: t1?.length ? t1 : t2 }];" } },
+			"outs": { "out": { "connection": "ANkpgKkkQpBgDxm6:ins:in" } }
+		},
+		{
+			"type": "execute-script",
+			"position": { "x": 670.666748046875, "y": 397.3332896596957 },
+			"id": "ANkpgKkkQpBgDxm6",
+			"custom": { "inputs": { "K9wHSvS61hJXaMY5": { "id": "K9wHSvS61hJXaMY5", "label": "Item", "slug": "input", "isArray": false, "type": "item" } }, "outputs": { "rSOPCaguCbXkZdeF": { "id": "rSOPCaguCbXkZdeF", "label": "Name", "slug": "output", "isArray": false, "type": "text" } } },
 			"inputs": {
-				"NIKAA9jUeaImruZ0": {
-					"connection": "ZREUrMbreHUDuemk:outputs:targets"
-				},
-				"a34J7p1ogqz85a7K": {
-					"connection": "0k4xo4eczZ3D95uT:outputs:targets"
-				},
-				"script": {
-					"value": "const t1 = inputs[0];\nconst t2 = inputs[1];\nreturn [{type: \"target\", value: t1?.length ? t1 : t2 }];"
-				}
+				"script": { "value": "/**\n * @param {unknown[]} inputs\n * @returns {boolean} to break out current process\n * @returns {{type: EntryType; value: unknown}[]}\n *\n * @example\n * const x = inputs[0];\n * const y = inputs[1];\n * return [{type: \"number\", value: x + y}];\n */\nconst item = inputs[0];\n\nconst strings = [];\nstrings.push(`action:${item.uuid}`);\nif (item?.slug) strings.push(`action:${item.slug}`);\nif (!item?.slug) strings.push(`action:${item.name.slugify()}`);\nif (item?.system?.baseItem) strings.push(`action:${item.system.baseItem}`);\nif (item?.system?.group) strings.push(`action:${item.system.group}`);\nif (item?.baseItem) strings.push(`action:${item.baseItem}`);\nif (item?.group) strings.push(`action:${item.group}`);\n\nconst result = strings.join(\",\");\nreturn result ? [{type: \"text\", value: result}] : false;" },
+				"K9wHSvS61hJXaMY5": { "connection": "ZREUrMbreHUDuemk:outputs:item" }
 			},
-			"outs": {
-				"out": {
-					"connection": "IDQTw5JJD4UBtg2T:ins:in"
-				}
-			}
+			"outs": { "out": { "connection": "jAzKMfwdadNuNIBA:ins:in" } }
 		}
 	],
 	"description": "<p><em>Default pf2e-trigger from trigger-animations.</em></p>",
