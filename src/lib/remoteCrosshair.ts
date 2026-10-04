@@ -136,7 +136,40 @@ function isCrosshairResult(value: unknown): value is CrosshairResult {
 // #endregion
 // #region Placing client
 
+/** Milliseconds to wait after the pointer is released before showing a crosshair. */
+const POINTER_SETTLE = 150;
+
+// When you place down a template and a trigger requests a crosshair, the two can overlap and cause a double confirm, so gotta wait on that.
+Hooks.once("ready", () => {
+	const options = { capture: true, passive: true };
+	window.addEventListener("pointerdown", trackPointer, options);
+	window.addEventListener("pointerup", trackPointer, options);
+	window.addEventListener("pointercancel", trackPointer, options);
+	// A button let go of outside the window never reports its release.
+	window.addEventListener("blur", releasePointer);
+});
+
 let queue: Promise<unknown> = Promise.resolve();
+let heldButtons = 0;
+const releaseWaiters: (() => void)[] = [];
+
+function releasePointer(): void {
+	heldButtons = 0;
+	for (const resolve of releaseWaiters.splice(0))
+		resolve();
+}
+
+function trackPointer(event: PointerEvent): void {
+	heldButtons = event.buttons;
+	if (!heldButtons)
+		releasePointer();
+}
+
+async function pointerSettled(): Promise<void> {
+	if (heldButtons)
+		await new Promise<void>(resolve => releaseWaiters.push(resolve));
+	await new Promise(resolve => setTimeout(resolve, POINTER_SETTLE));
+}
 
 /**
  * Shows a crosshair on this client and resolves with where it was placed, or null.
@@ -151,6 +184,7 @@ export function showCrosshairLocally(request: CrosshairRequest): Promise<Crossha
 }
 
 async function showCrosshair({ config: source, timeout, persist }: CrosshairRequest): Promise<CrosshairResult | null> {
+	await pointerSettled();
 	const scene = canvas?.ready ? canvas.scene : null;
 	if (!scene) {
 		moduleWarn("cannot show a crosshair without a canvas");
