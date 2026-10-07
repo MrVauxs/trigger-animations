@@ -130,17 +130,8 @@ class StartNode extends TriggerNode<
 	}
 
 	private async convertStartObjectFromEmitable(emitable: Record<string, any>): Promise<StartNodeOptions> {
-		const converted = await this.convertObjectFromEmitable(
-			emitable,
-			{
-				actor: "target",
-				item: "item",
-				targets: "target",
-				sources: "target",
-				user: "user",
-			},
-			["userInputs"],
-		);
+		// The conversion types are read from the emitable, as set by the hook's convertObjectToEmitable.
+		const converted = await this.convertObjectFromEmitable(emitable);
 
 		devLog("Converting emitable to converted", emitable, converted);
 		return converted as StartNodeOptions;
