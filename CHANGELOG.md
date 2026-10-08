@@ -1,3 +1,7 @@
+# 0.9.10
+- Bump minimum Trigger Engine version to 1.36.0.
+- Fix compatibility with Trigger Engine 1.36.0.
+
 # 0.9.9
 - Fix manifest and download URLs.
 
