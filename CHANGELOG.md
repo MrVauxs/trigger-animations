@@ -1,3 +1,6 @@
+# 0.9.11
+- Fix the lack of Token Magic module crashing the healthchecker menu.
+
 # 0.9.10
 - Bump minimum Trigger Engine version to 1.36.0.
 - Fix compatibility with Trigger Engine 1.36.0.

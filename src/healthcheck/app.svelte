@@ -12,9 +12,9 @@
 	function checkTriggers(): string {
 		const {enabled, disabled} = triggerAnimations.api.setting.get()
 
-		return disabled.length === 0 ? i18n("healthcheck.all")
-			: enabled.length === 0 ? i18n("healthcheck.none")
-			: i18n("healthcheck.part", { in: enabled.length, max: enabled.length + disabled.length})
+		return disabled?.length === 0 ? i18n("healthcheck.all")
+			: enabled?.length === 0 ? i18n("healthcheck.none")
+			: i18n("healthcheck.part", { in: enabled?.length, max: (enabled?.length || 0) + (disabled?.length || 0)})
 	}
 
 	function getRequiredTriggers(): object {
@@ -33,7 +33,7 @@
 
 	if (!game.settings.get("sequencer", "effectsEnabled")) problems.push(i18n("healthcheck.unique.seqVFX"))
 	if (!game.settings.get("sequencer", "soundsEnabled")) problems.push(i18n("healthcheck.unique.seqSFX"))
-	if (game.settings.get('tokenmagic', 'autoTemplateEnabled')) problems.push(i18n("healthcheck.unique.tokenMagic"))
+	try { if (game.settings.get('tokenmagic', 'autoTemplateEnabled')) problems.push(i18n("healthcheck.unique.tokenMagic")) } catch {}
 </script>
 
 <h3> Required Modules </h3>
