@@ -30,8 +30,8 @@
 				"id": "trigger-engine",
 				"type": "module",
 				"compatibility": {
-					"minimum": "1.22.0",
-					"verified": "1.22.0"
+					"minimum": "1.36.0",
+					"verified": "1.36.0"
 				},
 				"manifest": "https://raw.githubusercontent.com/reonZ/trigger-engine/master/module.json"
 			},

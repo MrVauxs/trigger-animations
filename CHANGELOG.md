@@ -13,6 +13,13 @@
 - Fixed local animations started by players only playing on the GM's screen. They now go to the GM, who sends them out to everyone, as GM-started ones already did.
 - Fixed Execute Animation inside a local animation starting the nested animation once per connected client. A local nested animation now runs on each client as part of the outer one; any other is started once, by the GM.
 
+# 0.9.11
+- Fix the lack of Token Magic module crashing the healthchecker menu.
+
+# 0.9.10
+- Bump minimum Trigger Engine version to 1.36.0.
+- Fix compatibility with Trigger Engine 1.36.0.
+
 # 0.9.9
 - Fix manifest and download URLs.
 
