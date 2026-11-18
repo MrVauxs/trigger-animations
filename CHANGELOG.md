@@ -1,4 +1,6 @@
 # Unreleased
+
+# 0.10.0 - "Sike"
 - (Nodes) Brought back the Crosshair and Pick Location nodes, along with the Crosshair Shape, Appearance and Behavior nodes.
   - The crosshair is now placed by the user who triggered the animation instead of the GM. Both nodes have a User input to pick someone else; if the user is offline, whoever runs the trigger places it.
   - The crosshair is placed while the trigger runs, before the Sequence is played, so the nodes after it get the actual Location, Direction and Distance.
