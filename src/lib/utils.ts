@@ -60,6 +60,25 @@ export function toggleHook(type: "on" | "once", str: string, fn: (...args: any[]
 	};
 }
 
+/** Resolves once `user` disconnects. Call `cancel` when you no longer care. */
+export function whenUserDisconnects(user: User): { promise: Promise<void>; cancel: () => void } {
+	let hook: number | undefined;
+	const cancel = () => {
+		if (hook !== undefined)
+			Hooks.off("userConnected", hook);
+		hook = undefined;
+	};
+	const promise = new Promise<void>((resolve) => {
+		hook = Hooks.on("userConnected", (changed: User, connected: boolean) => {
+			if (changed.id !== user.id || connected)
+				return;
+			cancel();
+			resolve();
+		});
+	});
+	return { promise, cancel };
+}
+
 export function getMajorMinor(version: string): string | null {
 	if (typeof version !== "string")
 		return null;

@@ -1,3 +1,4 @@
+import type { CrosshairBuilder } from "$lib/crosshairBuilder";
 import type { TriggerEngine as T } from "trigger-engine/types";
 import { CrosshairModifierNode } from "./base";
 
@@ -53,10 +54,10 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 		];
 	}
 
-	protected override async apply(section: CrosshairSection): Promise<void> {
+	protected override async apply(crosshair: CrosshairBuilder): Promise<void> {
 		const label = await this.getInputValue("label");
 		if (label) {
-			section.label(label, {
+			crosshair.label(label, {
 				dx: await this.getInputValue("labelDx"),
 				dy: await this.getInputValue("labelDy"),
 			});
@@ -64,21 +65,19 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 
 		const icon = await this.getInputValue("icon");
 		if (icon) {
-			section.icon(icon, { borderVisible: await this.getInputValue("iconBorderVisible") });
+			crosshair.icon(icon, { borderVisible: await this.getInputValue("iconBorderVisible") });
 		}
 
 		const borderColor = await this.getInputValue("borderColor");
 		if (borderColor) {
 			const alpha = await this.getInputValue("borderAlpha");
-			// @ts-expect-error Sequencer types omit the options arg
-			section.borderColor(borderColor, alpha >= 0 ? { alpha } : {});
+			crosshair.borderColor(borderColor, alpha >= 0 ? { alpha } : {});
 		}
 
 		const fillColor = await this.getInputValue("fillColor");
 		if (fillColor) {
 			const alpha = await this.getInputValue("fillAlpha");
-			// @ts-expect-error Sequencer types omit the options arg
-			section.fillColor(fillColor, alpha >= 0 ? { alpha } : {});
+			crosshair.fillColor(fillColor, alpha >= 0 ? { alpha } : {});
 		}
 
 		const texture = await this.getInputValue("texture");
@@ -90,13 +89,12 @@ class CrosshairAppearanceNode extends CrosshairModifierNode<TInputs> {
 				opts.alpha = alpha;
 			if (scale > 0)
 				opts.scale = scale;
-			// @ts-expect-error Sequencer types require a stricter options shape
-			section.texture(texture, opts);
+			crosshair.texture(texture, opts);
 		}
 
 		// gridHighlight defaults true in Sequencer, so pass the value to let the
 		// user turn it off.
-		section.gridHighlight(await this.getInputValue("gridHighlight"));
+		crosshair.gridHighlight(await this.getInputValue("gridHighlight"));
 	}
 }
 

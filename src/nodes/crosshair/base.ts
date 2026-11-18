@@ -1,21 +1,23 @@
+import type { CrosshairBuilder, CrosshairLocationRef } from "$lib/crosshairBuilder";
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { toLocationRef } from "$lib/crosshairBuilder";
 import { requestNamedLocation } from "$lib/namedLocations";
-import { devGroup } from "$lib/utils";
+import { devGroup, moduleWarn } from "$lib/utils";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
 const ROOT = "trigger-animations.anim-trigger";
 
 /**
- * Base class for nodes that modify an existing CrosshairSection.
+ * Base class for nodes that configure a Crosshair node's crosshair.
  */
 abstract class CrosshairModifierNode<
 	TInputs extends Record<string, any> = Record<string, any>,
 	TState extends string = string,
 > extends TriggerNode<
 		"out",
-	TInputs & { crosshair?: CrosshairSection },
-	{ crosshair?: CrosshairSection },
+	TInputs & { crosshair?: CrosshairBuilder },
+	{ crosshair?: CrosshairBuilder },
 	string,
 	string,
 	TState
@@ -49,7 +51,7 @@ abstract class CrosshairModifierNode<
 		return { key: "crosshair", type: "crosshair", ...this.sharedIo("crosshair") };
 	}
 
-	/** The crosshair section passed back out, mirroring {@link crosshairInput}. */
+	/** The crosshair passed back out, mirroring {@link crosshairInput}. */
 	static get crosshairOutput(): T.OutputEntrySchemaSource {
 		return { key: "crosshair", type: "crosshair", ...this.sharedIo("crosshair") };
 	}
@@ -62,26 +64,29 @@ abstract class CrosshairModifierNode<
 		return [this.crosshairOutput];
 	}
 
-	protected abstract apply(section: CrosshairSection): Promise<void> | void;
+	protected abstract apply(crosshair: CrosshairBuilder): Promise<void> | void;
 
-	getLocation(loc: PositionSource | undefined): TokenDocument | Point | RegionDocument | string | undefined {
+	getLocation(loc: PositionSource | undefined): CrosshairLocationRef | undefined {
 		switch (loc?.kind) {
 			case "point":
 				return { x: loc.x, y: loc.y };
 			case "region":
-				return loc.region;
+				return toLocationRef(loc.region);
 			case "target":
-				return this.getTargetToken({ actor: loc.actor, token: loc.token });
+				return toLocationRef(this.getTargetToken({ actor: loc.actor, token: loc.token }));
 			case "name":
+				// Looked up when the crosshair is shown, so it may come from an earlier crosshair.
 				requestNamedLocation(this, loc.name);
-				return loc.name;
+				return { name: loc.name };
 		}
 	}
 
 	override async _execute(): Promise<boolean> {
 		const g = devGroup(`[Execute] ${this.type}`);
 		const crosshair = await this.getInputValue("crosshair");
-		if (crosshair) {
+		if (crosshair?.sealed) {
+			moduleWarn(`[${this.type}] the crosshair was already shown; connect this node to the Crosshair node's Configure output`);
+		} else if (crosshair) {
 			await this.apply(crosshair);
 			this.setOutputValue("crosshair", crosshair);
 			g.log("applied", { crosshair });

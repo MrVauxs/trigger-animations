@@ -1,5 +1,7 @@
 import type { TriggerEngine as T } from "trigger-engine/types";
+import { resolveCrosshair } from "$lib/remoteCrosshair";
 import { devGroup, moduleError } from "$lib/utils";
+import { TEMPLATE_TYPE_OPTIONS } from "./constants";
 
 const { TriggerNode } = globalThis.triggerEngine;
 
@@ -16,6 +18,7 @@ interface TInputs {
 	lockDrag: boolean;
 	timeout: number;
 	config: string;
+	user?: User;
 }
 interface TOutputs {
 	location?: { x: number; y: number };
@@ -24,7 +27,8 @@ interface TOutputs {
 }
 
 /**
- * This is NOT a Sequence section
+ * This is NOT a Sequence section. The crosshair is placed by the user who triggered the
+ * animation (or the User input), and the trigger waits for it.
  */
 class CrosshairPickNode extends TriggerNode<
 	"placed" | "cancelled",
@@ -73,7 +77,7 @@ class CrosshairPickNode extends TriggerNode<
 				type: "text",
 				label: this.localize("io.type.title"),
 				tooltip: this.localize("io.type.tooltip"),
-				field: { type: "select", default: "circle", options: CONST.MEASURED_TEMPLATE_TYPES },
+				field: { type: "select", default: "circle", options: TEMPLATE_TYPE_OPTIONS },
 			},
 			{
 				key: "distance",
@@ -149,6 +153,12 @@ class CrosshairPickNode extends TriggerNode<
 				tooltip: this.localize("io.config.tooltip"),
 				field: { type: "json" },
 			},
+			{
+				key: "user",
+				type: "user",
+				label: this.localize("io.user.title"),
+				tooltip: this.localize("io.user.tooltip"),
+			},
 		];
 	}
 
@@ -222,16 +232,7 @@ class CrosshairPickNode extends TriggerNode<
 		}
 
 		const timeout = await this.getInputValue("timeout");
-
-		let result: any = false;
-		try {
-			result = timeout > 0
-				? await this.showWithTimeout(config, timeout)
-				: await Sequencer.Crosshair.show(config);
-		} catch (e) {
-			moduleError(`[${this.type}] crosshair show failed`, e);
-			result = false;
-		}
+		const result = await resolveCrosshair(this, await this.getInputValue("user"), { config, timeout });
 
 		g.log("crosshair result", { config, result });
 		g.end();
@@ -244,52 +245,6 @@ class CrosshairPickNode extends TriggerNode<
 		this.setOutputValue("distance", result.distance);
 
 		return this.executeNext("placed");
-	}
-
-	private async showWithTimeout(config: Record<string, unknown>, timeout: number): Promise<any> {
-		const text = game.i18n.localize(CrosshairPickNode.localize("progress"));
-		const progress = ui.notifications.info(text, { progress: true });
-		const start = Date.now();
-		const total = timeout * 1000;
-
-		const interval = setInterval(() => {
-			const remaining = Math.max(0, total - (Date.now() - start));
-			progress.update({
-				pct: 1 - remaining / total,
-				message: `${text} (${Math.ceil(remaining / 1000)})`,
-			});
-		}, 250);
-
-		let timer: ReturnType<typeof setTimeout> | undefined;
-		const timeoutPromise = new Promise<false>((resolve) => {
-			timer = setTimeout(resolve, total, false);
-		});
-
-		try {
-			const result = await Promise.race([
-				Sequencer.Crosshair.show(config),
-				timeoutPromise,
-			]);
-			if (!result)
-				this.dismissCrosshair();
-			return result;
-		} finally {
-			clearInterval(interval);
-			if (timer)
-				clearTimeout(timer);
-			progress.update({ pct: 1 });
-			ui.notifications.remove(progress);
-		}
-	}
-
-	// TODO: Ask Wasp to make Crosshairs dismissable
-	private dismissCrosshair(): void {
-		try {
-			// @ts-expect-error Correct but missing unneeded props
-			canvas?.stage?.emit("pointerup", { nativeEvent: { which: 3 } });
-		} catch (e) {
-			moduleError(`[${this.type}] could not auto-dismiss crosshair`, e);
-		}
 	}
 }
 

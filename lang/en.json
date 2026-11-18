@@ -52,6 +52,9 @@
 				}
 			}
 		},
+		"crosshair": {
+			"progress": "Waiting for crosshair placement"
+		},
 		"anim-trigger": {
 			"setting": {
 				"name": "Trigger Animations",
@@ -77,7 +80,7 @@
 				},
 				"crosshair": {
 					"title": "Crosshair",
-					"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
+					"tooltip": "The crosshair being configured. Connect modifier nodes to the Crosshair node's Configure output."
 				},
 				"sound": {
 					"title": "Sound",
@@ -290,8 +293,7 @@
 					},
 					"crosshair-pick": {
 						"title": "Pick Location",
-						"subtitle": "Shows a crosshair and waits for placement",
-						"progress": "Waiting for crosshair placement",
+						"subtitle": "Has a user place a crosshair and waits for it",
 						"outs": {
 							"placed": "Placed",
 							"cancelled": "Cancelled"
@@ -344,6 +346,10 @@
 							"config": {
 								"title": "Config",
 								"tooltip": "A JSON object deep-merged over the inputs for rare nested options (icon, location range limits, range polygon colors)."
+							},
+							"user": {
+								"title": "User",
+								"tooltip": "Who places the crosshair. Defaults to the user who triggered the animation, or whoever runs the trigger if that user is offline."
 							},
 							"location": {
 								"title": "Location",
@@ -461,19 +467,51 @@
 					},
 					"crosshair": {
 						"title": "Crosshair",
-						"subtitle": "Starts a Sequencer crosshair section",
+						"subtitle": "Has a user place a crosshair",
 						"io": {
 							"name": {
 								"title": "Name",
-								"tooltip": "Stores the crosshair's placement so later sections can reference it by name."
+								"tooltip": "Stores the placement as a named location so later sections can reference it by name."
+							},
+							"user": {
+								"title": "User",
+								"tooltip": "Who places the crosshair. Defaults to the user who triggered the animation, or whoever runs the trigger if that user is offline."
+							},
+							"timeout": {
+								"title": "Timeout",
+								"tooltip": "Seconds to wait for a placement before cancelling. Leave at 0 for no timeout."
+							},
+							"configure": {
+								"title": "Configure",
+								"tooltip": "Connect the Shape, Appearance and Behavior nodes here. This branch finishes before the crosshair is shown."
+							},
+							"placed": {
+								"title": "Placed",
+								"tooltip": "Continues once the crosshair is placed, with its placement in the outputs."
+							},
+							"cancelled": {
+								"title": "Cancelled",
+								"tooltip": "Continues if the crosshair was cancelled, timed out, or nobody could place it."
 							},
 							"crosshair": {
 								"title": "Crosshair",
-								"tooltip": "The individual Crosshair section that can be modified by other nodes regardless of order."
+								"tooltip": "The crosshair being configured, for the nodes on the Configure output."
 							},
 							"positionName": {
 								"title": "Position Name",
 								"tooltip": "Simply outputs the name of the Crosshair as you've input it."
+							},
+							"location": {
+								"title": "Location",
+								"tooltip": "The chosen placement point."
+							},
+							"direction": {
+								"title": "Direction",
+								"tooltip": "The chosen direction in degrees."
+							},
+							"distance": {
+								"title": "Distance",
+								"tooltip": "The chosen distance in grid units."
 							}
 						}
 					},
@@ -1633,7 +1671,7 @@
 						"io": {
 							"location": {
 								"title": "Location",
-								"tooltip": "Anchor the crosshair around this token and limit its range. Leave unconnected to skip."
+								"tooltip": "Anchor the crosshair around this position and limit its range. Leave unconnected to skip."
 							},
 							"limitMinRange": {
 								"title": "Min Range",

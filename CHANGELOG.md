@@ -1,3 +1,15 @@
+# Unreleased
+- (Nodes) Brought back the Crosshair and Pick Location nodes, along with the Crosshair Shape, Appearance and Behavior nodes.
+  - The crosshair is now placed by the user who triggered the animation instead of the GM. Both nodes have a User input to pick someone else; if the user is offline, whoever runs the trigger places it.
+  - The crosshair is placed while the trigger runs, before the Sequence is played, so the nodes after it get the actual Location, Direction and Distance.
+  - The Crosshair node now has Configure, Placed and Cancelled outputs. Connect the Shape, Appearance and Behavior nodes to Configure; they are applied before the crosshair is shown.
+  - The Crosshair node's Name registers a named location on the Sequence, also usable as a later crosshair's Behavior location.
+  - Added a Timeout input to the Crosshair node. Timeouts now count down on the placing user's screen.
+- (Nodes) Fixed the Named Location node's location never reaching the played Sequence, so later sections could not use it.
+- (Nodes) Fixed the Named Location node stopping the trigger when given another named location. It now copies a named location set earlier in the trigger.
+- Fixed local animations started by players only playing on the GM's screen.
+- Fixed Execute Animation inside a local animation starting the nested animation once per connected client.
+
 # 0.9.11
 - Fix the lack of Token Magic module crashing the healthchecker menu.
 
