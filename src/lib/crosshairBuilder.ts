@@ -1,12 +1,5 @@
 import { moduleWarn } from "$lib/utils";
 
-/**
- * Where a crosshair is anchored, kept JSON-safe so it can be sent to whoever places it.
- *
- * The placing client uses the placeable behind `uuid` when it has it on its canvas, and falls
- * back to `x`/`y`. `name` is a Sequencer named location, swapped for where it is when the
- * request gets built.
- */
 export interface CrosshairLocationRef {
 	uuid?: string;
 	x?: number;

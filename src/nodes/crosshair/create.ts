@@ -60,7 +60,7 @@ class CrosshairNode extends TriggerNode<
 
 	override get icon() {
 		// Uses Font Awesome Pro unicode, top right corner.
-		return { unicode: "" };
+		return { unicode: "\uF140" };
 	}
 
 	static override get defineOuts(): T.BridgeSchemaInput[] | null {

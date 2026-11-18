@@ -100,7 +100,7 @@ class StartHook extends TriggerHook {
 		await this.#runAsGM(trigger.id, trigger.local, emitable);
 	}
 
-	/** Animation-events, A-A claims and crosshair placements share the one module socket, so they get told apart here. */
+	/** One module socket, so we distinguish between different calls here. */
 	#onSocket(data: any, socket = false) {
 		if (data?.[CLAIM_FLAG])
 			return receiveTriggerClaim(data);
